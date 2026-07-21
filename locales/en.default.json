@@ -1,0 +1,20 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content"
+    },
+    "header": {
+      "menu": "Menu",
+      "cart": "Cart"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "expired": "Expired",
+      "of_value": "of {{ value }}",
+      "copy_code": "Copy code",
+      "copy_code_success": "Copied",
+      "continue_shopping": "Continue shopping"
+    }
+  }
+}

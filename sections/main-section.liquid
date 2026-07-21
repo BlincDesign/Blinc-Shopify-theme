@@ -1,0 +1,57 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} .main-section {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<div class="main-section color-{{ section.settings.color_scheme }}">
+  <div class="main-section__wrapper page-width">
+    <p class="main-section__placeholder">{{ section.settings.text | default: "Placeholder content — customize this section in the theme editor." }}</p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Section",
+  "class": "shopify-section--main-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Placeholder text"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Section"
+    }
+  ]
+}
+{% endschema %}

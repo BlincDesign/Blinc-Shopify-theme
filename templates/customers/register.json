@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "rich_text": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Create account"
+      }
+    }
+  },
+  "order": [
+    "rich_text"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#FFFFFF",
+            "background_gradient": "",
+            "text": "#121212",
+            "button": "#121212",
+            "button_label": "#FFFFFF",
+            "secondary_button_label": "#121212",
+            "border": "#E6E6E6"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#121212",
+            "background_gradient": "",
+            "text": "#FFFFFF",
+            "button": "#FFFFFF",
+            "button_label": "#121212",
+            "secondary_button_label": "#FFFFFF",
+            "border": "#3A3A3A"
+          }
+        }
+      },
+      "font_heading_family": "assistant_n4",
+      "font_body_family": "assistant_n4",
+      "page_width": 1400,
+      "favicon": ""
+    }
+  }
+}

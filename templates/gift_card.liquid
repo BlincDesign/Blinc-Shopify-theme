@@ -1,0 +1,49 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>{{ shop.name }} - Gift card</title>
+
+    {{ content_for_header }}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {% render 'color-schemes' %}
+  </head>
+
+  <body class="template-gift-card color-scheme-1">
+    <div class="gift-card page-width">
+      <p class="gift-card__shop">{{ shop.name }}</p>
+
+      <p class="gift-card__balance">
+        {%- if gift_card.enabled and gift_card.expired == false -%}
+          {%- assign formatted_initial_value = gift_card.initial_value | money -%}
+          {{ gift_card.balance | money }}
+          <span class="gift-card__of">{{ 'gift_cards.issued.of_value' | t: value: formatted_initial_value }}</span>
+        {%- else -%}
+          {{ 'gift_cards.issued.expired' | t }}
+        {%- endif -%}
+      </p>
+
+      <p class="gift-card__code" id="GiftCardCode">{{ gift_card.code }}</p>
+
+      <button type="button" class="button no-print" id="GiftCardCopy" data-code="{{ gift_card.code }}" data-label="{{ 'gift_cards.issued.copy_code' | t }}" data-success-label="{{ 'gift_cards.issued.copy_code_success' | t }}">{{ 'gift_cards.issued.copy_code' | t }}</button>
+
+      <a href="{{ shop.url }}" class="button no-print">{{ 'gift_cards.issued.continue_shopping' | t }}</a>
+    </div>
+
+    <script>
+      document.getElementById('GiftCardCopy').addEventListener('click', function (event) {
+        var button = event.currentTarget;
+        navigator.clipboard.writeText(button.dataset.code).then(function () {
+          button.textContent = button.dataset.successLabel;
+          setTimeout(function () {
+            button.textContent = button.dataset.label;
+          }, 2000);
+        });
+      });
+    </script>
+  </body>
+</html>

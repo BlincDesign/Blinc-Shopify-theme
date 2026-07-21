@@ -1,0 +1,22 @@
+{%- comment -%}
+  Renders one CSS custom-property block per color scheme defined in settings_data.json.
+  Sections apply a scheme via class="color-{{ section.settings.color_scheme }}".
+{%- endcomment -%}
+{%- style -%}
+  {%- for scheme in settings.color_schemes -%}
+    .color-{{ scheme.id }} {
+      --color-background: {{ scheme.settings.background | color_extract: 'red' }}, {{ scheme.settings.background | color_extract: 'green' }}, {{ scheme.settings.background | color_extract: 'blue' }};
+      --color-text: {{ scheme.settings.text | color_extract: 'red' }}, {{ scheme.settings.text | color_extract: 'green' }}, {{ scheme.settings.text | color_extract: 'blue' }};
+      --color-button: {{ scheme.settings.button | color_extract: 'red' }}, {{ scheme.settings.button | color_extract: 'green' }}, {{ scheme.settings.button | color_extract: 'blue' }};
+      --color-button-label: {{ scheme.settings.button_label | color_extract: 'red' }}, {{ scheme.settings.button_label | color_extract: 'green' }}, {{ scheme.settings.button_label | color_extract: 'blue' }};
+      --color-secondary-button-label: {{ scheme.settings.secondary_button_label | color_extract: 'red' }}, {{ scheme.settings.secondary_button_label | color_extract: 'green' }}, {{ scheme.settings.secondary_button_label | color_extract: 'blue' }};
+      --color-border: {{ scheme.settings.border | color_extract: 'red' }}, {{ scheme.settings.border | color_extract: 'green' }}, {{ scheme.settings.border | color_extract: 'blue' }};
+      {%- if scheme.settings.background_gradient != blank -%}
+        background: {{ scheme.settings.background_gradient }};
+      {%- else -%}
+        background: rgb(var(--color-background));
+      {%- endif %}
+      color: rgb(var(--color-text));
+    }
+  {%- endfor -%}
+{%- endstyle -%}

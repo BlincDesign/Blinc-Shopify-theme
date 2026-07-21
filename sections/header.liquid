@@ -1,0 +1,69 @@
+<header class="header color-{{ section.settings.color_scheme }}">
+  <div class="header__wrapper page-width">
+    <a href="{{ routes.root_url }}" class="header__logo">
+      {%- if section.settings.logo != blank -%}
+        <img
+          src="{{ section.settings.logo | image_url: width: 300 }}"
+          alt="{{ shop.name }}"
+          width="{{ section.settings.logo.width }}"
+          height="{{ section.settings.logo.height }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        <span class="header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    {%- if section.settings.menu.links.size > 0 -%}
+      <nav class="header__nav" aria-label="Primary">
+        <ul class="header__nav-list">
+          {%- for link in section.settings.menu.links -%}
+            <li>
+              <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+
+      <details class="header__mobile-nav">
+        <summary class="header__mobile-nav-toggle">{{ 'general.header.menu' | t }}</summary>
+        <ul class="header__mobile-nav-list">
+          {%- for link in section.settings.menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </details>
+    {%- endif -%}
+
+    <a href="{{ routes.cart_url }}" class="header__cart">
+      {{ 'general.header.cart' | t }}
+      <span class="header__cart-count">({{ cart.item_count }})</span>
+    </a>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "shopify-section--header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

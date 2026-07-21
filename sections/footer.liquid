@@ -1,0 +1,38 @@
+<footer class="footer color-{{ section.settings.color_scheme }}">
+  <div class="footer__wrapper page-width">
+    {%- if section.settings.menu.links.size > 0 -%}
+      <nav class="footer__nav" aria-label="Footer">
+        <ul class="footer__nav-list">
+          {%- for link in section.settings.menu.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+    <p class="footer__copyright">
+      {{ "now" | date: "%Y" }} &copy; {{ shop.name }}
+    </p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "shopify-section--footer",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "footer"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

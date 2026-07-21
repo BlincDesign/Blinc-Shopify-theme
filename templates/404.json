@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "rich_text": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Page not found",
+        "content": "<p>The page you requested does not exist.</p>",
+        "button_label": "Continue shopping",
+        "button_link": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "rich_text"
+  ]
+}
