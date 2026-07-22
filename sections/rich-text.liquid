@@ -8,11 +8,11 @@
 <div class="rich-text color-{{ section.settings.color_scheme }}">
   <div class="rich-text__wrapper page-width rich-text__wrapper--{{ section.settings.text_alignment }}">
     {%- if section.settings.heading != blank -%}
-      <h2 class="rich-text__heading">{{ section.settings.heading }}</h2>
+      <h2 class="rich-text__heading heading heading--{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
     {%- if section.settings.content != blank -%}
-      <div class="rich-text__content">{{ section.settings.content }}</div>
+      <div class="rich-text__content text-body">{{ section.settings.content }}</div>
     {%- endif -%}
 
     {%- if section.settings.button_label != blank -%}
@@ -43,6 +43,19 @@
       "id": "content",
       "label": "Content",
       "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "xl", "label": "XL" },
+        { "value": "xxl", "label": "XXL" }
+      ],
+      "default": "large"
     },
     {
       "type": "text",

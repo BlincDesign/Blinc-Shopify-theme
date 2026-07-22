@@ -26,8 +26,25 @@
           }
         }
       },
-      "font_heading_family": "assistant_n4",
       "font_body_family": "assistant_n4",
+      "font_body_size": 16,
+      "font_body_uppercase": false,
+      "font_subheading_family": "assistant_n4",
+      "font_subheading_size": 18,
+      "font_subheading_uppercase": false,
+      "font_heading_family": "assistant_n4",
+      "font_heading_size": 28,
+      "font_heading_uppercase": false,
+      "heading_size_small_desktop": 20,
+      "heading_size_medium_desktop": 28,
+      "heading_size_large_desktop": 36,
+      "heading_size_xl_desktop": 48,
+      "heading_size_xxl_desktop": 64,
+      "heading_size_small_mobile": 18,
+      "heading_size_medium_mobile": 22,
+      "heading_size_large_mobile": 27,
+      "heading_size_xl_mobile": 32,
+      "heading_size_xxl_mobile": 40,
       "page_width": 1400,
       "favicon": ""
     }
