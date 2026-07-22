@@ -1,7 +1,3 @@
-{%- comment -%}
-  Renders one CSS custom-property block per color scheme defined in settings_data.json.
-  Sections apply a scheme via class="color-{{ section.settings.color_scheme }}".
-{%- endcomment -%}
 {%- style -%}
   {%- for scheme in settings.color_schemes -%}
     .color-{{ scheme.id }} {
