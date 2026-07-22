@@ -21,7 +21,7 @@
         "mobile_logo_position": "center",
         "menu": "main-menu",
         "enable_full_width": false,
-        "sticky_header": "on-scroll-up",
+        "sticky_header": "always",
         "padding_top": 20,
         "padding_bottom": 20,
         "color_scheme": "scheme-1",
