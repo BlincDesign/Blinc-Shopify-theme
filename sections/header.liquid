@@ -1,56 +1,172 @@
-<header class="header color-{{ section.settings.color_scheme }}">
-  <div class="header__wrapper page-width">
-    <a href="{{ routes.root_url }}" class="header__logo">
-      {%- if section.settings.logo != blank -%}
-        <img
-          src="{{ section.settings.logo | image_url: width: 300 }}"
-          alt="{{ shop.name }}"
-          width="{{ section.settings.logo.width }}"
-          height="{{ section.settings.logo.height }}"
-          loading="lazy"
-        >
-      {%- else -%}
-        <span class="header__logo-text">{{ shop.name }}</span>
+<sticky-header data-sticky-type="{{ section.settings.sticky_header }}">
+  <header
+    class="header color-{{ section.settings.color_scheme }} header--logo-{{ section.settings.logo_position }} header--mobile-logo-{{ section.settings.mobile_logo_position }}"
+    style="--header-padding-top: {{ section.settings.padding_top }}px; --header-padding-bottom: {{ section.settings.padding_bottom }}px; --logo-max-width: {{ section.settings.logo_max_width }}px; --logo-max-height: {{ section.settings.logo_max_height }}px;"
+  >
+    <div class="header__wrapper {% if section.settings.enable_full_width %}header__wrapper--full-width{% else %}page-width{% endif %}">
+      <div class="header__logo">
+        <a href="{{ routes.root_url }}">
+          {%- if section.settings.logo != blank -%}
+            <img
+              src="{{ section.settings.logo | image_url: width: 600 }}"
+              alt="{{ shop.name }}"
+              width="{{ section.settings.logo.width }}"
+              height="{{ section.settings.logo.height }}"
+              loading="eager"
+              fetchpriority="high"
+            >
+          {%- else -%}
+            <span class="header__logo-text">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+      </div>
+
+      {%- if section.settings.menu.links.size > 0 -%}
+        <nav class="header__nav" aria-label="Primary">
+          <ul class="header__nav-list">
+            {%- for link in section.settings.menu.links -%}
+              <li class="header__nav-item">
+                {%- if link.links.size > 0 -%}
+                  <details class="header__nav-dropdown">
+                    <summary class="header__nav-link">
+                      {{ link.title }}
+                      {%- render 'icon', name: 'chevron' -%}
+                    </summary>
+                    <ul class="header__nav-dropdown-list color-{{ section.settings.menu_color_scheme }}">
+                      {%- for childlink in link.links -%}
+                        <li>
+                          <a href="{{ childlink.url }}"{% if childlink.active %} aria-current="page"{% endif %}>{{ childlink.title }}</a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </details>
+                {%- else -%}
+                  <a href="{{ link.url }}" class="header__nav-link"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
       {%- endif -%}
-    </a>
 
-    {%- if section.settings.menu.links.size > 0 -%}
-      <nav class="header__nav" aria-label="Primary">
-        <ul class="header__nav-list">
-          {%- for link in section.settings.menu.links -%}
-            <li>
-              <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
-            </li>
-          {%- endfor -%}
-        </ul>
-      </nav>
+      <div class="header__icons">
+        {%- if section.settings.enable_country_selector or section.settings.enable_language_selector -%}
+          <div class="header__localization">
+            {%- if section.settings.enable_country_selector -%}
+              {%- render 'localization-form', type: 'country', form_id: 'HeaderCountry' -%}
+            {%- endif -%}
+            {%- if section.settings.enable_language_selector -%}
+              {%- render 'localization-form', type: 'language', form_id: 'HeaderLanguage' -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
 
-      <details class="header__mobile-nav">
-        <summary class="header__mobile-nav-toggle">{{ 'general.header.menu' | t }}</summary>
-        <ul class="header__mobile-nav-list">
-          {%- for link in section.settings.menu.links -%}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-          {%- endfor -%}
-        </ul>
-      </details>
-    {%- endif -%}
+        {%- if section.settings.enable_customer_account_icon and shop.customer_accounts_enabled -%}
+          <a
+            href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+            class="header__account"
+            aria-label="{{ 'general.header.account' | t }}"
+          >
+            {%- render 'icon', name: 'account' -%}
+          </a>
+        {%- endif -%}
 
-    <a href="{{ routes.cart_url }}" class="header__cart">
-      {{ 'general.header.cart' | t }}
-      <span class="header__cart-count">({{ cart.item_count }})</span>
-    </a>
-  </div>
-</header>
+        <a href="{{ routes.cart_url }}" class="header__cart" aria-label="{{ 'general.header.cart' | t }}">
+          {{ 'general.header.cart' | t }}
+          <span class="header__cart-count">({{ cart.item_count }})</span>
+        </a>
+      </div>
+
+      {%- if section.settings.menu.links.size > 0 -%}
+        <details class="header__mobile-nav">
+          <summary class="header__mobile-nav-toggle">{{ 'general.header.menu' | t }}</summary>
+          <ul class="header__mobile-nav-list color-{{ section.settings.menu_color_scheme }}">
+            {%- for link in section.settings.menu.links -%}
+              <li>
+                {%- if link.links.size > 0 -%}
+                  <details class="header__nav-dropdown">
+                    <summary class="header__nav-link">
+                      {{ link.title }}
+                      {%- render 'icon', name: 'chevron' -%}
+                    </summary>
+                    <ul class="header__nav-dropdown-list">
+                      {%- for childlink in link.links -%}
+                        <li><a href="{{ childlink.url }}">{{ childlink.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  </details>
+                {%- else -%}
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </details>
+      {%- endif -%}
+    </div>
+  </header>
+</sticky-header>
 
 {% schema %}
 {
   "name": "Header",
+  "tag": "section",
   "class": "shopify-section--header",
   "settings": [
     {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
       "type": "image_picker",
       "id": "logo",
-      "label": "Logo"
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Logo max width (desktop)",
+      "min": 50,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "logo_max_height",
+      "label": "Logo max height (desktop)",
+      "min": 20,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Logo position",
+      "options": [
+        { "value": "top-left", "label": "Top left" },
+        { "value": "top-center", "label": "Top center" },
+        { "value": "middle-left", "label": "Middle left" },
+        { "value": "middle-center", "label": "Middle center" }
+      ],
+      "default": "middle-left"
+    },
+    {
+      "type": "select",
+      "id": "mobile_logo_position",
+      "label": "Mobile logo position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Menu"
     },
     {
       "type": "link_list",
@@ -59,10 +175,89 @@
       "default": "main-menu"
     },
     {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_full_width",
+      "label": "Enable full-width header",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "sticky_header",
+      "label": "Sticky header",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "on-scroll-up", "label": "On scroll up" },
+        { "value": "always", "label": "Always" },
+        { "value": "always-reduce-logo-size", "label": "Always, reduce logo size" }
+      ],
+      "default": "on-scroll-up"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "Header color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "Menu color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Localization"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "label": "Enable country/region selector",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "label": "Enable language selector",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Customer account"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_customer_account_icon",
+      "label": "Show customer account icon",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header"
     }
   ]
 }

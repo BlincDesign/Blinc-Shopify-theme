@@ -5,8 +5,13 @@
     },
     "header": {
       "menu": "Menu",
-      "cart": "Cart"
+      "cart": "Cart",
+      "account": "Account"
     }
+  },
+  "localization": {
+    "country_label": "Country/region",
+    "language_label": "Language"
   },
   "gift_cards": {
     "issued": {

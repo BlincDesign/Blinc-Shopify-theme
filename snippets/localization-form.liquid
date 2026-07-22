@@ -1,0 +1,42 @@
+{%- comment -%}
+  Renders a country/region or language selector that posts to Shopify's localization form.
+  Usage: {% render 'localization-form', type: 'country', form_id: 'HeaderCountry' %}
+  Accepts:
+  - type: 'country' or 'language'
+  - form_id: unique string used to build accessible ids across multiple instances
+{%- endcomment -%}
+{%- if type == 'country' and localization.available_countries.size > 1 -%}
+  {%- form 'localization' -%}
+    <input type="hidden" name="return_to" value="{{ request.path }}">
+    <label class="visually-hidden" for="{{ form_id }}-select">{{ 'localization.country_label' | t }}</label>
+    <select
+      name="country_code"
+      id="{{ form_id }}-select"
+      class="localization-form__select"
+      data-localization-form-select
+    >
+      {%- for country in localization.available_countries -%}
+        <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>
+          {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+        </option>
+      {%- endfor -%}
+    </select>
+  {%- endform -%}
+{%- elsif type == 'language' and localization.available_languages.size > 1 -%}
+  {%- form 'localization' -%}
+    <input type="hidden" name="return_to" value="{{ request.path }}">
+    <label class="visually-hidden" for="{{ form_id }}-select">{{ 'localization.language_label' | t }}</label>
+    <select
+      name="locale_code"
+      id="{{ form_id }}-select"
+      class="localization-form__select"
+      data-localization-form-select
+    >
+      {%- for language in localization.available_languages -%}
+        <option value="{{ language.iso_code }}" lang="{{ language.iso_code }}" {% if language.iso_code == localization.language.iso_code %}selected{% endif %}>
+          {{ language.endonym_name | capitalize }}
+        </option>
+      {%- endfor -%}
+    </select>
+  {%- endform -%}
+{%- endif -%}
