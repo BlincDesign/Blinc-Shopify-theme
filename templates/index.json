@@ -1,11 +1,113 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "rich_text": {
       "type": "rich-text",
-      "settings": {}
+      "settings": {
+        "heading": "Talk about your brand",
+        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "rich_text_FpW8LN": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Talk about your brand",
+        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "rich_text_ij9eKc": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Talk about your brand",
+        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "rich_text_ne8dRx": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Talk about your brand",
+        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "rich_text_HEFdMD": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Talk about your brand",
+        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "rich_text_qpL8Qd": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Talk about your brand",
+        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "rich_text_PKcEH7": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Talk about your brand",
+        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
-    "rich_text"
+    "rich_text",
+    "rich_text_FpW8LN",
+    "rich_text_ij9eKc",
+    "rich_text_ne8dRx",
+    "rich_text_HEFdMD",
+    "rich_text_qpL8Qd",
+    "rich_text_PKcEH7"
   ]
 }
