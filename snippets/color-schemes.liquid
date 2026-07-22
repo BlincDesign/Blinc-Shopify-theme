@@ -5,7 +5,11 @@
       --color-text: {{ scheme.settings.text | color_extract: 'red' }}, {{ scheme.settings.text | color_extract: 'green' }}, {{ scheme.settings.text | color_extract: 'blue' }};
       --color-button: {{ scheme.settings.button | color_extract: 'red' }}, {{ scheme.settings.button | color_extract: 'green' }}, {{ scheme.settings.button | color_extract: 'blue' }};
       --color-button-label: {{ scheme.settings.button_label | color_extract: 'red' }}, {{ scheme.settings.button_label | color_extract: 'green' }}, {{ scheme.settings.button_label | color_extract: 'blue' }};
-      --color-secondary-button-label: {{ scheme.settings.secondary_button_label | color_extract: 'red' }}, {{ scheme.settings.secondary_button_label | color_extract: 'green' }}, {{ scheme.settings.secondary_button_label | color_extract: 'blue' }};
+      --color-button-border: {{ scheme.settings.button_border | color_extract: 'red' }}, {{ scheme.settings.button_border | color_extract: 'green' }}, {{ scheme.settings.button_border | color_extract: 'blue' }};
+      --color-button-hover: {{ scheme.settings.button_hover | color_extract: 'red' }}, {{ scheme.settings.button_hover | color_extract: 'green' }}, {{ scheme.settings.button_hover | color_extract: 'blue' }};
+      --color-button-label-hover: {{ scheme.settings.button_label_hover | color_extract: 'red' }}, {{ scheme.settings.button_label_hover | color_extract: 'green' }}, {{ scheme.settings.button_label_hover | color_extract: 'blue' }};
+      --color-button-border-hover: {{ scheme.settings.button_border_hover | color_extract: 'red' }}, {{ scheme.settings.button_border_hover | color_extract: 'green' }}, {{ scheme.settings.button_border_hover | color_extract: 'blue' }};
+      --color-accent: {{ scheme.settings.accent | color_extract: 'red' }}, {{ scheme.settings.accent | color_extract: 'green' }}, {{ scheme.settings.accent | color_extract: 'blue' }};
       --color-border: {{ scheme.settings.border | color_extract: 'red' }}, {{ scheme.settings.border | color_extract: 'green' }}, {{ scheme.settings.border | color_extract: 'blue' }};
       {%- if scheme.settings.background_gradient != blank -%}
         background: {{ scheme.settings.background_gradient }};

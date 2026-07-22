@@ -36,14 +36,17 @@
         --font-body-family: {{ settings.font_body_family.family }}, {{ settings.font_body_family.fallback_families }};
         --font-body-size: {{ settings.font_body_size }}px;
         --font-body-transform: {% if settings.font_body_uppercase %}uppercase{% else %}none{% endif %};
+        --font-body-letter-spacing: {{ settings.font_body_letter_spacing }}px;
 
         --font-subheading-family: {{ settings.font_subheading_family.family }}, {{ settings.font_subheading_family.fallback_families }};
         --font-subheading-size: {{ settings.font_subheading_size }}px;
         --font-subheading-transform: {% if settings.font_subheading_uppercase %}uppercase{% else %}none{% endif %};
+        --font-subheading-letter-spacing: {{ settings.font_subheading_letter_spacing }}px;
 
         --font-heading-family: {{ settings.font_heading_family.family }}, {{ settings.font_heading_family.fallback_families }};
         --font-heading-size: {{ settings.font_heading_size }}px;
         --font-heading-transform: {% if settings.font_heading_uppercase %}uppercase{% else %}none{% endif %};
+        --font-heading-letter-spacing: {{ settings.font_heading_letter_spacing }}px;
 
         --heading-size-small-mobile: {{ settings.heading_size_small_mobile }}px;
         --heading-size-medium-mobile: {{ settings.heading_size_medium_mobile }}px;

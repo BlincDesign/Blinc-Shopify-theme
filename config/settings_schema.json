@@ -15,6 +15,10 @@
         "id": "color_schemes",
         "definition": [
           {
+            "type": "header",
+            "content": "Section"
+          },
+          {
             "type": "color",
             "id": "background",
             "label": "Background",
@@ -33,27 +37,59 @@
             "default": "#121212"
           },
           {
-            "type": "color",
-            "id": "button",
-            "label": "Solid button background",
-            "default": "#121212"
+            "type": "header",
+            "content": "Primary Button"
           },
           {
             "type": "color",
             "id": "button_label",
-            "label": "Solid button label",
+            "label": "Text",
             "default": "#FFFFFF"
           },
           {
             "type": "color",
-            "id": "secondary_button_label",
-            "label": "Outline button",
+            "id": "button",
+            "label": "Background",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "button_border",
+            "label": "Border",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "button_label_hover",
+            "label": "Text (hover)",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "button_hover",
+            "label": "Background (hover)",
+            "default": "#2B2B2B"
+          },
+          {
+            "type": "color",
+            "id": "button_border_hover",
+            "label": "Border (hover)",
+            "default": "#2B2B2B"
+          },
+          {
+            "type": "header",
+            "content": "Other"
+          },
+          {
+            "type": "color",
+            "id": "accent",
+            "label": "Accent",
             "default": "#121212"
           },
           {
             "type": "color",
             "id": "border",
-            "label": "Border",
+            "label": "Lines & Borders",
             "default": "#E6E6E6"
           }
         ],
@@ -66,10 +102,10 @@
           "primary_button": "button",
           "on_primary_button": "button_label",
           "secondary_button": "background",
-          "on_secondary_button": "secondary_button_label",
-          "primary_button_border": "button",
-          "secondary_button_border": "secondary_button_label",
-          "links": "text",
+          "on_secondary_button": "text",
+          "primary_button_border": "button_border",
+          "secondary_button_border": "border",
+          "links": "accent",
           "icons": "text"
         }
       }
@@ -105,6 +141,16 @@
         "default": false
       },
       {
+        "type": "range",
+        "id": "font_body_letter_spacing",
+        "label": "Letter spacing",
+        "min": -2,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
         "type": "header",
         "content": "Subheading"
       },
@@ -131,6 +177,16 @@
         "default": false
       },
       {
+        "type": "range",
+        "id": "font_subheading_letter_spacing",
+        "label": "Letter spacing",
+        "min": -2,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
         "type": "header",
         "content": "Heading"
       },
@@ -155,6 +211,16 @@
         "id": "font_heading_uppercase",
         "label": "Uppercase",
         "default": false
+      },
+      {
+        "type": "range",
+        "id": "font_heading_letter_spacing",
+        "label": "Letter spacing",
+        "min": -2,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "default": 0
       },
       {
         "type": "header",
