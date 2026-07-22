@@ -31,6 +31,19 @@ a {
   text-decoration: none;
 }
 
+/* Image */
+.fit-cover {
+  width: 100%;
+  object-fit: cover;
+}
+
+.placeholder-svg {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(var(--color-border, 230, 230, 230));
+  color: rgb(var(--color-border, 230, 230, 230));
+}
+
 /* Base */
 html {
   height: 100%;

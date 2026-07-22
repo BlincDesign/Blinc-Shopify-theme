@@ -1,0 +1,98 @@
+{%- doc -%}
+  Renders a responsive, accessible Shopify image with an automatic srcset
+  and optional cropping via aspect-ratio.
+
+  Defaults to lazy-loading. For above-the-fold / LCP images (e.g. the first
+  image in a hero, or a header logo), the caller must explicitly pass
+  `loading: 'eager'` and `fetchpriority: 'high'`.
+
+  @param {object} image - The Shopify image object. (required)
+  @param {number} [width] - Max display width in px. Drives the fallback `src` size and the default `sizes` value.
+  @param {string} [widths] - Comma-separated candidate widths for the generated `srcset`.
+  @param {string} [sizes] - The `sizes` attribute. Defaults to a value based on `width`, or '100vw'.
+  @param {string} [aspect_ratio] - Forces a CSS aspect-ratio on the image, cropping it via object-fit.
+  @param {string} [object_position] - CSS object-position value. Defaults to the image's focal point.
+  @param {boolean} [fill] - Adds the `fit-cover` utility class so the image fills its box. Default: true.
+  @param {string} [class] - Additional CSS classes for the `<img>`.
+  @param {string} [id] - ID attribute for the `<img>`.
+  @param {string} [alt] - Overrides the alt text. Falls back to the image's own alt text.
+  @param {string} [loading] - 'eager' or 'lazy'. Default: 'lazy'.
+  @param {string} [fetchpriority] - 'high', 'low', or 'auto'. Default: 'auto'.
+  @param {string} [placeholder] - Built-in Shopify placeholder SVG name used when `image` is blank. Default: 'image'.
+
+  @example
+  {% render 'image',
+    image: section.settings.image,
+    width: 800,
+    aspect_ratio: '4/3',
+    sizes: '(min-width: 750px) 50vw, 100vw'
+  %}
+
+  @example
+  {% comment %} Above-the-fold hero image {% endcomment %}
+  {% render 'image',
+    image: section.settings.image,
+    width: 1600,
+    loading: 'eager',
+    fetchpriority: 'high'
+  %}
+{%- enddoc -%}
+
+{%- liquid
+  assign display_width = width | default: 1200
+  assign widths = widths | default: '375, 550, 750, 1100, 1500, 2200, 3200'
+
+  if sizes == blank
+    if width
+      assign sizes = '(min-width: ' | append: width | append: 'px) ' | append: width | append: 'px, 100vw'
+    else
+      assign sizes = '100vw'
+    endif
+  endif
+
+  if fill == null
+    assign fill = true
+  endif
+
+  assign css_class = class | default: ''
+  if fill
+    assign css_class = css_class | append: ' fit-cover' | strip
+  endif
+
+  assign alt_text = alt | default: image.alt | default: ''
+
+  assign loading = loading | default: 'lazy'
+  assign fetchpriority = fetchpriority | default: 'auto'
+
+  assign object_position = object_position | default: image.presentation.focal_point
+
+  capture image_style
+    if aspect_ratio != blank
+      echo 'aspect-ratio: ' | append: aspect_ratio | append: ';'
+    endif
+    if object_position != blank
+      echo ' object-position: ' | append: object_position | append: ';'
+    endif
+  endcapture
+  assign image_style = image_style | strip
+  assign placeholder_class = css_class | append: ' placeholder-svg' | strip
+  assign placeholder = placeholder | default: 'image'
+-%}
+
+{%- if image -%}
+  {{
+    image
+    | image_url: width: display_width
+    | image_tag:
+      widths: widths,
+      sizes: sizes,
+      alt: alt_text,
+      loading: loading,
+      fetchpriority: fetchpriority,
+      class: css_class,
+      id: id,
+      style: image_style
+  }}
+{%- else -%}
+  {{ placeholder | placeholder_svg_tag: placeholder_class }}
+{%- endif -%}
