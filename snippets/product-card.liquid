@@ -1,0 +1,185 @@
+{% doc %}
+  Renders a product card for grids (collection lists, featured collections,
+  search results). Layout, gallery type, and info fields are all driven by
+  the "Product Grid" theme settings so every card in the theme stays
+  consistent. Mirrors snippets/product-card-placeholder.liquid exactly, so
+  swap one for the other with no visual jump.
+
+  @param {object} product - The Shopify product object. (required)
+
+  @example
+  {% render 'product-card', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign aspect_ratio = settings.image_aspect_ratio | default: 1
+  assign aspect_ratio_css = '1 / ' | append: aspect_ratio
+  assign current_variant = product.selected_or_first_available_variant
+  assign is_available = current_variant.available
+
+  assign atc_label = 'products.product.add_to_cart' | t
+  unless is_available
+    assign atc_label = 'products.product.sold_out' | t
+  endunless
+
+  if settings.enable_video
+    assign gallery_media = product.media
+  else
+    assign gallery_media = product.media | where: 'media_type', 'image'
+  endif
+
+  assign has_video = false
+  for media in product.media
+    unless media.media_type == 'image'
+      assign has_video = true
+    endunless
+  endfor
+
+  assign show_sale_badge = false
+  if product.compare_at_price > product.price
+    assign show_sale_badge = true
+  endif
+
+  assign color_option = null
+  for option in product.options_with_values
+    if option.name == 'Color' or option.name == 'color' or option.name == 'Colour'
+      assign color_option = option
+    endif
+  endfor
+
+  case settings.title_size
+    when 'small'
+      assign title_class = 'text-body text-body--small'
+    when 'large'
+      assign title_class = 'heading heading--small'
+    else
+      assign title_class = 'text-body'
+  endcase
+-%}
+
+<div class="product-card flex flex-column">
+  <a href="{{ product.url }}" class="product-card__media-link">
+    <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
+      {%- if settings.media_style == 'slider' and gallery_media.size > 1 -%}
+        <carousel-slider class="product-card__carousel" data-loop="{{ settings.slider_loop }}">
+          <div class="product-card__carousel-track flex" data-carousel-track>
+            {%- for media in gallery_media -%}
+              <div class="product-card__carousel-slide" data-carousel-slide>
+                {%- render 'image', image: media.preview_image, aspect_ratio: aspect_ratio_css, width: 600, sizes: '(min-width: 1024px) 25vw, (min-width: 749px) 33vw, 100vw' -%}
+                {%- unless media.media_type == 'image' -%}
+                  <span class="product-card__video-badge items-center justify-center">{%- render 'icon', name: 'play' -%}</span>
+                {%- endunless -%}
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <button type="button" class="product-card__carousel-nav product-card__carousel-nav--prev items-center justify-center" data-carousel-prev aria-label="{{ 'products.product.previous_image' | t }}">
+            {%- render 'icon', name: 'chevron' -%}
+          </button>
+          <button type="button" class="product-card__carousel-nav product-card__carousel-nav--next items-center justify-center" data-carousel-next aria-label="{{ 'products.product.next_image' | t }}">
+            {%- render 'icon', name: 'chevron' -%}
+          </button>
+
+          {%- if settings.slider_navigation_style != 'hidden' -%}
+            <div class="product-card__carousel-dots product-card__carousel-dots--{{ settings.slider_navigation_style }} flex items-center">
+              {%- for media in gallery_media -%}
+                <button type="button" class="product-card__carousel-dot{% if forloop.first %} is-active{% endif %}" data-carousel-dot aria-label="{{ 'products.product.go_to_image' | t: number: forloop.index }}"{% if forloop.first %} aria-current="true"{% endif %}></button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </carousel-slider>
+      {%- else -%}
+        {%- render 'image', image: product.featured_media.preview_image, aspect_ratio: aspect_ratio_css, width: 600, sizes: '(min-width: 1024px) 25vw, (min-width: 749px) 33vw, 100vw', class: 'product-card__media-primary' -%}
+
+        {%- if settings.media_style == 'hover_image' and product.media[1] -%}
+          {%- render 'image', image: product.media[1].preview_image, aspect_ratio: aspect_ratio_css, width: 600, sizes: '(min-width: 1024px) 25vw, (min-width: 749px) 33vw, 100vw', class: 'product-card__media-secondary' -%}
+        {%- endif -%}
+
+        {%- if settings.enable_video and has_video -%}
+          <span class="product-card__video-badge items-center justify-center">{%- render 'icon', name: 'play' -%}</span>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if settings.show_badges and settings.show_compare_at_price and show_sale_badge or settings.show_badges and is_available == false -%}
+        <div class="product-card__badges flex flex-column items-start">
+          {%- unless is_available -%}
+            <span class="product-card__badge product-card__badge--sold-out">{{ 'products.product.sold_out' | t }}</span>
+          {%- else -%}
+            <span class="product-card__badge product-card__badge--sale">{{ 'products.product.sale' | t }}</span>
+          {%- endunless -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if settings.show_swatches and color_option -%}
+      <div class="product-card__swatches flex items-center">
+        {%- for value in color_option.values limit: 6 -%}
+          <span
+            class="product-card__swatch"
+            title="{{ value.name }}"
+            {%- if value.swatch.color %} style="background-color: {{ value.swatch.color }};"{% endif -%}
+          >
+            {%- if value.swatch.image -%}
+              {%- render 'image', image: value.swatch.image, width: 40, sizes: '20px', fill: true -%}
+            {%- endif -%}
+          </span>
+        {%- endfor -%}
+        {%- if color_option.values.size > 6 -%}
+          <span class="product-card__swatch product-card__swatch--more items-center justify-center">+{{ color_option.values.size | minus: 6 }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if settings.grid_button_action == 'quick_add' -%}
+      {%- form 'product', product, class: 'product-card__atc-form' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+        <button
+          type="submit"
+          class="product-card__atc-icon items-center justify-center"
+          aria-label="{{ 'products.product.add_to_cart' | t }}"
+          {%- unless is_available %} disabled{% endunless -%}
+        >
+          {%- render 'icon', name: 'cart' -%}
+        </button>
+      {%- endform -%}
+    {%- elsif settings.grid_button_action == 'add_to_cart' -%}
+      <div class="product-card__atc-hover">
+        {%- form 'product', product, class: 'product-card__atc-form' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {%- render 'button',
+            label: atc_label,
+            type: 'submit',
+            name: 'add',
+            button_style: 'primary',
+            class: 'product-card__atc-button'
+          -%}
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+  </a>
+
+  <div class="product-card__info flex flex-column{% if settings.information_on_hover %} product-card__info--overlay{% endif %}">
+    {%- if settings.show_vendor and product.vendor != blank -%}
+      <p class="product-card__vendor text-body text-body--small">{{ product.vendor }}</p>
+    {%- endif -%}
+
+    <a href="{{ product.url }}" class="product-card__title-link">
+      <p class="product-card__title {{ title_class }}">{{ product.title }}</p>
+    </a>
+
+    {%- if settings.show_sku and current_variant.sku != blank -%}
+      <p class="product-card__sku text-body text-body--small">{{ current_variant.sku }}</p>
+    {%- endif -%}
+
+    {%- if settings.show_price -%}
+      <div class="product-card__price flex items-center {{ title_class }}">
+        {%- if settings.show_compare_at_price and show_sale_badge -%}
+          <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
+          <span class="product-card__price-sale">{{ product.price | money }}</span>
+        {%- else -%}
+          <span>{{ product.price | money }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

@@ -9,12 +9,13 @@
 
     {{ content_for_header }}
 
+    {{ 'utils.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {% render 'color-schemes' %}
   </head>
 
   <body class="template-gift-card color-scheme-1">
-    <div class="gift-card page-width">
+    <div class="gift-card page-width flex flex-column items-center text-center">
       <p class="gift-card__shop">{{ shop.name }}</p>
 
       <p class="gift-card__balance">

@@ -27,8 +27,7 @@
           {
             "type": "color_background",
             "id": "background_gradient",
-            "label": "Background gradient",
-            "default": ""
+            "label": "Background gradient"
           },
           {
             "type": "color",
@@ -336,14 +335,63 @@
     "name": "Layout",
     "settings": [
       {
-        "type": "range",
-        "id": "page_width",
-        "label": "Page width",
-        "min": 1000,
-        "max": 1600,
-        "step": 50,
-        "unit": "px",
-        "default": 1400
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "number",
+        "id": "container_standard_width",
+        "label": "Container standard Width (px)",
+        "default": 1280,
+        "info": "Suggested range: 1200–1440px."
+      },
+      {
+        "type": "number",
+        "id": "container_narrow_width",
+        "label": "Container narrow Width (px)",
+        "default": 960,
+        "info": "Suggested range: 800–1200px."
+      },
+      {
+        "type": "select",
+        "id": "layout_style",
+        "label": "Layout Style",
+        "info": "Controls the section spacing and grid gaps.",
+        "default": "classic",
+        "options": [
+          {
+            "value": "classic",
+            "label": "Classic"
+          },
+          {
+            "value": "compact",
+            "label": "Compact"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Appearance"
+      },
+      {
+        "type": "select",
+        "id": "slider_navigation_style",
+        "label": "Slider Navigation",
+        "default": "circle",
+        "options": [
+          {
+            "value": "hidden",
+            "label": "Hidden"
+          },
+          {
+            "value": "circle",
+            "label": "Circle"
+          },
+          {
+            "value": "line",
+            "label": "Line"
+          }
+        ]
       }
     ]
   },
@@ -355,6 +403,205 @@
         "id": "favicon",
         "label": "Favicon image",
         "info": "Will be scaled down to 32 x 32px"
+      }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "button_font",
+        "label": "Font",
+        "default": "karla_n4"
+      },
+      {
+        "type": "range",
+        "id": "button_font_size",
+        "label": "Font Size",
+        "min": 10,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "button_font_size_mobile",
+        "label": "Font Size (Mobile)",
+        "min": 10,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "default": 14
+      },
+      {
+        "type": "range",
+        "id": "button_letter_spacing",
+        "label": "Letter Spacing",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "default": 25,
+        "info": "Percentage of the font size."
+      },
+      {
+        "type": "checkbox",
+        "id": "button_uppercase",
+        "label": "Uppercase",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "button_border_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "%",
+        "default": 8
+      }
+    ]
+  },
+  {
+    "name": "Product Grid",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product Card"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show Vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sku",
+        "label": "Show SKU",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_badges",
+        "label": "Show Product Badges",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_swatches",
+        "label": "Show Color Swatches",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Product Media"
+      },
+      {
+        "type": "select",
+        "id": "media_style",
+        "label": "Media Style",
+        "default": "hover_image",
+        "options": [
+          {
+            "value": "single",
+            "label": "Featured Image"
+          },
+          {
+            "value": "hover_image",
+            "label": "Second Image on Hover"
+          },
+          {
+            "value": "slider",
+            "label": "Media Slider"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_video",
+        "label": "Enable Product Videos",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "slider_loop",
+        "label": "Loop Media Slider",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "image_aspect_ratio",
+        "label": "Image Aspect Ratio",
+        "info": "Higher values make product images taller.",
+        "min": 0.8,
+        "max": 1.5,
+        "step": 0.1,
+        "unit": ":1",
+        "default": 1.0
+      },
+      {
+        "type": "header",
+        "content": "Product Information"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_price",
+        "label": "Show Price",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_compare_at_price",
+        "label": "Show Compare-at Price",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "information_on_hover",
+        "label": "Information over media"
+      },
+      {
+        "type": "select",
+        "id": "title_size",
+        "label": "Title Size",
+        "default": "medium",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Grid button style"
+      },
+      {
+        "type": "select",
+        "id": "grid_button_action",
+        "label": "Style",
+        "default": "quick_add",
+        "options": [
+          {
+            "value": "quick_add",
+            "label": "Quick Add"
+          },
+          {
+            "value": "add_to_cart",
+            "label": "Add to Cart"
+          }
+        ]
       }
     ]
   }

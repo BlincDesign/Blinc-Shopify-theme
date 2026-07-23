@@ -6,7 +6,7 @@
         "scheme-1": {
           "settings": {
             "background": "#FFFFFF",
-            "background_gradient": "",
+            "background_gradient": "transparent",
             "text": "#121212",
             "button_label": "#FFFFFF",
             "button": "#121212",

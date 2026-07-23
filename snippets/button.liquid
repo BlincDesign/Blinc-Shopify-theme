@@ -1,0 +1,57 @@
+{% doc %}
+  @param {string} label - Button text.
+  @param {string} [url] - Link url. Renders an `<a>`. Takes priority over `type`.
+  @param {string} [type] - 'submit', 'button', or 'reset'. Renders a native `<button>` when `url` is blank.
+  @param {string} [button_style] - 'primary' (default), 'secondary', or 'link'. Named `button_style` (not `style`) to avoid colliding with Liquid's own `{% style %}` tag.
+  @param {boolean} [new_tab] - Opens a link in a new tab (links only).
+  @param {boolean} [disabled] - Disables a `<button>`, or renders a link as an inert disabled state.
+  @param {string} [id] - Element id.
+  @param {string} [name] - Form field name (buttons only, e.g. name: 'add').
+  @param {string} [class] - Additional classes to append.
+
+  @example
+  {% render 'button', label: 'Submit', type: 'submit', name: 'add' %}
+
+  @example
+  {% render 'button', label: 'Shop now', url: '/collections/all', button_style: 'secondary' %}
+{% enddoc %}
+
+{%- liquid
+  assign button_style = button_style | default: 'primary'
+  assign button_class = 'button items-center justify-center'
+
+  unless button_style == 'primary'
+    assign button_class = button_class | append: ' button--' | append: button_style
+  endunless
+
+  if class != blank
+    assign button_class = button_class | append: ' ' | append: class
+  endif
+-%}
+
+{%- if url != blank -%}
+  {%- if disabled -%}
+    <span class="{{ button_class }} button--disabled" role="link" aria-disabled="true">{{ label | escape }}</span>
+  {%- else -%}
+    <a
+      href="{{ url }}"
+      class="{{ button_class }}"
+      {%- if id != blank %} id="{{ id }}"{% endif -%}
+      {%- if new_tab %} target="_blank" rel="noopener"{% endif %}
+    >
+      {{ label | escape }}
+    </a>
+  {%- endif -%}
+{%- elsif type != blank -%}
+  <button
+    type="{{ type }}"
+    class="{{ button_class }}{% if disabled %} button--disabled{% endif %}"
+    {%- if id != blank %} id="{{ id }}"{% endif -%}
+    {%- if name != blank %} name="{{ name }}"{% endif -%}
+    {%- if disabled %} disabled{% endif -%}
+  >
+    {{ label | escape }}
+  </button>
+{%- else -%}
+  <span class="{{ button_class }} button--disabled" role="link" aria-disabled="true">{{ label | escape }}</span>
+{%- endif -%}

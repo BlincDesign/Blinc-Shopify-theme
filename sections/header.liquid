@@ -3,7 +3,7 @@
     class="header color-{{ section.settings.color_scheme }} header--logo-{{ section.settings.logo_position }} header--mobile-logo-{{ section.settings.mobile_logo_position }}"
     style="--header-padding-top: {{ section.settings.padding_top }}px; --header-padding-bottom: {{ section.settings.padding_bottom }}px; --logo-max-width: {{ section.settings.logo_max_width }}px; --logo-max-height: {{ section.settings.logo_max_height }}px;"
   >
-    <div class="header__wrapper {% if section.settings.enable_full_width %}header__wrapper--full-width{% else %}page-width{% endif %}">
+    <div class="header__wrapper items-center {% if section.settings.enable_full_width %}header__wrapper--full-width{% else %}page-width{% endif %}">
       <div class="header__logo">
         <a href="{{ routes.root_url }}">
           {%- if section.settings.logo != blank -%}
@@ -24,12 +24,12 @@
 
       {%- if section.settings.menu.links.size > 0 -%}
         <nav class="header__nav" aria-label="Primary">
-          <ul class="header__nav-list">
+          <ul class="header__nav-list flex items-center">
             {%- for link in section.settings.menu.links -%}
               <li class="header__nav-item">
                 {%- if link.links.size > 0 -%}
                   <details class="header__nav-dropdown">
-                    <summary class="header__nav-link">
+                    <summary class="header__nav-link items-center">
                       {{ link.title }}
                       {%- render 'icon', name: 'chevron' -%}
                     </summary>
@@ -42,7 +42,7 @@
                     </ul>
                   </details>
                 {%- else -%}
-                  <a href="{{ link.url }}" class="header__nav-link"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+                  <a href="{{ link.url }}" class="header__nav-link items-center"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
                 {%- endif -%}
               </li>
             {%- endfor -%}
@@ -50,9 +50,9 @@
         </nav>
       {%- endif -%}
 
-      <div class="header__icons">
+      <div class="header__icons flex items-center">
         {%- if section.settings.enable_country_selector or section.settings.enable_language_selector -%}
-          <div class="header__localization">
+          <div class="header__localization flex">
             {%- if section.settings.enable_country_selector -%}
               {%- render 'localization-form', type: 'country', form_id: 'HeaderCountry' -%}
             {%- endif -%}
@@ -65,14 +65,14 @@
         {%- if section.settings.enable_customer_account_icon and shop.customer_accounts_enabled -%}
           <a
             href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
-            class="header__account"
+            class="header__account items-center"
             aria-label="{{ 'general.header.account' | t }}"
           >
             {%- render 'icon', name: 'account' -%}
           </a>
         {%- endif -%}
 
-        <a href="{{ routes.cart_url }}" class="header__cart" aria-label="{{ 'general.header.cart' | t }}">
+        <a href="{{ routes.cart_url }}" class="header__cart items-center" aria-label="{{ 'general.header.cart' | t }}">
           {{ 'general.header.cart' | t }}
           <span class="header__cart-count">({{ cart.item_count }})</span>
         </a>
@@ -86,7 +86,7 @@
               <li>
                 {%- if link.links.size > 0 -%}
                   <details class="header__nav-dropdown">
-                    <summary class="header__nav-link">
+                    <summary class="header__nav-link items-center">
                       {{ link.title }}
                       {%- render 'icon', name: 'chevron' -%}
                     </summary>

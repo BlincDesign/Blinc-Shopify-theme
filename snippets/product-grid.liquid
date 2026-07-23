@@ -1,0 +1,50 @@
+{% doc %}
+  Renders a responsive product grid. Falls back to placeholder cards when
+  there are no products (an empty collection) or when individual slots in
+  `products` are blank (a manually curated section whose blocks haven't
+  had a product picked yet in the Theme Editor) - so the grid always
+  reflects its final layout, live or mid-edit.
+
+  Column count and gaps come from the theme's Layout settings
+  (--grid-columns-*, --layout-gap-*, set in layout/theme.liquid); gallery
+  type and card fields come from the theme's Product grid settings, read
+  directly inside snippets/product-card.liquid and
+  snippets/product-card-placeholder.liquid.
+
+  @param {object} [products] - Array of products to render. Blank entries render a placeholder card in that slot.
+  @param {number} [limit] - Maximum number of products to render from `products`. Ignored for placeholders (use `placeholder_count` instead).
+  @param {number} [placeholder_count] - How many placeholder cards to show when `products` is entirely blank. Default: 8.
+
+  @example
+  {% render 'product-grid', products: collection.products, limit: 8 %}
+
+  @example
+  {% comment %} Empty state / section still being configured {% endcomment %}
+  {% render 'product-grid', placeholder_count: 4 %}
+{% enddoc %}
+
+{%- liquid
+  assign placeholder_count = placeholder_count | default: 8
+-%}
+
+<div class="product-grid grid">
+  {%- if products.size > 0 -%}
+    {%- for product in products limit: limit -%}
+      {%- capture media_placeholder -%}{%- cycle 'product-1', 'product-2', 'product-3', 'product-4', 'product-5', 'product-6' -%}{%- endcapture -%}
+      <div class="product-grid__item">
+        {%- if product != blank -%}
+          {%- render 'product-card', product: product -%}
+        {%- else -%}
+          {%- render 'product-card-placeholder', media_placeholder: media_placeholder -%}
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  {%- else -%}
+    {%- for i in (1..placeholder_count) -%}
+      {%- capture media_placeholder -%}{%- cycle 'product-1', 'product-2', 'product-3', 'product-4', 'product-5', 'product-6' -%}{%- endcapture -%}
+      <div class="product-grid__item">
+        {%- render 'product-card-placeholder', media_placeholder: media_placeholder -%}
+      </div>
+    {%- endfor -%}
+  {%- endif -%}
+</div>

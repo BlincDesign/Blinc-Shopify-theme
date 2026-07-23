@@ -30,5 +30,15 @@
       "copy_code_success": "Copied",
       "continue_shopping": "Continue shopping"
     }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "sale": "Sale",
+      "previous_image": "Previous image",
+      "next_image": "Next image",
+      "go_to_image": "Go to image {{ number }}"
+    }
   }
 }

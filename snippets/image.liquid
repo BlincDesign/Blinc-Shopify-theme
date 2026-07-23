@@ -6,7 +6,7 @@
   image in a hero, or a header logo), the caller must explicitly pass
   `loading: 'eager'` and `fetchpriority: 'high'`.
 
-  @param {object} image - The Shopify image object. (required)
+  @param {object} [image] - The Shopify image object. When blank, renders the built-in `placeholder` SVG instead.
   @param {number} [width] - Max display width in px. Drives the fallback `src` size and the default `sizes` value.
   @param {string} [widths] - Comma-separated candidate widths for the generated `srcset`.
   @param {string} [sizes] - The `sizes` attribute. Defaults to a value based on `width`, or '100vw'.
@@ -40,7 +40,7 @@
 
 {%- liquid
   assign display_width = width | default: 1200
-  assign widths = widths | default: '375, 550, 750, 1100, 1500, 2200, 3200'
+  assign widths = widths | default: '375, 550, 750, 1100, 1500, 1600'
 
   if sizes == blank
     if width
@@ -91,7 +91,8 @@
       fetchpriority: fetchpriority,
       class: css_class,
       id: id,
-      style: image_style
+      style: image_style,
+      decoding: 'async'
   }}
 {%- else -%}
   {{ placeholder | placeholder_svg_tag: placeholder_class }}

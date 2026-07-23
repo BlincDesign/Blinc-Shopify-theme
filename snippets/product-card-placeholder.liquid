@@ -1,0 +1,118 @@
+{% doc %}
+  Renders a placeholder product card matching the exact layout of
+  snippets/product-card.liquid, driven by the same "Product Grid" theme
+  settings. Used by snippets/product-grid.liquid to fill empty slots -
+  a collection with no products, or a manually curated list where a
+  block hasn't had a product assigned yet in the Theme Editor.
+
+  @param {string} [media_placeholder] - Built-in placeholder_svg_tag name (e.g. 'product-1'..'product-6'). Lets a caller looping multiple cards vary the artwork via {% cycle %}. Defaults to 'product-1'.
+
+  @example
+  {% render 'product-card-placeholder' %}
+
+  @example
+  {% render 'product-card-placeholder', media_placeholder: 'product-3' %}
+{% enddoc %}
+
+{%- liquid
+  assign media_placeholder = media_placeholder | default: 'product-1'
+  assign aspect_ratio = settings.image_aspect_ratio | default: 1
+  assign aspect_ratio_css = '1 / ' | append: aspect_ratio
+  assign slide_count = 3
+  assign atc_label = 'products.product.add_to_cart' | t
+
+  case settings.title_size
+    when 'small'
+      assign title_class = 'text-body text-body--small'
+    when 'large'
+      assign title_class = 'heading heading--small'
+    else
+      assign title_class = 'text-body'
+  endcase
+-%}
+
+<div class="product-card product-card--placeholder flex flex-column" aria-hidden="true">
+  <div class="product-card__media-link" tabindex="-1">
+    <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
+      {%- if settings.media_style == 'slider' -%}
+        <carousel-slider class="product-card__carousel" data-loop="{{ settings.slider_loop }}">
+          <div class="product-card__carousel-track flex" data-carousel-track>
+            {%- for i in (1..slide_count) -%}
+              <div class="product-card__carousel-slide" data-carousel-slide>
+                {%- render 'image', aspect_ratio: aspect_ratio_css, placeholder: media_placeholder -%}
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <button type="button" class="product-card__carousel-nav product-card__carousel-nav--prev items-center justify-center" data-carousel-prev aria-label="{{ 'products.product.previous_image' | t }}" disabled>
+            {%- render 'icon', name: 'chevron' -%}
+          </button>
+          <button type="button" class="product-card__carousel-nav product-card__carousel-nav--next items-center justify-center" data-carousel-next aria-label="{{ 'products.product.next_image' | t }}" disabled>
+            {%- render 'icon', name: 'chevron' -%}
+          </button>
+
+          {%- if settings.slider_navigation_style != 'hidden' -%}
+            <div class="product-card__carousel-dots product-card__carousel-dots--{{ settings.slider_navigation_style }} flex items-center">
+              {%- for i in (1..slide_count) -%}
+                <span class="product-card__carousel-dot{% if forloop.first %} is-active{% endif %}"></span>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </carousel-slider>
+      {%- else -%}
+        {%- render 'image', aspect_ratio: aspect_ratio_css, placeholder: media_placeholder -%}
+      {%- endif -%}
+
+      {%- if settings.enable_video -%}
+        <span class="product-card__video-badge items-center justify-center">{%- render 'icon', name: 'play' -%}</span>
+      {%- endif -%}
+
+      {%- if settings.show_badges -%}
+        <div class="product-card__badges flex flex-column items-start">
+          <span class="product-card__badge product-card__badge--placeholder"></span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if settings.show_swatches -%}
+      <div class="product-card__swatches flex items-center">
+        {%- for i in (1..4) -%}
+          <span class="product-card__swatch product-card__swatch--placeholder"></span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if settings.grid_button_action == 'quick_add' -%}
+      <span class="product-card__atc-icon product-card__atc-icon--placeholder items-center justify-center" aria-hidden="true">
+        {%- render 'icon', name: 'cart' -%}
+      </span>
+    {%- elsif settings.grid_button_action == 'add_to_cart' -%}
+      <div class="product-card__atc-hover">
+        {%- render 'button', label: atc_label, button_style: 'primary', disabled: true, class: 'product-card__atc-button' -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="product-card__info flex flex-column{% if settings.information_on_hover %} product-card__info--overlay{% endif %}">
+    {%- if settings.show_vendor -%}
+      <p class="product-card__vendor text-body text-body--small">Vendor</p>
+    {%- endif -%}
+
+    <p class="product-card__title {{ title_class }}">Product title</p>
+
+    {%- if settings.show_sku -%}
+      <p class="product-card__sku text-body text-body--small">SKU-0000</p>
+    {%- endif -%}
+
+    {%- if settings.show_price -%}
+      <div class="product-card__price flex items-center {{ title_class }}">
+        {%- if settings.show_compare_at_price -%}
+          <span class="product-card__price-compare">$00.00</span>
+          <span class="product-card__price-sale">$00.00</span>
+        {%- else -%}
+          <span>$00.00</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,149 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} .featured-collection {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .featured-collection {
+      padding-top: {{ section.settings.padding_top_m }}px;
+      padding-bottom: {{ section.settings.padding_bottom_m }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="featured-collection color-{{ section.settings.color_scheme }}">
+  <div class="featured-collection__wrapper {{ section.settings.container_width }}">
+    {%- if section.settings.heading != blank or section.settings.collection != blank -%}
+      <div class="featured-collection__header flex flex-wrap justify-between items-center">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="featured-collection__heading heading heading--{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.collection != blank -%}
+          {%- render 'button', label: 'View all', url: section.settings.collection.url, button_style: 'link' -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- render 'product-grid',
+      products: section.settings.collection.products,
+      limit: section.settings.products_to_show,
+      placeholder_count: section.settings.products_to_show
+    -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "class": "shopify-section--featured-collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "xl", "label": "XL" },
+        { "value": "xxl", "label": "XXL" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Leave blank to preview the placeholder grid."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "default": "container-standard",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        },
+        {
+          "value": "container-padded",
+          "label": "Full Width (Padded)"
+        },
+        {
+          "value": "container-standard",
+          "label": "Standard"
+        },
+        {
+          "value": "container-narrow",
+          "label": "Narrow"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Spacing Desktop"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Top spacing (px)",
+      "default": 48
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Bottom spacing (px)",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Spacing Mobile"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_m",
+      "label": "Top spacing (px)",
+      "default": 32
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_m",
+      "label": "Bottom spacing (px)",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection"
+    }
+  ]
+}
+{% endschema %}

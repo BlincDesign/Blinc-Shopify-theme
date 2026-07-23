@@ -1,8 +1,8 @@
 <footer class="footer color-{{ section.settings.color_scheme }}">
-  <div class="footer__wrapper page-width">
+  <div class="footer__wrapper page-width flex flex-wrap items-center justify-between">
     {%- if section.settings.menu.links.size > 0 -%}
       <nav class="footer__nav" aria-label="Footer">
-        <ul class="footer__nav-list">
+        <ul class="footer__nav-list flex flex-wrap">
           {%- for link in section.settings.menu.links -%}
             <li><a href="{{ link.url }}">{{ link.title }}</a></li>
           {%- endfor -%}

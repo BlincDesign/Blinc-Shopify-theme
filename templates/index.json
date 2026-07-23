@@ -99,6 +99,10 @@
         "padding_top": 48,
         "padding_bottom": 48
       }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {}
     }
   },
   "order": [
@@ -108,6 +112,7 @@
     "rich_text_ne8dRx",
     "rich_text_HEFdMD",
     "rich_text_qpL8Qd",
-    "rich_text_PKcEH7"
+    "rich_text_PKcEH7",
+    "featured_collection"
   ]
 }

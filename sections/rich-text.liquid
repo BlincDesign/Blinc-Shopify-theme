@@ -3,10 +3,17 @@
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .rich-text {
+      padding-top: {{ section.settings.padding_top_m }}px;
+      padding-bottom: {{ section.settings.padding_bottom_m }}px;
+    }
+  }
 {%- endstyle -%}
 
 <div class="rich-text color-{{ section.settings.color_scheme }}">
-  <div class="rich-text__wrapper page-width rich-text__wrapper--{{ section.settings.text_alignment }}">
+  <div class="rich-text__wrapper flex flex-column items-center text-center {{ section.settings.container_width }} rich-text__wrapper--{{ section.settings.text_alignment }}">
     {%- if section.settings.heading != blank -%}
       <h2 class="rich-text__heading heading heading--{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
     {%- endif -%}
@@ -17,11 +24,11 @@
 
     {%- if section.settings.button_label != blank -%}
       <div class="rich-text__buttons">
-        {%- if section.settings.button_link != blank -%}
-          <a href="{{ section.settings.button_link }}" class="button">{{ section.settings.button_label | escape }}</a>
-        {%- else -%}
-          <span class="button button--disabled" role="link" aria-disabled="true">{{ section.settings.button_label | escape }}</span>
-        {%- endif -%}
+        {%- render 'button',
+          label: section.settings.button_label,
+          url: section.settings.button_link,
+          button_style: section.settings.button_style
+        -%}
       </div>
     {%- endif -%}
   </div>
@@ -69,6 +76,26 @@
     },
     {
       "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "default": "primary",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "link",
+          "label": "link"
+        }
+      ]
+    },
+    {
+      "type": "select",
       "id": "text_alignment",
       "label": "Text alignment",
       "options": [
@@ -86,27 +113,63 @@
     },
     {
       "type": "header",
-      "content": "Spacing"
+      "content": "Layout"
     },
     {
-      "type": "range",
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "default": "container-standard",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        },
+        {
+          "value": "container-padded",
+          "label": "Full Width (Padded)"
+        },
+        {
+          "value": "container-standard",
+          "label": "Standard"
+        },
+        {
+          "value": "container-narrow",
+          "label": "Narrow"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Spacing Desktop"
+    },
+    {
+      "type": "number",
       "id": "padding_top",
-      "label": "Top padding",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 48
+      "label": "Top spacing (px)",
+      "default": 0
     },
     {
-      "type": "range",
+      "type": "number",
       "id": "padding_bottom",
-      "label": "Bottom padding",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "default": 48
+      "label": "Bottom spacing (px)",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Spacing Mobile"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_m",
+      "label": "Top spacing (px)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_m",
+      "label": "Bottom spacing (px)",
+      "default": 0
     }
   ],
   "presets": [

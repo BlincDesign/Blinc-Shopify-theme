@@ -23,7 +23,9 @@
 
     {{ content_for_header }}
 
+    {{ 'utils.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    
     {% render 'color-schemes' %}
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
 
@@ -60,12 +62,47 @@
         --heading-size-xl-desktop: {{ settings.heading_size_xl_desktop }}px;
         --heading-size-xxl-desktop: {{ settings.heading_size_xxl_desktop }}px;
 
-        --page-width: {{ settings.page_width }}px;
+        --page-width: {{ settings.container_standard_width | default: 1280 }}px;
+        --container-standard-width: {{ settings.container_standard_width | default: 1280 }}px;
+        --container-narrow-width: {{ settings.container_narrow_width | default: 960 }}px;
+
+        {%- comment -%} Grid variables (fall back values) {%- endcomment -%}
+        --grid-columns-desktop: 4;
+        --grid-columns-tablet: 3;
+        --grid-columns-mobile: 1;
+
+        {%- if settings.layout_style == 'compact' -%}
+          --layout-padding-desktop: 32px;
+          --layout-gap-desktop: 16px;
+
+          --layout-padding-tablet: 24px;
+          --layout-gap-tablet: 12px;
+
+          --layout-padding-mobile: 12px;
+          --layout-gap-mobile: 8px;
+        {%- else -%}
+          --layout-padding-desktop: 50px;
+          --layout-gap-desktop: 24px;
+
+          --layout-padding-tablet: 32px;
+          --layout-gap-tablet: 20px;
+
+          --layout-padding-mobile: 16px;
+          --layout-gap-mobile: 16px;
+        {%- endif -%}
+
+        --button-font-family: {{ settings.button_font.family }}, {{ settings.button_font.fallback_families }};
+        --button-font-size: {{ settings.button_font_size }}px;
+        --button-font-size-mobile: {{ settings.button_font_size_mobile }}px;
+        --button-text-transform: {% if settings.button_uppercase %}uppercase{% else %}none{% endif %};
+        --button-letter-spacing: calc(var(--button-font-size) * {{ settings.button_letter_spacing }} / 100);
+        --button-border-radius: {{ settings.button_border_radius }}%;
       }
+      {{ settings.button_font | font_face: font_display: 'swap' }}
     {%- endstyle -%}
   </head>
 
-  <body class="template-{{ request.page_type }}">
+  <body class="template-{{ request.page_type }} flex flex-column">
     <a class="skip-to-content-link visually-hidden" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
     {% sections 'header-group' %}
