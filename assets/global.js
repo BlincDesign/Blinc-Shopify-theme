@@ -37,7 +37,6 @@ class StickyHeader extends HTMLElement {
 }
 
 customElements.define('sticky-header', StickyHeader);
-
 class Slider {
     constructor(options = {}) {
         const themeDefaults = window.theme.settings.slider ?? {};
@@ -46,7 +45,11 @@ class Slider {
     }
 
     init(container = document) {
-        Utils.safeQueryAll('[data-slider]', container).forEach((slider) => this.initOne(slider));
+        try {
+            container.querySelectorAll('[data-slider]').forEach((slider) => this.initOne(slider));
+        } catch (error) {
+            console.error('Slider initialization failed:', error);
+        }
     }
 
     initOne(slider) {
@@ -63,7 +66,11 @@ class Slider {
     }
 
     destroy(container = document) {
-        Utils.safeQueryAll('[data-slider]', container).forEach((slider) => this.destroyOne(slider));
+        try {
+            container.querySelectorAll('[data-slider]').forEach((slider) => this.destroyOne(slider));
+        } catch (error) {
+            console.error('Slider destruction failed:', error);
+        }
     }
 
     destroyOne(slider) {
@@ -130,6 +137,7 @@ class Slider {
         for (const key of Object.keys(overrides)) {
             const defaultVal = defaults[key];
             const overrideVal = overrides[key];
+
             if (isPlainObject(defaultVal) && isPlainObject(overrideVal)) {
                 output[key] = this.merge(defaultVal, overrideVal);
             }
