@@ -681,24 +681,19 @@ details[open]>.header__nav-link .icon--chevron {
 .product-card__carousel {
     display: block;
     height: 100%;
+    position: relative;
 }
 
 .product-card__carousel-track {
     height: 100%;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-}
-
-.product-card__carousel-track::-webkit-scrollbar {
-    display: none;
+    overflow: hidden;
 }
 
 .product-card__carousel-slide {
     position: relative;
     flex: 0 0 100%;
+    width: 100%;
     height: 100%;
-    scroll-snap-align: start;
 }
 
 .product-card__carousel-nav {

@@ -35,10 +35,15 @@
   <div class="product-card__media-link" tabindex="-1">
     <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
       {%- if settings.media_style == 'slider' -%}
-        <carousel-slider class="product-card__carousel" data-loop="{{ settings.slider_loop }}">
-          <div class="product-card__carousel-track flex" data-carousel-track>
+        {%- capture slider_config -%}
+          {
+            "loop": {{ settings.slider_loop | json }}
+          }
+        {%- endcapture -%}
+        <div class="product-card__carousel swiper" data-slider data-config='{{ slider_config | strip | replace: '\n', ' ' }}'>
+          <div class="product-card__carousel-track flex swiper-wrapper" data-carousel-track>
             {%- for i in (1..slide_count) -%}
-              <div class="product-card__carousel-slide" data-carousel-slide>
+              <div class="product-card__carousel-slide swiper-slide" data-carousel-slide>
                 {%- render 'image', aspect_ratio: aspect_ratio_css, placeholder: media_placeholder -%}
               </div>
             {%- endfor -%}
@@ -52,13 +57,9 @@
           </button>
 
           {%- if settings.slider_navigation_style != 'hidden' -%}
-            <div class="product-card__carousel-dots product-card__carousel-dots--{{ settings.slider_navigation_style }} flex items-center">
-              {%- for i in (1..slide_count) -%}
-                <span class="product-card__carousel-dot{% if forloop.first %} is-active{% endif %}"></span>
-              {%- endfor -%}
-            </div>
+            <div class="product-card__carousel-dots product-card__carousel-dots--{{ settings.slider_navigation_style }} flex items-center" data-carousel-dots></div>
           {%- endif -%}
-        </carousel-slider>
+        </div>
       {%- else -%}
         {%- render 'image', aspect_ratio: aspect_ratio_css, placeholder: media_placeholder -%}
       {%- endif -%}
