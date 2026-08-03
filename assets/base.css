@@ -605,12 +605,12 @@ details[open]>.header__nav-link .icon--chevron {
     display: block;
 }
 
-.product-card__media {
+/* .product-card__media {
     position: relative;
     overflow: hidden;
     border-radius: 4px;
     background: rgb(var(--color-border, 230, 230, 230));
-}
+} */
 
 .product-card__media img,
 .product-card__media .placeholder-svg {
