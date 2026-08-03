@@ -49,7 +49,7 @@ const Utils = {
 
 class Slider {
     constructor(options = {}) {
-        const themeDefaults = window.theme.slider.defaults ?? || {};
+        const themeDefaults = window.theme.settings.slider ?? {};
         this.defaults = this.merge(themeDefaults);
         this.instances = new Map();
     }
@@ -100,10 +100,10 @@ class Slider {
 
         const config = this.merge(this.defaults, overrides);
 
-        const prevEl = slider.querySelector('.swiper-button-prev');
-        const nextEl = slider.querySelector('.swiper-button-next');
-        const scrollbarEl = slider.querySelector('.swiper-scrollbar');
-        const paginationEl = slider.querySelector('.swiper-pagination');
+        const prevEl = slider.querySelector('[slider-prev]');
+        const nextEl = slider.querySelector('[slider-next]');
+        const scrollbarEl = slider.querySelector('[slider-scrollbar]');
+        const paginationEl = slider.querySelector('[slider-pagination]');
 
         if (prevEl && nextEl) {
             config.navigation = {
@@ -157,9 +157,8 @@ function isPlainObject(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
-window.theme = {};
-window.theme.slider.settings = {};
-window.theme.slider = new Slider();
+window.theme = window.theme || {};
+window.theme.settings = window.theme.settings || {};
 
 document.addEventListener('DOMContentLoaded', () => {
     window.theme.slider.init();
