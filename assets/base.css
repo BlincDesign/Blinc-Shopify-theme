@@ -595,13 +595,10 @@ details[open]>.header__nav-link .icon--chevron {
 
 
 /* Product card */
-.product-grid__item{
-  overflow: hidden;
-}
-
 
 .product-card {
     position: relative;
+    overflow: hidden;
 }
 
 .product-card__media-link {
