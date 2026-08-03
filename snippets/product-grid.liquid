@@ -27,7 +27,7 @@
   assign placeholder_count = placeholder_count | default: 8
 -%}
 
-<div class="product-grid grid">
+<div class="product-grid">
   {%- if products.size > 0 -%}
     {%- for product in products limit: limit -%}
       {%- capture media_placeholder -%}{%- cycle 'product-1', 'product-2', 'product-3', 'product-4', 'product-5', 'product-6' -%}{%- endcapture -%}
