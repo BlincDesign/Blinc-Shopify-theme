@@ -25,7 +25,15 @@
 
     {{ 'utils.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
+
     
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+
     {% render 'color-schemes' %}
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
 
@@ -72,23 +80,15 @@
         --grid-columns-mobile: 1;
 
         {%- if settings.layout_style == 'compact' -%}
-          --layout-padding-desktop: 32px;
           --layout-gap-desktop: 16px;
 
           --layout-padding-tablet: 24px;
-          --layout-gap-tablet: 12px;
 
           --layout-padding-mobile: 12px;
-          --layout-gap-mobile: 8px;
         {%- else -%}
           --layout-padding-desktop: 50px;
-          --layout-gap-desktop: 24px;
-
-          --layout-padding-tablet: 32px;
-          --layout-gap-tablet: 20px;
 
           --layout-padding-mobile: 16px;
-          --layout-gap-mobile: 16px;
         {%- endif -%}
 
         --button-font-family: {{ settings.button_font.family }}, {{ settings.button_font.fallback_families }};
