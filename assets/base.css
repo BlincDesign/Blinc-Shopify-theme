@@ -573,7 +573,6 @@ details[open]>.header__nav-link .icon--chevron {
 .product-grid {
     grid-template-columns: repeat(var(--grid-columns-mobile, 1), 1fr);
     gap: var(--layout-gap-mobile, 16px);
-    overflow: hidden;
 }
 
 @media screen and (min-width: 749px) and (max-width: 1023px) {
@@ -599,6 +598,7 @@ details[open]>.header__nav-link .icon--chevron {
 
 .product-card {
     position: relative;
+    overflow: hidden;
 }
 
 .product-card__media-link {
