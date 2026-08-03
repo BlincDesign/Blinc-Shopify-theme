@@ -59,17 +59,11 @@ class Slider {
     }
 
     initOne(slider) {
-        if (slider.swiper || this.instances.has(slider)) return;
+        if (slider.swiper) return;
 
         try {
-            if (typeof window.Swiper === 'undefined') {
-                throw new Error('Swiper is not available');
-            }
-
-            const config = this.getConfig(slider);
-            const instance = new window.Swiper(slider, config);
-            slider.swiper = instance;
-            this.instances.set(slider, instance);
+            if (typeof window.Swiper === 'undefined') throw new Error('Swiper is not available');
+            slider.swiper = new window.Swiper(slider, this.getConfig(slider));
             delete slider.dataset.sliderError;
         } catch (error) {
             slider.dataset.sliderError = 'true';
@@ -82,11 +76,8 @@ class Slider {
     }
 
     destroyOne(slider) {
-        const instance = this.instances.get(slider) || slider.swiper;
-        if (!instance) return;
-
-        instance.destroy(true, true);
-        this.instances.delete(slider);
+        if (!slider.swiper) return;
+        slider.swiper.destroy(true, true);
         slider.swiper = null;
         delete slider.dataset.sliderError;
     }
@@ -99,40 +90,51 @@ class Slider {
     getConfig(slider) {
         let overrides = {};
 
-        if (slider.dataset.config) {
+        if (slider.dataset.sliderConfig) {
             try {
-                overrides = JSON.parse(slider.dataset.config);
+                overrides = JSON.parse(slider.dataset.sliderConfig);
             } catch (error) {
-                console.error('Invalid data-config JSON:', error, slider);
+                console.error('Invalid data-slider-config JSON:', error, slider);
             }
         }
 
         const config = this.merge(this.defaults, overrides);
-        const prevButton = slider.querySelector('[data-carousel-prev]');
-        const nextButton = slider.querySelector('[data-carousel-next]');
-        const paginationEl = slider.querySelector('[data-carousel-dots], [data-slider-pagination]');
 
-        if (prevButton && nextButton) {
-            config.navigation = config.navigation || {};
-            config.navigation.prevEl = prevButton;
-            config.navigation.nextEl = nextButton;
-            config.navigation.enabled = config.navigation.enabled !== false;
+        const prevEl = slider.querySelector('.swiper-button-prev');
+        const nextEl = slider.querySelector('.swiper-button-next');
+        const scrollbarEl = slider.querySelector('.swiper-scrollbar');
+        const paginationEl = slider.querySelector('.swiper-pagination');
+
+        if (prevEl && nextEl) {
+            config.navigation = {
+                ...config.navigation,
+                prevEl,
+                nextEl
+            };
         }
 
-        if (paginationEl) {
-            config.pagination = config.pagination || {};
-            config.pagination.el = paginationEl;
-            config.pagination.clickable = config.pagination.clickable !== false;
-            config.pagination.bulletClass = config.pagination.bulletClass || 'product-card__carousel-dot';
-            config.pagination.bulletActiveClass = config.pagination.bulletActiveClass || 'product-card__carousel-dot is-active';
-            config.pagination.enabled = config.pagination.enabled !== false;
+        if (scrollbarEl) {
+            config.scrollbar = {
+                draggable: true,
+                ...config.scrollbar,
+                el: scrollbarEl
+            };
+        } else if (paginationEl) {
+            config.pagination = {
+                clickable: true,
+                ...config.pagination,
+                el: paginationEl
+            };
         }
 
         return config;
     }
 
     merge(defaults = {}, overrides = {}) {
-        const output = {...defaults, ...overrides };
+        const output = {
+            ...defaults,
+            ...overrides
+        };
 
         for (const key of Object.keys(overrides)) {
             const defaultVal = defaults[key];
