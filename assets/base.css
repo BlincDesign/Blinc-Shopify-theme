@@ -678,7 +678,7 @@ details[open]>.header__nav-link .icon--chevron {
 
 /* Product card - carousel */
 
-.product-card__carousel {
+/* .product-card__carousel {
     display: block;
     height: 100%;
     position: relative;
@@ -687,7 +687,7 @@ details[open]>.header__nav-link .icon--chevron {
 .product-card__carousel-track {
     height: 100%;
     overflow: hidden;
-}
+} */
 
 /* .product-card__carousel-slide {
     position: relative;
