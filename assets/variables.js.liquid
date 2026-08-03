@@ -1,20 +1,11 @@
+// variables.js.liquid
 window.theme = window.theme || {};
-
-window.theme.slider = window.theme.slider || {};
-
-window.theme.slider.defaults = {
-slidesPerView: 1,
-spaceBetween: 16,
-
-breakpoints: {
-    750: {
-    slidesPerView: 3,
-    spaceBetween: 16
-    },
-
-    990: {
-    slidesPerView: 4,
-    spaceBetween: 16
-    }
-}
+window.theme.settings = window.theme.settings || {};
+window.theme.settings.slider = {
+  slidesPerView: 1,
+  spaceBetween: 16,
+  breakpoints: {
+    750: { slidesPerView: 3, spaceBetween: 16 },
+    990: { slidesPerView: 4, spaceBetween: 16 },
+  },
 };
