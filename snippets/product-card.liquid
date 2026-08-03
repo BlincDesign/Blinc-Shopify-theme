@@ -58,7 +58,7 @@
 -%}
 
 <div class="product-card flex flex-column">
-  <a href="{{ product.url }}" class="product-card__media-link">
+  {% comment %} <a href="{{ product.url }}" class="product-card__media-link"> {% endcomment %}
     <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
       {%- if settings.media_style == 'slider' and gallery_media.size > 1 -%}
         <div class="product-card__carousel"  data-slider data-slider-config='{
@@ -159,7 +159,7 @@
         {%- endform -%}
       </div>
     {%- endif -%}
-  </a>
+  {% comment %} </a> {% endcomment %}
 
   <div class="product-card__info flex flex-column{% if settings.information_on_hover %} product-card__info--overlay{% endif %}">
     {%- if settings.show_vendor and product.vendor != blank -%}
