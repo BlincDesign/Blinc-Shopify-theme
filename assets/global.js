@@ -49,8 +49,8 @@ const Utils = {
 
 class Slider {
     constructor(options = {}) {
-        const themeDefaults = (window.theme && window.theme.settings && window.theme.settings.slider) || {};
-        this.defaults = this.merge(themeDefaults, options.defaults || {});
+        const themeDefaults = window.theme.slider.defaults ?? || {};
+        this.defaults = this.merge(themeDefaults);
         this.instances = new Map();
     }
 
