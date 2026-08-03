@@ -64,7 +64,12 @@
         <div class="product-card__carousel">
           <div class="swiper-wrapper">
             {%- for media in gallery_media -%}
-              <div class="product-card__carousel-slide" data-carousel-slide>
+              <div class="product-card__carousel-slide" data-carousel-slide
+                data-slider-config='{
+                    "loop": false,
+                    "slidesPerView": 3
+                }'
+              >
                 {%- render 'image', image: media.preview_image, aspect_ratio: aspect_ratio_css, width: 600, sizes: '(min-width: 1024px) 25vw, (min-width: 749px) 33vw, 100vw' -%}
                 {%- unless media.media_type == 'image' -%}
                   <span class="product-card__video-badge items-center justify-center">{%- render 'icon', name: 'play' -%}</span>
