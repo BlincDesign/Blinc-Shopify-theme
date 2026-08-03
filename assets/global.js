@@ -156,19 +156,13 @@ class Slider {
     }
 }
 
-function isPlainObject(value) {
-    return value !== null && typeof value === 'object' && !Array.isArray(value);
-}
-
-window.theme.slider = new Slider();
-
-document.addEventListener('DOMContentLoaded', () => {
+function bootSlider() {
     window.theme.slider.init();
     window.theme.slider.bindShopifySections();
-});
+}
 
-document.addEventListener('change', (event) => {
-    if (event.target.matches('[data-localization-form-select]')) {
-        event.target.form.submit();
-    }
-});
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootSlider);
+} else {
+    bootSlider();
+}
