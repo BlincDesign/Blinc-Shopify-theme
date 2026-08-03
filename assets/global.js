@@ -157,8 +157,8 @@ function isPlainObject(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
-window.theme = window.theme || {};
-window.theme.settings = window.theme.settings || {};
+window.theme = {};
+window.theme.slider.settings = {};
 window.theme.slider = new Slider();
 
 document.addEventListener('DOMContentLoaded', () => {
