@@ -38,18 +38,6 @@ class StickyHeader extends HTMLElement {
 
 customElements.define('sticky-header', StickyHeader);
 
-const Utils = {
-    safeQueryAll(selector, container = document) {
-        try {
-            if (!container || typeof container.querySelectorAll !== 'function') return [];
-            return Array.from(container.querySelectorAll(selector));
-        } catch (error) {
-            console.error('safeQueryAll failed:', error);
-            return [];
-        }
-    }
-};
-
 class Slider {
     constructor(options = {}) {
         const themeDefaults = window.theme.settings.slider ?? {};
