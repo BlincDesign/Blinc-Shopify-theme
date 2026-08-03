@@ -58,18 +58,13 @@
 -%}
 
 <div class="product-card flex flex-column">
-  <div class="product-card__media-link">
+  <a href="{{ product.url }}" class="product-card__media-link">
     <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
       {%- if settings.media_style == 'slider' and gallery_media.size > 1 -%}
-        {%- capture slider_config -%}
-          {
-            "loop": {{ settings.slider_loop | json }}
-          }
-        {%- endcapture -%}
-        <div class="product-card__carousel swiper" data-slider data-config='{{ slider_config | strip | replace: '\n', ' ' }}'>
-          <div class="product-card__carousel-track flex swiper-wrapper" data-carousel-track>
+        <div class="product-card__carousel">
+          <div class="swiper-wrapper">
             {%- for media in gallery_media -%}
-              <div class="product-card__carousel-slide swiper-slide" data-carousel-slide>
+              <div class="product-card__carousel-slide" data-carousel-slide>
                 {%- render 'image', image: media.preview_image, aspect_ratio: aspect_ratio_css, width: 600, sizes: '(min-width: 1024px) 25vw, (min-width: 749px) 33vw, 100vw' -%}
                 {%- unless media.media_type == 'image' -%}
                   <span class="product-card__video-badge items-center justify-center">{%- render 'icon', name: 'play' -%}</span>
@@ -86,7 +81,11 @@
           </button>
 
           {%- if settings.slider_navigation_style != 'hidden' -%}
-            <div class="product-card__carousel-dots product-card__carousel-dots--{{ settings.slider_navigation_style }} flex items-center" data-carousel-dots></div>
+            <div class="product-card__carousel-dots product-card__carousel-dots--{{ settings.slider_navigation_style }} flex items-center">
+              {%- for media in gallery_media -%}
+                <button type="button" class="product-card__carousel-dot{% if forloop.first %} is-active{% endif %}" data-carousel-dot aria-label="{{ 'products.product.go_to_image' | t: number: forloop.index }}"{% if forloop.first %} aria-current="true"{% endif %}></button>
+              {%- endfor -%}
+            </div>
           {%- endif -%}
         </div>
       {%- else -%}
@@ -157,7 +156,7 @@
         {%- endform -%}
       </div>
     {%- endif -%}
-  </div>
+  </a>
 
   <div class="product-card__info flex flex-column{% if settings.information_on_hover %} product-card__info--overlay{% endif %}">
     {%- if settings.show_vendor and product.vendor != blank -%}
