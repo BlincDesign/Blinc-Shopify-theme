@@ -160,6 +160,8 @@ function isPlainObject(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
+window.theme.slider = new Slider();
+
 document.addEventListener('DOMContentLoaded', () => {
     window.theme.slider.init();
     window.theme.slider.bindShopifySections();
