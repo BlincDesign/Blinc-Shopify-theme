@@ -1,3 +1,6 @@
+window.theme = window.theme || {};
+window.theme.settings = window.theme.settings || {};
+
 class StickyHeader extends HTMLElement {
     constructor() {
         super();
@@ -156,9 +159,6 @@ class Slider {
 function isPlainObject(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
-
-window.theme = window.theme || {};
-window.theme.settings = window.theme.settings || {};
 
 document.addEventListener('DOMContentLoaded', () => {
     window.theme.slider.init();
