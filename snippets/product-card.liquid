@@ -61,7 +61,7 @@
   {% comment %} <a href="{{ product.url }}" class="product-card__media-link"> {% endcomment %}
     <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
       {%- if settings.media_style == 'slider' and gallery_media.size > 1 -%}
-        <div class="product-card__carousel swiper"  data-slider data-slider-config='{
+        <div class="product-card__carousel"  data-slider data-slider-config='{
                     "loop": false,
                     "slidesPerView": 1
                 }'>
