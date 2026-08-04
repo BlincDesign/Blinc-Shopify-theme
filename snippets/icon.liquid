@@ -4,7 +4,7 @@
   Accepts: 'account', 'chevron', 'cart', 'play'
 {%- endcomment -%}
 
-<span class="icon" data-icon="{{ name }}" aria-label="{{ name }}" style="--icon-size: {{ size }}px;">
+<span class="icon" data-icon="{{ name }}" aria-label="{{ name }}" style="--icon-size: {{ size | default: 16 }}px;">
   {%- case name -%}
     {%- when 'account' -%}
       <svg
