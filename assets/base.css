@@ -32,6 +32,16 @@ a {
     text-decoration: none;
 }
 
+.icon {
+    height: var(--icon-size);
+    width: var(--icon-size);
+    display: block;
+}
+
+.icon svg {
+    width: 100%;
+    height: 100%;
+}
 
 /* Image */
 
