@@ -1,10 +1,15 @@
 {%- comment -%}
   Renders an inline SVG icon.
-  Usage: {% render 'icon', name: 'account', size: 16 %}
+  Usage: {% render 'icon', name: 'account', class: 'account' size: 16 %}
   Accepts: 'account', 'chevron', 'cart', 'play'
 {%- endcomment -%}
 
-<span class="icon" data-icon="{{ name }}" aria-label="{{ name }}" style="--icon-size: {{ size | default: 16 }}px;">
+<span
+  class="icon {{ class }}"
+  data-icon="{{ name }}"
+  aria-label="{{ name }}"
+  style="--icon-size: {{ size | default: 16 }}px;"
+>
   {%- case name -%}
     {%- when 'account' -%}
       <svg
@@ -22,18 +27,8 @@
         <path d="M4.5 19.25c1.4-3.6 4.4-5.5 7.5-5.5s6.1 1.9 7.5 5.5"></path>
       </svg>
     {%- when 'chevron' -%}
-      <svg
-        class="icon icon--chevron"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path d="M6 9l6 6 6-6"></path>
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+        <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
       </svg>
     {%- when 'cart' -%}
       <svg
