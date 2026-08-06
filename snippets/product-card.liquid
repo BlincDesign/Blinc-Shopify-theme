@@ -55,12 +55,17 @@
     else
       assign title_class = 'text-body'
   endcase
+
+  assign is_slider = false
+  if settings.grid_media_style == 'slider' and gallery_media.size > 1
+    assign is_slider = true
+  endif
 -%}
 
 <div class="product-card flex flex-column">
-  {% comment %} <a href="{{ product.url }}" class="product-card__media-link"> {% endcomment %}
+  {% if is_slider %} <a href="{{ product.url }}" class="product-card__media-link"> {% endif %}
   <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
-    {%- if settings.media_style == 'slider' and gallery_media.size > 1 -%}
+    {%- if is_slider -%}
       <div
         class="product-card__carousel"
         data-slider
@@ -115,7 +120,7 @@
         class: 'product-card__media-primary'
       -%}
 
-      {%- if settings.media_style == 'hover_image' and product.media[1] -%}
+      {%- if settings.grid_media_style == 'hover_image' and product.media[1] -%}
         {%- render 'image',
           image: product.media[1].preview_image,
           aspect_ratio: aspect_ratio_css,
@@ -197,7 +202,7 @@
       {%- endform -%}
     </div>
   {%- endif -%}
-  {% comment %} </a> {% endcomment %}
+  {% if is_slider %} </a> {% endif %}
 
   <div class="product-card__info flex flex-column{% if settings.information_on_hover %} product-card__info--overlay{% endif %}">
     {%- if settings.show_vendor and product.vendor != blank -%}
