@@ -26,10 +26,17 @@
         <circle cx="12" cy="8" r="3.25"></circle>
         <path d="M4.5 19.25c1.4-3.6 4.4-5.5 7.5-5.5s6.1 1.9 7.5 5.5"></path>
       </svg>
-    {%- when 'chevron' -%}
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+
+    {%- when 'chevron-right' -%}
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
         <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/>
       </svg>
+
+    {%- when 'chevron-left' -%}
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+        <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/>
+      </svg>
+
     {%- when 'cart' -%}
       <svg
         class="icon icon--cart"
