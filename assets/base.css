@@ -619,12 +619,25 @@ details[open]>.header__nav-link .icon--chevron {
     display: block;
 }
 
-/* .product-card__media {
-    position: relative;
-    overflow: hidden;
-    border-radius: 4px;
-    background: rgb(var(--color-border, 230, 230, 230));
-} */
+.product-card__carousel {
+  position: relative;    
+}
+
+
+.product-card__carousel .product-card__carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(calc(-50% + 10px));
+    z-index: 1;
+    background: none;
+    border: none;
+    padding:10px;
+    cursor: pointer;
+}
+
+.product-card__carousel .product-card__carousel-btn--next {
+    right: 0;
+}
 
 .product-card__media img,
 .product-card__media .placeholder-svg {
