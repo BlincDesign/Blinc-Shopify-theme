@@ -110,35 +110,6 @@
         >
           {%- render 'icon', name: 'chevron-right' -%}
         </button>
-
-        {%- if settings.grid_button_action == 'quick_add' -%}
-          {%- form 'product', product, class: 'product-card__atc-form' -%}
-            <input type="hidden" name="id" value="{{ current_variant.id }}">
-            <button
-              type="submit"
-              class="product-card__atc-icon items-center justify-center"
-              aria-label="{{ 'products.product.add_to_cart' | t }}"
-              {%- unless is_available %}
-                disabled
-              {% endunless -%}
-            >
-              {%- render 'icon', name: 'cart' -%}
-            </button>
-          {%- endform -%}
-        {%- elsif settings.grid_button_action == 'add_to_cart' -%}
-          <div class="product-card__atc-hover">
-            {%- form 'product', product, class: 'product-card__atc-form' -%}
-              <input type="hidden" name="id" value="{{ current_variant.id }}">
-              {%- render 'button',
-                label: atc_label,
-                type: 'submit',
-                name: 'add',
-                button_style: 'primary',
-                class: 'product-card__atc-button'
-              -%}
-            {%- endform -%}
-          </div>
-        {%- endif -%}
       </div>
     {%- else -%}
       {%- render 'image',
@@ -178,7 +149,61 @@
         {%- endunless -%}
       </div>
     {%- endif -%}
+
+    {%- if settings.grid_button_action == 'quick_add' -%}
+      {%- form 'product', product, class: 'product-card__atc-form' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+        <button
+          type="submit"
+          class="product-card__atc-icon items-center justify-center"
+          aria-label="{{ 'products.product.add_to_cart' | t }}"
+          {%- unless is_available %}
+            disabled
+          {% endunless -%}
+        >
+          {%- render 'icon', name: 'cart' -%}
+        </button>
+      {%- endform -%}
+    {%- elsif settings.grid_button_action == 'add_to_cart' -%}
+      <div class="product-card__atc-hover">
+        {%- form 'product', product, class: 'product-card__atc-form' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {%- render 'button',
+            label: atc_label,
+            type: 'submit',
+            name: 'add',
+            button_style: 'primary',
+            class: 'product-card__atc-button'
+          -%}
+        {%- endform -%}
+      </div>
+    {%- endif -%}
   </div>
+
+  {% comment %}
+    {%- if settings.show_swatches and color_option -%}
+      <div class="product-card__swatches flex items-center">
+        {%- for value in color_option.values limit: 6 -%}
+          <span
+            class="product-card__swatch"
+            title="{{ value.name }}"
+            {%- if value.swatch.color %}
+              style="background-color: {{ value.swatch.color }};"
+            {% endif -%}
+          >
+            {%- if value.swatch.image -%}
+              {%- render 'image', image: value.swatch.image, width: 40, sizes: '20px', fill: true -%}
+            {%- endif -%}
+          </span>
+        {%- endfor -%}
+        {%- if color_option.values.size > 6 -%}
+          <span class="product-card__swatch product-card__swatch--more items-center justify-center"
+            >+{{ color_option.values.size | minus: 6 -}}
+          </span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {% endcomment %}
 
   {% unless is_slider %} </a> {% endunless %}
 
