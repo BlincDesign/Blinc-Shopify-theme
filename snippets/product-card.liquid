@@ -77,10 +77,10 @@
           </div>
 
           <button type="button" class="product-card__carousel-btn product-card__carousel-btn--prev items-center justify-center" slider-prev aria-label="{{ 'products.product.previous_image' | t }}">
-            {%- render 'icon', name: 'chevron' -%}
+            {%- render 'icon', name: 'chevron-left' -%}
           </button>
           <button type="button" class="product-card__carousel-btn product-card__carousel-btn--next items-center justify-center" slider-next aria-label="{{ 'products.product.next_image' | t }}">
-            {%- render 'icon', name: 'chevron' -%}
+            {%- render 'icon', name: 'chevron-right' -%}
           </button>
 
           {%- if settings.slider_navigation_style != 'hidden' -%}
