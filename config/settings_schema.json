@@ -501,7 +501,7 @@
       },
       {
         "type": "select",
-        "id": "media_style",
+        "id": "grid_media_style",
         "label": "Media Style",
         "default": "hover_image",
         "options": [
@@ -527,13 +527,13 @@
       },
       {
         "type": "checkbox",
-        "id": "slider_loop",
+        "id": "grid_slider_loop",
         "label": "Loop Media Slider",
         "default": false
       },
       {
         "type": "range",
-        "id": "image_aspect_ratio",
+        "id": "grid_image_aspect_ratio",
         "label": "Image Aspect Ratio",
         "info": "Higher values make product images taller.",
         "min": 0.8,
