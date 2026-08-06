@@ -578,7 +578,30 @@ details[open]>.header__nav-link .icon--chevron {
 }
 
 
+/* Product grid */
 
+.product-grid {
+    grid-template-columns: repeat(var(--grid-columns-mobile, 1), 1fr);
+    gap: var(--layout-gap-mobile, 16px);
+}
+
+@media screen and (min-width: 749px) and (max-width: 1023px) {
+    .product-grid {
+        grid-template-columns: repeat(var(--grid-columns-tablet, 3), 1fr);
+        gap: var(--layout-gap-tablet, 32px);
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(var(--grid-columns-desktop, 4), 1fr);
+        gap: var(--layout-gap-desktop);
+    }
+}
+
+.text-body--small {
+    font-size: 0.8125rem;
+}
 
 /* Featured collection */
 
