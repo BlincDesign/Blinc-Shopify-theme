@@ -63,7 +63,7 @@
 -%}
 
 <div class="product-card flex flex-column">
-  {% if is_slider %} <a href="{{ product.url }}" class="product-card__media-link"> {% endif %}
+  {% unless is_slider %} <a href="{{ product.url }}" class="product-card__media-link"> {% endunless %}
   <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
     {%- if is_slider -%}
       <div
@@ -202,7 +202,7 @@
       {%- endform -%}
     </div>
   {%- endif -%}
-  {% if is_slider %} </a> {% endif %}
+  {% unless is_slider %} </a> {% endunless %}
 
   <div class="product-card__info flex flex-column{% if settings.information_on_hover %} product-card__info--overlay{% endif %}">
     {%- if settings.show_vendor and product.vendor != blank -%}
