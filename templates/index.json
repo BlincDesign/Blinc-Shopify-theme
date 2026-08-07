@@ -62,40 +62,52 @@
         "heading_R8caAp": {
           "type": "heading",
           "settings": {
-            "heading": "Talk about your brand",
+            "heading": "BESPOKE TILE DESIGN SERVICE",
             "heading_size": "large"
           }
         },
         "text_bbwBzJ": {
           "type": "text",
           "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+            "text": "<p>Whether you’re after a bold mural, a rework of an existing design, a brand new geometric, or a delicate floral repeat, no idea is too big or too small.</p>",
             "text_size": "regular"
           }
         },
-        "buttons_AF7b6W": {
-          "type": "buttons",
+        "text_rJAJj7": {
+          "type": "text",
           "settings": {
-            "button_1_label": "Shop now",
-            "button_1_link": "",
-            "button_1_style": "primary",
-            "button_2_label": "",
-            "button_2_link": "",
-            "button_2_style": "link"
+            "text": "<p>Not sure where to begin? Petra will personally guide and inspire you with her creative eye and expertise.</p>",
+            "text_size": "regular"
+          }
+        },
+        "text_Yhr9UF": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Bespoke Tile Design starts from £100 per design. Additional copies are priced as standard.</p>",
+            "text_size": "regular"
+          }
+        },
+        "text_jMV8w9": {
+          "type": "text",
+          "settings": {
+            "text": "<p>To start your project, drop us a line at <a href=\"mailto:creative@petrapalumbo.com\" target=\"_blank\">creative@petrapalumbo.com</a>, we’d love to hear from you.</p>",
+            "text_size": "regular"
           }
         }
       },
       "block_order": [
         "heading_R8caAp",
         "text_bbwBzJ",
-        "buttons_AF7b6W"
+        "text_rJAJj7",
+        "text_Yhr9UF",
+        "text_jMV8w9"
       ],
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
         "image_ratio": "portrait",
         "media_position": "left",
-        "text_alignment": "left",
+        "text_alignment": "center",
         "color_scheme": "",
         "container_width": "container-standard",
         "padding_top": 0,
