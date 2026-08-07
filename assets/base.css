@@ -202,7 +202,7 @@ h6,
 }
 
 .rte-column .column {
-    margin-bottom: var(--layout-gutter-small);
+    margin-bottom: 1rem;
 }
 
 .rte-column .column:last-child {
