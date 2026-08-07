@@ -35,6 +35,7 @@
     "show_vendor": true,
     "show_sku": true,
     "show_badges": true,
+    "grid_media_style": "slider",
     "media_style": "single",
     "page_width": 1400,
     "content_for_index": [],
