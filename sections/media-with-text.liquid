@@ -30,7 +30,7 @@
 {%- endstyle -%}
 
 <div class="media-with-text color-{{ section.settings.color_scheme }}">
-  <div class="media-with-text__wrapper {{ section.settings.container_width }} flex {% if section.settings.media_position == "right" %} flex-reverse{% endif %}">
+  <div class="media-with-text__wrapper {{ section.settings.container_width }} flex mobile-flex-column {% if section.settings.media_position == "right" %} flex-reverse{% endif %}">
     <div class="media-with-text__media flex-grow">
       {%- if section.settings.video != blank -%}
         <div class="media-with-text__media-video" style="aspect-ratio: {{ aspect_ratio | default: '16 / 9' }};">
