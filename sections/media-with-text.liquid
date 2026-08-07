@@ -46,7 +46,7 @@
       {%- endif -%}
     </div>
 
-    <div class="media-with-text__content flex flex-column flex-grow text-{{ section.settings.text_alignment }} items-{{ section.settings.vertical_position }} rte-column">
+    <div class="media-with-text__content flex flex-column flex-grow text-{{ section.settings.text_alignment }} justify-{{ section.settings.vertical_position }} rte-column">
       {%- render 'content-blocks', blocks: section.blocks -%}
     </div>
   </div>
