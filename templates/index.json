@@ -11,15 +11,44 @@
   "sections": {
     "rich_text": {
       "type": "rich-text",
+      "blocks": {
+        "caption_yw7t3W": {
+          "type": "caption",
+          "settings": {
+            "caption": "Our story"
+          }
+        },
+        "heading_iAUNgM": {
+          "type": "heading",
+          "settings": {
+            "heading": "Your Vision, Our Expertise",
+            "heading_size": "large"
+          }
+        },
+        "text_7mnh44": {
+          "type": "text",
+          "settings": {
+            "text": "<p>From idea to installation, we can bring your vision to life. Whether it’s a custom layout, colour matching, tile sourcing or a one-of-a-kind design, our team are here to make it happen. Big or small, bold or subtle, murals, existing tweaks, florals or geometrics, if you can imagine it, we can create it. Or if you're not sure where to start, that’s where we come in, we’ll guide you with care and expertise every step of the way.</p>",
+            "text_size": "regular"
+          }
+        },
+        "text_8E8TCQ": {
+          "type": "text",
+          "settings": {
+            "text": "<p><em>Minimum tile order to include these services is £750.</em></p>",
+            "text_size": "regular"
+          }
+        }
+      },
+      "block_order": [
+        "caption_yw7t3W",
+        "heading_iAUNgM",
+        "text_7mnh44",
+        "text_8E8TCQ"
+      ],
       "settings": {
-        "heading": "Talk about your brand",
-        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-        "heading_size": "large",
-        "button_label": "",
-        "button_link": "",
-        "button_style": "primary",
         "text_alignment": "center",
-        "color_scheme": "",
+        "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac",
         "container_width": "container-standard",
         "padding_top": 48,
         "padding_bottom": 48,
@@ -71,12 +100,6 @@
     "rich_text_FpW8LN": {
       "type": "rich-text",
       "settings": {
-        "heading": "Talk about your brand",
-        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-        "heading_size": "large",
-        "button_label": "",
-        "button_link": "",
-        "button_style": "primary",
         "text_alignment": "center",
         "color_scheme": "",
         "container_width": "container-standard",
@@ -89,12 +112,6 @@
     "rich_text_ij9eKc": {
       "type": "rich-text",
       "settings": {
-        "heading": "Talk about your brand",
-        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-        "heading_size": "large",
-        "button_label": "",
-        "button_link": "",
-        "button_style": "primary",
         "text_alignment": "center",
         "color_scheme": "",
         "container_width": "container-standard",
@@ -107,12 +124,6 @@
     "rich_text_ne8dRx": {
       "type": "rich-text",
       "settings": {
-        "heading": "Talk about your brand",
-        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-        "heading_size": "large",
-        "button_label": "",
-        "button_link": "",
-        "button_style": "primary",
         "text_alignment": "center",
         "color_scheme": "",
         "container_width": "container-standard",
@@ -125,12 +136,6 @@
     "rich_text_HEFdMD": {
       "type": "rich-text",
       "settings": {
-        "heading": "Talk about your brand",
-        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-        "heading_size": "large",
-        "button_label": "",
-        "button_link": "",
-        "button_style": "primary",
         "text_alignment": "center",
         "color_scheme": "",
         "container_width": "container-standard",
@@ -143,12 +148,6 @@
     "rich_text_qpL8Qd": {
       "type": "rich-text",
       "settings": {
-        "heading": "Talk about your brand",
-        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-        "heading_size": "large",
-        "button_label": "",
-        "button_link": "",
-        "button_style": "primary",
         "text_alignment": "center",
         "color_scheme": "",
         "container_width": "container-standard",
@@ -161,12 +160,6 @@
     "rich_text_PKcEH7": {
       "type": "rich-text",
       "settings": {
-        "heading": "Talk about your brand",
-        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-        "heading_size": "large",
-        "button_label": "",
-        "button_link": "",
-        "button_style": "primary",
         "text_alignment": "center",
         "color_scheme": "",
         "container_width": "container-standard",
