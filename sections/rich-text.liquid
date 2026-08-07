@@ -13,7 +13,7 @@
 {%- endstyle -%}
 
 <div class="rich-text color-{{ section.settings.color_scheme }}">
-  <div class="rich-text__wrapper flex flex-column items-center text-center {{ section.settings.container_width }} rich-text__wrapper--{{ section.settings.text_alignment }}">
+  <div class="rich-text__wrapper flex flex-column items-center text-center {{ section.settings.container_width }} text-{{ section.settings.text_alignment }} justify-{{ section.settings.text_alignment }}">
     {%- render 'content-blocks', blocks: section.blocks -%}
   </div>
 </div>

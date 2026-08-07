@@ -565,25 +565,6 @@ details[open]>.header__nav-link .icon--chevron {
 }
 
 
-/* Rich text */
-
-.rich-text__wrapper {
-    gap: 1.25rem;
-    max-width: 720px;
-    margin: 0 auto;
-}
-
-.rich-text__wrapper--left {
-    align-items: flex-start;
-    text-align: left;
-}
-
-.rich-text__wrapper--right {
-    align-items: flex-end;
-    text-align: right;
-}
-
-
 /* Content blocks */
 
 .content-block__buttons {
