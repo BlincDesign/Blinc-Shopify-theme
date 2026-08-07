@@ -27,7 +27,7 @@
 
 <div class="media-with-text color-{{ section.settings.color_scheme }}">
   <div class="media-with-text__wrapper {{ section.settings.container_width }} flex {% if section.settings.media_position == "right" %} flex-reverse{% endif %}">
-    <div class="media-with-text__media">
+    <div class="media-with-text__media flex-grow">
       {%- if section.settings.video != blank -%}
         <div class="media-with-text__media-video" style="aspect-ratio: {{ aspect_ratio | default: '16 / 9' }};">
           {{ section.settings.video | video_tag: image_size: '1100x', loop: false, controls: true }}
@@ -42,7 +42,7 @@
       {%- endif -%}
     </div>
 
-    <div class="media-with-text__content flex flex-column media-with-text__content--{{ section.settings.text_alignment }}">
+    <div class="media-with-text__content flex flex-column flex-grow text-{{ section.settings.text_alignment }}">
       {%- render 'content-blocks', blocks: section.blocks -%}
     </div>
   </div>
