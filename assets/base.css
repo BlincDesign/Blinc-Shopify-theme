@@ -743,6 +743,7 @@ details[open]>.header__nav-link .icon--chevron {
     color: rgb(var(--color-button-label, 255, 255, 255));
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
+    z-index: 1;
 }
 
 .product-card__atc-icon:hover,
