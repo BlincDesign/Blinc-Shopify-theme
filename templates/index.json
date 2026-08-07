@@ -115,10 +115,71 @@
         "padding_top_m": 0,
         "padding_bottom_m": 0
       }
+    },
+    "media_with_text_ptN7Ah": {
+      "type": "media-with-text",
+      "blocks": {
+        "heading_AKpqcT": {
+          "type": "heading",
+          "settings": {
+            "heading": "BESPOKE TILE DESIGN SERVICE",
+            "heading_size": "medium"
+          }
+        },
+        "text_PMAdeH": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Whether you’re after a bold mural, a rework of an existing design, a brand new geometric, or a delicate floral repeat, no idea is too big or too small.</p>",
+            "text_size": "regular"
+          }
+        },
+        "text_HVyNUf": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Not sure where to begin? Petra will personally guide and inspire you with her creative eye and expertise.</p>",
+            "text_size": "regular"
+          }
+        },
+        "text_jGQjUa": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Bespoke Tile Design starts from £100 per design. Additional copies are priced as standard.</p>",
+            "text_size": "regular"
+          }
+        },
+        "text_3cHLfQ": {
+          "type": "text",
+          "settings": {
+            "text": "<p>To start your project, drop us a line at <a href=\"mailto:creative@petrapalumbo.com\" target=\"_blank\">creative@petrapalumbo.com</a>, we’d love to hear from you.</p>",
+            "text_size": "regular"
+          }
+        }
+      },
+      "block_order": [
+        "heading_AKpqcT",
+        "text_PMAdeH",
+        "text_HVyNUf",
+        "text_jGQjUa",
+        "text_3cHLfQ"
+      ],
+      "name": "Media with text",
+      "settings": {
+        "image": "shopify://shop_images/7_5a7a0c66-127e-41a1-8aa7-4965c7590b5d.webp",
+        "image_ratio": "adapt",
+        "media_position": "right",
+        "text_alignment": "center",
+        "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac",
+        "container_width": "container-padded",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_m": 0,
+        "padding_bottom_m": 0
+      }
     }
   },
   "order": [
     "rich_text",
-    "media_with_text_ML7CFL"
+    "media_with_text_ML7CFL",
+    "media_with_text_ptN7Ah"
   ]
 }
