@@ -46,7 +46,7 @@
       {%- endif -%}
     </div>
 
-    <div class="media-with-text__content flex flex-column flex-grow text-{{ section.settings.text_alignment }} rte-column">
+    <div class="media-with-text__content flex flex-column flex-grow text-{{ section.settings.text_alignment }} items-{{ section.settings.vertical_position }} rte-column">
       {%- render 'content-blocks', blocks: section.blocks -%}
     </div>
   </div>
@@ -100,6 +100,26 @@
         { "value": "right", "label": "Right" }
       ],
       "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "vertical_position",
+      "label": "Vertical position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Middle"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
     },
     {
       "type": "color_scheme",
@@ -289,11 +309,7 @@
   "presets": [
     {
       "name": "Media with text",
-      "blocks": [
-        { "type": "heading" },
-        { "type": "text" },
-        { "type": "buttons" }
-      ]
+      "blocks": [{ "type": "heading" }, { "type": "text" }, { "type": "buttons" }]
     }
   ]
 }
