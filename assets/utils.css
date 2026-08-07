@@ -12,6 +12,10 @@
     flex-direction: column;
 }
 
+.flex-reverse {
+    flex-direction: row-reverse;
+} 
+
 .items-center {
     align-items: center;
 }
