@@ -80,7 +80,6 @@ main {
     flex: 1 0 auto;
 }
 
-.page-width,
 .container-standard {
     max-width: var(--container-standard-width, 1280px);
     margin: 0 auto;
