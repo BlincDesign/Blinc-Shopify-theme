@@ -63,7 +63,7 @@
           "type": "heading",
           "settings": {
             "heading": "BESPOKE TILE DESIGN SERVICE",
-            "heading_size": "large"
+            "heading_size": "medium"
           }
         },
         "text_bbwBzJ": {
@@ -105,10 +105,10 @@
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
-        "image_ratio": "portrait",
+        "image_ratio": "adapt",
         "media_position": "left",
         "text_alignment": "center",
-        "color_scheme": "",
+        "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac",
         "container_width": "container-padded",
         "padding_top": 0,
         "padding_bottom": 0,
