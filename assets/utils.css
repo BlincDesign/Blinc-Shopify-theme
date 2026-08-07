@@ -36,6 +36,10 @@
     justify-content: left;
 }
 
+.justify-end {
+    justify-content: end;
+}
+
 .justify-center {
     justify-content: center;
 }

@@ -163,7 +163,6 @@
         "text_jGQjUa",
         "text_3cHLfQ"
       ],
-      "disabled": true,
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/7_5a7a0c66-127e-41a1-8aa7-4965c7590b5d.webp",
@@ -225,7 +224,6 @@
         "text_a7CdUk",
         "text_pTmxi9"
       ],
-      "disabled": true,
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
@@ -287,7 +285,6 @@
         "text_MaPxnT",
         "text_8q8nze"
       ],
-      "disabled": true,
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/Murals.webp",
@@ -349,7 +346,6 @@
         "text_zwcAfT",
         "text_mp9mhV"
       ],
-      "disabled": true,
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/4_cbdf2a1f-40fc-4cd0-b5bc-6131b5eb79bd.webp",
@@ -383,7 +379,6 @@
       "block_order": [
         "buttons_hLX8Qc"
       ],
-      "disabled": true,
       "name": "Rich text",
       "settings": {
         "text_alignment": "center",
