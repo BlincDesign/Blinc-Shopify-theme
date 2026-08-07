@@ -761,3 +761,18 @@ details[open]>.header__nav-link .icon--chevron {
     cursor: default;
     opacity: 0.6;
 }
+
+.product-card__carousel .product-card__carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(calc(-50% + 10px));
+    z-index: 1;
+    background: none;
+    border: none;
+    padding:10px;
+    cursor: pointer;
+}
+
+.product-card__carousel .product-card__carousel-btn--next {
+    right: 0;
+}
