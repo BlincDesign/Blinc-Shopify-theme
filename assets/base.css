@@ -563,7 +563,7 @@ details[open]>.header__nav-link .icon--chevron {
 
 
 /* Media with text */
-
+/* 
 .media-with-text__wrapper {
     display: grid;
     grid-template-columns: 1fr;
@@ -613,7 +613,7 @@ details[open]>.header__nav-link .icon--chevron {
         order: 1;
     }
 }
-
+ */
 
 /* Gift card */
 

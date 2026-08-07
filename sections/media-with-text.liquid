@@ -26,7 +26,7 @@
 {%- endstyle -%}
 
 <div class="media-with-text color-{{ section.settings.color_scheme }}">
-  <div class="media-with-text__wrapper {{ section.settings.container_width }} media-with-text__wrapper--{{ section.settings.media_position }}">
+  <div class="media-with-text__wrapper {{ section.settings.container_width }} flex {% if section.settings.media_position == "right" %} flex-reverse{% endif %}">
     <div class="media-with-text__media">
       {%- if section.settings.video != blank -%}
         <div class="media-with-text__media-video" style="aspect-ratio: {{ aspect_ratio | default: '16 / 9' }};">
