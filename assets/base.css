@@ -649,6 +649,12 @@ details[open]>.header__nav-link .icon--chevron {
     opacity: 1;
 }
 
+.product-card__media img,
+.product-card__media .placeholder-svg {
+    width: 100%;
+    height: 100%;
+}
+
 .product-card__carousel .product-card__carousel-btn {
     position: absolute;
     top: 50%;
@@ -663,7 +669,6 @@ details[open]>.header__nav-link .icon--chevron {
 .product-card__carousel .product-card__carousel-btn--next {
     right: 0;
 }
-
 
 .product-card__badges {
     position: absolute;
