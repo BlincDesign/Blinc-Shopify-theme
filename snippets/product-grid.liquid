@@ -17,7 +17,6 @@
 
   @example
   {% render 'product-grid', products: collection.products, limit: 8 %}
-
   @example
   {% comment %} Empty state / section still being configured {% endcomment %}
   {% render 'product-grid', placeholder_count: 4 %}
@@ -31,20 +30,16 @@
   {%- if products.size > 0 -%}
     {%- for product in products limit: limit -%}
       {%- capture media_placeholder -%}{%- cycle 'product-1', 'product-2', 'product-3', 'product-4', 'product-5', 'product-6' -%}{%- endcapture -%}
-      <div class="product-grid__item">
-        {%- if product != blank -%}
-          {%- render 'product-card', product: product -%}
-        {%- else -%}
-          {%- render 'product-card-placeholder', media_placeholder: media_placeholder -%}
-        {%- endif -%}
-      </div>
+      {%- if product != blank -%}
+        {%- render 'product-card', product: product -%}
+      {%- else -%}
+        {%- render 'product-card-placeholder', media_placeholder: media_placeholder -%}
+      {%- endif -%}
     {%- endfor -%}
   {%- else -%}
     {%- for i in (1..placeholder_count) -%}
       {%- capture media_placeholder -%}{%- cycle 'product-1', 'product-2', 'product-3', 'product-4', 'product-5', 'product-6' -%}{%- endcapture -%}
-      <div class="product-grid__item">
-        {%- render 'product-card-placeholder', media_placeholder: media_placeholder -%}
-      </div>
+      {%- render 'product-card-placeholder', media_placeholder: media_placeholder -%}
     {%- endfor -%}
   {%- endif -%}
 </div>
