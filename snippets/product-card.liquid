@@ -1,15 +1,16 @@
-{% doc %}
+{% comment %}
   Renders a product card for grids (collection lists, featured collections,
   search results). Layout, gallery type, and info fields are all driven by
   the "Product Grid" theme settings so every card in the theme stays
   consistent. Mirrors snippets/product-card-placeholder.liquid exactly, so
   swap one for the other with no visual jump.
 
-  @param {object} product - The Shopify product object. (required)
+  Accepts:
+  product (object, required) - The Shopify product object.
 
-  @example
+  Usage:
   {% render 'product-card', product: product %}
-{% enddoc %}
+{% endcomment %}
 
 {%- liquid
   assign aspect_ratio = settings.grid_image_aspect_ratio | default: 1

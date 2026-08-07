@@ -1,28 +1,91 @@
+{%- liquid
+  case section.settings.image_ratio
+    when 'square'
+      assign aspect_ratio = '1 / 1'
+    when 'portrait'
+      assign aspect_ratio = '3 / 4'
+    when 'landscape'
+      assign aspect_ratio = '4 / 3'
+    else
+      assign aspect_ratio = section.settings.image.aspect_ratio
+  endcase
+-%}
+
 {%- style -%}
-  #shopify-section-{{ section.id }} .rich-text {
+  #shopify-section-{{ section.id }} .media-with-text {
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
   @media screen and (max-width: 749px) {
-    #shopify-section-{{ section.id }} .rich-text {
+    #shopify-section-{{ section.id }} .media-with-text {
       padding-top: {{ section.settings.padding_top_m }}px;
       padding-bottom: {{ section.settings.padding_bottom_m }}px;
     }
   }
 {%- endstyle -%}
 
-<div class="rich-text color-{{ section.settings.color_scheme }}">
-  <div class="rich-text__wrapper flex flex-column items-center text-center {{ section.settings.container_width }} rich-text__wrapper--{{ section.settings.text_alignment }}">
-    {%- render 'content-blocks', blocks: section.blocks -%}
+<div class="media-with-text color-{{ section.settings.color_scheme }}">
+  <div class="media-with-text__wrapper {{ section.settings.container_width }} media-with-text__wrapper--{{ section.settings.media_position }}">
+    <div class="media-with-text__media">
+      {%- if section.settings.video != blank -%}
+        <div class="media-with-text__media-video" style="aspect-ratio: {{ aspect_ratio | default: '16 / 9' }};">
+          {{ section.settings.video | video_tag: image_size: '1100x', loop: false, controls: true }}
+        </div>
+      {%- else -%}
+        {%- render 'image',
+          image: section.settings.image,
+          aspect_ratio: aspect_ratio,
+          width: 800,
+          sizes: '(min-width: 750px) 50vw, 100vw'
+        -%}
+      {%- endif -%}
+    </div>
+
+    <div class="media-with-text__content flex flex-column media-with-text__content--{{ section.settings.text_alignment }}">
+      {%- render 'content-blocks', blocks: section.blocks -%}
+    </div>
   </div>
 </div>
 
 {% schema %}
 {
-  "name": "Rich text",
-  "class": "shopify-section--rich-text",
+  "name": "Media with text",
+  "class": "shopify-section--media-with-text",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video",
+      "info": "Overrides the image when set."
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Media ratio",
+      "options": [
+        { "value": "adapt", "label": "Adapt to image" },
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "landscape", "label": "Landscape" }
+      ],
+      "default": "adapt"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
     {
       "type": "select",
       "id": "text_alignment",
@@ -32,7 +95,7 @@
         { "value": "center", "label": "Center" },
         { "value": "right", "label": "Right" }
       ],
-      "default": "center"
+      "default": "left"
     },
     {
       "type": "color_scheme",
@@ -221,10 +284,11 @@
   ],
   "presets": [
     {
-      "name": "Rich text",
+      "name": "Media with text",
       "blocks": [
         { "type": "heading" },
-        { "type": "text" }
+        { "type": "text" },
+        { "type": "buttons" }
       ]
     }
   ]

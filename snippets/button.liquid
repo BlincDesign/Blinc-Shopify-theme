@@ -1,20 +1,19 @@
-{% doc %}
-  @param {string} label - Button text.
-  @param {string} [url] - Link url. Renders an `<a>`. Takes priority over `type`.
-  @param {string} [type] - 'submit', 'button', or 'reset'. Renders a native `<button>` when `url` is blank.
-  @param {string} [button_style] - 'primary' (default), 'secondary', or 'link'. Named `button_style` (not `style`) to avoid colliding with Liquid's own `{% style %}` tag.
-  @param {boolean} [new_tab] - Opens a link in a new tab (links only).
-  @param {boolean} [disabled] - Disables a `<button>`, or renders a link as an inert disabled state.
-  @param {string} [id] - Element id.
-  @param {string} [name] - Form field name (buttons only, e.g. name: 'add').
-  @param {string} [class] - Additional classes to append.
+{% comment %}
+  Accepts:
+  label (string) - Button text.
+  url (string, optional) - Link url. Renders an `<a>`. Takes priority over `type`.
+  type (string, optional) - 'submit', 'button', or 'reset'. Renders a native `<button>` when `url` is blank.
+  button_style (string, optional) - 'primary' (default), 'secondary', or 'link'. Named `button_style` (not `style`) to avoid colliding with Liquid's own `{% style %}` tag.
+  new_tab (boolean, optional) - Opens a link in a new tab (links only).
+  disabled (boolean, optional) - Disables a `<button>`, or renders a link as an inert disabled state.
+  id (string, optional) - Element id.
+  name (string, optional) - Form field name (buttons only, e.g. name: 'add').
+  class (string, optional) - Additional classes to append.
 
-  @example
+  Usage:
   {% render 'button', label: 'Submit', type: 'submit', name: 'add' %}
-
-  @example
   {% render 'button', label: 'Shop now', url: '/collections/all', button_style: 'secondary' %}
-{% enddoc %}
+{% endcomment %}
 
 {%- liquid
   assign button_style = button_style | default: 'primary'

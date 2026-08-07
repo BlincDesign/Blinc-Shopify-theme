@@ -1,8 +1,9 @@
-{% doc %}
+{% comment %}
   Renders a minimal placeholder product card.
 
-  @param {string} [media_placeholder] - Built-in placeholder SVG name.
-{% enddoc %}
+  Accepts:
+  media_placeholder (string, optional) - Built-in placeholder SVG name.
+{% endcomment %}
 
 {%- liquid
   assign media_placeholder = media_placeholder | default: 'product-1'

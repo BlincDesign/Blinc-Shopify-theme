@@ -1,0 +1,54 @@
+{%- comment -%}
+  Renders the shared "heading / caption / text / buttons" block set used by
+  content sections (e.g. Rich text, Media with text). The parent section
+  must define matching block types/settings in its own schema
+
+  Usage:
+  {% render 'content-blocks', blocks: section.blocks %}
+{%- endcomment -%}
+
+{%- for block in blocks -%}
+  {%- case block.type -%}
+    {%- when 'heading' -%}
+      {%- if block.settings.heading != blank -%}
+        <h2 class="content-block__heading heading heading--{{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+          {{ block.settings.heading }}
+        </h2>
+      {%- endif -%}
+
+    {%- when 'caption' -%}
+      {%- if block.settings.caption != blank -%}
+        <p class="content-block__caption text-subheading" {{ block.shopify_attributes }}>{{ block.settings.caption }}</p>
+      {%- endif -%}
+
+    {%- when 'text' -%}
+      {%- if block.settings.text != blank -%}
+        <div
+          class="content-block__text text-body{% if block.settings.text_size == 'small' %} text-body--small{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {{ block.settings.text }}
+        </div>
+      {%- endif -%}
+
+    {%- when 'buttons' -%}
+      {%- if block.settings.button_1_label != blank or block.settings.button_2_label != blank -%}
+        <div class="content-block__buttons flex flex-wrap items-center" {{ block.shopify_attributes }}>
+          {%- if block.settings.button_1_label != blank -%}
+            {%- render 'button',
+              label: block.settings.button_1_label,
+              url: block.settings.button_1_link,
+              button_style: block.settings.button_1_style
+            -%}
+          {%- endif -%}
+          {%- if block.settings.button_2_label != blank -%}
+            {%- render 'button',
+              label: block.settings.button_2_label,
+              url: block.settings.button_2_link,
+              button_style: block.settings.button_2_style
+            -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+  {%- endcase -%}
+{%- endfor -%}

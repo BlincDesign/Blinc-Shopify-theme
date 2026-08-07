@@ -1,15 +1,16 @@
-{% doc %}
+{% comment %}
   Renders a product's status badges: Sold out, Sale, New, Collection.
   Reuses the product card's existing badge markup/classes
   (.product-card__badges / .product-card__badge) so it drops into any card
   layout without extra CSS. When more than one badge applies, all of them
   stack in a fixed order: Sold out, Sale, New, Collection.
 
-  @param {object} product - The Shopify product object. (required)
+  Accepts:
+  product (object, required) - The Shopify product object.
 
-  @example
+  Usage:
   {% render 'product-badges', product: product %}
-{% enddoc %}
+{% endcomment %}
 
 {%- liquid
   assign show_soldout = false

@@ -1,4 +1,4 @@
-{% doc %}
+{% comment %}
   Renders a responsive product grid. Falls back to placeholder cards when
   there are no products (an empty collection) or when individual slots in
   `products` are blank (a manually curated section whose blocks haven't
@@ -11,16 +11,17 @@
   directly inside snippets/product-card.liquid and
   snippets/product-card-placeholder.liquid.
 
-  @param {object} [products] - Array of products to render. Blank entries render a placeholder card in that slot.
-  @param {number} [limit] - Maximum number of products to render from `products`. Ignored for placeholders (use `placeholder_count` instead).
-  @param {number} [placeholder_count] - How many placeholder cards to show when `products` is entirely blank. Default: 8.
+  Accepts:
+  products (object, optional) - Array of products to render. Blank entries render a placeholder card in that slot.
+  limit (number, optional) - Maximum number of products to render from `products`. Ignored for placeholders (use `placeholder_count` instead).
+  placeholder_count (number, optional) - How many placeholder cards to show when `products` is entirely blank. Default: 8.
 
-  @example
+  Usage:
   {% render 'product-grid', products: collection.products, limit: 8 %}
-  @example
-  {% comment %} Empty state / section still being configured {% endcomment %}
+
+  Empty state / section still being configured:
   {% render 'product-grid', placeholder_count: 4 %}
-{% enddoc %}
+{% endcomment %}
 
 {%- liquid
   assign placeholder_count = placeholder_count | default: 8

@@ -1,4 +1,4 @@
-{%- doc -%}
+{%- comment -%}
   Renders a responsive, accessible Shopify image with an automatic srcset
   and optional cropping via aspect-ratio.
 
@@ -6,21 +6,22 @@
   image in a hero, or a header logo), the caller must explicitly pass
   `loading: 'eager'` and `fetchpriority: 'high'`.
 
-  @param {object} [image] - The Shopify image object. When blank, renders the built-in `placeholder` SVG instead.
-  @param {number} [width] - Max display width in px. Drives the fallback `src` size and the default `sizes` value.
-  @param {string} [widths] - Comma-separated candidate widths for the generated `srcset`.
-  @param {string} [sizes] - The `sizes` attribute. Defaults to a value based on `width`, or '100vw'.
-  @param {string} [aspect_ratio] - Forces a CSS aspect-ratio on the image, cropping it via object-fit.
-  @param {string} [object_position] - CSS object-position value. Defaults to the image's focal point.
-  @param {boolean} [fill] - Adds the `fit-cover` utility class so the image fills its box. Default: true.
-  @param {string} [class] - Additional CSS classes for the `<img>`.
-  @param {string} [id] - ID attribute for the `<img>`.
-  @param {string} [alt] - Overrides the alt text. Falls back to the image's own alt text.
-  @param {string} [loading] - 'eager' or 'lazy'. Default: 'lazy'.
-  @param {string} [fetchpriority] - 'high', 'low', or 'auto'. Default: 'auto'.
-  @param {string} [placeholder] - Built-in Shopify placeholder SVG name used when `image` is blank. Default: 'image'.
+  Accepts:
+  image (object, optional) - The Shopify image object. When blank, renders the built-in `placeholder` SVG instead.
+  width (number, optional) - Max display width in px. Drives the fallback `src` size and the default `sizes` value.
+  widths (string, optional) - Comma-separated candidate widths for the generated `srcset`.
+  sizes (string, optional) - The `sizes` attribute. Defaults to a value based on `width`, or '100vw'.
+  aspect_ratio (string, optional) - Forces a CSS aspect-ratio on the image, cropping it via object-fit.
+  object_position (string, optional) - CSS object-position value. Defaults to the image's focal point.
+  fill (boolean, optional) - Adds the `fit-cover` utility class so the image fills its box. Default: true.
+  class (string, optional) - Additional CSS classes for the `<img>`.
+  id (string, optional) - ID attribute for the `<img>`.
+  alt (string, optional) - Overrides the alt text. Falls back to the image's own alt text.
+  loading (string, optional) - 'eager' or 'lazy'. Default: 'lazy'.
+  fetchpriority (string, optional) - 'high', 'low', or 'auto'. Default: 'auto'.
+  placeholder (string, optional) - Built-in Shopify placeholder SVG name used when `image` is blank. Default: 'image'.
 
-  @example
+  Usage:
   {% render 'image',
     image: section.settings.image,
     width: 800,
@@ -28,15 +29,14 @@
     sizes: '(min-width: 750px) 50vw, 100vw'
   %}
 
-  @example
-  {% comment %} Above-the-fold hero image {% endcomment %}
+  Above-the-fold hero image:
   {% render 'image',
     image: section.settings.image,
     width: 1600,
     loading: 'eager',
     fetchpriority: 'high'
   %}
-{%- enddoc -%}
+{%- endcomment -%}
 
 {%- liquid
   assign display_width = width | default: 1200
