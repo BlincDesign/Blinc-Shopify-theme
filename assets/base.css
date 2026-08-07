@@ -1,5 +1,27 @@
 /* Reset */
 
+:root {
+  --layout-padding: var(--layout-padding-desktop);
+  --layout-gap: var(--layout-gap-desktop);
+  --grid-columns: var(--grid-columns-desktop);
+}
+
+@media screen and (max-width: 989px) {
+  :root {
+    --layout-padding: var(--layout-padding-tablet);
+    --layout-gap: var(--layout-gap-tablet);
+    --grid-columns: var(--grid-columns-tablet);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  :root {
+    --layout-padding: var(--layout-padding-mobile);
+    --layout-gap: var(--layout-gap-mobile);
+    --grid-columns: var(--grid-columns-mobile);
+  }
+}
+
 *,
 *::before,
 *::after {
