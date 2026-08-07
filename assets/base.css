@@ -327,11 +327,6 @@ sticky-header.header--hidden {
     display: inline-flex;
 }
 
-.header__logo img {
-    width: auto;
-    height: auto;
-}
-
 sticky-header.header--condensed .header__logo img {
     max-height: 40px;
 }
