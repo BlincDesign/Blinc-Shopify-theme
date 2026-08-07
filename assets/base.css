@@ -201,6 +201,13 @@ h6,
     line-height: 1.6;
 }
 
+.rte-column .column {
+    margin-bottom: var(--layout-gutter-small);
+}
+
+.rte-column .column:last-child {
+    margin-bottom: 0px;
+}
 
 /* End Typography */
 
