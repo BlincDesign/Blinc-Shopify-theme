@@ -11,20 +11,20 @@
   {%- case block.type -%}
     {%- when 'heading' -%}
       {%- if block.settings.heading != blank -%}
-        <h2 class="content-block__heading heading heading--{{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+        <h2 class="content-block__heading heading heading--{{ block.settings.heading_size }} column" {{ block.shopify_attributes }}>
           {{ block.settings.heading }}
         </h2>
       {%- endif -%}
 
     {%- when 'caption' -%}
       {%- if block.settings.caption != blank -%}
-        <p class="content-block__caption text-subheading" {{ block.shopify_attributes }}>{{ block.settings.caption }}</p>
+        <p class="content-block__caption text-subheading column" {{ block.shopify_attributes }}>{{ block.settings.caption }}</p>
       {%- endif -%}
 
     {%- when 'text' -%}
       {%- if block.settings.text != blank -%}
         <div
-          class="content-block__text text-body{% if block.settings.text_size == 'small' %} text-body--small{% endif %}"
+          class="content-block__text text-body{% if block.settings.text_size == 'small' %} text-body--small{% endif %} column"
           {{ block.shopify_attributes }}
         >
           {{ block.settings.text }}
@@ -33,7 +33,7 @@
 
     {%- when 'buttons' -%}
       {%- if block.settings.button_1_label != blank or block.settings.button_2_label != blank -%}
-        <div class="content-block__buttons flex flex-wrap items-center" {{ block.shopify_attributes }}>
+        <div class="content-block__buttons flex flex-wrap items-center column" {{ block.shopify_attributes }}>
           {%- if block.settings.button_1_label != blank -%}
             {%- render 'button',
               label: block.settings.button_1_label,
