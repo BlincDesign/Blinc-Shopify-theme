@@ -65,7 +65,7 @@
         --button-font-size-mobile: {{ settings.button_font_size_mobile }}px;
         --button-text-transform: {% if settings.button_uppercase %}uppercase{% else %}none{% endif %};
         --button-letter-spacing: calc(var(--button-font-size) * {{ settings.button_letter_spacing }} / 100);
-        --button-border-radius: {{ settings.button_border_radius }}%;
+        --button-border-radius: {% if settings.button_style == 'square' %}0px{% elsif settings.button_style == 'pill' %}999px{% else %}8px{% endif %};
       }
       {{ settings.button_font | font_face: font_display: 'swap' }}
     {%- endstyle -%}

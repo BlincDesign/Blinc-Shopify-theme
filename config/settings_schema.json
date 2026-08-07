@@ -77,6 +77,46 @@
           },
           {
             "type": "header",
+            "content": "Secondary Button"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "label": "Text",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button",
+            "label": "Background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_border",
+            "label": "Border",
+            "default": "#E6E6E6"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label_hover",
+            "label": "Text (hover)",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_hover",
+            "label": "Background (hover)",
+            "default": "#F5F5F5"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_border_hover",
+            "label": "Border (hover)",
+            "default": "#121212"
+          },
+          {
+            "type": "header",
             "content": "Other"
           },
           {
@@ -100,10 +140,10 @@
           },
           "primary_button": "button",
           "on_primary_button": "button_label",
-          "secondary_button": "background",
-          "on_secondary_button": "text",
+          "secondary_button": "secondary_button",
+          "on_secondary_button": "secondary_button_label",
           "primary_button_border": "button_border",
-          "secondary_button_border": "border",
+          "secondary_button_border": "secondary_button_border",
           "links": "accent",
           "icons": "text"
         }
@@ -453,14 +493,24 @@
         "default": true
       },
       {
-        "type": "range",
-        "id": "button_border_radius",
-        "label": "Corner radius",
-        "min": 0,
-        "max": 30,
-        "step": 1,
-        "unit": "%",
-        "default": 8
+        "type": "select",
+        "id": "button_style",
+        "label": "Style",
+        "default": "rounded",
+        "options": [
+          {
+            "value": "square",
+            "label": "Square"
+          },
+          {
+            "value": "rounded",
+            "label": "Rounded"
+          },
+          {
+            "value": "pill",
+            "label": "Pill"
+          }
+        ]
       }
     ]
   },
@@ -526,7 +576,7 @@
         "min": 1,
         "max": 90,
         "step": 1,
-        "unit": "days",
+        "unit": "D",
         "default": 7
       },
       {
