@@ -485,15 +485,75 @@
       },
       {
         "type": "checkbox",
-        "id": "show_badges",
-        "label": "Show Product Badges",
+        "id": "show_swatches",
+        "label": "Show Color Swatches",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Product Badges"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_soldout_badge",
+        "label": "Show Sold Out Badge",
         "default": true
       },
       {
         "type": "checkbox",
-        "id": "show_swatches",
-        "label": "Show Color Swatches",
+        "id": "show_sale_badge",
+        "label": "Show Sale Badge",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_percentage_sale",
+        "label": "Show Sale Percentage",
+        "info": "Appends the discount percentage to the Sale badge, e.g. Sale -20%.",
         "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_new_badge",
+        "label": "Show New Badge",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "number_of_days",
+        "label": "New Badge Duration",
+        "info": "Number of days after a product is created that it's considered new.",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "unit": "days",
+        "default": 7
+      },
+      {
+        "type": "checkbox",
+        "id": "show_category_badge",
+        "label": "Show Collection Badge",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "badge_text_size",
+        "label": "Badge Text Size",
+        "default": "small",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ]
       },
       {
         "type": "header",

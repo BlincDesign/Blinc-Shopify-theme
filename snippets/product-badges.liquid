@@ -1,0 +1,78 @@
+{% doc %}
+  Renders a product's status badges: Sold out, Sale, New, Collection.
+  Reuses the product card's existing badge markup/classes
+  (.product-card__badges / .product-card__badge) so it drops into any card
+  layout without extra CSS. When more than one badge applies, all of them
+  stack in a fixed order: Sold out, Sale, New, Collection.
+
+  @param {object} product - The Shopify product object. (required)
+
+  @example
+  {% render 'product-badges', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign show_soldout = false
+  if settings.show_soldout_badge and product.available == false
+    assign show_soldout = true
+  endif
+
+  assign show_sale = false
+  if settings.show_sale_badge and product.compare_at_price > product.price
+    assign show_sale = true
+  endif
+
+  assign sale_label = 'products.product.sale' | t
+  if show_sale and settings.show_percentage_sale
+    assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round
+    assign sale_label = sale_label | append: ' -' | append: discount_percent | append: '%'
+  endif
+
+  assign show_new = false
+  if settings.show_new_badge
+    assign today_epoch_days = 'now' | date: '%s' | divided_by: 86400
+    assign created_epoch_days = product.created_at | date: '%s' | divided_by: 86400
+    assign days_since_created = today_epoch_days | minus: created_epoch_days
+    assign new_badge_window = settings.number_of_days | default: 7
+    if days_since_created <= new_badge_window
+      assign show_new = true
+    endif
+  endif
+
+  assign category_collection = product.collections.first
+  assign show_category = false
+  if settings.show_category_badge and category_collection
+    assign show_category = true
+  endif
+
+  assign show_wrapper = false
+  if show_soldout or show_sale or show_new or show_category
+    assign show_wrapper = true
+  endif
+
+  case settings.badge_text_size
+    when 'small'
+      assign badge_text_class = 'text-body text-body--small'
+    when 'large'
+      assign badge_text_class = 'heading heading--small'
+    else
+      assign badge_text_class = 'text-body'
+  endcase
+-%}
+
+{%- if show_wrapper -%}
+  <div class="product-card__badges flex flex-column items-start">
+    {%- if show_soldout -%}
+      <span class="product-card__badge product-card__badge--sold-out {{ badge_text_class }}">{{ 'products.product.sold_out' | t }}</span>
+    {%- endif -%}
+    {%- if show_sale -%}
+      <span class="product-card__badge product-card__badge--sale {{ badge_text_class }}">{{ sale_label }}</span>
+    {%- endif -%}
+    {%- if show_new -%}
+      <span class="product-card__badge product-card__badge--new {{ badge_text_class }}">{{ 'products.product.new' | t }}</span>
+    {%- endif -%}
+    {%- if show_category -%}
+      <span class="product-card__badge product-card__badge--category {{ badge_text_class }}">{{ category_collection.title }}</span>
+    {%- endif -%}
+  </div>
+{%- endif -%}

@@ -1,25 +1,13 @@
 {% doc %}
-  Renders a placeholder product card matching the exact layout of
-  snippets/product-card.liquid, driven by the same "Product Grid" theme
-  settings. Used by snippets/product-grid.liquid to fill empty slots -
-  a collection with no products, or a manually curated list where a
-  block hasn't had a product assigned yet in the Theme Editor.
+  Renders a minimal placeholder product card.
 
-  @param {string} [media_placeholder] - Built-in placeholder_svg_tag name (e.g. 'product-1'..'product-6'). Lets a caller looping multiple cards vary the artwork via {% cycle %}. Defaults to 'product-1'.
-
-  @example
-  {% render 'product-card-placeholder' %}
-
-  @example
-  {% render 'product-card-placeholder', media_placeholder: 'product-3' %}
+  @param {string} [media_placeholder] - Built-in placeholder SVG name.
 {% enddoc %}
 
 {%- liquid
   assign media_placeholder = media_placeholder | default: 'product-1'
-  assign aspect_ratio = settings.image_aspect_ratio | default: 1
+  assign aspect_ratio = settings.grid_image_aspect_ratio | default: 1
   assign aspect_ratio_css = '1 / ' | append: aspect_ratio
-  assign slide_count = 3
-  assign atc_label = 'products.product.add_to_cart' | t
 
   case settings.title_size
     when 'small'
@@ -31,79 +19,54 @@
   endcase
 -%}
 
-<div class="product-card product-card--placeholder flex flex-column" aria-hidden="true">
-  <div class="product-card__media-link" tabindex="-1">
-    <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
-      {%- if settings.media_style == 'slider' -%}
-        {%- capture slider_config -%}
-          {
-            "loop": {{ settings.slider_loop | json }}
-          }
-        {%- endcapture -%}
-        <div class="product-card__carousel swiper" data-slider data-config='{{ slider_config | strip | replace: '\n', ' ' }}'>
-          <div class="product-card__carousel-track flex swiper-wrapper" data-carousel-track>
-            {%- for i in (1..slide_count) -%}
-              <div class="product-card__carousel-slide swiper-slide" data-carousel-slide>
-                {%- render 'image', aspect_ratio: aspect_ratio_css, placeholder: media_placeholder -%}
-              </div>
-            {%- endfor -%}
-          </div>
+<div class="product-card flex flex-column">
 
-          <button type="button" class="product-card__carousel-nav product-card__carousel-nav--prev items-center justify-center" data-carousel-prev aria-label="{{ 'products.product.previous_image' | t }}" disabled>
-            {%- render 'icon', name: 'chevron' -%}
-          </button>
-          <button type="button" class="product-card__carousel-nav product-card__carousel-nav--next items-center justify-center" data-carousel-next aria-label="{{ 'products.product.next_image' | t }}" disabled>
-            {%- render 'icon', name: 'chevron' -%}
-          </button>
+  <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
 
-          {%- if settings.slider_navigation_style != 'hidden' -%}
-            <div class="product-card__carousel-dots product-card__carousel-dots--{{ settings.slider_navigation_style }} flex items-center" data-carousel-dots></div>
-          {%- endif -%}
-        </div>
-      {%- else -%}
-        {%- render 'image', aspect_ratio: aspect_ratio_css, placeholder: media_placeholder -%}
-      {%- endif -%}
+    {%- render 'image',
+      aspect_ratio: aspect_ratio_css,
+      placeholder: media_placeholder
+    -%}
 
-      {%- if settings.enable_video -%}
-        <span class="product-card__video-badge items-center justify-center">{%- render 'icon', name: 'play' -%}</span>
-      {%- endif -%}
-
-      {%- if settings.show_badges -%}
-        <div class="product-card__badges flex flex-column items-start">
-          <span class="product-card__badge product-card__badge--placeholder"></span>
-        </div>
-      {%- endif -%}
-    </div>
-
-    {%- if settings.show_swatches -%}
-      <div class="product-card__swatches flex items-center">
-        {%- for i in (1..4) -%}
-          <span class="product-card__swatch product-card__swatch--placeholder"></span>
-        {%- endfor -%}
+    {%- if settings.show_soldout_badge or settings.show_sale_badge or settings.show_new_badge or settings.show_category_badge -%}
+      <div class="product-card__badges flex flex-column items-start">
+        <span class="product-card__badge product-card__badge--placeholder"></span>
       </div>
     {%- endif -%}
 
+
     {%- if settings.grid_button_action == 'quick_add' -%}
-      <span class="product-card__atc-icon product-card__atc-icon--placeholder items-center justify-center" aria-hidden="true">
+      <span
+        class="product-card__atc-icon product-card__atc-icon--placeholder items-center justify-center"
+        aria-hidden="true"
+      >
         {%- render 'icon', name: 'cart' -%}
       </span>
+
     {%- elsif settings.grid_button_action == 'add_to_cart' -%}
       <div class="product-card__atc-hover">
-        {%- render 'button', label: atc_label, button_style: 'primary', disabled: true, class: 'product-card__atc-button' -%}
+        {%- render 'button',
+          label: 'Add to cart',
+          type: 'button',
+          button_style: 'primary',
+          class: 'product-card__atc-button',
+          disabled: true
+        -%}
       </div>
     {%- endif -%}
   </div>
 
-  <div class="product-card__info flex flex-column{% if settings.information_on_hover %} product-card__info--overlay{% endif %}">
+  <div class="product-card__info flex flex-column">
+
     {%- if settings.show_vendor -%}
-      <p class="product-card__vendor text-body text-body--small">Vendor</p>
+      <p class="product-card__vendor text-body text-body--small">
+        Vendor
+      </p>
     {%- endif -%}
 
-    <p class="product-card__title {{ title_class }}">Product title</p>
-
-    {%- if settings.show_sku -%}
-      <p class="product-card__sku text-body text-body--small">SKU-0000</p>
-    {%- endif -%}
+    <p class="product-card__title {{ title_class }}">
+      Product title
+    </p>
 
     {%- if settings.show_price -%}
       <div class="product-card__price flex items-center {{ title_class }}">
@@ -115,5 +78,7 @@
         {%- endif -%}
       </div>
     {%- endif -%}
+
   </div>
+
 </div>
