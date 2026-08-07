@@ -109,7 +109,7 @@
         "media_position": "left",
         "text_alignment": "center",
         "color_scheme": "",
-        "container_width": "container-standard",
+        "container_width": "container-padded",
         "padding_top": 0,
         "padding_bottom": 0,
         "padding_top_m": 0,
