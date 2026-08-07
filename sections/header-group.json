@@ -15,8 +15,8 @@
       "type": "header",
       "settings": {
         "logo": "shopify://shop_images/Screenshot_2026-08-08_010234-removebg-preview.png",
-        "logo_max_width": 400,
-        "logo_max_height": 75,
+        "logo_max_width": 1000,
+        "logo_max_height": 200,
         "logo_position": "top-center",
         "mobile_logo_position": "center",
         "menu": "main-menu",
