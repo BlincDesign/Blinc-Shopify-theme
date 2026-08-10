@@ -24,85 +24,17 @@
 
 <div class="product color-{{ section.settings.color_scheme }}">
   <div class="{{ section.settings.container_width }}">
-    <product-info
-      class="product__wrapper product--media-{{ section.settings.media_position }}"
-      data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
-      data-sold-out-text="{{ 'products.product.sold_out' | t }}"
-      data-unavailable-text="{{ 'products.product.unavailable' | t }}"
-      data-in-stock-text="{{ 'products.product.in_stock' | t }}"
-      data-out-of-stock-text="{{ 'products.product.out_of_stock' | t }}"
-      data-low-stock-text="{{ 'products.product.low_stock' | t }}"
-      data-low-stock-threshold="{{ section.settings.low_stock_threshold }}"
-    >
-      <div class="product__media">
-        {%- render 'product-badges', product: product -%}
+    <div class="product__media">
+      {%- render 'product-badges', product: product -%}
 
-        {%- if gallery_media.size > 0 -%}
-          {%- if section.settings.media_layout == 'carousel' -%}
-            <div
-              class="product__gallery-main"
-              data-slider
-              data-slider-config='{"loop": false, "slidesPerView": 1, "spaceBetween": 0}'
-            >
-              <div class="swiper-wrapper">
-                {%- for media in gallery_media -%}
-                  {%- liquid
-                    assign media_loading = 'lazy'
-                    assign media_fetchpriority = 'auto'
-                    if forloop.first
-                      assign media_loading = 'eager'
-                      assign media_fetchpriority = 'high'
-                    endif
-                  -%}
-                  <div class="product__gallery-slide swiper-slide" data-media-id="{{ media.id }}">
-                    {%- render 'product-media-item',
-                      media: media,
-                      width: 1200,
-                      sizes: '(min-width: 750px) 50vw, 100vw',
-                      loading: media_loading,
-                      fetchpriority: media_fetchpriority
-                    -%}
-                  </div>
-                {%- endfor -%}
-              </div>
-
-              {%- if gallery_media.size > 1 -%}
-                <button
-                  type="button"
-                  class="product__gallery-btn product__gallery-btn--prev items-center justify-center"
-                  slider-prev
-                  aria-label="{{ 'products.product.previous_image' | t }}"
-                >
-                  {%- render 'icon', name: 'chevron-left' -%}
-                </button>
-                <button
-                  type="button"
-                  class="product__gallery-btn product__gallery-btn--next items-center justify-center"
-                  slider-next
-                  aria-label="{{ 'products.product.next_image' | t }}"
-                >
-                  {%- render 'icon', name: 'chevron-right' -%}
-                </button>
-              {%- endif -%}
-            </div>
-
-            {%- if section.settings.show_thumbnails and gallery_media.size > 1 -%}
-              <div class="product__thumbnails flex flex-wrap">
-                {%- for media in gallery_media -%}
-                  <button
-                    type="button"
-                    class="product__thumbnail{% if forloop.first %} is-active{% endif %}"
-                    data-thumbnail
-                    data-target-media-id="{{ media.id }}"
-                    aria-label="{{ 'products.product.go_to_image' | t: number: forloop.index }}"
-                  >
-                    {%- render 'image', image: media.preview_image, width: 160, sizes: '80px' -%}
-                  </button>
-                {%- endfor -%}
-              </div>
-            {%- endif -%}
-          {%- else -%}
-            <div class="product__gallery-stacked flex flex-column">
+      {%- if gallery_media.size > 0 -%}
+        {%- if section.settings.media_layout == 'carousel' -%}
+          <div
+            class="product__gallery-main"
+            data-slider
+            data-slider-config='{"loop": false, "slidesPerView": 1, "spaceBetween": 0}'
+          >
+            <div class="swiper-wrapper">
               {%- for media in gallery_media -%}
                 {%- liquid
                   assign media_loading = 'lazy'
@@ -112,7 +44,7 @@
                     assign media_fetchpriority = 'high'
                   endif
                 -%}
-                <div class="product__gallery-item" data-media-id="{{ media.id }}">
+                <div class="product__gallery-slide swiper-slide" data-media-id="{{ media.id }}">
                   {%- render 'product-media-item',
                     media: media,
                     width: 1200,
@@ -123,12 +55,80 @@
                 </div>
               {%- endfor -%}
             </div>
+
+            {%- if gallery_media.size > 1 -%}
+              <button
+                type="button"
+                class="product__gallery-btn product__gallery-btn--prev items-center justify-center"
+                slider-prev
+                aria-label="{{ 'products.product.previous_image' | t }}"
+              >
+                {%- render 'icon', name: 'chevron-left' -%}
+              </button>
+              <button
+                type="button"
+                class="product__gallery-btn product__gallery-btn--next items-center justify-center"
+                slider-next
+                aria-label="{{ 'products.product.next_image' | t }}"
+              >
+                {%- render 'icon', name: 'chevron-right' -%}
+              </button>
+            {%- endif -%}
+          </div>
+
+          {%- if section.settings.show_thumbnails and gallery_media.size > 1 -%}
+            <div class="product__thumbnails flex flex-wrap">
+              {%- for media in gallery_media -%}
+                <button
+                  type="button"
+                  class="product__thumbnail{% if forloop.first %} is-active{% endif %}"
+                  data-thumbnail
+                  data-target-media-id="{{ media.id }}"
+                  aria-label="{{ 'products.product.go_to_image' | t: number: forloop.index }}"
+                >
+                  {%- render 'image', image: media.preview_image, width: 160, sizes: '80px' -%}
+                </button>
+              {%- endfor -%}
+            </div>
           {%- endif -%}
         {%- else -%}
-          {%- render 'image', width: 1200, sizes: '(min-width: 750px) 50vw, 100vw' -%}
+          <div class="product__gallery-stacked flex flex-column">
+            {%- for media in gallery_media -%}
+              {%- liquid
+                assign media_loading = 'lazy'
+                assign media_fetchpriority = 'auto'
+                if forloop.first
+                  assign media_loading = 'eager'
+                  assign media_fetchpriority = 'high'
+                endif
+              -%}
+              <div class="product__gallery-item" data-media-id="{{ media.id }}">
+                {%- render 'product-media-item',
+                  media: media,
+                  width: 1200,
+                  sizes: '(min-width: 750px) 50vw, 100vw',
+                  loading: media_loading,
+                  fetchpriority: media_fetchpriority
+                -%}
+              </div>
+            {%- endfor -%}
+          </div>
         {%- endif -%}
-      </div>
-
+      {%- else -%}
+        {%- render 'image', width: 1200, sizes: '(min-width: 750px) 50vw, 100vw' -%}
+      {%- endif -%}
+    </div>
+    
+    <product-info
+      class="product__wrapper product--media-{{ section.settings.media_position }}"
+      data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
+      data-sold-out-text="{{ 'products.product.sold_out' | t }}"
+      data-unavailable-text="{{ 'products.product.unavailable' | t }}"
+      data-in-stock-text="{{ 'products.product.in_stock' | t }}"
+      data-out-of-stock-text="{{ 'products.product.out_of_stock' | t }}"
+      data-low-stock-text="{{ 'products.product.low_stock' | t }}"
+      data-low-stock-threshold="{{ section.settings.low_stock_threshold }}"
+    >
       <div class="product__info flex flex-column">
         {%- form 'product', product, id: product_form_id, class: 'product__form' -%}
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
@@ -137,16 +137,25 @@
             {%- case block.type -%}
               {%- when 'vendor' -%}
                 {%- if product.vendor != blank -%}
-                  <p class="product__vendor text-body text-body--small" {{ block.shopify_attributes }}>{{ product.vendor }}</p>
+                  <p class="product__vendor text-body text-body--small" {{ block.shopify_attributes }}>
+                    {{ product.vendor }}
+                  </p>
                 {%- endif -%}
 
               {%- when 'title' -%}
-                <h1 class="product__title heading heading--{{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+                <h1
+                  class="product__title heading heading--{{ block.settings.heading_size }}"
+                  {{ block.shopify_attributes }}
+                >
                   {{ product.title }}
                 </h1>
 
               {%- when 'price' -%}
-                <div class="product__price flex items-center heading heading--small" data-product-price {{ block.shopify_attributes }}>
+                <div
+                  class="product__price flex items-center heading heading--small"
+                  data-product-price
+                  {{ block.shopify_attributes }}
+                >
                   {%- if current_variant.compare_at_price > current_variant.price -%}
                     <span class="product__price-compare">{{ current_variant.compare_at_price | money }}</span>
                     <span class="product__price-sale">{{ current_variant.price | money }}</span>
@@ -156,7 +165,14 @@
                 </div>
 
               {%- when 'sku' -%}
-                <p class="product__sku text-body text-body--small" data-product-sku {{ block.shopify_attributes }}{% if current_variant.sku == blank %} hidden{% endif %}>
+                <p
+                  class="product__sku text-body text-body--small"
+                  data-product-sku
+                  {{ block.shopify_attributes -}}
+                  {% if current_variant.sku == blank %}
+                    hidden
+                  {% endif %}
+                >
                   {{ 'products.product.sku' | t }}: <span data-product-sku-value>{{ current_variant.sku }}</span>
                 </p>
 
@@ -169,7 +185,11 @@
                 >
                   {%- if current_variant.available == false -%}
                     {{ 'products.product.out_of_stock' | t }}
-                  {%- elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= section.settings.low_stock_threshold and current_variant.inventory_quantity > 0 -%}
+                  {%- elsif current_variant.inventory_management == 'shopify'
+                    and current_variant.inventory_policy == 'deny'
+                    and current_variant.inventory_quantity <= section.settings.low_stock_threshold
+                    and current_variant.inventory_quantity > 0
+                  -%}
                     {{ 'products.product.low_stock' | t | replace: '[count]', current_variant.inventory_quantity }}
                   {%- else -%}
                     {{ 'products.product.in_stock' | t }}
@@ -179,13 +199,18 @@
               {%- when 'variant_picker' -%}
                 {%- if product.has_only_default_variant == false -%}
                   <div {{ block.shopify_attributes }}>
-                    {%- render 'variant-picker', product: product, picker_style: section.settings.variant_picker_style -%}
+                    {%- render 'variant-picker',
+                      product: product,
+                      picker_style: section.settings.variant_picker_style
+                    -%}
                   </div>
                 {%- endif -%}
 
               {%- when 'quantity_selector' -%}
                 <div class="product__quantity" {{ block.shopify_attributes }}>
-                  <label class="text-body text-body--small" for="{{ quantity_input_id }}">{{ 'products.product.quantity' | t }}</label>
+                  <label class="text-body text-body--small" for="{{ quantity_input_id }}">
+                    {{- 'products.product.quantity' | t -}}
+                  </label>
                   {%- render 'quantity-selector', id: quantity_input_id, max: quantity_max -%}
                 </div>
 
