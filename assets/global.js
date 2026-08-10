@@ -20,11 +20,9 @@ class StickyHeader {
     const currentScrollY = window.scrollY;
 
     if (this.type === 'always-reduce-logo-size') {
-        if (currentScrollY > 5) {
-            this.section.classList.add('header--condensed');
-        } else if (currentScrollY === 0) {
-            this.section.classList.remove('header--condensed');
-        }
+        const progress = Math.min(currentScrollY / 50, 1);
+
+        this.section.style.setProperty('--header-scroll-progress', progress);
     }
 
     if (this.type === 'on-scroll-up') {
