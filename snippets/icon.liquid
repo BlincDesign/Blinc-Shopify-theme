@@ -1,7 +1,7 @@
 {%- comment -%}
   Renders an inline SVG icon.
   Usage: {% render 'icon', name: 'account', class: 'account' size: 16 %}
-  Accepts: 'account', 'chevron', 'cart', 'play'
+  Accepts: 'account', 'chevron', 'chevron-right', 'chevron-left', 'cart', 'play'
 {%- endcomment -%}
 
 <span
@@ -25,6 +25,18 @@
       >
         <circle cx="12" cy="8" r="3.25"></circle>
         <path d="M4.5 19.25c1.4-3.6 4.4-5.5 7.5-5.5s6.1 1.9 7.5 5.5"></path>
+      </svg>
+
+    {%- when 'chevron' -%}
+      <svg
+        class="icon--chevron"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 -960 960 960"
+        fill="currentColor"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M480-345 240-585l56-56 184 184 184-184 56 56Z"/>
       </svg>
 
     {%- when 'chevron-right' -%}

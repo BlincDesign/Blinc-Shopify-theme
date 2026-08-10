@@ -39,7 +39,26 @@
       "new": "New",
       "previous_image": "Previous image",
       "next_image": "Next image",
-      "go_to_image": "Go to image {{ number }}"
+      "go_to_image": "Go to image {{ number }}",
+      "unavailable": "Unavailable",
+      "quantity": "Quantity",
+      "decrease_quantity": "Decrease quantity",
+      "increase_quantity": "Increase quantity",
+      "sku": "SKU",
+      "in_stock": "In stock",
+      "out_of_stock": "Out of stock",
+      "low_stock": "Only [count] left in stock"
     }
+  },
+  "collections": {
+    "sorting": {
+      "title": "Sort by"
+    },
+    "pagination": {
+      "title": "Pagination",
+      "previous": "Previous page",
+      "next": "Next page"
+    },
+    "empty": "No products found in this collection."
   }
 }

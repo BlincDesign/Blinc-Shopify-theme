@@ -1,11 +1,51 @@
 {
   "sections": {
-    "rich_text": {
-      "type": "rich-text",
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "vendor"
+        },
+        "title": {
+          "type": "title"
+        },
+        "price": {
+          "type": "price"
+        },
+        "variant_picker": {
+          "type": "variant_picker"
+        },
+        "quantity_selector": {
+          "type": "quantity_selector"
+        },
+        "buy_buttons": {
+          "type": "buy_buttons"
+        },
+        "inventory_status": {
+          "type": "inventory_status"
+        },
+        "sku": {
+          "type": "sku"
+        },
+        "description": {
+          "type": "description"
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "inventory_status",
+        "sku",
+        "description"
+      ],
       "settings": {}
     }
   },
   "order": [
-    "rich_text"
+    "main"
   ]
 }

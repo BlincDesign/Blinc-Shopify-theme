@@ -1,11 +1,11 @@
 {
   "sections": {
-    "rich_text": {
-      "type": "rich-text",
+    "main": {
+      "type": "main-collection",
       "settings": {}
     }
   },
   "order": [
-    "rich_text"
+    "main"
   ]
 }

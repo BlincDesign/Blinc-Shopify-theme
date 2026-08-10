@@ -1,0 +1,31 @@
+{%- comment -%}
+  Renders the header's localization selectors, account link, and cart link.
+  Usage: {% render 'header-icons', enable_country_selector: section.settings.enable_country_selector, enable_language_selector: section.settings.enable_language_selector, enable_customer_account_icon: section.settings.enable_customer_account_icon %}
+{%- endcomment -%}
+<div class="header__icons flex items-center">
+  {%- if enable_country_selector or enable_language_selector -%}
+    <div class="header__localization flex">
+      {%- if enable_country_selector -%}
+        {%- render 'localization-form', type: 'country', form_id: 'HeaderCountry' -%}
+      {%- endif -%}
+      {%- if enable_language_selector -%}
+        {%- render 'localization-form', type: 'language', form_id: 'HeaderLanguage' -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if enable_customer_account_icon and shop.customer_accounts_enabled -%}
+    <a
+      href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+      class="header__account items-center"
+      aria-label="{{ 'general.header.account' | t }}"
+    >
+      {%- render 'icon', name: 'account' -%}
+    </a>
+  {%- endif -%}
+
+  <a href="{{ routes.cart_url }}" class="header__cart items-center" aria-label="{{ 'general.header.cart' | t }}">
+    {{ 'general.header.cart' | t }}
+    <span class="header__cart-count">({{ cart.item_count }})</span>
+  </a>
+</div>

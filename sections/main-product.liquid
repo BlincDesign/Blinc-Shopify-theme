@@ -1,0 +1,460 @@
+{%- comment -%}
+  Main product section. Renders the product media gallery and an editable
+  stack of info blocks (title, price, variant picker, quantity, buy buttons,
+  SKU, inventory status, description, custom liquid) inside a single product
+  form, so merchants can reorder/add/remove content in the theme editor.
+
+  Variant switching, price/SKU/availability updates, quantity clamping, and
+  gallery syncing are handled client-side by the <product-info>,
+  <variant-picker>, and <quantity-selector> custom elements in
+  assets/product.js, using data pre-rendered by this section (no client-side
+  money formatting - price strings are rendered server-side via the `money`
+  filter so multi-currency/locale formatting stays correct).
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign gallery_media = product.media
+  assign product_form_id = 'ProductForm-' | append: section.id
+
+  assign buy_button_label = 'products.product.add_to_cart' | t
+  unless current_variant.available
+    assign buy_button_label = 'products.product.sold_out' | t
+  endunless
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .product {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<div class="product color-{{ section.settings.color_scheme }}">
+  <div class="{{ section.settings.container_width }}">
+    <product-info
+      class="product__wrapper product--media-{{ section.settings.media_position }}"
+      data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
+      data-sold-out-text="{{ 'products.product.sold_out' | t }}"
+      data-unavailable-text="{{ 'products.product.unavailable' | t }}"
+      data-in-stock-text="{{ 'products.product.in_stock' | t }}"
+      data-out-of-stock-text="{{ 'products.product.out_of_stock' | t }}"
+      data-low-stock-text="{{ 'products.product.low_stock' | t }}"
+      data-low-stock-threshold="{{ section.settings.low_stock_threshold }}"
+    >
+      <div class="product__media">
+        {%- render 'product-badges', product: product -%}
+
+        {%- if gallery_media.size > 0 -%}
+          {%- if section.settings.media_layout == 'carousel' -%}
+            <div
+              class="product__gallery-main"
+              data-slider
+              data-slider-config='{"loop": false, "slidesPerView": 1, "spaceBetween": 0}'
+            >
+              <div class="swiper-wrapper">
+                {%- for media in gallery_media -%}
+                  {%- liquid
+                    assign media_loading = 'lazy'
+                    assign media_fetchpriority = 'auto'
+                    if forloop.first
+                      assign media_loading = 'eager'
+                      assign media_fetchpriority = 'high'
+                    endif
+                  -%}
+                  <div class="product__gallery-slide swiper-slide" data-media-id="{{ media.id }}">
+                    {%- render 'product-media-item',
+                      media: media,
+                      width: 1200,
+                      sizes: '(min-width: 750px) 50vw, 100vw',
+                      loading: media_loading,
+                      fetchpriority: media_fetchpriority
+                    -%}
+                  </div>
+                {%- endfor -%}
+              </div>
+
+              {%- if gallery_media.size > 1 -%}
+                <button
+                  type="button"
+                  class="product__gallery-btn product__gallery-btn--prev items-center justify-center"
+                  slider-prev
+                  aria-label="{{ 'products.product.previous_image' | t }}"
+                >
+                  {%- render 'icon', name: 'chevron-left' -%}
+                </button>
+                <button
+                  type="button"
+                  class="product__gallery-btn product__gallery-btn--next items-center justify-center"
+                  slider-next
+                  aria-label="{{ 'products.product.next_image' | t }}"
+                >
+                  {%- render 'icon', name: 'chevron-right' -%}
+                </button>
+              {%- endif -%}
+            </div>
+
+            {%- if section.settings.show_thumbnails and gallery_media.size > 1 -%}
+              <div class="product__thumbnails flex flex-wrap">
+                {%- for media in gallery_media -%}
+                  <button
+                    type="button"
+                    class="product__thumbnail{% if forloop.first %} is-active{% endif %}"
+                    data-thumbnail
+                    data-target-media-id="{{ media.id }}"
+                    aria-label="{{ 'products.product.go_to_image' | t: number: forloop.index }}"
+                  >
+                    {%- render 'image', image: media.preview_image, width: 160, sizes: '80px' -%}
+                  </button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          {%- else -%}
+            <div class="product__gallery-stacked flex flex-column">
+              {%- for media in gallery_media -%}
+                {%- liquid
+                  assign media_loading = 'lazy'
+                  assign media_fetchpriority = 'auto'
+                  if forloop.first
+                    assign media_loading = 'eager'
+                    assign media_fetchpriority = 'high'
+                  endif
+                -%}
+                <div class="product__gallery-item" data-media-id="{{ media.id }}">
+                  {%- render 'product-media-item',
+                    media: media,
+                    width: 1200,
+                    sizes: '(min-width: 750px) 50vw, 100vw',
+                    loading: media_loading,
+                    fetchpriority: media_fetchpriority
+                  -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        {%- else -%}
+          {%- render 'image', width: 1200, sizes: '(min-width: 750px) 50vw, 100vw' -%}
+        {%- endif -%}
+      </div>
+
+      <div class="product__info flex flex-column">
+        {%- form 'product', product, id: product_form_id, class: 'product__form' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
+
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'vendor' -%}
+                {%- if product.vendor != blank -%}
+                  <p class="product__vendor text-body text-body--small" {{ block.shopify_attributes }}>{{ product.vendor }}</p>
+                {%- endif -%}
+
+              {%- when 'title' -%}
+                <h1 class="product__title heading heading--{{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+                  {{ product.title }}
+                </h1>
+
+              {%- when 'price' -%}
+                <div class="product__price flex items-center heading heading--small" data-product-price {{ block.shopify_attributes }}>
+                  {%- if current_variant.compare_at_price > current_variant.price -%}
+                    <span class="product__price-compare">{{ current_variant.compare_at_price | money }}</span>
+                    <span class="product__price-sale">{{ current_variant.price | money }}</span>
+                  {%- else -%}
+                    <span>{{ current_variant.price | money }}</span>
+                  {%- endif -%}
+                </div>
+
+              {%- when 'sku' -%}
+                <p class="product__sku text-body text-body--small" data-product-sku {{ block.shopify_attributes }}{% if current_variant.sku == blank %} hidden{% endif %}>
+                  {{ 'products.product.sku' | t }}: <span data-product-sku-value>{{ current_variant.sku }}</span>
+                </p>
+
+              {%- when 'inventory_status' -%}
+                <p
+                  class="product__inventory text-body text-body--small"
+                  data-product-inventory
+                  data-state="{% if current_variant.available == false %}out-of-stock{% elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= section.settings.low_stock_threshold and current_variant.inventory_quantity > 0 %}low-stock{% else %}in-stock{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- if current_variant.available == false -%}
+                    {{ 'products.product.out_of_stock' | t }}
+                  {%- elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= section.settings.low_stock_threshold and current_variant.inventory_quantity > 0 -%}
+                    {{ 'products.product.low_stock' | t | replace: '[count]', current_variant.inventory_quantity }}
+                  {%- else -%}
+                    {{ 'products.product.in_stock' | t }}
+                  {%- endif -%}
+                </p>
+
+              {%- when 'variant_picker' -%}
+                {%- if product.has_only_default_variant == false -%}
+                  <div {{ block.shopify_attributes }}>
+                    {%- render 'variant-picker', product: product, picker_style: section.settings.variant_picker_style -%}
+                  </div>
+                {%- endif -%}
+
+              {%- when 'quantity_selector' -%}
+                <div class="product__quantity" {{ block.shopify_attributes }}>
+                  <label class="text-body text-body--small" for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+                  {%- render 'quantity-selector', current_variant: current_variant, section_id: section.id -%}
+                </div>
+
+              {%- when 'buy_buttons' -%}
+                <div class="product__buy-buttons flex flex-column" {{ block.shopify_attributes }}>
+                  {%- render 'button',
+                    label: buy_button_label,
+                    type: 'submit',
+                    name: 'add',
+                    button_style: 'primary',
+                    class: 'product__atc-button',
+                    disabled: current_variant.available == false
+                  -%}
+                  {%- if block.settings.show_dynamic_checkout and current_variant.available -%}
+                    <div class="product__dynamic-checkout">
+                      {{ form | payment_button }}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+              {%- when 'description' -%}
+                {%- if product.description != blank -%}
+                  <div class="product__description text-body rte-column" {{ block.shopify_attributes }}>
+                    {{ product.description }}
+                  </div>
+                {%- endif -%}
+
+              {%- when 'custom_liquid' -%}
+                <div {{ block.shopify_attributes }}>
+                  {{ block.settings.custom_liquid }}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        {%- endform -%}
+      </div>
+
+      <script type="application/json" data-variant-data>
+        {
+          {%- for variant in product.variants -%}
+            "{{ variant.id }}": {
+              "id": {{ variant.id | json }},
+              "available": {{ variant.available | json }},
+              "options": {{ variant.options | json }},
+              "priceHtml": {{ variant.price | money | json }},
+              "compareAtPriceHtml": {{ variant.compare_at_price | money | json }},
+              "onSale": {% if variant.compare_at_price > variant.price %}true{% else %}false{% endif %},
+              "sku": {{ variant.sku | json }},
+              "featuredMediaId": {{ variant.featured_media.id | default: 0 }},
+              "inventoryManagement": {{ variant.inventory_management | json }},
+              "inventoryPolicy": {{ variant.inventory_policy | json }},
+              "inventoryQuantity": {{ variant.inventory_quantity | default: 0 }}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        }
+      </script>
+    </product-info>
+  </div>
+</div>
+
+<script src="{{ 'product.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Main product",
+  "tag": "section",
+  "class": "shopify-section--main-product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "select",
+      "id": "media_layout",
+      "label": "Media layout",
+      "options": [
+        { "value": "carousel", "label": "Carousel" },
+        { "value": "stacked", "label": "Stacked" }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show thumbnails",
+      "info": "Only applies to the carousel layout.",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Variants"
+    },
+    {
+      "type": "select",
+      "id": "variant_picker_style",
+      "label": "Variant picker style",
+      "options": [
+        { "value": "pills", "label": "Pills" },
+        { "value": "dropdown", "label": "Dropdown" }
+      ],
+      "default": "pills"
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Low stock threshold",
+      "info": "Show a low stock message when tracked inventory falls at or below this number.",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container width",
+      "default": "container-standard",
+      "options": [
+        { "value": "full-width", "label": "Full width" },
+        { "value": "container-padded", "label": "Full width (padded)" },
+        { "value": "container-standard", "label": "Standard" },
+        { "value": "container-narrow", "label": "Narrow" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "vendor",
+      "name": "Vendor",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "xl", "label": "XL" },
+            { "value": "xxl", "label": "XXL" }
+          ],
+          "default": "xl"
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Quantity selector",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout button",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "sku",
+      "name": "SKU",
+      "limit": 1
+    },
+    {
+      "type": "inventory_status",
+      "name": "Inventory status",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main product",
+      "blocks": [
+        { "type": "vendor" },
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "variant_picker" },
+        { "type": "quantity_selector" },
+        { "type": "buy_buttons" },
+        { "type": "inventory_status" },
+        { "type": "sku" },
+        { "type": "description" }
+      ]
+    }
+  ]
+}
+{% endschema %}

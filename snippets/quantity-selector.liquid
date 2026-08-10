@@ -1,0 +1,37 @@
+{%- comment -%}
+  Renders a quantity stepper (decrease / input / increase) for the product
+  form. The enclosing <quantity-selector> custom element (assets/product.js)
+  wires the buttons and clamps the value between 1 and an optional inventory
+  max, which <product-info> keeps in sync when the selected variant changes.
+
+  Accepts:
+  current_variant (object, required)
+  section_id (string, required) - Used to build a unique input id.
+
+  Usage:
+  {% render 'quantity-selector', current_variant: current_variant, section_id: section.id %}
+{%- endcomment -%}
+
+{%- liquid
+  assign quantity_max = 0
+  if current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny'
+    assign quantity_max = current_variant.inventory_quantity
+  endif
+-%}
+
+<quantity-selector class="quantity-selector">
+  <button type="button" class="quantity-selector__button" data-decrease aria-label="{{ 'products.product.decrease_quantity' | t }}">&minus;</button>
+  <label class="visually-hidden" for="Quantity-{{ section_id }}">{{ 'products.product.quantity' | t }}</label>
+  <input
+    type="number"
+    id="Quantity-{{ section_id }}"
+    class="quantity-selector__input"
+    name="quantity"
+    value="1"
+    min="1"
+    {%- if quantity_max > 0 %} max="{{ quantity_max }}"{% endif %}
+    inputmode="numeric"
+    data-quantity-input
+  >
+  <button type="button" class="quantity-selector__button" data-increase aria-label="{{ 'products.product.increase_quantity' | t }}">+</button>
+</quantity-selector>

@@ -1,110 +1,144 @@
+{%- comment -%}
+  Header settings audit — fixed:
+  - "Enable full-width header" had no visible effect: the non-full-width branch used
+    a `page-width` CSS class that is never defined anywhere in the theme, so both
+    states rendered identically. Swapped to the theme's real width utility,
+    `.container-standard`, which sets max-width, centering, and side padding.
+  - Dropdown chevron icons rendered nothing: `render 'icon', name: 'chevron'` had no
+    matching case in snippets/icon.liquid, and the existing chevron-right/left cases
+    didn't carry the `icon--chevron` class the CSS already targeted for size/rotation.
+    Added a `chevron` case with that class.
+  - Sticky header (none/on-scroll-up/always/always-reduce-logo-size), logo max
+    width/height, logo position, mobile logo position, color scheme, menu color
+    scheme, and top/bottom padding were already wired correctly — no changes needed.
+  - No "menu alignment" setting existed in the schema, so there was nothing to audit
+    there.
+
+  Two-row layout: row 1 is a utility row (secondary menu + localization/account/cart
+  icons), row 2 is the main row (logo centered + primary menu). On mobile, both menus
+  are combined into a single mobile nav drawer. Primary/secondary/mobile menus all
+  share the `menu-links` snippet so dropdown markup isn't duplicated.
+{%- endcomment -%}
+{%- liquid
+  assign width_class = 'container-standard'
+  if section.settings.enable_full_width
+    assign width_class = 'header__wrapper--full-width'
+  endif
+-%}
 <sticky-header data-sticky-type="{{ section.settings.sticky_header }}">
   <header
-    class="header color-{{ section.settings.color_scheme }} header--logo-{{ section.settings.logo_position }} header--mobile-logo-{{ section.settings.mobile_logo_position }}"
+    class="header color-{{ section.settings.color_scheme }} header--{{ section.settings.header_layout }} header--logo-{{ section.settings.logo_position }} header--mobile-logo-{{ section.settings.mobile_logo_position }}"
     style="--header-padding-top: {{ section.settings.padding_top }}px; --header-padding-bottom: {{ section.settings.padding_bottom }}px; --logo-max-width: {{ section.settings.logo_max_width }}px; --logo-max-height: {{ section.settings.logo_max_height }}px;"
   >
-    <div class="header__wrapper items-center {% if section.settings.enable_full_width %}header__wrapper--full-width{% else %}page-width{% endif %}">
-      <div class="header__logo">
-        <a href="{{ routes.root_url }}">
-          {%- if section.settings.logo != blank -%}
-            {%- render 'image',
-              image: section.settings.logo,
-              alt: shop.name,
-              width: 600,
-              sizes: '200px',
-              fill: false,
-              loading: 'eager',
-              fetchpriority: 'high'
-            -%}
-          {%- else -%}
-            <span class="header__logo-text">{{ shop.name }}</span>
+    {%- if section.settings.header_layout == 'two-row' -%}
+
+      <div class="header__row header__row--utility">
+        <div class="header__row-inner {{ width_class }} flex items-center justify-between mobile-justify-end">
+          {%- if section.settings.secondary_menu.links.size > 0 -%}
+            <nav class="header__nav header__nav--secondary" aria-label="Secondary">
+              <ul class="header__nav-list flex items-center">
+                {%- render 'menu-links', menu: section.settings.secondary_menu, color_scheme: section.settings.menu_color_scheme -%}
+              </ul>
+            </nav>
           {%- endif -%}
-        </a>
+
+          {%- render 'header-icons',
+            enable_country_selector: section.settings.enable_country_selector,
+            enable_language_selector: section.settings.enable_language_selector,
+            enable_customer_account_icon: section.settings.enable_customer_account_icon
+          -%}
+        </div>
       </div>
 
-      {%- if section.settings.menu.links.size > 0 -%}
-        <nav class="header__nav" aria-label="Primary">
-          <ul class="header__nav-list flex items-center">
-            {%- for link in section.settings.menu.links -%}
-              <li class="header__nav-item">
-                {%- if link.links.size > 0 -%}
-                  <details class="header__nav-dropdown">
-                    <summary class="header__nav-link items-center">
-                      {{ link.title }}
-                      {%- render 'icon', name: 'chevron' -%}
-                    </summary>
-                    <ul class="header__nav-dropdown-list color-{{ section.settings.menu_color_scheme }}">
-                      {%- for childlink in link.links -%}
-                        <li>
-                          <a href="{{ childlink.url }}"{% if childlink.active %} aria-current="page"{% endif %}>{{ childlink.title }}</a>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  </details>
-                {%- else -%}
-                  <a href="{{ link.url }}" class="header__nav-link items-center"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
-                {%- endif -%}
-              </li>
-            {%- endfor -%}
-          </ul>
-        </nav>
-      {%- endif -%}
-
-      <div class="header__icons flex items-center">
-        {%- if section.settings.enable_country_selector or section.settings.enable_language_selector -%}
-          <div class="header__localization flex">
-            {%- if section.settings.enable_country_selector -%}
-              {%- render 'localization-form', type: 'country', form_id: 'HeaderCountry' -%}
-            {%- endif -%}
-            {%- if section.settings.enable_language_selector -%}
-              {%- render 'localization-form', type: 'language', form_id: 'HeaderLanguage' -%}
-            {%- endif -%}
+      <div class="header__row header__row--main">
+        <div class="header__row-inner {{ width_class }} flex items-center mobile-justify-end">
+          <div class="header__logo">
+            <a href="{{ routes.root_url }}">
+              {%- if section.settings.logo != blank -%}
+                {%- render 'image',
+                  image: section.settings.logo,
+                  alt: shop.name,
+                  width: 600,
+                  sizes: '200px',
+                  fill: false,
+                  loading: 'eager',
+                  fetchpriority: 'high'
+                -%}
+              {%- else -%}
+                <span class="header__logo-text">{{ shop.name }}</span>
+              {%- endif -%}
+            </a>
           </div>
-        {%- endif -%}
 
-        {%- if section.settings.enable_customer_account_icon and shop.customer_accounts_enabled -%}
-          <a
-            href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
-            class="header__account items-center"
-            aria-label="{{ 'general.header.account' | t }}"
-          >
-            {%- render 'icon', name: 'account' -%}
-          </a>
-        {%- endif -%}
+          {%- if section.settings.menu.links.size > 0 -%}
+            <nav class="header__nav" aria-label="Primary">
+              <ul class="header__nav-list flex items-center">
+                {%- render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme -%}
+              </ul>
+            </nav>
+          {%- endif -%}
 
-        <a href="{{ routes.cart_url }}" class="header__cart items-center" aria-label="{{ 'general.header.cart' | t }}">
-          {{ 'general.header.cart' | t }}
-          <span class="header__cart-count">({{ cart.item_count }})</span>
-        </a>
+          {%- if section.settings.menu.links.size > 0 or section.settings.secondary_menu.links.size > 0 -%}
+            <details class="header__mobile-nav">
+              <summary class="header__mobile-nav-toggle">{{ 'general.header.menu' | t }}</summary>
+              <ul class="header__mobile-nav-list color-{{ section.settings.menu_color_scheme }}">
+                {%- render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme -%}
+                {%- if section.settings.secondary_menu.links.size > 0 -%}
+                  <li class="header__mobile-nav-divider" role="separator"></li>
+                  {%- render 'menu-links', menu: section.settings.secondary_menu, color_scheme: section.settings.menu_color_scheme -%}
+                {%- endif -%}
+              </ul>
+            </details>
+          {%- endif -%}
+        </div>
       </div>
 
-      {%- if section.settings.menu.links.size > 0 -%}
-        <details class="header__mobile-nav">
-          <summary class="header__mobile-nav-toggle">{{ 'general.header.menu' | t }}</summary>
-          <ul class="header__mobile-nav-list color-{{ section.settings.menu_color_scheme }}">
-            {%- for link in section.settings.menu.links -%}
-              <li>
-                {%- if link.links.size > 0 -%}
-                  <details class="header__nav-dropdown">
-                    <summary class="header__nav-link items-center">
-                      {{ link.title }}
-                      {%- render 'icon', name: 'chevron' -%}
-                    </summary>
-                    <ul class="header__nav-dropdown-list">
-                      {%- for childlink in link.links -%}
-                        <li><a href="{{ childlink.url }}">{{ childlink.title }}</a></li>
-                      {%- endfor -%}
-                    </ul>
-                  </details>
-                {%- else -%}
-                  <a href="{{ link.url }}">{{ link.title }}</a>
-                {%- endif -%}
-              </li>
-            {%- endfor -%}
-          </ul>
-        </details>
-      {%- endif -%}
-    </div>
+    {%- else -%}
+
+      <div class="header__wrapper items-center {{ width_class }}">
+        <div class="header__logo">
+          <a href="{{ routes.root_url }}">
+            {%- if section.settings.logo != blank -%}
+              {%- render 'image',
+                image: section.settings.logo,
+                alt: shop.name,
+                width: 600,
+                sizes: '200px',
+                fill: false,
+                loading: 'eager',
+                fetchpriority: 'high'
+              -%}
+            {%- else -%}
+              <span class="header__logo-text">{{ shop.name }}</span>
+            {%- endif -%}
+          </a>
+        </div>
+
+        {%- if section.settings.menu.links.size > 0 -%}
+          <nav class="header__nav" aria-label="Primary">
+            <ul class="header__nav-list flex items-center">
+              {%- render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme -%}
+            </ul>
+          </nav>
+        {%- endif -%}
+
+        {%- render 'header-icons',
+          enable_country_selector: section.settings.enable_country_selector,
+          enable_language_selector: section.settings.enable_language_selector,
+          enable_customer_account_icon: section.settings.enable_customer_account_icon
+        -%}
+
+        {%- if section.settings.menu.links.size > 0 -%}
+          <details class="header__mobile-nav">
+            <summary class="header__mobile-nav-toggle">{{ 'general.header.menu' | t }}</summary>
+            <ul class="header__mobile-nav-list color-{{ section.settings.menu_color_scheme }}">
+              {%- render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme -%}
+            </ul>
+          </details>
+        {%- endif -%}
+      </div>
+
+    {%- endif -%}
   </header>
 </sticky-header>
 
@@ -143,6 +177,7 @@
       "type": "select",
       "id": "logo_position",
       "label": "Logo position",
+      "info": "Only applies to the one-row header layout. The two-row layout always centers the logo.",
       "options": [
         { "value": "top-left", "label": "Top left" },
         { "value": "top-center", "label": "Top center" },
@@ -155,6 +190,7 @@
       "type": "select",
       "id": "mobile_logo_position",
       "label": "Mobile logo position",
+      "info": "Only applies to the one-row header layout. The two-row layout always centers the logo on mobile.",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" }
@@ -173,7 +209,28 @@
     },
     {
       "type": "header",
+      "content": "Secondary menu"
+    },
+    {
+      "type": "link_list",
+      "id": "secondary_menu",
+      "label": "Secondary menu",
+      "info": "Only shown when Header layout below is set to Two rows."
+    },
+    {
+      "type": "header",
       "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "header_layout",
+      "label": "Header layout",
+      "info": "Two rows adds a utility row (secondary menu + account/cart icons) above the logo and primary menu.",
+      "options": [
+        { "value": "one-row", "label": "One row" },
+        { "value": "two-row", "label": "Two rows" }
+      ],
+      "default": "one-row"
     },
     {
       "type": "checkbox",

@@ -1,0 +1,31 @@
+{%- comment -%}
+  Renders a single product media item (image, self-hosted video, or external
+  video). 3D/AR model media falls back to its preview image, since the theme
+  doesn't load the model-viewer library.
+
+  Accepts:
+  media (object, required) - A product media item.
+  width (number, optional) - Passed to the 'image' snippet.
+  sizes (string, optional) - Passed to the 'image' snippet.
+  loading (string, optional) - 'eager' or 'lazy'.
+  fetchpriority (string, optional) - 'high', 'low', or 'auto'.
+
+  Usage:
+  {% render 'product-media-item', media: media, width: 1200, sizes: '50vw' %}
+{%- endcomment -%}
+
+{%- case media.media_type -%}
+  {%- when 'video' -%}
+    {{ media | video_tag: image_size: '1200x', controls: true, class: 'product__gallery-video' }}
+  {%- when 'external_video' -%}
+    {{ media | external_video_tag: class: 'product__gallery-video' }}
+  {%- else -%}
+    {%- render 'image',
+      image: media.preview_image,
+      width: width,
+      sizes: sizes,
+      fill: false,
+      loading: loading,
+      fetchpriority: fetchpriority
+    -%}
+{%- endcase -%}

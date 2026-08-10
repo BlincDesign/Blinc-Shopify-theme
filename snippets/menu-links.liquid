@@ -1,0 +1,30 @@
+{%- comment -%}
+  Renders <li> navigation items, including dropdowns, for a link list.
+  Meant to be placed inside a <ul>. Shared by the header's primary menu,
+  secondary menu, and mobile menu so dropdown markup/behavior isn't duplicated.
+  Usage: {% render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme %}
+  Accepts:
+  - menu: a link_list setting value
+  - color_scheme: color scheme id applied to dropdown panels
+{%- endcomment -%}
+{%- for link in menu.links -%}
+  <li class="header__nav-item">
+    {%- if link.links.size > 0 -%}
+      <details class="header__nav-dropdown">
+        <summary class="header__nav-link items-center">
+          {{ link.title }}
+          {%- render 'icon', name: 'chevron' -%}
+        </summary>
+        <ul class="header__nav-dropdown-list color-{{ color_scheme }}">
+          {%- for childlink in link.links -%}
+            <li>
+              <a href="{{ childlink.url }}"{% if childlink.active %} aria-current="page"{% endif %}>{{ childlink.title }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </details>
+    {%- else -%}
+      <a href="{{ link.url }}" class="header__nav-link items-center"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+    {%- endif -%}
+  </li>
+{%- endfor -%}

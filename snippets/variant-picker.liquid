@@ -1,0 +1,59 @@
+{%- comment -%}
+  Renders option pickers (pills or a dropdown) for a product's variants.
+  Renders no logic itself - the enclosing <variant-picker> custom element
+  (assets/product.js) listens for native `change` events on the inputs this
+  snippet renders, and reports the selected option values up to the
+  <product-info> wrapper, which resolves and applies the matching variant.
+
+  Accepts:
+  product (object, required)
+  picker_style (string, optional) - 'pills' or 'dropdown'. Default: 'pills'.
+
+  Usage:
+  {% render 'variant-picker', product: product, picker_style: section.settings.variant_picker_style %}
+{%- endcomment -%}
+
+{%- liquid
+  assign picker_style = picker_style | default: 'pills'
+-%}
+
+<variant-picker class="variant-picker flex flex-column">
+  {%- for option in product.options_with_values -%}
+    <div class="variant-picker__option" data-option-position="{{ option.position }}">
+      {%- if picker_style == 'dropdown' -%}
+        <label class="variant-picker__label text-body text-body--small" for="Option-{{ product.id }}-{{ option.position }}">
+          {{ option.name }}
+        </label>
+        <select
+          class="variant-picker__select"
+          id="Option-{{ product.id }}-{{ option.position }}"
+          name="options[{{ option.name | escape }}]"
+          data-option-input
+        >
+          {%- for value in option.values -%}
+            <option value="{{ value | escape }}"{% if value == option.selected_value %} selected{% endif %}>{{ value }}</option>
+          {%- endfor -%}
+        </select>
+      {%- else -%}
+        <span class="variant-picker__label text-body text-body--small">
+          {{ option.name }}: <span class="variant-picker__value">{{ option.selected_value }}</span>
+        </span>
+        <div class="variant-picker__pills flex flex-wrap">
+          {%- for value in option.values -%}
+            {%- assign input_id = 'Option-' | append: product.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+            <input
+              type="radio"
+              id="{{ input_id }}"
+              class="visually-hidden variant-picker__radio"
+              name="options[{{ option.name | escape }}]"
+              value="{{ value | escape }}"
+              data-option-input
+              {% if value == option.selected_value %}checked{% endif %}
+            >
+            <label class="variant-picker__pill items-center justify-center" for="{{ input_id }}">{{ value }}</label>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endfor -%}
+</variant-picker>
