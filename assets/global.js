@@ -1,5 +1,7 @@
 window.theme = window.theme || {};
 window.theme.settings = window.theme.settings || {};
+
+
 class StickyHeader {
   constructor(header) {
     this.header = header;
@@ -8,33 +10,51 @@ class StickyHeader {
 
     if (!this.section || !this.type || this.type === 'none') return;
 
-    this.lastScrollY = window.scrollY;
+    this.currentScrollY = window.scrollY;
+    this.previousScrollY = window.scrollY;
+    this.ticking = false;
+
     this.onScroll = this.onScroll.bind(this);
 
     this.section.classList.add('header--sticky');
 
-    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('scroll', this.onScroll, {
+      passive: true
+    });
   }
 
   onScroll() {
-    const currentScrollY = window.scrollY;
+    this.currentScrollY = window.scrollY;
 
-    if (this.type === 'always-reduce-logo-size') {
+    if (this.ticking) return;
+
+    this.ticking = true;
+
+    requestAnimationFrame(() => {
+      const currentScrollY = this.currentScrollY;
+
+      if (this.type === 'always-reduce-logo-size') {
         const progress = Math.min(currentScrollY / 50, 1);
 
-        this.section.style.setProperty('--header-scroll-progress', progress);
-        }
+        this.section.style.setProperty(
+          '--header-scroll-progress',
+          progress
+        );
+      }
 
-    if (this.type === 'on-scroll-up') {
-      const scrollingDown = currentScrollY > this.lastScrollY;
+      if (this.type === 'on-scroll-up') {
+        const scrollingDown = currentScrollY > this.previousScrollY;
 
-      this.section.classList.toggle(
-        'header--hidden',
-        scrollingDown && currentScrollY > this.section.offsetHeight
-      );
-    }
+        this.section.classList.toggle(
+          'header--hidden',
+          scrollingDown && currentScrollY > this.section.offsetHeight
+        );
 
-    this.lastScrollY = currentScrollY;
+        this.previousScrollY = currentScrollY;
+      }
+
+      this.ticking = false;
+    });
   }
 
   destroy() {
