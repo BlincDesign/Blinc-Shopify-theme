@@ -9,6 +9,22 @@
  */
 {
   "sections": {
+    "featured_collection_hhAeW6": {
+      "type": "featured-collection",
+      "name": "Featured collection",
+      "settings": {
+        "heading": "Featured collection",
+        "heading_size": "large",
+        "collection": "jewelry",
+        "products_to_show": 8,
+        "color_scheme": "",
+        "container_width": "container-standard",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_top_m": 32,
+        "padding_bottom_m": 32
+      }
+    },
     "rich_text": {
       "type": "rich-text",
       "blocks": {
@@ -392,6 +408,7 @@
     }
   },
   "order": [
+    "featured_collection_hhAeW6",
     "rich_text",
     "media_with_text_ML7CFL",
     "media_with_text_ptN7Ah",
