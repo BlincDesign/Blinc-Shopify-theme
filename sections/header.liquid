@@ -7,7 +7,7 @@
 
 <header
   class="header color-{{ section.settings.color_scheme }} header--{{ section.settings.header_layout }} header--logo-{{ section.settings.logo_position }} header--mobile-logo-{{ section.settings.mobile_logo_position }}"
-  data-sticky-type="{{ section.settings.sticky_header }}"
+  data-sticky-type="{{ section.settings.sticky_header }}" data-sticky-logo-scale="{{ section.settings.sticky_logo_scale }}"
   style="--header-padding-top: {{ section.settings.padding_top }}px; --header-padding-bottom: {{ section.settings.padding_bottom }}px; --logo-max-width: {{ section.settings.logo_max_width }}px; --logo-max-height: {{ section.settings.logo_max_height }}px;"
 >
   {%- if section.settings.header_layout == 'two-row' -%}
