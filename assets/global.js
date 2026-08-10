@@ -6,7 +6,11 @@ class StickyHeader {
     this.section = header.closest('.shopify-section--header');
     this.type = header.dataset.stickyType;
 
-    if (!this.section || !this.type || this.type === 'none') return;
+    if (this.type === 'always-reduce-logo-size') {
+        const progress = Math.min(currentScrollY / 50, 1);
+
+        this.section.style.setProperty('--header-scroll-progress', progress);
+    }
 
     this.lastScrollY = window.scrollY;
     this.onScroll = this.onScroll.bind(this);
