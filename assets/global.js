@@ -20,7 +20,7 @@ class StickyHeader {
     const currentScrollY = window.scrollY;
 
     if (this.type === 'always-reduce-logo-size') {
-        const progress = Math.min(currentScrollY / 50, 1);
+        const progress = Math.min(currentScrollY / 50);
 
         this.section.style.setProperty('--header-scroll-progress', progress);
         }
