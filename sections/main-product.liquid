@@ -196,8 +196,7 @@
                     type: 'submit',
                     name: 'add',
                     button_style: 'primary',
-                    class: 'product__atc-button',
-                    disabled: current_variant.available == false
+                    class: 'product__atc-button'
                   -%}
                   {%- if block.settings.show_dynamic_checkout and current_variant.available -%}
                     <div class="product__dynamic-checkout">
