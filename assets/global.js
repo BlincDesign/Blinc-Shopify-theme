@@ -34,13 +34,16 @@ class StickyHeader {
       const currentScrollY = this.currentScrollY;
 
       if (this.type === 'always-reduce-logo-size') {
-        const progress = Math.min(currentScrollY / 80, 1);
+            const progress = Math.min(currentScrollY / 80, 1);
+            const scale = this.header.dataset.stickyLogoScale / 100;
 
-        this.section.style.setProperty(
-            '--header-scroll-progress',
-            progress
-        );
-        }
+            const currentScale = 1 - ((1 - scale) * progress);
+
+            this.section.style.setProperty(
+                '--header-logo-scale',
+                currentScale
+            );
+       }
 
       if (this.type === 'on-scroll-up') {
         const scrollingDown = currentScrollY > this.previousScrollY;

@@ -314,13 +314,10 @@ h6,
 /* Header
 ---------------------------------------- */
 .header__logo img {
-  transform: scale(
-    calc(1 - (0.16 * var(--header-scroll-progress, 0)))
-  );
+  transform: scale(var(--header-logo-scale, 1));
   transform-origin: center;
   will-change: transform;
 }
-
 
 .shopify-section--header {
   position: relative;
