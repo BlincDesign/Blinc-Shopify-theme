@@ -314,10 +314,10 @@ h6,
 /* Header
 ---------------------------------------- */
 .header__logo img {
-  max-height: var(
-    --header-logo-max-height,
-    var(--logo-max-height, 60px)
-  );
+  transform: scale(var(--header-logo-scale, 1));
+  transform-origin: center;
+  will-change: transform;
+  transition-duration: 0.6s;
 }
 
 .shopify-section--header {
