@@ -1,42 +1,51 @@
 window.theme = window.theme || {};
 window.theme.settings = window.theme.settings || {};
+class StickyHeader {
+  constructor(header) {
+    this.header = header;
+    this.section = header.closest('.shopify-section--header');
+    this.type = header.dataset.stickyType;
 
-class StickyHeader extends HTMLElement {
-    constructor() {
-        super();
-        this.onScroll = this.onScroll.bind(this);
+    if (!this.section || !this.type || this.type === 'none') return;
+
+    this.lastScrollY = window.scrollY;
+    this.onScroll = this.onScroll.bind(this);
+
+    this.section.classList.add('header--sticky');
+
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+
+  onScroll() {
+    const currentScrollY = window.scrollY;
+
+    if (this.type === 'always-reduce-logo-size') {
+      this.section.classList.toggle(
+        'header--condensed',
+        currentScrollY > 50
+      );
     }
 
-    connectedCallback() {
-        this.type = this.dataset.stickyType;
+    if (this.type === 'on-scroll-up') {
+      const scrollingDown = currentScrollY > this.lastScrollY;
 
-        if (!this.type || this.type === 'none') return;
-
-        this.lastScrollY = window.scrollY;
-        window.addEventListener('scroll', this.onScroll, { passive: true });
+      this.section.classList.toggle(
+        'header--hidden',
+        scrollingDown && currentScrollY > this.section.offsetHeight
+      );
     }
 
-    disconnectedCallback() {
-        window.removeEventListener('scroll', this.onScroll);
-    }
+    this.lastScrollY = currentScrollY;
+  }
 
-    onScroll() {
-        const currentScrollY = window.scrollY;
-
-        if (this.type === 'always-reduce-logo-size') {
-            this.classList.toggle('header--condensed', currentScrollY > 50);
-        }
-
-        if (this.type === 'on-scroll-up') {
-            const scrollingDown = currentScrollY > this.lastScrollY;
-            this.classList.toggle('header--hidden', scrollingDown && currentScrollY > this.offsetHeight);
-        }
-
-        this.lastScrollY = currentScrollY;
-    }
+  destroy() {
+    window.removeEventListener('scroll', this.onScroll);
+  }
 }
 
-customElements.define('sticky-header', StickyHeader);
+document.querySelectorAll('.header').forEach((header) => {
+  new StickyHeader(header);
+});
 
 class QuantitySelector extends HTMLElement {
     connectedCallback() {
