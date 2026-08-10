@@ -23,7 +23,7 @@ class StickyHeader {
         const progress = Math.min(currentScrollY / 50, 1);
 
         this.section.style.setProperty('--header-scroll-progress', progress);
-    }
+        }
 
     if (this.type === 'on-scroll-up') {
       const scrollingDown = currentScrollY > this.lastScrollY;
