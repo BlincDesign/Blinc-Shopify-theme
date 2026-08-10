@@ -18,7 +18,7 @@
         "logo_max_width": 500,
         "logo_max_height": 50,
         "sticky_logo_scale": 60,
-        "logo_position": "middle-center",
+        "logo_position": "middle-left",
         "mobile_logo_position": "left",
         "menu": "customer-account-main-menu",
         "secondary_menu": "customer-account-main-menu",
