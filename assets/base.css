@@ -317,7 +317,6 @@ h6,
   transform: scale(var(--header-logo-scale, 1));
   transform-origin: center;
   will-change: transform;
-  transition-duration: 0.4s;
 }
 
 .shopify-section--header {
