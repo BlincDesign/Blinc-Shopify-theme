@@ -60,5 +60,16 @@
       "next": "Next page"
     },
     "empty": "No products found in this collection."
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "continue_shopping": "Continue shopping",
+    "remove": "Remove",
+    "discount": "Discount",
+    "subtotal": "Subtotal",
+    "taxes_and_shipping": "Taxes and shipping calculated at checkout",
+    "update": "Update cart",
+    "checkout": "Check out"
   }
 }

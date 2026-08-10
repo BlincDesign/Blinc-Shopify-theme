@@ -16,11 +16,17 @@
   assign current_variant = product.selected_or_first_available_variant
   assign gallery_media = product.media
   assign product_form_id = 'ProductForm-' | append: section.id
+  assign quantity_input_id = 'Quantity-' | append: section.id
 
   assign buy_button_label = 'products.product.add_to_cart' | t
   unless current_variant.available
     assign buy_button_label = 'products.product.sold_out' | t
   endunless
+
+  assign quantity_max = 0
+  if current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny'
+    assign quantity_max = current_variant.inventory_quantity
+  endif
 -%}
 
 {%- style -%}
@@ -193,8 +199,8 @@
 
               {%- when 'quantity_selector' -%}
                 <div class="product__quantity" {{ block.shopify_attributes }}>
-                  <label class="text-body text-body--small" for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
-                  {%- render 'quantity-selector', current_variant: current_variant, section_id: section.id -%}
+                  <label class="text-body text-body--small" for="{{ quantity_input_id }}">{{ 'products.product.quantity' | t }}</label>
+                  {%- render 'quantity-selector', id: quantity_input_id, max: quantity_max -%}
                 </div>
 
               {%- when 'buy_buttons' -%}

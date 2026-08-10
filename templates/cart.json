@@ -1,11 +1,11 @@
 {
   "sections": {
-    "rich_text": {
-      "type": "rich-text",
+    "main": {
+      "type": "main-cart",
       "settings": {}
     }
   },
   "order": [
-    "rich_text"
+    "main"
   ]
 }

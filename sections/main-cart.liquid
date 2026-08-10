@@ -1,0 +1,136 @@
+{%- comment -%}
+  Basic cart section: a plain `{% form 'cart' %}` (no AJAX) listing line
+  items with a quantity stepper (reuses snippets/quantity-selector.liquid,
+  the same one the product form uses) and a remove link via
+  `item.url_to_remove`, plus a subtotal/checkout footer. No JS is required
+  for the cart to function - quantity changes are submitted with the
+  "Update cart" button, and removal is a plain link.
+{%- endcomment -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .cart {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<div class="cart color-{{ section.settings.color_scheme }}">
+  <div class="cart__wrapper {{ section.settings.container_width }}">
+    <h1 class="cart__title heading heading--xl">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count == 0 -%}
+      <div class="cart__empty flex flex-column items-center text-center">
+        <p class="cart__empty-text text-body">{{ 'cart.empty' | t }}</p>
+        {%- render 'button', label: 'cart.continue_shopping' | t, url: routes.all_products_collection_url, button_style: 'primary' -%}
+      </div>
+    {%- else -%}
+      {%- form 'cart', cart, class: 'cart__form' -%}
+        <div class="cart__items flex flex-column">
+          {%- for item in cart.items -%}
+            <div class="cart__item flex">
+              <a href="{{ item.url }}" class="cart__item-media">
+                {%- render 'image', image: item.image, width: 200, sizes: '120px' -%}
+              </a>
+
+              <div class="cart__item-details flex flex-column flex-grow">
+                <a href="{{ item.url }}" class="cart__item-title text-body">{{ item.product.title }}</a>
+
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="cart__item-variant text-body text-body--small">{{ item.variant.title }}</p>
+                {%- endunless -%}
+
+                {%- if item.original_price != item.final_price -%}
+                  <p class="cart__item-price flex items-center text-body text-body--small">
+                    <span class="cart__item-price-compare">{{ item.original_price | money }}</span>
+                    <span class="cart__item-price-sale">{{ item.final_price | money }}</span>
+                  </p>
+                {%- else -%}
+                  <p class="cart__item-price text-body text-body--small">{{ item.original_price | money }}</p>
+                {%- endif -%}
+
+                <div class="cart__item-actions flex items-center">
+                  {%- render 'quantity-selector',
+                    id: 'CartQuantity-' | append: item.key,
+                    name: 'updates[' | append: item.key | append: ']',
+                    value: item.quantity
+                  -%}
+
+                  <a href="{{ item.url_to_remove }}" class="cart__item-remove text-body text-body--small">{{ 'cart.remove' | t }}</a>
+                </div>
+              </div>
+
+              <p class="cart__item-total text-body">{{ item.final_line_price | money }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="cart__footer flex flex-column items-end">
+          {%- if cart.total_discount > 0 -%}
+            <p class="cart__discount text-body text-body--small">{{ 'cart.discount' | t }}: -{{ cart.total_discount | money }}</p>
+          {%- endif -%}
+
+          <p class="cart__subtotal heading heading--small">{{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}</p>
+          <p class="cart__note text-body text-body--small">{{ 'cart.taxes_and_shipping' | t }}</p>
+
+          <div class="cart__footer-actions flex flex-wrap justify-end">
+            {%- render 'button', label: 'cart.update' | t, type: 'submit', name: 'update', button_style: 'secondary' -%}
+            {%- render 'button', label: 'cart.checkout' | t, type: 'submit', name: 'checkout', button_style: 'primary' -%}
+          </div>
+        </div>
+      {%- endform -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Main cart",
+  "tag": "section",
+  "class": "shopify-section--main-cart",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container width",
+      "default": "container-standard",
+      "options": [
+        { "value": "full-width", "label": "Full width" },
+        { "value": "container-padded", "label": "Full width (padded)" },
+        { "value": "container-standard", "label": "Standard" },
+        { "value": "container-narrow", "label": "Narrow" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main cart"
+    }
+  ]
+}
+{% endschema %}

@@ -37,6 +37,46 @@ class StickyHeader extends HTMLElement {
 }
 
 customElements.define('sticky-header', StickyHeader);
+
+class QuantitySelector extends HTMLElement {
+    connectedCallback() {
+        this.input = this.querySelector('[data-quantity-input]');
+        this.decreaseBtn = this.querySelector('[data-decrease]');
+        this.increaseBtn = this.querySelector('[data-increase]');
+
+        this.decreaseBtn?.addEventListener('click', () => this.step(-1));
+        this.increaseBtn?.addEventListener('click', () => this.step(1));
+        this.input?.addEventListener('change', () => this.clamp());
+    }
+
+    step(direction) {
+        if (!this.input) return;
+        const min = Number(this.input.min) || 1;
+        const current = Number(this.input.value) || min;
+        this.input.value = current + direction;
+        this.clamp();
+    }
+
+    clamp() {
+        if (!this.input) return;
+        const min = Number(this.input.min) || 1;
+        const max = this.input.max ? Number(this.input.max) : Infinity;
+        this.input.value = Math.min(Math.max(Number(this.input.value) || min, min), max);
+    }
+
+    setMax(max) {
+        if (!this.input) return;
+        if (max > 0) {
+            this.input.max = max;
+            if (Number(this.input.value) > max) this.input.value = max;
+        } else {
+            this.input.removeAttribute('max');
+        }
+    }
+}
+
+customElements.define('quantity-selector', QuantitySelector);
+
 class Slider {
     constructor(options = {}) {
         const themeDefaults = window.theme.settings.slider ?? {};

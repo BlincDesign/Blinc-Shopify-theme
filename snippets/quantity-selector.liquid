@@ -1,35 +1,39 @@
 {%- comment -%}
-  Renders a quantity stepper (decrease / input / increase) for the product
-  form. The enclosing <quantity-selector> custom element (assets/product.js)
-  wires the buttons and clamps the value between 1 and an optional inventory
-  max, which <product-info> keeps in sync when the selected variant changes.
+  Renders a quantity stepper (decrease / input / increase). The enclosing
+  <quantity-selector> custom element (assets/global.js) wires the buttons and
+  clamps the value between `min` and `max`. Used by both the product form
+  (assets/product.js keeps `max` in sync with the selected variant's
+  inventory) and the cart line items.
 
   Accepts:
-  current_variant (object, required)
-  section_id (string, required) - Used to build a unique input id.
+  id (string, required) - Unique id for the input (and its label's `for`).
+  name (string, optional) - Form field name. Default: 'quantity'.
+  value (number, optional) - Current quantity. Default: 1.
+  min (number, optional) - Default: 1.
+  max (number, optional) - Omit or 0 for no max.
 
   Usage:
-  {% render 'quantity-selector', current_variant: current_variant, section_id: section.id %}
+  {% render 'quantity-selector', id: 'Quantity-' | append: section.id, max: quantity_max %}
+  {% render 'quantity-selector', id: 'Quantity-' | append: item.key, name: 'updates[' | append: item.key | append: ']', value: item.quantity %}
 {%- endcomment -%}
 
 {%- liquid
-  assign quantity_max = 0
-  if current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny'
-    assign quantity_max = current_variant.inventory_quantity
-  endif
+  assign quantity_name = name | default: 'quantity'
+  assign quantity_value = value | default: 1
+  assign quantity_min = min | default: 1
 -%}
 
 <quantity-selector class="quantity-selector">
   <button type="button" class="quantity-selector__button" data-decrease aria-label="{{ 'products.product.decrease_quantity' | t }}">&minus;</button>
-  <label class="visually-hidden" for="Quantity-{{ section_id }}">{{ 'products.product.quantity' | t }}</label>
+  <label class="visually-hidden" for="{{ id }}">{{ 'products.product.quantity' | t }}</label>
   <input
     type="number"
-    id="Quantity-{{ section_id }}"
+    id="{{ id }}"
     class="quantity-selector__input"
-    name="quantity"
-    value="1"
-    min="1"
-    {%- if quantity_max > 0 %} max="{{ quantity_max }}"{% endif %}
+    name="{{ quantity_name }}"
+    value="{{ quantity_value }}"
+    min="{{ quantity_min }}"
+    {%- if max > 0 %} max="{{ max }}"{% endif %}
     inputmode="numeric"
     data-quantity-input
   >
