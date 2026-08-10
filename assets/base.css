@@ -524,10 +524,10 @@ details[open] > .header__nav-link .icon--chevron {
     display: none;
   }
 
-  /* .header__logo img {
+  .header__logo img {
     max-width: 140px;
     max-height: 44px;
-  } */
+  }
 
   .header--mobile-logo-center .header__wrapper {
     position: relative;
