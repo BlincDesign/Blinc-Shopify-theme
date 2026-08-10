@@ -1,17 +1,3 @@
-{%- comment -%}
-  Main product section. Renders the product media gallery and an editable
-  stack of info blocks (title, price, variant picker, quantity, buy buttons,
-  SKU, inventory status, description, custom liquid) inside a single product
-  form, so merchants can reorder/add/remove content in the theme editor.
-
-  Variant switching, price/SKU/availability updates, quantity clamping, and
-  gallery syncing are handled client-side by the <product-info>,
-  <variant-picker>, and <quantity-selector> custom elements in
-  assets/product.js, using data pre-rendered by this section (no client-side
-  money formatting - price strings are rendered server-side via the `money`
-  filter so multi-currency/locale formatting stays correct).
-{%- endcomment -%}
-
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
   assign gallery_media = product.media
