@@ -1,101 +1,39 @@
-{%- comment -%}
-  Header settings audit — fixed:
-  - "Enable full-width header" had no visible effect: the non-full-width branch used
-    a `page-width` CSS class that is never defined anywhere in the theme, so both
-    states rendered identically. Swapped to the theme's real width utility,
-    `.container-standard`, which sets max-width, centering, and side padding.
-  - Dropdown chevron icons rendered nothing: `render 'icon', name: 'chevron'` had no
-    matching case in snippets/icon.liquid, and the existing chevron-right/left cases
-    didn't carry the `icon--chevron` class the CSS already targeted for size/rotation.
-    Added a `chevron` case with that class.
-  - Sticky header (none/on-scroll-up/always/always-reduce-logo-size), logo max
-    width/height, logo position, mobile logo position, color scheme, menu color
-    scheme, and top/bottom padding were already wired correctly — no changes needed.
-  - No "menu alignment" setting existed in the schema, so there was nothing to audit
-    there.
-
-  Two-row layout: row 1 is a utility row (secondary menu + localization/account/cart
-  icons), row 2 is the main row (logo centered + primary menu). On mobile, both menus
-  are combined into a single mobile nav drawer. Primary/secondary/mobile menus all
-  share the `menu-links` snippet so dropdown markup isn't duplicated.
-{%- endcomment -%}
 {%- liquid
   assign width_class = 'container-standard'
   if section.settings.enable_full_width
     assign width_class = 'header__wrapper--full-width'
   endif
 -%}
-<sticky-header data-sticky-type="{{ section.settings.sticky_header }}">
-  <header
-    class="header color-{{ section.settings.color_scheme }} header--{{ section.settings.header_layout }} header--logo-{{ section.settings.logo_position }} header--mobile-logo-{{ section.settings.mobile_logo_position }}"
-    style="--header-padding-top: {{ section.settings.padding_top }}px; --header-padding-bottom: {{ section.settings.padding_bottom }}px; --logo-max-width: {{ section.settings.logo_max_width }}px; --logo-max-height: {{ section.settings.logo_max_height }}px;"
-  >
-    {%- if section.settings.header_layout == 'two-row' -%}
 
-      <div class="header__row header__row--utility">
-        <div class="header__row-inner {{ width_class }} flex items-center justify-between mobile-justify-end">
-          {%- if section.settings.secondary_menu.links.size > 0 -%}
-            <nav class="header__nav header__nav--secondary" aria-label="Secondary">
-              <ul class="header__nav-list flex items-center">
-                {%- render 'menu-links', menu: section.settings.secondary_menu, color_scheme: section.settings.menu_color_scheme -%}
-              </ul>
-            </nav>
-          {%- endif -%}
+<header
+  class="header color-{{ section.settings.color_scheme }} header--{{ section.settings.header_layout }} header--logo-{{ section.settings.logo_position }} header--mobile-logo-{{ section.settings.mobile_logo_position }}"
+  data-sticky-type="{{ section.settings.sticky_header }}"
+  style="--header-padding-top: {{ section.settings.padding_top }}px; --header-padding-bottom: {{ section.settings.padding_bottom }}px; --logo-max-width: {{ section.settings.logo_max_width }}px; --logo-max-height: {{ section.settings.logo_max_height }}px;"
+>
+  {%- if section.settings.header_layout == 'two-row' -%}
+    <div class="header__row header__row--utility">
+      <div class="header__row-inner {{ width_class }} flex items-center justify-between mobile-justify-end">
+        {%- if section.settings.secondary_menu.links.size > 0 -%}
+          <nav class="header__nav header__nav--secondary" aria-label="Secondary">
+            <ul class="header__nav-list flex items-center">
+              {%- render 'menu-links',
+                menu: section.settings.secondary_menu,
+                color_scheme: section.settings.menu_color_scheme
+              -%}
+            </ul>
+          </nav>
+        {%- endif -%}
 
-          {%- render 'header-icons',
-            enable_country_selector: section.settings.enable_country_selector,
-            enable_language_selector: section.settings.enable_language_selector,
-            enable_customer_account_icon: section.settings.enable_customer_account_icon
-          -%}
-        </div>
+        {%- render 'header-icons',
+          enable_country_selector: section.settings.enable_country_selector,
+          enable_language_selector: section.settings.enable_language_selector,
+          enable_customer_account_icon: section.settings.enable_customer_account_icon
+        -%}
       </div>
+    </div>
 
-      <div class="header__row header__row--main">
-        <div class="header__row-inner {{ width_class }} flex items-center mobile-justify-end">
-          <div class="header__logo">
-            <a href="{{ routes.root_url }}">
-              {%- if section.settings.logo != blank -%}
-                {%- render 'image',
-                  image: section.settings.logo,
-                  alt: shop.name,
-                  width: 600,
-                  sizes: '200px',
-                  fill: false,
-                  loading: 'eager',
-                  fetchpriority: 'high'
-                -%}
-              {%- else -%}
-                <span class="header__logo-text">{{ shop.name }}</span>
-              {%- endif -%}
-            </a>
-          </div>
-
-          {%- if section.settings.menu.links.size > 0 -%}
-            <nav class="header__nav" aria-label="Primary">
-              <ul class="header__nav-list flex items-center">
-                {%- render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme -%}
-              </ul>
-            </nav>
-          {%- endif -%}
-
-          {%- if section.settings.menu.links.size > 0 or section.settings.secondary_menu.links.size > 0 -%}
-            <details class="header__mobile-nav">
-              <summary class="header__mobile-nav-toggle">{{ 'general.header.menu' | t }}</summary>
-              <ul class="header__mobile-nav-list color-{{ section.settings.menu_color_scheme }}">
-                {%- render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme -%}
-                {%- if section.settings.secondary_menu.links.size > 0 -%}
-                  <li class="header__mobile-nav-divider" role="separator"></li>
-                  {%- render 'menu-links', menu: section.settings.secondary_menu, color_scheme: section.settings.menu_color_scheme -%}
-                {%- endif -%}
-              </ul>
-            </details>
-          {%- endif -%}
-        </div>
-      </div>
-
-    {%- else -%}
-
-      <div class="header__wrapper items-center {{ width_class }}">
+    <div class="header__row header__row--main">
+      <div class="header__row-inner {{ width_class }} flex items-center mobile-justify-end">
         <div class="header__logo">
           <a href="{{ routes.root_url }}">
             {%- if section.settings.logo != blank -%}
@@ -122,25 +60,69 @@
           </nav>
         {%- endif -%}
 
-        {%- render 'header-icons',
-          enable_country_selector: section.settings.enable_country_selector,
-          enable_language_selector: section.settings.enable_language_selector,
-          enable_customer_account_icon: section.settings.enable_customer_account_icon
-        -%}
-
-        {%- if section.settings.menu.links.size > 0 -%}
+        {%- if section.settings.menu.links.size > 0 or section.settings.secondary_menu.links.size > 0 -%}
           <details class="header__mobile-nav">
             <summary class="header__mobile-nav-toggle">{{ 'general.header.menu' | t }}</summary>
             <ul class="header__mobile-nav-list color-{{ section.settings.menu_color_scheme }}">
               {%- render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme -%}
+              {%- if section.settings.secondary_menu.links.size > 0 -%}
+                <li class="header__mobile-nav-divider" role="separator"></li>
+                {%- render 'menu-links',
+                  menu: section.settings.secondary_menu,
+                  color_scheme: section.settings.menu_color_scheme
+                -%}
+              {%- endif -%}
             </ul>
           </details>
         {%- endif -%}
       </div>
+    </div>
 
-    {%- endif -%}
-  </header>
-</sticky-header>
+  {%- else -%}
+    <div class="header__wrapper items-center {{ width_class }}">
+      <div class="header__logo">
+        <a href="{{ routes.root_url }}">
+          {%- if section.settings.logo != blank -%}
+            {%- render 'image',
+              image: section.settings.logo,
+              alt: shop.name,
+              width: 600,
+              sizes: '200px',
+              fill: false,
+              loading: 'eager',
+              fetchpriority: 'high'
+            -%}
+          {%- else -%}
+            <span class="header__logo-text">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+      </div>
+
+      {%- if section.settings.menu.links.size > 0 -%}
+        <nav class="header__nav" aria-label="Primary">
+          <ul class="header__nav-list flex items-center">
+            {%- render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+      {%- render 'header-icons',
+        enable_country_selector: section.settings.enable_country_selector,
+        enable_language_selector: section.settings.enable_language_selector,
+        enable_customer_account_icon: section.settings.enable_customer_account_icon
+      -%}
+
+      {%- if section.settings.menu.links.size > 0 -%}
+        <details class="header__mobile-nav">
+          <summary class="header__mobile-nav-toggle">{{ 'general.header.menu' | t }}</summary>
+          <ul class="header__mobile-nav-list color-{{ section.settings.menu_color_scheme }}">
+            {%- render 'menu-links', menu: section.settings.menu, color_scheme: section.settings.menu_color_scheme -%}
+          </ul>
+        </details>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</header>
 
 {% schema %}
 {
