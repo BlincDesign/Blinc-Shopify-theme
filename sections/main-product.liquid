@@ -22,7 +22,7 @@
   }
 {%- endstyle -%}
 
-<div class="product color-{{ section.settings.color_scheme }}">
+<div class="product flex flex-wrap color-{{ section.settings.color_scheme }}">
   <div class="{{ section.settings.container_width }}">
     <div class="product__media">
       {%- render 'product-badges', product: product -%}
@@ -119,153 +119,119 @@
       {%- endif -%}
     </div>
 
-    <product-info
-      class="product__wrapper product--media-{{ section.settings.media_position }}"
-      data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
-      data-sold-out-text="{{ 'products.product.sold_out' | t }}"
-      data-unavailable-text="{{ 'products.product.unavailable' | t }}"
-      data-in-stock-text="{{ 'products.product.in_stock' | t }}"
-      data-out-of-stock-text="{{ 'products.product.out_of_stock' | t }}"
-      data-low-stock-text="{{ 'products.product.low_stock' | t }}"
-      data-low-stock-threshold="{{ section.settings.low_stock_threshold }}"
-    >
-      <div class="product__info flex flex-column">
-        {%- form 'product', product, id: product_form_id, class: 'product__form' -%}
-          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
+    <div class="product__info flex flex-column">
+      {%- form 'product', product, id: product_form_id, class: 'product__form' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
 
-          {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when 'vendor' -%}
-                {%- if product.vendor != blank -%}
-                  <p class="product__vendor text-body text-body--small" {{ block.shopify_attributes }}>
-                    {{ product.vendor }}
-                  </p>
-                {%- endif -%}
-
-              {%- when 'title' -%}
-                <h1
-                  class="product__title heading heading--{{ block.settings.heading_size }}"
-                  {{ block.shopify_attributes }}
-                >
-                  {{ product.title }}
-                </h1>
-
-              {%- when 'price' -%}
-                <div
-                  class="product__price flex items-center heading heading--small"
-                  data-product-price
-                  {{ block.shopify_attributes }}
-                >
-                  {%- if current_variant.compare_at_price > current_variant.price -%}
-                    <span class="product__price-compare">{{ current_variant.compare_at_price | money }}</span>
-                    <span class="product__price-sale">{{ current_variant.price | money }}</span>
-                  {%- else -%}
-                    <span>{{ current_variant.price | money }}</span>
-                  {%- endif -%}
-                </div>
-
-              {%- when 'sku' -%}
-                <p
-                  class="product__sku text-body text-body--small"
-                  data-product-sku
-                  {{ block.shopify_attributes -}}
-                  {% if current_variant.sku == blank %}
-                    hidden
-                  {% endif %}
-                >
-                  {{ 'products.product.sku' | t }}: <span data-product-sku-value>{{ current_variant.sku }}</span>
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'vendor' -%}
+              {%- if product.vendor != blank -%}
+                <p class="product__vendor text-body text-body--small" {{ block.shopify_attributes }}>
+                  {{ product.vendor }}
                 </p>
+              {%- endif -%}
 
-              {%- when 'inventory_status' -%}
-                <p
-                  class="product__inventory text-body text-body--small"
-                  data-product-inventory
-                  data-state="{% if current_variant.available == false %}out-of-stock{% elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= section.settings.low_stock_threshold and current_variant.inventory_quantity > 0 %}low-stock{% else %}in-stock{% endif %}"
-                  {{ block.shopify_attributes }}
-                >
-                  {%- if current_variant.available == false -%}
-                    {{ 'products.product.out_of_stock' | t }}
-                  {%- elsif current_variant.inventory_management == 'shopify'
-                    and current_variant.inventory_policy == 'deny'
-                    and current_variant.inventory_quantity <= section.settings.low_stock_threshold
-                    and current_variant.inventory_quantity > 0
-                  -%}
-                    {{ 'products.product.low_stock' | t | replace: '[count]', current_variant.inventory_quantity }}
-                  {%- else -%}
-                    {{ 'products.product.in_stock' | t }}
-                  {%- endif -%}
-                </p>
+            {%- when 'title' -%}
+              <h1
+                class="product__title heading heading--{{ block.settings.heading_size }}"
+                {{ block.shopify_attributes }}
+              >
+                {{ product.title }}
+              </h1>
 
-              {%- when 'variant_picker' -%}
-                {%- if product.has_only_default_variant == false -%}
-                  <div {{ block.shopify_attributes }}>
-                    {%- render 'variant-picker',
-                      product: product,
-                      picker_style: section.settings.variant_picker_style
-                    -%}
-                  </div>
+            {%- when 'price' -%}
+              <div
+                class="product__price flex items-center heading heading--small"
+                data-product-price
+                {{ block.shopify_attributes }}
+              >
+                {%- if current_variant.compare_at_price > current_variant.price -%}
+                  <span class="product__price-compare">{{ current_variant.compare_at_price | money }}</span>
+                  <span class="product__price-sale">{{ current_variant.price | money }}</span>
+                {%- else -%}
+                  <span>{{ current_variant.price | money }}</span>
                 {%- endif -%}
+              </div>
 
-              {%- when 'quantity_selector' -%}
-                <div class="product__quantity" {{ block.shopify_attributes }}>
-                  <label class="text-body text-body--small" for="{{ quantity_input_id }}">
-                    {{- 'products.product.quantity' | t -}}
-                  </label>
-                  {%- render 'quantity-selector', id: quantity_input_id, max: quantity_max -%}
-                </div>
+            {%- when 'sku' -%}
+              <p
+                class="product__sku text-body text-body--small"
+                data-product-sku
+                {{ block.shopify_attributes -}}
+                {% if current_variant.sku == blank %}
+                  hidden
+                {% endif %}
+              >
+                {{ 'products.product.sku' | t }}: <span data-product-sku-value>{{ current_variant.sku }}</span>
+              </p>
 
-              {%- when 'buy_buttons' -%}
-                <div class="product__buy-buttons flex flex-column" {{ block.shopify_attributes }}>
-                  {%- render 'button',
-                    label: buy_button_label,
-                    type: 'submit',
-                    name: 'add',
-                    button_style: 'primary',
-                    class: 'product__atc-button'
-                  -%}
-                  {%- if block.settings.show_dynamic_checkout and current_variant.available -%}
-                    <div class="product__dynamic-checkout">
-                      {{ form | payment_button }}
-                    </div>
-                  {%- endif -%}
-                </div>
-
-              {%- when 'description' -%}
-                {%- if product.description != blank -%}
-                  <div class="product__description text-body rte-column" {{ block.shopify_attributes }}>
-                    {{ product.description }}
-                  </div>
+            {%- when 'inventory_status' -%}
+              <p
+                class="product__inventory text-body text-body--small"
+                data-product-inventory
+                data-state="{% if current_variant.available == false %}out-of-stock{% elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= section.settings.low_stock_threshold and current_variant.inventory_quantity > 0 %}low-stock{% else %}in-stock{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if current_variant.available == false -%}
+                  {{ 'products.product.out_of_stock' | t }}
+                {%- elsif current_variant.inventory_management == 'shopify'
+                  and current_variant.inventory_policy == 'deny'
+                  and current_variant.inventory_quantity <= section.settings.low_stock_threshold
+                  and current_variant.inventory_quantity > 0
+                -%}
+                  {{ 'products.product.low_stock' | t | replace: '[count]', current_variant.inventory_quantity }}
+                {%- else -%}
+                  {{ 'products.product.in_stock' | t }}
                 {%- endif -%}
+              </p>
 
-              {%- when 'custom_liquid' -%}
+            {%- when 'variant_picker' -%}
+              {%- if product.has_only_default_variant == false -%}
                 <div {{ block.shopify_attributes }}>
-                  {{ block.settings.custom_liquid }}
+                  {%- render 'variant-picker', product: product, picker_style: section.settings.variant_picker_style -%}
                 </div>
-            {%- endcase -%}
-          {%- endfor -%}
-        {%- endform -%}
-      </div>
+              {%- endif -%}
 
-      <script type="application/json" data-variant-data>
-        {
-          {%- for variant in product.variants -%}
-            "{{ variant.id }}": {
-              "id": {{ variant.id | json }},
-              "available": {{ variant.available | json }},
-              "options": {{ variant.options | json }},
-              "priceHtml": {{ variant.price | money | json }},
-              "compareAtPriceHtml": {{ variant.compare_at_price | money | json }},
-              "onSale": {% if variant.compare_at_price > variant.price %}true{% else %}false{% endif %},
-              "sku": {{ variant.sku | json }},
-              "featuredMediaId": {{ variant.featured_media.id | default: 0 }},
-              "inventoryManagement": {{ variant.inventory_management | json }},
-              "inventoryPolicy": {{ variant.inventory_policy | json }},
-              "inventoryQuantity": {{ variant.inventory_quantity | default: 0 }}
-            }{% unless forloop.last %},{% endunless %}
-          {%- endfor -%}
-        }
-      </script>
-    </product-info>
+            {%- when 'quantity_selector' -%}
+              <div class="product__quantity" {{ block.shopify_attributes }}>
+                <label class="text-body text-body--small" for="{{ quantity_input_id }}">
+                  {{- 'products.product.quantity' | t -}}
+                </label>
+                {%- render 'quantity-selector', id: quantity_input_id, max: quantity_max -%}
+              </div>
+
+            {%- when 'buy_buttons' -%}
+              <div class="product__buy-buttons flex flex-column" {{ block.shopify_attributes }}>
+                {%- render 'button',
+                  label: buy_button_label,
+                  type: 'submit',
+                  name: 'add',
+                  button_style: 'primary',
+                  class: 'product__atc-button'
+                -%}
+                {%- if block.settings.show_dynamic_checkout and current_variant.available -%}
+                  <div class="product__dynamic-checkout">
+                    {{ form | payment_button }}
+                  </div>
+                {%- endif -%}
+              </div>
+
+            {%- when 'description' -%}
+              {%- if product.description != blank -%}
+                <div class="product__description text-body rte-column" {{ block.shopify_attributes }}>
+                  {{ product.description }}
+                </div>
+              {%- endif -%}
+
+            {%- when 'custom_liquid' -%}
+              <div {{ block.shopify_attributes }}>
+                {{ block.settings.custom_liquid }}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      {%- endform -%}
+    </div>
   </div>
 </div>
 
