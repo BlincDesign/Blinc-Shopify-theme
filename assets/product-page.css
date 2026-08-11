@@ -227,3 +227,15 @@
 }
 
 /* End Product */
+
+.product-section {
+    gap: 0 20px;
+}
+
+.product-section .product__media {
+    flex: 1;
+}
+
+.product__info {
+    flex: 1;
+}
