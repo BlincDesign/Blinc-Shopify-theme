@@ -917,6 +917,7 @@ details[open] > .header__nav-link .icon--chevron {
 
 .product__media {
     position: relative;
+    overflow: hidden;
 }
 
 .product__gallery-main {
