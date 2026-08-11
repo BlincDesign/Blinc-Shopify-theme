@@ -22,6 +22,8 @@
   }
 {%- endstyle -%}
 
+{{ 'product-page.css' | asset_url | stylesheet_tag: preload: true}}
+
 <div class="{{ section.settings.container_width }}">
   <div class="product-section flex flex-wrap color-{{ section.settings.color_scheme }}">
     <div class="product__media">
