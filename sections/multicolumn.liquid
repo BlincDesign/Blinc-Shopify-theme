@@ -58,25 +58,32 @@
               </div>
             {% endif %}
 
-            {% if block.settings.column_heading != blank %}
-              <div class="column__heading">
-                {{ block.settings.column_heading }}
-              </div>
-            {% endif %}
+            {% if block.settings.column_heading != blank
+              or block.settings.column_description != blank
+              or section.settings.button != blank
+            %}
+              <div class="column-content">
+                {% if block.settings.column_heading != blank %}
+                  <div class="column__heading">
+                    {{ block.settings.column_heading }}
+                  </div>
+                {% endif %}
 
-            {% if block.settings.column_description != blank %}
-              <div class="column_description">
-                {{ block.settings.column_description }}
-              </div>
-            {% endif %}
+                {% if block.settings.column_description != blank %}
+                  <div class="column_description">
+                    {{ block.settings.column_description }}
+                  </div>
+                {% endif %}
 
-            {%- if section.settings.button != blank -%}
-              <div class="column_btn">
-                {%- render 'button',
-                  label: block.settings.column_btn_label,
-                  url: block.settings.column_btn_link,
-                  button_style: block.settings.column_btn_style
-                -%}
+                {%- if section.settings.button != blank -%}
+                  <div class="column_btn">
+                    {%- render 'button',
+                      label: block.settings.column_btn_label,
+                      url: block.settings.column_btn_link,
+                      button_style: block.settings.column_btn_style
+                    -%}
+                  </div>
+                {%- endif -%}
               </div>
             {%- endif -%}
           </div>
@@ -218,8 +225,8 @@
       ]
     },
     {
-        "type": "header",
-        "content": "Columns",
+      "type": "header",
+      "content": "Columns"
     },
     {
       "type": "color_scheme",
