@@ -31,6 +31,7 @@
     "heading_size_large_mobile": 27,
     "heading_size_xl_mobile": 32,
     "heading_size_xxl_mobile": 40,
+    "layout_style": "classic",
     "slider_navigation_style": "circle",
     "favicon": "shopify://shop_images/PP_icon_-01.webp",
     "button_style": "square",
