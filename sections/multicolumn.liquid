@@ -33,7 +33,7 @@
         </div>
       {%- endif -%}
     </div>
-    <div class="mulitcolumn-blocks grid" style="--grid-columns-desktop: {{ section.settings.columns }}">
+    <div class="mulitcolumn-blocks grid grid-columns" style="--grid-columns: {{ section.settings.columns }}">
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
           <div class="mulitcolumn-column-block gap-1 flex flex-column">
