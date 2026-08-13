@@ -62,7 +62,7 @@
         {% if block.type == 'column' %}
           <div
             class="mulitcolumn-column-block flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousal -%} swiper-slide {% endif %}"
-            data-slide
+            {%- if section.settings.carousal -%} data-slide {% endif %}
           >
             {% if block.settings.column_video != blank or block.settings.column_image != blank %}
               <div class="multicolumn-column-media">
