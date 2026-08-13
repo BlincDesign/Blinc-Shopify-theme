@@ -39,7 +39,7 @@
     >
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
-          <div class="mulitcolumn-column-block gap-1 flex flex-column">
+          <div class="mulitcolumn-column-block gap-1 flex flex-column color-{{ section.settings.column_color_scheme }}">
             {% if block.settings.column_video != blank or block.settings.column_image != blank %}
               <div class="multicolumn-column-media">
                 {% if block.settings.column_video != blank %}
@@ -218,19 +218,19 @@
       ]
     },
     {
-      "type": "header",
-      "content": "Layout"
+        "type": "header",
+        "content": "Columns",
     },
     {
       "type": "color_scheme",
-      "id": "color_scheme",
+      "id": "column_color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
     },
     {
       "type": "range",
       "id": "columns",
-      "label": "Columns ( desktop )",
+      "label": "Columns desktop",
       "min": 2,
       "max": 6,
       "step": 1,
@@ -239,7 +239,7 @@
     {
       "type": "select",
       "id": "mobile_columns",
-      "label": "Columns ( mobile )",
+      "label": "Columns mobile",
       "default": "2",
       "options": [
         {
@@ -251,6 +251,16 @@
           "value": "2"
         }
       ]
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     },
     {
       "type": "select",
