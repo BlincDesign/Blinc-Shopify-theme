@@ -35,7 +35,7 @@
     </div>
     <div
       class="mulitcolumn-blocks grid grid-columns grid-columns-mobile"
-      style="--grid-columns: {{ section.settings.columns }} --grid-columns-mobile:{{ section.settings.mobile_columns | plus: 0 }}"
+      style="--grid-columns: {{ section.settings.columns }}; --grid-columns-mobile:{{ section.settings.mobile_columns | plus: 0 }}"
     >
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
