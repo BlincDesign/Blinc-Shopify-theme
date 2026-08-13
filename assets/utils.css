@@ -81,78 +81,6 @@
     gap: 1rem;
 }
 
-
-@media screen and (max-width: 749px) {
-.mobile-flex {
-    display: flex;
-}
-
-.mobile-flex-wrap {
-    flex-wrap: wrap;
-}
-
-.mobile-flex-column {
-    flex-direction: column;
-}
-
-.mobile-flex-reverse {
-    flex-direction: row-reverse;
-} 
-
-.mobile-flex-grow {
-    flex: 1;
-}
-
-.mobile-items-center {
-    align-items: center;
-}
-
-.mobile-items-start {
-    align-items: flex-start;
-}
-
-.mobile-items-end {
-    align-items: flex-end;
-}
-
-.mobile-justify-left {
-    justify-content: left;
-}
-
-.mobile-justify-end {
-    justify-content: end;
-}
-
-.mobile-justify-center {
-    justify-content: center;
-}
-
-.mobile-justify-between {
-    justify-content: space-between;
-}
-
-.mobile-justify-right {
-    justify-content: right;
-}
-
-.mobile-text-left {
-    text-align: left;
-}
-
-.mobile-text-center {
-    text-align: center;
-}
-
-.mobile-text-right {
-    text-align: right;
-}
-
-.mobile-hidden {
-    display: none;
-}
-}
-
-
 .grid {
     display: grid;
 }
@@ -165,4 +93,80 @@
 :focus-visible {
     outline: 2px solid rgb(var(--color-accent, 18, 18, 18));
     outline-offset: 2px;
+}
+
+@media screen and (max-width: 749px) {
+
+    .grid-columns-mobile {
+        grid-template-columns: repeat(var(--grid-columns-mobile), 1fr);
+        gap: var(--layout-gap);
+    }
+
+    .mobile-flex {
+        display: flex;
+    }
+
+    .mobile-flex-wrap {
+        flex-wrap: wrap;
+    }
+
+    .mobile-flex-column {
+        flex-direction: column;
+    }
+
+    .mobile-flex-reverse {
+        flex-direction: row-reverse;
+    } 
+
+    .mobile-flex-grow {
+        flex: 1;
+    }
+
+    .mobile-items-center {
+        align-items: center;
+    }
+
+    .mobile-items-start {
+        align-items: flex-start;
+    }
+
+    .mobile-items-end {
+        align-items: flex-end;
+    }
+
+    .mobile-justify-left {
+        justify-content: left;
+    }
+
+    .mobile-justify-end {
+        justify-content: end;
+    }
+
+    .mobile-justify-center {
+        justify-content: center;
+    }
+
+    .mobile-justify-between {
+        justify-content: space-between;
+    }
+
+    .mobile-justify-right {
+        justify-content: right;
+    }
+
+    .mobile-text-left {
+        text-align: left;
+    }
+
+    .mobile-text-center {
+        text-align: center;
+    }
+
+    .mobile-text-right {
+        text-align: right;
+    }
+
+    .mobile-hidden {
+        display: none;
+    }
 }
