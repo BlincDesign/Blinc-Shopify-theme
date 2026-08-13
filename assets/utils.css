@@ -77,6 +77,10 @@
     display: none;
 }
 
+.gap-1 {
+    gap: 1rem;
+}
+
 
 @media screen and (max-width: 749px) {
 .mobile-flex {

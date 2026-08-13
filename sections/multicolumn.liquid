@@ -36,7 +36,7 @@
     <div class="mulitcolumn-blocks">
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
-          <div class="mulitcolumn-column-block flex flex-column">
+          <div class="mulitcolumn-column-block gap-1 flex flex-column">
             <div class="multicolumn-column-media">
               {% if block.settings.column_video != blank %}
                 {{
