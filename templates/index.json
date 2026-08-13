@@ -11,6 +11,21 @@
   "sections": {
     "multicolumn_caXf8n": {
       "type": "multicolumn",
+      "blocks": {
+        "column_39mX84": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_39mX84"
+      ],
       "name": "Multicolumn",
       "settings": {
         "heading": "Multicolumn",
