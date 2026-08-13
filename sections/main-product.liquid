@@ -122,15 +122,7 @@
     </div>
 
     <div class="product__info flex flex-column">
-      <product-info
-        data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
-        data-sold-out-text="{{ 'products.product.sold_out' | t }}"
-        data-unavailable-text="{{ 'products.product.unavailable' | t }}"
-        data-in-stock-text="{{ 'products.product.in_stock' | t }}"
-        data-out-of-stock-text="{{ 'products.product.out_of_stock' | t }}"
-        data-low-stock-text="{{ 'products.product.low_stock' | t }}"
-        data-low-stock-threshold="{{ section.settings.low_stock_threshold }}"
-      >
+      <product-info data-section-id="{{ section.id }}" data-product-url="{{ product.url }}">
         {%- form 'product', product, id: product_form_id, class: 'product__form' -%}
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
 

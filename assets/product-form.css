@@ -98,6 +98,11 @@
     gap: 1rem;
 }
 
+product-info.is-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
 .product__vendor {
     opacity: 0.7;
 }

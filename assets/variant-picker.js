@@ -1,83 +1,34 @@
 /**
- * <variant-picker> reads the currently selected option values and greys out
- * combinations that don't resolve to an available variant. <product-info>
- * is the reusable listener: it reacts to selection changes by updating
- * price/sku/inventory/media/buy-button state within itself, using data
- * attributes rather than page-specific IDs so the exact same markup works
- * on the product page, inside Quick Add, and inside Quick View.
+ * <variant-picker> exposes which option value IDs are currently selected.
+ * <product-info> is the reusable listener: on change it re-fetches this same
+ * product/section with `?option_values=...&section_id=...` - Shopify's
+ * Liquid recomputes availability, price, swatches, and the resolved variant
+ * for that combination server-side - then copies the relevant rendered HTML
+ * fragments (price, sku, inventory, buy button, the picker itself) into the
+ * live DOM. JS never re-implements pricing/availability/text logic; Liquid
+ * stays the single source of truth, and the same markup + JS works
+ * unmodified on the product page, inside Quick Add, and inside Quick View.
  */
 class VariantPicker extends HTMLElement {
     connectedCallback() {
         this.addEventListener('change', this.onChange.bind(this));
     }
 
-    onChange() {
-        const productInfo = this.closest('product-info');
-        if (!productInfo) return;
-
-        this.updateSelectedValueLabels();
-        productInfo.onOptionChange(this.getSelectedOptions());
+    onChange(event) {
+        this.closest('product-info')?.onOptionChange(event.target);
     }
 
-    getOptionGroups() {
-        return [...this.querySelectorAll('[data-option-position]')].sort(
-            (a, b) => Number(a.dataset.optionPosition) - Number(b.dataset.optionPosition)
-        );
-    }
-
-    getSelectedOptions() {
-        return this.getOptionGroups().map((group) => {
-            const select = group.querySelector('select[data-option-input]');
-            if (select) return select.value;
-
-            const checked = group.querySelector('input[data-option-input]:checked');
-            return checked ? checked.value : null;
-        });
-    }
-
-    updateSelectedValueLabels() {
-        this.querySelectorAll('[data-option-position]').forEach((group) => {
-            const valueEl = group.querySelector('.variant-picker__value');
-            const checked = group.querySelector('input[data-option-input]:checked');
-            if (valueEl && checked) valueEl.textContent = checked.value;
-        });
-    }
-
-    updateAvailability(variants, selectedOptions) {
-        const unavailableText = this.dataset.unavailableOptionText || '';
-
-        this.getOptionGroups().forEach((group, position) => {
-            const select = group.querySelector('select[data-option-input]');
-
-            if (select) {
-                [...select.options].forEach((option) => {
-                    const isAvailable = this.isVariantAvailableFor(variants, selectedOptions, position, option.value);
-                    option.disabled = !isAvailable;
-
-                    const label = option.dataset.label;
-                    option.textContent = isAvailable ? label : `${label} ${unavailableText}`;
-                });
-                return;
-            }
-
-            group.querySelectorAll('input[data-option-input]').forEach((input) => {
-                const isAvailable = this.isVariantAvailableFor(variants, selectedOptions, position, input.value);
-
-                input.closest('.variant-picker__item')?.classList.toggle('is-unavailable', !isAvailable);
-                input.nextElementSibling
-                    ?.querySelector('.variant-picker__unavailable-label')
-                    ?.toggleAttribute('hidden', isAvailable);
-            });
-        });
-    }
-
-    isVariantAvailableFor(variants, selectedOptions, position, candidateValue) {
-        const candidate = [...selectedOptions];
-        candidate[position] = candidateValue;
-
-        return variants.some(
-            (variant) => variant.available && variant.options.every((value, index) => value === candidate[index])
-        );
+    getSelectedOptionValueIds() {
+        return [...this.querySelectorAll('[data-option-position]')]
+            .sort((a, b) => Number(a.dataset.optionPosition) - Number(b.dataset.optionPosition))
+            .map((group) => {
+                const select = group.querySelector('select[data-option-input]');
+                const input = select
+                    ? select.selectedOptions[0]
+                    : group.querySelector('input[data-option-input]:checked');
+                return input?.dataset.optionValueId;
+            })
+            .filter(Boolean);
     }
 }
 
@@ -85,14 +36,9 @@ customElements.define('variant-picker', VariantPicker);
 
 class ProductInfo extends HTMLElement {
     connectedCallback() {
-        const dataScript = this.querySelector('[data-variant-data]');
-        this.variants = dataScript ? JSON.parse(dataScript.textContent) : {};
-        this.variantList = Object.values(this.variants);
-
         this.variantPicker = this.querySelector('variant-picker');
         this.priceEl = this.querySelector('[data-product-price]');
-        this.skuWrapperEl = this.querySelector('[data-product-sku]');
-        this.skuValueEl = this.querySelector('[data-product-sku-value]');
+        this.skuEl = this.querySelector('[data-product-sku]');
         this.inventoryEl = this.querySelector('[data-product-inventory]');
         this.variantIdInput = this.querySelector('[data-variant-id-input]');
         this.atcButton = this.querySelector('.product__atc-button');
@@ -106,108 +52,118 @@ class ProductInfo extends HTMLElement {
         });
     }
 
-    onOptionChange(selectedOptions) {
-        const variant = this.variantList.find((candidate) =>
-            candidate.options.every((value, index) => value === selectedOptions[index])
-        );
+    async onOptionChange(trigger) {
+        if (!this.variantPicker || !this.dataset.sectionId) return;
 
-        this.variantPicker?.updateAvailability(this.variantList, selectedOptions);
+        this.abortController?.abort();
+        this.abortController = new AbortController();
+        this.classList.add('is-loading');
 
-        this.updatePrice(variant);
-        this.updateSku(variant);
-        this.updateInventory(variant);
-        this.updateBuyButton(variant);
-        this.updateQuantityMax(variant);
-        this.updateMedia(variant);
-        this.updateUrl(variant);
+        try {
+            const response = await fetch(this.buildRequestUrl(), { signal: this.abortController.signal });
+            if (!response.ok) throw new Error(`Variant request failed: ${response.status}`);
 
-        if (this.variantIdInput) this.variantIdInput.value = variant ? variant.id : '';
-
-        this.dispatchEvent(new CustomEvent('variant:change', { bubbles: true, detail: { variant } }));
-    }
-
-    updatePrice(variant) {
-        if (!this.priceEl) return;
-
-        if (!variant) {
-            this.priceEl.hidden = true;
-            return;
-        }
-
-        this.priceEl.hidden = false;
-        this.priceEl.innerHTML = variant.onSale
-            ? `<span class="product__price-compare">${variant.compareAtPriceHtml}</span><span class="product__price-sale">${variant.priceHtml}</span>`
-            : `<span>${variant.priceHtml}</span>`;
-    }
-
-    updateSku(variant) {
-        if (!this.skuWrapperEl || !this.skuValueEl) return;
-
-        if (variant && variant.sku) {
-            this.skuValueEl.textContent = variant.sku;
-            this.skuWrapperEl.hidden = false;
-        } else {
-            this.skuWrapperEl.hidden = true;
+            const html = await response.text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            this.applyUpdate(doc, trigger);
+        } catch (error) {
+            if (error.name === 'AbortError') return;
+            console.error(error);
+        } finally {
+            this.classList.remove('is-loading');
         }
     }
 
-    updateInventory(variant) {
-        if (!this.inventoryEl) return;
+    buildRequestUrl() {
+        const params = new URLSearchParams({ section_id: this.dataset.sectionId });
+        const optionValueIds = this.variantPicker.getSelectedOptionValueIds();
+        if (optionValueIds.length) params.set('option_values', optionValueIds.join(','));
 
-        if (!variant) {
-            this.inventoryEl.hidden = true;
-            return;
-        }
-        this.inventoryEl.hidden = false;
-
-        if (!variant.available) {
-            this.inventoryEl.textContent = this.dataset.outOfStockText || '';
-            this.inventoryEl.dataset.state = 'out-of-stock';
-            return;
-        }
-
-        const tracked = variant.inventoryManagement === 'shopify' && variant.inventoryPolicy === 'deny';
-        const threshold = Number(this.dataset.lowStockThreshold || 10);
-
-        if (tracked && variant.inventoryQuantity > 0 && variant.inventoryQuantity <= threshold) {
-            this.inventoryEl.textContent = (this.dataset.lowStockText || '').replace('[count]', variant.inventoryQuantity);
-            this.inventoryEl.dataset.state = 'low-stock';
-        } else {
-            this.inventoryEl.textContent = this.dataset.inStockText || '';
-            this.inventoryEl.dataset.state = 'in-stock';
-        }
+        return `${this.dataset.productUrl}?${params.toString()}`;
     }
 
-    updateBuyButton(variant) {
-        if (!this.atcButton) return;
+    applyUpdate(doc, trigger) {
+        this.swapVariantPicker(doc, trigger);
+        this.copyFragment(doc, '[data-product-price]', this.priceEl);
+        this.copyFragment(doc, '[data-product-sku]', this.skuEl);
+        this.copyFragment(doc, '[data-product-inventory]', this.inventoryEl, ['data-state']);
+        this.updateBuyButton(doc);
+        this.updateQuantityMax(doc);
+        this.updateVariantId(doc);
+        this.updateMedia(doc);
+        this.updateUrl();
 
-        const available = Boolean(variant && variant.available);
-        this.atcButton.disabled = !available;
-        this.atcButton.classList.toggle('button--disabled', !available);
-        this.atcButton.textContent = !variant
-            ? this.dataset.unavailableText
-            : available
-            ? this.dataset.addToCartText
-            : this.dataset.soldOutText;
+        this.dispatchEvent(new CustomEvent('variant:change', { bubbles: true }));
     }
 
-    updateQuantityMax(variant) {
+    // <variant-picker>'s contents are swapped wholesale rather than
+    // diffed, since Liquid already recomputed selected/available/disabled
+    // state for every option value - there's nothing left for JS to work
+    // out itself. Focus is restored to the equivalent (freshly rendered)
+    // control so keyboard users don't lose their place.
+    swapVariantPicker(doc, trigger) {
+        const source = doc.querySelector('variant-picker');
+        if (!source || !this.variantPicker) return;
+
+        this.variantPicker.innerHTML = source.innerHTML;
+        this.variantPicker.dataset.featuredMediaId = source.dataset.featuredMediaId || '';
+
+        if (trigger?.id) this.variantPicker.querySelector(`#${trigger.id}`)?.focus();
+    }
+
+    // Copies a server-rendered fragment as-is (already-formatted price,
+    // translated inventory text, etc.) instead of rebuilding it in JS.
+    copyFragment(doc, selector, destination, attributes = []) {
+        const source = doc.querySelector(selector);
+        if (!source || !destination) return;
+
+        destination.innerHTML = source.innerHTML;
+        destination.hidden = source.hidden;
+        attributes.forEach((attribute) => {
+            if (source.hasAttribute(attribute)) {
+                destination.setAttribute(attribute, source.getAttribute(attribute));
+            } else {
+                destination.removeAttribute(attribute);
+            }
+        });
+    }
+
+    updateBuyButton(doc) {
+        const source = doc.querySelector('.product__atc-button');
+        if (!source || !this.atcButton) return;
+
+        this.atcButton.innerHTML = source.innerHTML;
+        this.atcButton.disabled = source.disabled;
+        this.atcButton.classList.toggle('button--disabled', source.classList.contains('button--disabled'));
+    }
+
+    // Reuses whatever `max` Liquid already computed for the fetched
+    // quantity input, rather than re-deriving inventory rules in JS.
+    updateQuantityMax(doc) {
         if (!this.quantitySelector) return;
-        const tracked = variant && variant.inventoryManagement === 'shopify' && variant.inventoryPolicy === 'deny';
-        this.quantitySelector.setMax(tracked ? variant.inventoryQuantity : 0);
+        const source = doc.querySelector('[data-quantity-input]');
+        const max = source?.getAttribute('max');
+        this.quantitySelector.setMax(max ? Number(max) : 0);
     }
 
-    updateMedia(variant) {
-        if (!variant || !variant.featuredMediaId) return;
+    updateVariantId(doc) {
+        if (!this.variantIdInput) return;
+        const source = doc.querySelector('[data-variant-id-input]');
+        this.variantIdInput.value = source ? source.value : '';
+    }
+
+    updateMedia(doc) {
+        const mediaId = doc.querySelector('variant-picker')?.dataset.featuredMediaId;
+        if (!mediaId) return;
 
         const index = [...this.querySelectorAll('[data-media-id]')].findIndex(
-            (el) => el.dataset.mediaId === String(variant.featuredMediaId)
+            (el) => el.dataset.mediaId === mediaId
         );
         if (index === -1) return;
 
-        this.goToMediaIndex(index, variant.featuredMediaId);
+        this.goToMediaIndex(index, mediaId);
 
-        const thumbnail = this.querySelector(`[data-thumbnail][data-target-media-id="${variant.featuredMediaId}"]`);
+        const thumbnail = this.querySelector(`[data-thumbnail][data-target-media-id="${mediaId}"]`);
         if (thumbnail) this.setActiveThumbnail(thumbnail);
     }
 
@@ -228,10 +184,14 @@ class ProductInfo extends HTMLElement {
         });
     }
 
-    updateUrl(variant) {
-        if (this.dataset.updateUrl === 'false' || !variant || !window.history?.replaceState) return;
+    updateUrl() {
+        if (this.dataset.updateUrl === 'false' || !window.history?.replaceState) return;
+
+        const variantId = this.variantIdInput?.value;
+        if (!variantId) return;
+
         const url = new URL(window.location.href);
-        url.searchParams.set('variant', variant.id);
+        url.searchParams.set('variant', variantId);
         window.history.replaceState({}, '', url);
     }
 }
