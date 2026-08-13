@@ -121,7 +121,7 @@
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
-        "image_ratio": "adapt",
+        "image_ratio": "portrait",
         "media_position": "left",
         "text_alignment": "center",
         "vertical_position": "center",
