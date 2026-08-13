@@ -1,34 +1,56 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
         "vendor": {
-          "type": "vendor"
+          "type": "vendor",
+          "settings": {}
         },
         "title": {
-          "type": "title"
+          "type": "title",
+          "settings": {
+            "heading_size": "large"
+          }
         },
         "price": {
-          "type": "price"
+          "type": "price",
+          "settings": {}
         },
         "variant_picker": {
-          "type": "variant_picker"
+          "type": "variant_picker",
+          "settings": {}
         },
         "quantity_selector": {
-          "type": "quantity_selector"
+          "type": "quantity_selector",
+          "settings": {}
         },
         "buy_buttons": {
-          "type": "buy_buttons"
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
         },
         "inventory_status": {
-          "type": "inventory_status"
+          "type": "inventory_status",
+          "settings": {}
         },
         "sku": {
-          "type": "sku"
+          "type": "sku",
+          "settings": {}
         },
         "description": {
-          "type": "description"
+          "type": "description",
+          "settings": {}
         }
       },
       "block_order": [
@@ -42,7 +64,17 @@
         "sku",
         "description"
       ],
-      "settings": {}
+      "settings": {
+        "media_layout": "carousel",
+        "show_thumbnails": false,
+        "media_position": "left",
+        "variant_picker_style": "pills",
+        "low_stock_threshold": 17,
+        "container_width": "container-standard",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
     }
   },
   "order": [
