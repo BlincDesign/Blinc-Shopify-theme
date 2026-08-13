@@ -1,5 +1,14 @@
 /* Utilities */
 
+.section__header {
+    gap: 1rem;
+    margin-block-end: 1.5rem;
+}
+
+.heading {
+    margin: 0;
+}
+
 .flex {
     display: flex;
 }

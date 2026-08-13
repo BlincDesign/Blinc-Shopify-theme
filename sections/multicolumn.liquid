@@ -16,9 +16,9 @@
   <div class="multicolumn__wrapper {{ section.settings.container_width }}">
     <div class="multicolumn-content">
       {%- if section.settings.heading != blank or section.settings.collection != blank -%}
-        <div class="featured-collection__header flex flex-wrap justify-between items-center">
+        <div class="multicolumn__header section__header flex flex-wrap justify-between items-center">
           {%- if section.settings.heading != blank -%}
-            <h2 class="featured-collection__heading heading heading--{{ section.settings.heading_size }}">
+            <h2 class="multicolumn__heading heading heading--{{ section.settings.heading_size }}">
               {{ section.settings.heading }}
             </h2>
           {%- endif -%}
@@ -37,11 +37,22 @@
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
           <div class="mulitcolumn-column-block">
-            {% if block.settings.column_video != blank %}
-              {{ block.settings.column_video | video_tag: autoplay: true, muted: true, controls: false, loop: true, class: 'multicolumn_column_video' }}
-            {% else %}
-              {%- render 'image', image: block.settings.column_image, class: 'multicolumn_column_image' -%}
-            {% endif %}
+            <div class="multicolumn-column-media">
+              {% if block.settings.column_video != blank %}
+                {{
+                  block.settings.column_video
+                  | video_tag:
+                    autoplay: true,
+                    muted: true,
+                    controls: false,
+                    loop: true,
+                    class: 'multicolumn_column_video'
+                }}
+              {% else %}
+                {%- render 'image', image: block.settings.column_image, class: 'multicolumn_column_image' -%}
+              {% endif %}
+            </div>
+
           </div>
         {% endif %}
       {% endfor %}
