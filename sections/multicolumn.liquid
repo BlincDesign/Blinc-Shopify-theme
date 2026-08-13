@@ -24,7 +24,11 @@
           {%- endif -%}
 
           {%- if section.settings.button != blank -%}
-            {%- render 'button', label: 'View all', url: section.settings.button_link, button_style: section.settings.button_style -%}
+            {%- render 'button',
+              label: 'View all',
+              url: section.settings.button_link,
+              button_style: section.settings.button_style
+            -%}
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -32,11 +36,13 @@
     <div class="mulitcolumn-blocks">
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
-          {% if block.settings.column_video != blank %}
-            {{ block.settings.column_video | video_tag: autoplay: true, muted: true, controls: false, loop: true }}
-          {% else %}
-            {%- render 'image', image: block.settings.column_image, class: 'multicolumn_column_image' -%}
-          {% endif %}
+          <div class="mulitcolumn-column-block">
+            {% if block.settings.column_video != blank %}
+              {{ block.settings.column_video | video_tag: autoplay: true, muted: true, controls: false, loop: true, class: 'multicolumn_column_video' }}
+            {% else %}
+              {%- render 'image', image: block.settings.column_image, class: 'multicolumn_column_image' -%}
+            {% endif %}
+          </div>
         {% endif %}
       {% endfor %}
     </div>
@@ -55,8 +61,8 @@
       "name": "Column",
       "settings": [
         {
-            "type": "header",
-            "content": "Media"
+          "type": "header",
+          "content": "Media"
         },
         {
           "type": "video",
@@ -124,35 +130,35 @@
       "default": "large"
     },
     {
-        "type": "text",
-        "id": "button",
-        "label": "Button label",
-        "default": "Button"
+      "type": "text",
+      "id": "button",
+      "label": "Button label",
+      "default": "Button"
     },
     {
-        "type": "url",
-        "id": "button_link",
-        "label": "Button link"
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
     },
     {
-        "type": "select",
-        "id": "button_style",
-        "default": "link",
-        "label": "Button style",
-        "options": [
-            {
-                "label": "Primary",
-                "value": "primary"
-            },
-            {
-                "label": "Secondary",
-                "value": "secondary"
-            },
-            {
-                "label": "Link",
-                "value": "link"
-            }
-        ]
+      "type": "select",
+      "id": "button_style",
+      "default": "link",
+      "label": "Button style",
+      "options": [
+        {
+          "label": "Primary",
+          "value": "primary"
+        },
+        {
+          "label": "Secondary",
+          "value": "secondary"
+        },
+        {
+          "label": "Link",
+          "value": "link"
+        }
+      ]
     },
     {
       "type": "header",
