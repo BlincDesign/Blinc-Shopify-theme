@@ -9,6 +9,10 @@
     margin: 0;
 }
 
+.hidden-overflow {
+    overflow: hidden;
+}
+
 .flex {
     display: flex;
 }

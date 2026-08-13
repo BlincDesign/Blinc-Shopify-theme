@@ -17,7 +17,7 @@
 {%- endstyle -%}
 
 <div id="Multicolumn-{{ section.id }}" class="multicolum color-{{ section.settings.color_scheme }}">
-  <div class="multicolumn__wrapper {{ section.settings.container_width }}">
+  <div class="multicolumn__wrapper hidden-overflow {{ section.settings.container_width }}">
     <div class="multicolumn-content">
       {%- if section.settings.heading != blank or section.settings.collection != blank -%}
         <div class="multicolumn__header section__header flex flex-wrap justify-between items-center">
