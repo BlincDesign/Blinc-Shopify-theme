@@ -22,9 +22,9 @@
   >
     {%- for option in product.options_with_values -%}
       <fieldset class="variant-picker__option" data-option-position="{{ option.position }}">
-        <span class="variant-picker__label">
+        <legend class="variant-picker__label">
           {{ option.name }}: <span class="variant-picker__value">{{ option.selected_value }}</span>
-        </span>
+        </legend>
         <div class="variant-picker__pills flex flex-wrap">
           {%- for value in option.values -%}
             {%- assign input_id = 'Option-'
