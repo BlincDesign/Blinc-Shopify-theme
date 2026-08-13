@@ -4,6 +4,10 @@
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
+  .multicolumn-section .column-content {
+    padding: 1rem;
+  }
+
   @media screen and (max-width: 749px) {
     #Multicolumn-{{ section.id }} {
       padding-top: {{ section.settings.padding_top_m }}px;
@@ -39,7 +43,7 @@
     >
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
-          <div class="mulitcolumn-column-block gap-1 flex flex-column color-{{ section.settings.column_color_scheme }}">
+          <div class="mulitcolumn-column-block flex flex-column color-{{ section.settings.column_color_scheme }}">
             {% if block.settings.column_video != blank or block.settings.column_image != blank %}
               <div class="multicolumn-column-media">
                 {% if block.settings.column_video != blank %}
