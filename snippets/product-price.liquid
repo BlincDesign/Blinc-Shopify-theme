@@ -1,0 +1,27 @@
+{%- comment -%}
+  Renders a product's price (with compare-at/sale price when applicable).
+  Reused by the main product page and the Quick Add / Quick View buy box
+  (snippets/quick-product-form.liquid) so both stay in sync with the same
+  markup that assets/variant-picker.js updates on variant change.
+
+  Accepts:
+  product (object, required)
+  variant (object, optional) - Defaults to product.selected_or_first_available_variant.
+  block (object, optional) - A section block; when passed, its shopify_attributes are applied for theme editor support.
+
+  Usage:
+  {% render 'product-price', product: product %}
+{%- endcomment -%}
+
+{%- liquid
+  assign variant = variant | default: product.selected_or_first_available_variant
+-%}
+
+<div class="product__price flex items-center heading heading--small" data-product-price {{ block.shopify_attributes }}>
+  {%- if variant.compare_at_price > variant.price -%}
+    <span class="product__price-compare">{{ variant.compare_at_price | money }}</span>
+    <span class="product__price-sale">{{ variant.price | money }}</span>
+  {%- else -%}
+    <span>{{ variant.price | money }}</span>
+  {%- endif -%}
+</div>

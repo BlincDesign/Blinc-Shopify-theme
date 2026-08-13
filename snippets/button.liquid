@@ -9,6 +9,7 @@
   id (string, optional) - Element id.
   name (string, optional) - Form field name (buttons only, e.g. name: 'add').
   class (string, optional) - Additional classes to append.
+  attributes (string, optional) - Raw additional HTML attributes (e.g. data-* hooks for JS), inserted as-is.
 
   Usage:
   {% render 'button', label: 'Submit', type: 'submit', name: 'add' %}
@@ -48,6 +49,7 @@
     {%- if id != blank %} id="{{ id }}"{% endif -%}
     {%- if name != blank %} name="{{ name }}"{% endif -%}
     {%- if disabled %} disabled{% endif -%}
+    {%- if attributes != blank %} {{ attributes }}{% endif -%}
   >
     {{ label | escape }}
   </button>

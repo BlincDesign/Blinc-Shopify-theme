@@ -1,3 +1,11 @@
+/**
+ * <variant-picker> reads the currently selected option values and greys out
+ * combinations that don't resolve to an available variant. <product-info>
+ * is the reusable listener: it reacts to selection changes by updating
+ * price/sku/inventory/media/buy-button state within itself, using data
+ * attributes rather than page-specific IDs so the exact same markup works
+ * on the product page, inside Quick Add, and inside Quick View.
+ */
 class VariantPicker extends HTMLElement {
     connectedCallback() {
         this.addEventListener('change', this.onChange.bind(this));
@@ -11,12 +19,14 @@ class VariantPicker extends HTMLElement {
         productInfo.onOptionChange(this.getSelectedOptions());
     }
 
-    getSelectedOptions() {
-        const groups = [...this.querySelectorAll('[data-option-position]')].sort(
+    getOptionGroups() {
+        return [...this.querySelectorAll('[data-option-position]')].sort(
             (a, b) => Number(a.dataset.optionPosition) - Number(b.dataset.optionPosition)
         );
+    }
 
-        return groups.map((group) => {
+    getSelectedOptions() {
+        return this.getOptionGroups().map((group) => {
             const select = group.querySelector('select[data-option-input]');
             if (select) return select.value;
 
@@ -32,6 +42,43 @@ class VariantPicker extends HTMLElement {
             if (valueEl && checked) valueEl.textContent = checked.value;
         });
     }
+
+    updateAvailability(variants, selectedOptions) {
+        const unavailableText = this.dataset.unavailableOptionText || '';
+
+        this.getOptionGroups().forEach((group, position) => {
+            const select = group.querySelector('select[data-option-input]');
+
+            if (select) {
+                [...select.options].forEach((option) => {
+                    const isAvailable = this.isVariantAvailableFor(variants, selectedOptions, position, option.value);
+                    option.disabled = !isAvailable;
+
+                    const label = option.dataset.label;
+                    option.textContent = isAvailable ? label : `${label} ${unavailableText}`;
+                });
+                return;
+            }
+
+            group.querySelectorAll('input[data-option-input]').forEach((input) => {
+                const isAvailable = this.isVariantAvailableFor(variants, selectedOptions, position, input.value);
+
+                input.closest('.variant-picker__item')?.classList.toggle('is-unavailable', !isAvailable);
+                input.nextElementSibling
+                    ?.querySelector('.variant-picker__unavailable-label')
+                    ?.toggleAttribute('hidden', isAvailable);
+            });
+        });
+    }
+
+    isVariantAvailableFor(variants, selectedOptions, position, candidateValue) {
+        const candidate = [...selectedOptions];
+        candidate[position] = candidateValue;
+
+        return variants.some(
+            (variant) => variant.available && variant.options.every((value, index) => value === candidate[index])
+        );
+    }
 }
 
 customElements.define('variant-picker', VariantPicker);
@@ -40,7 +87,9 @@ class ProductInfo extends HTMLElement {
     connectedCallback() {
         const dataScript = this.querySelector('[data-variant-data]');
         this.variants = dataScript ? JSON.parse(dataScript.textContent) : {};
+        this.variantList = Object.values(this.variants);
 
+        this.variantPicker = this.querySelector('variant-picker');
         this.priceEl = this.querySelector('[data-product-price]');
         this.skuWrapperEl = this.querySelector('[data-product-sku]');
         this.skuValueEl = this.querySelector('[data-product-sku-value]');
@@ -58,9 +107,11 @@ class ProductInfo extends HTMLElement {
     }
 
     onOptionChange(selectedOptions) {
-        const variant = Object.values(this.variants).find(
-            (candidate) => JSON.stringify(candidate.options) === JSON.stringify(selectedOptions)
+        const variant = this.variantList.find((candidate) =>
+            candidate.options.every((value, index) => value === selectedOptions[index])
         );
+
+        this.variantPicker?.updateAvailability(this.variantList, selectedOptions);
 
         this.updatePrice(variant);
         this.updateSku(variant);
@@ -70,12 +121,20 @@ class ProductInfo extends HTMLElement {
         this.updateMedia(variant);
         this.updateUrl(variant);
 
-        if (variant && this.variantIdInput) this.variantIdInput.value = variant.id;
+        if (this.variantIdInput) this.variantIdInput.value = variant ? variant.id : '';
+
+        this.dispatchEvent(new CustomEvent('variant:change', { bubbles: true, detail: { variant } }));
     }
 
     updatePrice(variant) {
-        if (!this.priceEl || !variant) return;
+        if (!this.priceEl) return;
 
+        if (!variant) {
+            this.priceEl.hidden = true;
+            return;
+        }
+
+        this.priceEl.hidden = false;
         this.priceEl.innerHTML = variant.onSale
             ? `<span class="product__price-compare">${variant.compareAtPriceHtml}</span><span class="product__price-sale">${variant.priceHtml}</span>`
             : `<span>${variant.priceHtml}</span>`;
@@ -95,7 +154,13 @@ class ProductInfo extends HTMLElement {
     updateInventory(variant) {
         if (!this.inventoryEl) return;
 
-        if (!variant || !variant.available) {
+        if (!variant) {
+            this.inventoryEl.hidden = true;
+            return;
+        }
+        this.inventoryEl.hidden = false;
+
+        if (!variant.available) {
             this.inventoryEl.textContent = this.dataset.outOfStockText || '';
             this.inventoryEl.dataset.state = 'out-of-stock';
             return;
@@ -164,7 +229,7 @@ class ProductInfo extends HTMLElement {
     }
 
     updateUrl(variant) {
-        if (!variant || !window.history?.replaceState) return;
+        if (this.dataset.updateUrl === 'false' || !variant || !window.history?.replaceState) return;
         const url = new URL(window.location.href);
         url.searchParams.set('variant', variant.id);
         window.history.replaceState({}, '', url);

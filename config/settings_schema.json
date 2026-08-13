@@ -515,6 +515,36 @@
     ]
   },
   {
+    "name": "Product Variants",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Controls how variant options are displayed on the product page, Quick Add, and Quick View."
+      },
+      {
+        "type": "select",
+        "id": "variant_picker_style",
+        "label": "Variant Picker Style",
+        "default": "pills",
+        "options": [
+          { "value": "pills", "label": "Buttons" },
+          { "value": "dropdown", "label": "Dropdown" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "swatch_shape",
+        "label": "Swatch Shape",
+        "info": "Applies to options with color/image swatches configured in Shopify admin.",
+        "default": "circle",
+        "options": [
+          { "value": "circle", "label": "Circle" },
+          { "value": "square", "label": "Square" }
+        ]
+      }
+    ]
+  },
+  {
     "name": "Product Grid",
     "settings": [
       {
@@ -712,6 +742,13 @@
             "label": "Add to Cart"
           }
         ]
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_quick_view",
+        "label": "Enable Quick View",
+        "info": "Adds a quick view button to product cards.",
+        "default": true
       }
     ]
   }

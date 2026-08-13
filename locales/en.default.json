@@ -10,7 +10,8 @@
 {
   "general": {
     "accessibility": {
-      "skip_to_content": "Skip to content"
+      "skip_to_content": "Skip to content",
+      "close": "Close"
     },
     "header": {
       "menu": "Menu",
@@ -47,7 +48,16 @@
       "sku": "SKU",
       "in_stock": "In stock",
       "out_of_stock": "Out of stock",
-      "low_stock": "Only [count] left in stock"
+      "low_stock": "Only [count] left in stock",
+      "quick_add": "Quick add",
+      "quick_view": "Quick view",
+      "choose_options": "Choose options",
+      "variant_unavailable": "(unavailable)",
+      "added_to_cart": "Added to cart",
+      "add_to_cart_error": "Couldn't add this item to your cart. Please try again.",
+      "view_full_details": "View full details",
+      "loading": "Loading",
+      "load_error": "Something went wrong. Please try again."
     }
   },
   "collections": {

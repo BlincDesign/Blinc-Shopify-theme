@@ -1,0 +1,145 @@
+{%- comment -%}
+  Renders a compact "buy box" for a product: title, price, variant picker,
+  quantity, and an add-to-cart button, wrapped in <product-info> - the same
+  reusable component used on the product page. This is the single piece of
+  markup shared by Quick Add and Quick View (sections/quick-add.liquid and
+  sections/quick-view.liquid); the only difference between the two is
+  whether a media gallery is shown above it.
+
+  Accepts:
+  product (object, required)
+  show_gallery (boolean, optional) - Renders a media gallery above the form. Default: false.
+
+  Usage:
+  {% render 'quick-product-form', product: product, show_gallery: true %}
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'QuickForm-' | append: product.id
+  assign quantity_input_id = 'QuickQuantity-' | append: product.id
+
+  assign buy_button_label = 'products.product.add_to_cart' | t
+  unless current_variant.available
+    assign buy_button_label = 'products.product.sold_out' | t
+  endunless
+
+  assign quantity_max = 0
+  if current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny'
+    assign quantity_max = current_variant.inventory_quantity
+  endif
+-%}
+
+<div class="quick-product-form{% if show_gallery %} quick-product-form--with-media{% endif %}">
+  {%- if show_gallery -%}
+    <div class="quick-product-form__media">
+      {%- if product.media.size > 1 -%}
+        <div
+          class="product__gallery-main"
+          data-slider
+          data-slider-config='{"loop": false, "slidesPerView": 1, "spaceBetween": 0}'
+        >
+          <div class="swiper-wrapper">
+            {%- for media in product.media limit: 6 -%}
+              {%- liquid
+                assign media_loading = 'lazy'
+                if forloop.first
+                  assign media_loading = 'eager'
+                endif
+              -%}
+              <div class="product__gallery-slide swiper-slide" data-media-id="{{ media.id }}">
+                {%- render 'product-media-item',
+                  media: media,
+                  width: 800,
+                  sizes: '(min-width: 750px) 420px, 90vw',
+                  loading: media_loading
+                -%}
+              </div>
+            {%- endfor -%}
+          </div>
+          <button
+            type="button"
+            class="product__gallery-btn product__gallery-btn--prev items-center justify-center"
+            slider-prev
+            aria-label="{{ 'products.product.previous_image' | t }}"
+          >
+            {%- render 'icon', name: 'chevron-left' -%}
+          </button>
+          <button
+            type="button"
+            class="product__gallery-btn product__gallery-btn--next items-center justify-center"
+            slider-next
+            aria-label="{{ 'products.product.next_image' | t }}"
+          >
+            {%- render 'icon', name: 'chevron-right' -%}
+          </button>
+        </div>
+      {%- else -%}
+        <div class="product__gallery-item" data-media-id="{{ product.featured_media.id }}">
+          {%- render 'product-media-item', media: product.featured_media, width: 800, sizes: '(min-width: 750px) 420px, 90vw', loading: 'eager' -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <product-info
+    class="quick-product-form__info flex flex-column"
+    data-update-url="false"
+    data-add-to-cart-text="{{ 'products.product.add_to_cart' | t }}"
+    data-sold-out-text="{{ 'products.product.sold_out' | t }}"
+    data-unavailable-text="{{ 'products.product.unavailable' | t }}"
+    data-in-stock-text="{{ 'products.product.in_stock' | t }}"
+    data-out-of-stock-text="{{ 'products.product.out_of_stock' | t }}"
+    data-low-stock-text="{{ 'products.product.low_stock' | t }}"
+    data-low-stock-threshold="10"
+  >
+    {%- form 'product', product, id: product_form_id, class: 'product__form flex flex-column' -%}
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
+
+      {%- if product.vendor != blank -%}
+        <p class="product__vendor text-body text-body--small">{{ product.vendor }}</p>
+      {%- endif -%}
+
+      <h2 class="product__title heading heading--small">
+        <a href="{{ product.url }}">{{ product.title }}</a>
+      </h2>
+
+      {%- render 'product-price', product: product, variant: current_variant -%}
+
+      {%- unless product.has_only_default_variant -%}
+        {%- render 'variant-picker', product: product -%}
+      {%- endunless -%}
+
+      <p
+        class="product__inventory text-body text-body--small"
+        data-product-inventory
+        data-state="{% if current_variant.available == false %}out-of-stock{% else %}in-stock{% endif %}"
+        {% if current_variant.available == false %}hidden{% endif %}
+      >
+        {%- if current_variant.available == false -%}
+          {{ 'products.product.out_of_stock' | t }}
+        {%- endif -%}
+      </p>
+
+      <div class="product__quantity">
+        <label class="visually-hidden" for="{{ quantity_input_id }}">{{ 'products.product.quantity' | t }}</label>
+        {%- render 'quantity-selector', id: quantity_input_id, max: quantity_max -%}
+      </div>
+
+      <div class="product__buy-buttons flex flex-column">
+        {%- render 'button',
+          label: buy_button_label,
+          type: 'submit',
+          name: 'add',
+          button_style: 'primary',
+          class: 'product__atc-button',
+          disabled: current_variant.available == false
+        -%}
+      </div>
+
+      <a href="{{ product.url }}" class="quick-product-form__link text-body text-body--small">
+        {{- 'products.product.view_full_details' | t -}}
+      </a>
+    {%- endform -%}
+  </product-info>
+</div>

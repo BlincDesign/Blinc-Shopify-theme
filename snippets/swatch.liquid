@@ -1,0 +1,30 @@
+{%- comment -%}
+  Renders a single swatch (color or image) using Shopify's native product
+  option swatch data. Falls back to nothing if the option value has no
+  swatch configured - callers should only render this when a swatch exists.
+
+  Accepts:
+  swatch (object, required) - A value's `swatch` object (product.options_with_values[].values[].swatch).
+  shape (string, optional) - 'circle' (default) or 'square'.
+
+  Usage:
+  {% render 'swatch', swatch: value.swatch, shape: settings.swatch_shape %}
+{%- endcomment -%}
+
+{%- liquid
+  assign swatch_background = null
+
+  if swatch.image
+    assign swatch_image_url = swatch.image | image_url: width: 50
+    assign swatch_background = 'url(' | append: swatch_image_url | append: ')'
+  elsif swatch.color
+    assign swatch_background = 'rgb(' | append: swatch.color.rgb | append: ')'
+  endif
+-%}
+
+<span
+  class="swatch{% if shape == 'square' %} swatch--square{% endif %}{% if swatch_background == null %} swatch--unavailable{% endif %}"
+  {%- if swatch_background %}
+    style="--swatch-background: {{ swatch_background }};"
+  {% endif -%}
+></span>

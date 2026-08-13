@@ -49,10 +49,11 @@
   endif
 
   assign media_sizes = '(min-width: 1024px) 25vw, (min-width: 749px) 33vw, 100vw'
+
+  assign data_quick_add_attributes = 'data-quick-modal-trigger data-url="' | append: product.url | append: '?section_id=quick-add"'
 -%}
 
 <div class="product-card flex flex-column">
-  {% unless is_slider %} <a href="{{ product.url }}" class="product-card__media-link"> {% endunless %}
   <div class="product-card__media" style="aspect-ratio: {{ aspect_ratio_css }};">
     {%- if is_slider -%}
       <div
@@ -103,64 +104,98 @@
         </button>
       </div>
     {%- else -%}
-      {%- if settings.enable_video and product.featured_media.media_type == 'video' -%}
-        <div class="product-card__media-primary product-card__media-video" style="aspect-ratio: 1 / {{ settings.grid_image_aspect_ratio }}">
-          {{ product.featured_media | video_tag: image_size: '600x', autoplay: true, loop: true, muted: true, controls: false }}
-        </div>
-      {%- else -%}
-        {%- render 'image',
-          image: product.featured_media.preview_image,
-          aspect_ratio: aspect_ratio_css,
-          width: 600,
-          sizes: media_sizes,
-          class: 'product-card__media-primary'
-        -%}
-      {%- endif -%}
+      <a href="{{ product.url }}" class="product-card__media-link" aria-label="{{ product.title | escape }}">
+        {%- if settings.enable_video and product.featured_media.media_type == 'video' -%}
+          <div class="product-card__media-primary product-card__media-video" style="aspect-ratio: 1 / {{ settings.grid_image_aspect_ratio }}">
+            {{ product.featured_media | video_tag: image_size: '600x', autoplay: true, loop: true, muted: true, controls: false }}
+          </div>
+        {%- else -%}
+          {%- render 'image',
+            image: product.featured_media.preview_image,
+            aspect_ratio: aspect_ratio_css,
+            width: 600,
+            sizes: media_sizes,
+            class: 'product-card__media-primary'
+          -%}
+        {%- endif -%}
 
-      {%- if settings.grid_media_style == 'hover_image' and product.media[1] -%}
-        {%- render 'image',
-          image: product.media[1].preview_image,
-          aspect_ratio: aspect_ratio_css,
-          width: 600,
-          sizes: media_sizes,
-          class: 'product-card__media-secondary'
-        -%}
-      {%- endif -%}
+        {%- if settings.grid_media_style == 'hover_image' and product.media[1] -%}
+          {%- render 'image',
+            image: product.media[1].preview_image,
+            aspect_ratio: aspect_ratio_css,
+            width: 600,
+            sizes: media_sizes,
+            class: 'product-card__media-secondary'
+          -%}
+        {%- endif -%}
+      </a>
     {%- endif -%}
 
     {%- render 'product-badges', product: product -%}
 
+    {%- if settings.enable_quick_view -%}
+      <button
+        type="button"
+        class="product-card__quick-view items-center justify-center"
+        data-quick-modal-trigger
+        data-url="{{ product.url }}?section_id=quick-view"
+        aria-label="{{ 'products.product.quick_view' | t }} {{ product.title | escape }}"
+      >
+        {%- render 'icon', name: 'eye' -%}
+      </button>
+    {%- endif -%}
+
     {%- if settings.grid_button_action == 'quick_add' -%}
-      {%- form 'product', product, class: 'product-card__atc-form' -%}
-        <input type="hidden" name="id" value="{{ current_variant.id }}">
+      {%- if product.has_only_default_variant -%}
+        {%- form 'product', product, class: 'product-card__atc-form' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+          <button
+            type="submit"
+            class="product-card__atc-icon items-center justify-center"
+            aria-label="{{ 'products.product.add_to_cart' | t }} {{ product.title | escape }}"
+            {%- unless is_available %} disabled{% endunless -%}
+          >
+            {%- render 'icon', name: 'cart' -%}
+          </button>
+        {%- endform -%}
+      {%- else -%}
         <button
-          type="submit"
+          type="button"
           class="product-card__atc-icon items-center justify-center"
-          aria-label="{{ 'products.product.add_to_cart' | t }}"
-          {%- unless is_available %}
-            disabled
-          {% endunless -%}
+          data-quick-modal-trigger
+          data-url="{{ product.url }}?section_id=quick-add"
+          aria-label="{{ 'products.product.quick_add' | t }} {{ product.title | escape }}"
+          {%- unless is_available %} disabled{% endunless -%}
         >
           {%- render 'icon', name: 'cart' -%}
         </button>
-      {%- endform -%}
+      {%- endif -%}
     {%- elsif settings.grid_button_action == 'add_to_cart' -%}
       <div class="product-card__atc-hover">
-        {%- form 'product', product, class: 'product-card__atc-form' -%}
-          <input type="hidden" name="id" value="{{ current_variant.id }}">
+        {%- if product.has_only_default_variant -%}
+          {%- form 'product', product, class: 'product-card__atc-form' -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+            {%- render 'button',
+              label: atc_label,
+              type: 'submit',
+              name: 'add',
+              button_style: 'primary',
+              class: 'product-card__atc-button',
+              disabled: is_available == false
+            -%}
+          {%- endform -%}
+        {%- else -%}
           {%- render 'button',
-            label: atc_label,
-            type: 'submit',
-            name: 'add',
+            label: 'products.product.choose_options' | t,
+            type: 'button',
             button_style: 'primary',
-            class: 'product-card__atc-button'
+            class: 'product-card__atc-button',
+            attributes: data_quick_add_attributes
           -%}
-        {%- endform -%}
+        {%- endif -%}
       </div>
     {%- endif -%}
   </div>
-
-  {% unless is_slider %} </a> {% endunless %}
 
   <div class="product-card__info flex flex-column{% if settings.information_on_hover %} product-card__info--overlay{% endif %}">
     {%- if settings.show_vendor and product.vendor != blank -%}
