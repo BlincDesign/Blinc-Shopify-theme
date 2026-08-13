@@ -19,12 +19,49 @@
             "column_heading": "Column",
             "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
             "column_btn_label": "Button",
-            "column_btn_link": ""
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "column_zBNQeM": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "column_x7GwXR": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "column_FiEcYN": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
           }
         }
       },
       "block_order": [
-        "column_39mX84"
+        "column_39mX84",
+        "column_zBNQeM",
+        "column_x7GwXR",
+        "column_FiEcYN"
       ],
       "name": "Multicolumn",
       "settings": {
