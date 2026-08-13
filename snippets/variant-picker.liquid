@@ -21,32 +21,7 @@
   >
     {%- for option in product.options_with_values -%}
       <div class="variant-picker__option" data-option-position="{{ option.position }}">
-        {% comment %} {%- if picker_style == 'dropdown' -%}
-          <label
-            class="variant-picker__label text-body text-body--small"
-            for="Option-{{ product.id }}-{{ option.position }}"
-          >
-            {{ option.name }}
-          </label>
-          <select
-            class="variant-picker__select"
-            id="Option-{{ product.id }}-{{ option.position }}"
-            name="options[{{ option.name | escape }}]"
-            data-option-input
-          >
-            {%- for value in option.values -%}
-              <option
-                value="{{ value | escape }}"
-                {% if value == option.selected_value %}
-                  selected
-                {% endif %}
-              >
-                {{ value }}
-              </option>
-            {%- endfor -%}
-          </select>
-        {%- else -%}
-          <span class="variant-picker__label text-body text-body--small">
+          <span class="variant-picker__label">
             {{ option.name }}: <span class="variant-picker__value">{{ option.selected_value }}</span>
           </span>
           <div class="variant-picker__pills flex flex-wrap">
@@ -61,7 +36,7 @@
               <input
                 type="radio"
                 id="{{ input_id }}"
-                class="visually-hidden variant-picker__radio"
+                class="hidden variant-picker__radio"
                 name="options[{{ option.name | escape }}]"
                 value="{{ value | escape }}"
                 data-option-input
@@ -69,10 +44,9 @@
                   checked
                 {% endif %}
               >
-              <label class="variant-picker__pill items-center justify-center" for="{{ input_id }}">{{ value }}</label>
+              <label class="variant-picker__pill" for="{{ input_id }}">{{ value }}</label>
             {%- endfor -%}
           </div>
-        {%- endif -%} {% endcomment %}
       </div>
     {%- endfor -%}
   </variant-picker>
