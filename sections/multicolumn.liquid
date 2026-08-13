@@ -33,7 +33,7 @@
         </div>
       {%- endif -%}
     </div>
-    <div class="mulitcolumn-blocks">
+    <div class="mulitcolumn-blocks" style="--grid-columns-desktop: {{ section.settings.columns }}">
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
           <div class="mulitcolumn-column-block gap-1 flex flex-column">
@@ -217,6 +217,15 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
+    },
+    {
+        "type": "range",
+        "id": "columns",
+        "label": "Columns",
+        "min": 2,
+        "max": 6,
+        "step": 1,
+        "default": 4,
     },
     {
       "type": "select",
