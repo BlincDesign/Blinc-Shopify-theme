@@ -23,8 +23,8 @@
             </h2>
           {%- endif -%}
 
-          {%- if section.settings.collection != blank -%}
-            {%- render 'button', label: 'View all', url: section.settings.collection.url, button_style: 'link' -%}
+          {%- if section.settings.button != blank -%}
+            {%- render 'button', label: 'View all', url: section.settings.button_link, button_style: section.settings.button_style -%}
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -124,14 +124,45 @@
       "default": "large"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
+        "type": "text",
+        "id": "button",
+        "label": "Button label",
+        "default": "Button"
+    },
+    {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+    },
+    {
+        "type": "select",
+        "id": "button_style",
+        "default": "link",
+        "label": "Button style",
+        "options": [
+            {
+                "label": "Primary",
+                "value": "primary"
+            },
+            {
+                "label": "Secondary",
+                "value": "secondary"
+            },
+            {
+                "label": "Link",
+                "value": "link"
+            }
+        ]
     },
     {
       "type": "header",
       "content": "Layout"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     },
     {
       "type": "select",
