@@ -25,7 +25,7 @@
 
           {%- if section.settings.button != blank -%}
             {%- render 'button',
-              label: 'View all',
+              label: section.settings.button,
               url: section.settings.button_link,
               button_style: section.settings.button_style
             -%}
@@ -36,7 +36,7 @@
     <div class="mulitcolumn-blocks">
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
-          <div class="mulitcolumn-column-block">
+          <div class="mulitcolumn-column-block flex flex-column">
             <div class="multicolumn-column-media">
               {% if block.settings.column_video != blank %}
                 {{
@@ -53,6 +53,23 @@
               {% endif %}
             </div>
 
+            <div class="column__heading">
+              {{ block.settings.column__heading }}
+            </div>
+
+            <div class="column_description">
+              {{ block.settings.column_description }}
+            </div>
+
+            {%- if section.settings.button != blank -%}
+              <div class="column_btn">
+                {%- render 'button',
+                  label: block.settings.column_btn_label,
+                  url: block.settings.column_btn_link,
+                  button_style: block.settings.column_btn_style
+                -%}
+              </div>
+            {%- endif -%}
           </div>
         {% endif %}
       {% endfor %}
@@ -116,6 +133,26 @@
           "type": "url",
           "id": "column_btn_link",
           "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "column_btn_style",
+          "default": "link",
+          "label": "Button style",
+          "options": [
+            {
+              "label": "Primary",
+              "value": "primary"
+            },
+            {
+              "label": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "label": "Link",
+              "value": "link"
+            }
+          ]
         }
       ]
     }
