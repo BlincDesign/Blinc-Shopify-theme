@@ -21,7 +21,7 @@
   >
     {%- for option in product.options_with_values -%}
       <div class="variant-picker__option" data-option-position="{{ option.position }}">
-        {%- if picker_style == 'dropdown' -%}
+        {% comment %} {%- if picker_style == 'dropdown' -%}
           <label
             class="variant-picker__label text-body text-body--small"
             for="Option-{{ product.id }}-{{ option.position }}"
@@ -72,7 +72,7 @@
               <label class="variant-picker__pill items-center justify-center" for="{{ input_id }}">{{ value }}</label>
             {%- endfor -%}
           </div>
-        {%- endif -%}
+        {%- endif -%} {% endcomment %}
       </div>
     {%- endfor -%}
   </variant-picker>
