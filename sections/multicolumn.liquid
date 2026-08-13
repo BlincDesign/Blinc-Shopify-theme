@@ -14,19 +14,24 @@
 
 <div id="Multicolumn-{{ section.id }}" class="multicolum color-{{ section.settings.color_scheme }}">
   <div class="multicolumn__wrapper {{ section.settings.container_width }}">
-    {%- if section.settings.heading != blank or section.settings.collection != blank -%}
-      <div class="featured-collection__header flex flex-wrap justify-between items-center">
-        {%- if section.settings.heading != blank -%}
-          <h2 class="featured-collection__heading heading heading--{{ section.settings.heading_size }}">
-            {{ section.settings.heading }}
-          </h2>
-        {%- endif -%}
+    <div class="multicolumn-content">
+      {%- if section.settings.heading != blank or section.settings.collection != blank -%}
+        <div class="featured-collection__header flex flex-wrap justify-between items-center">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="featured-collection__heading heading heading--{{ section.settings.heading_size }}">
+              {{ section.settings.heading }}
+            </h2>
+          {%- endif -%}
 
-        {%- if section.settings.collection != blank -%}
-          {%- render 'button', label: 'View all', url: section.settings.collection.url, button_style: 'link' -%}
-        {%- endif -%}
-      </div>
-    {%- endif -%}
+          {%- if section.settings.collection != blank -%}
+            {%- render 'button', label: 'View all', url: section.settings.collection.url, button_style: 'link' -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="mulitcolumn-blocks">
+        
+    </div>
   </div>
 </div>
 
