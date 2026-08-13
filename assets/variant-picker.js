@@ -57,7 +57,6 @@ class ProductInfo extends HTMLElement {
 
         this.abortController?.abort();
         this.abortController = new AbortController();
-        this.classList.add('is-loading');
 
         try {
             const response = await fetch(this.buildRequestUrl(), { signal: this.abortController.signal });
@@ -69,8 +68,6 @@ class ProductInfo extends HTMLElement {
         } catch (error) {
             if (error.name === 'AbortError') return;
             console.error(error);
-        } finally {
-            this.classList.remove('is-loading');
         }
     }
 
