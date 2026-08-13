@@ -9,14 +9,6 @@
  */
 {
   "sections": {
-    "multicolumn_N3tqmU": {
-      "type": "multicolumn",
-      "name": "Multicolumn",
-      "settings": {
-        "heading": "Featured collection",
-        "heading_size": "large"
-      }
-    },
     "featured_collection_hhAeW6": {
       "type": "featured-collection",
       "name": "Featured collection",
@@ -416,7 +408,6 @@
     }
   },
   "order": [
-    "multicolumn_N3tqmU",
     "featured_collection_hhAeW6",
     "rich_text",
     "media_with_text_ML7CFL",
