@@ -37,29 +37,35 @@
       {% for block in section.blocks %}
         {% if block.type == 'column' %}
           <div class="mulitcolumn-column-block gap-1 flex flex-column">
-            <div class="multicolumn-column-media">
-              {% if block.settings.column_video != blank %}
-                {{
-                  block.settings.column_video
-                  | video_tag:
-                    autoplay: true,
-                    muted: true,
-                    controls: false,
-                    loop: true,
-                    class: 'multicolumn_column_video'
-                }}
-              {% else %}
-                {%- render 'image', image: block.settings.column_image, class: 'multicolumn_column_image' -%}
-              {% endif %}
-            </div>
+            {% if block.settings.column_video != blank or block.settings.column_image != blank %}
+              <div class="multicolumn-column-media">
+                {% if block.settings.column_video != blank %}
+                  {{
+                    block.settings.column_video
+                    | video_tag:
+                      autoplay: true,
+                      muted: true,
+                      controls: false,
+                      loop: true,
+                      class: 'multicolumn_column_video'
+                  }}
+                {% else %}
+                  {%- render 'image', image: block.settings.column_image, class: 'multicolumn_column_image' -%}
+                {% endif %}
+              </div>
+            {% endif %}
 
-            <div class="column__heading">
-              {{ block.settings.column_heading }}
-            </div>
+            {% if block.settings.column_heading != blank %}
+              <div class="column__heading">
+                {{ block.settings.column_heading }}
+              </div>
+            {% endif %}
 
-            <div class="column_description">
-              {{ block.settings.column_description }}
-            </div>
+            {% if block.settings.column_description != blank %}
+              <div class="column_description">
+                {{ block.settings.column_description }}
+              </div>
+            {% endif %}
 
             {%- if section.settings.button != blank -%}
               <div class="column_btn">
@@ -219,13 +225,13 @@
       "default": "scheme-1"
     },
     {
-        "type": "range",
-        "id": "columns",
-        "label": "Columns",
-        "min": 2,
-        "max": 6,
-        "step": 1,
-        "default": 4,
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
     },
     {
       "type": "select",
