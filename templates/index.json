@@ -30,6 +30,9 @@
       "settings": {
         "heading": "Multicolumn",
         "heading_size": "large",
+        "button": "Button",
+        "button_link": "#",
+        "button_style": "link",
         "color_scheme": "",
         "container_width": "container-standard",
         "padding_top": 48,
