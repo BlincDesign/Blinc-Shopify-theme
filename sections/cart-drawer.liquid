@@ -42,7 +42,6 @@
 
             <div class="cart-drawer__item-actions flex items-center">
               {%- render 'quantity-selector',
-                id: 'CartDrawerQuantity-' | append: item.key,
                 value: item.quantity,
                 min: line_quantity_min,
                 max: line_quantity_max,
