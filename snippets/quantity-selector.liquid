@@ -1,10 +1,4 @@
 {%- comment -%}
-  Renders a quantity stepper (decrease / input / increase). The enclosing
-  <quantity-selector> custom element (assets/global.js) wires the buttons and
-  clamps the value between `min` and `max`. Used by both the product form
-  (assets/variant-picker.js keeps `max` in sync with the selected variant's
-  inventory) and the cart line items.
-
   Accepts:
   id (string, required) - Unique id for the input (and its label's `for`).
   name (string, optional) - Form field name. Default: 'quantity'.
