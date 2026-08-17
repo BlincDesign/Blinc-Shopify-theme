@@ -1,14 +1,3 @@
-/**
- * <cart-drawer> is a shared native <dialog> cart drawer, modeled directly on
- * <quick-modal> (assets/quick-add.js). It opens after a successful
- * add-to-cart (assets/cart.js already dispatches `cart:updated` on
- * `document`, previously unconsumed) or from any `[data-cart-drawer-trigger]`
- * element, and always re-fetches sections/cart-drawer.liquid via the Section
- * Rendering API - the same fetch/swap pattern <product-info> and
- * <quick-modal> already use - so Liquid stays the source of truth for line
- * pricing/subtotal. Quantity and remove actions POST to /cart/change.js and
- * then re-fetch; JS never recomputes cart totals itself.
- */
 class CartDrawer extends HTMLElement {
     connectedCallback() {
         this.dialog = this.querySelector('dialog');
