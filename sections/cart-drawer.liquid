@@ -1,18 +1,3 @@
-{%- comment -%}
-  Fetched via `{{ routes.cart_url }}?section_id=cart-drawer` by
-  assets/cart-drawer.js (Shopify's Section Rendering API, the same mechanism
-  assets/variant-picker.js and assets/quick-add.js already rely on) and
-  injected into the shared <cart-drawer> shell in layout/theme.liquid.
-  Never placed in a template - same pattern as sections/quick-view.liquid.
-
-  Reuses snippets/quantity-selector.liquid (the same component used on the
-  cart page and product forms) for line-item quantities, so
-  variant.quantity_rule is respected here too. Quantity changes and removals
-  are handled by assets/cart-drawer.js via /cart/change.js, then this
-  section is re-fetched so Liquid recomputes line pricing/subtotal - JS
-  never calculates cart totals itself.
-{%- endcomment -%}
-
 <div class="cart-drawer__content" data-cart-drawer-content data-item-count="{{ cart.item_count }}">
   {%- if cart.item_count == 0 -%}
     <div class="cart-drawer__empty flex flex-column items-center text-center">
