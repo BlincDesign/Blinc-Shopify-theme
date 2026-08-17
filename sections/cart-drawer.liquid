@@ -41,13 +41,12 @@
             {%- endif -%}
 
             <div class="cart-drawer__item-actions flex items-center">
-              {%- render 'quantity-selector',
-                value: item.quantity,
-                min: line_quantity_min,
-                max: line_quantity_max,
-                step: item.variant.quantity_rule.increment
-              -%}
-
+              {% liquid
+                assign id = 'CartDrawerQuantity-' | append: item.key
+                
+                render 'quantity-selector', id: id, value: item.quantity, min: line_quantity_min, max: line_quantity_max, step: item.variant.quantity_rule.increment
+              %}
+              
               <button
                 type="button"
                 class="cart-drawer__item-remove text-body text-body--small"
