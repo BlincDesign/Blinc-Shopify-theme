@@ -56,15 +56,15 @@
 <div class="{{ section.settings.container_width }}">
   <div class="product-section flex flex-wrap color-{{ section.settings.color_scheme }}">
     <div class="product__media">
-      {%- render 'product-badges'
-        , product: product -%}
+      {%- render 'product-badges', product: product -%}
 
       {%- if gallery_media.size > 0 -%}
         {%- if section.settings.media_layout == 'carousel' -%}
           <div
             class="product__gallery-main"
             data-slider
-            data-slider-config='{"loop": false, "slidesPerView": 1, "spaceBetween": 0}'>
+            data-slider-config='{"loop": false, "slidesPerView": 1, "spaceBetween": 0}'
+          >
             <div class="swiper-wrapper">
               {%- for media in gallery_media -%}
                 {%- liquid
@@ -76,17 +76,12 @@
                   endif
                 -%}
                 <div class="product__gallery-slide swiper-slide" data-media-id="{{ media.id }}">
-                  {%- render 'product-media-item'
-                    ,
- media: media
-                    ,
- width: 1200
-                    ,
- sizes: '(min-width: 750px) 50vw, 100vw'
-                    ,
- loading: media_loading
-                    ,
- fetchpriority: media_fetchpriority
+                  {%- render 'product-media-item',
+                    media: media,
+                    width: 1200,
+                    sizes: '(min-width: 750px) 50vw, 100vw',
+                    loading: media_loading,
+                    fetchpriority: media_fetchpriority
                   -%}
                 </div>
               {%- endfor -%}
@@ -97,17 +92,17 @@
                 type="button"
                 class="product__gallery-btn product__gallery-btn--prev items-center justify-center"
                 slider-prev
-                aria-label="{{ 'products.product.previous_image' | t }}">
-                {%- render 'icon'
-                  , name: 'chevron-left' -%}
+                aria-label="{{ 'products.product.previous_image' | t }}"
+              >
+                {%- render 'icon', name: 'chevron-left' -%}
               </button>
               <button
                 type="button"
                 class="product__gallery-btn product__gallery-btn--next items-center justify-center"
                 slider-next
-                aria-label="{{ 'products.product.next_image' | t }}">
-                {%- render 'icon'
-                  , name: 'chevron-right' -%}
+                aria-label="{{ 'products.product.next_image' | t }}"
+              >
+                {%- render 'icon', name: 'chevron-right' -%}
               </button>
             {%- endif -%}
           </div>
@@ -120,11 +115,9 @@
                   class="product__thumbnail{% if forloop.first %} is-active{% endif %}"
                   data-thumbnail
                   data-target-media-id="{{ media.id }}"
-                  aria-label="{{ 'products.product.go_to_image' | t: number: forloop.index }}">
-                  {%- render 'image'
-                    , image: media.preview_image
-                    , width: 160
-                    , sizes: '80px' -%}
+                  aria-label="{{ 'products.product.go_to_image' | t: number: forloop.index }}"
+                >
+                  {%- render 'image', image: media.preview_image, width: 160, sizes: '80px' -%}
                 </button>
               {%- endfor -%}
             </div>
@@ -141,40 +134,31 @@
                 endif
               -%}
               <div class="product__gallery-item" data-media-id="{{ media.id }}">
-                {%- render 'product-media-item'
-                  ,
- media: media
-                  ,
- width: 1200
-                  ,
- sizes: '(min-width: 750px) 50vw, 100vw'
-                  ,
- loading: media_loading
-                  ,
- fetchpriority: media_fetchpriority
+                {%- render 'product-media-item',
+                  media: media,
+                  width: 1200,
+                  sizes: '(min-width: 750px) 50vw, 100vw',
+                  loading: media_loading,
+                  fetchpriority: media_fetchpriority
                 -%}
               </div>
             {%- endfor -%}
           </div>
         {%- endif -%}
       {%- else -%}
-        {%- render 'image'
-          , width: 1200
-          , sizes: '(min-width: 750px) 50vw, 100vw' -%}
+        {%- render 'image', width: 1200, sizes: '(min-width: 750px) 50vw, 100vw' -%}
       {%- endif -%}
     </div>
 
     <div class="product__info flex flex-column">
       <product-info data-section-id="{{ section.id }}" data-product-url="{{ product.url }}">
-        {%- form 'product'
-          , product
-          , id: product_form_id
-          , class: 'product__form' -%}
+        {%- form 'product', product, id: product_form_id, class: 'product__form' -%}
           <input
             type="hidden"
             name="id"
             value="{{ current_variant.id }}"
-            data-variant-id-input>
+            data-variant-id-input
+          >
 
           {%- for block in section.blocks -%}
             {%- case block.type -%}
@@ -186,15 +170,15 @@
                 {%- endif -%}
 
               {%- when 'title' -%}
-                <h1 class="product__title heading heading--{{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+                <h1
+                  class="product__title heading heading--{{ block.settings.heading_size }}"
+                  {{ block.shopify_attributes }}
+                >
                   {{ product.title }}
                 </h1>
 
               {%- when 'price' -%}
-                {%- render 'product-price'
-                  , product: product
-                  , variant: current_variant
-                  , block: block -%}
+                {%- render 'product-price', product: product, variant: current_variant, block: block -%}
 
               {%- when 'sku' -%}
                 <p
@@ -202,8 +186,9 @@
                   data-product-sku
                   {{ block.shopify_attributes -}}
                   {% if current_variant.sku == blank %}
-                  hidden
-                  {% endif %}>
+                    hidden
+                  {% endif %}
+                >
                   {{ 'products.product.sku' | t }}:
                   <span data-product-sku-value>{{ current_variant.sku }}</span>
                 </p>
@@ -214,17 +199,24 @@
                   data-product-inventory
                   data-state="{% if has_variant == false or current_variant.available == false or quantity_rule_unavailable %}out-of-stock{% elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= section.settings.low_stock_threshold and current_variant.inventory_quantity > 0 %}low-stock{% else %}in-stock{% endif %}"
                   {% if has_variant == false %}
-                  hidden{% endif %}
-                  {{ block.shopify_attributes }}>
+                    hidden
+                  {% endif %}
+                  {{ block.shopify_attributes }}
+                >
                   {%- if has_variant == false -%}
                   {%- elsif current_variant.available == false -%}
                     {{ 'products.product.out_of_stock' | t }}
                   {%- elsif quantity_rule_unavailable -%}
-                    {{ 'products.product.quantity_unavailable' | t | replace: '[min]', quantity_min | replace: '[count]', current_variant.inventory_quantity }}
+                    {{
+                      'products.product.quantity_unavailable'
+                      | t
+                      | replace: '[min]', quantity_min
+                      | replace: '[count]', current_variant.inventory_quantity
+                    }}
                   {%- elsif current_variant.inventory_management == 'shopify'
- and current_variant.inventory_policy == 'deny'
- and current_variant.inventory_quantity <= section.settings.low_stock_threshold
- and current_variant.inventory_quantity > 0
+                    and current_variant.inventory_policy == 'deny'
+                    and current_variant.inventory_quantity <= section.settings.low_stock_threshold
+                    and current_variant.inventory_quantity > 0
                   -%}
                     {{ 'products.product.low_stock' | t | replace: '[count]', current_variant.inventory_quantity }}
                   {%- else -%}
@@ -235,8 +227,7 @@
               {%- when 'variant_picker' -%}
                 {%- if product.has_only_default_variant == false -%}
                   <div {{ block.shopify_attributes }}>
-                    {%- render 'variant-picker'
-                      , product: product -%}
+                    {%- render 'variant-picker', product: product -%}
                   </div>
                 {%- endif -%}
 
@@ -260,7 +251,12 @@
                     endif
                   -%}
 
-                  {%- render 'quantity-selector', id: quantity_input_id, min: quantity_min, max: quantity_max, step: quantity_increment, disabled: quantity_disabled
+                  {%- render 'quantity-selector',
+                    id: quantity_input_id,
+                    min: quantity_min,
+                    max: quantity_max,
+                    step: quantity_increment,
+                    disabled: quantity_disabled
                   -%}
                 </div>
 
@@ -274,7 +270,12 @@
                   -%}
 
                   {%- render 'button',
-                        label: buy_button_label, type: 'submit', name: 'add', button_style: 'primary', class: 'product__atc-button', disabled: button_disabled
+                    label: buy_button_label,
+                    type: 'submit',
+                    name: 'add',
+                    button_style: 'primary',
+                    class: 'product__atc-button',
+                    disabled: button_disabled
                   -%}
 
                   {%- if block.settings.show_dynamic_checkout and can_add_to_cart -%}
@@ -303,234 +304,260 @@
 </div>
 
 {% schema %}
-  {
-    "name": "Main product",
-    "tag": "section",
-    "class": "shopify-section--main-product",
-    "settings": [
-      {
-        "type": "header",
-        "content": "Media"
-      },
-      {
-        "type": "select",
-        "id": "media_layout",
-        "label": "Media layout",
-        "options": [
-          {
-            "value": "carousel",
-            "label": "Carousel"
-          }, {
-            "value": "stacked",
-            "label": "Stacked"
-          }
-        ],
-        "default": "carousel"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_thumbnails",
-        "label": "Show thumbnails",
-        "info": "Only applies to the carousel layout.",
-        "default": true
-      },
-      {
-        "type": "select",
-        "id": "media_position",
-        "label": "Media position",
-        "options": [
-          {
-            "value": "left",
-            "label": "Left"
-          }, {
-            "value": "right",
-            "label": "Right"
-          }
-        ],
-        "default": "left"
-      }, {
-        "type": "header",
-        "content": "Variants"
-      }, {
-        "type": "range",
-        "id": "low_stock_threshold",
-        "label": "Low stock threshold",
-        "info": "Show a low stock message when tracked inventory falls at or below this number.",
-        "min": 1,
-        "max": 50,
-        "step": 1,
-        "default": 10
-      }, {
-        "type": "header",
-        "content": "Layout"
-      }, {
-        "type": "select",
-        "id": "container_width",
-        "label": "Container width",
-        "default": "container-standard",
-        "options": [
-          {
-            "value": "full-width",
-            "label": "Full width"
-          }, {
-            "value": "container-padded",
-            "label": "Full width (padded)"
-          }, {
-            "value": "container-standard",
-            "label": "Standard"
-          }, {
-            "value": "container-narrow",
-            "label": "Narrow"
-          }
-        ]
-      }, {
-        "type": "color_scheme",
-        "id": "color_scheme",
-        "label": "Color scheme",
-        "default": "scheme-1"
-      }, {
-        "type": "range",
-        "id": "padding_top",
-        "label": "Top padding",
-        "min": 0,
-        "max": 120,
-        "step": 4,
-        "unit": "px",
-        "default": 40
-      }, {
-        "type": "range",
-        "id": "padding_bottom",
-        "label": "Bottom padding",
-        "min": 0,
-        "max": 120,
-        "step": 4,
-        "unit": "px",
-        "default": 40
-      }
-    ],
-    "blocks": [
-      {
-        "type": "vendor",
-        "name": "Vendor",
-        "limit": 1
-      },
-      {
-        "type": "title",
-        "name": "Title",
-        "limit": 1,
-        "settings": [
-          {
-            "type": "select",
-            "id": "heading_size",
-            "label": "Heading size",
-            "options": [
-              {
-                "value": "small",
-                "label": "Small"
-              },
-              {
-                "value": "medium",
-                "label": "Medium"
-              },
-              {
-                "value": "large",
-                "label": "Large"
-              },
-              {
-                "value": "xl",
-                "label": "XL"
-              }, {
-                "value": "xxl",
-                "label": "XXL"
-              }
-            ],
-            "default": "large"
-          }
-        ]
-      },
-      {
-        "type": "price",
-        "name": "Price",
-        "limit": 1
-      },
-      {
-        "type": "variant_picker",
-        "name": "Variant picker",
-        "limit": 1
-      }, {
-        "type": "volume_pricing",
-        "name": "Volume pricing",
-        "limit": 1
-      }, {
-        "type": "quantity_selector",
-        "name": "Quantity selector",
-        "limit": 1
-      }, {
-        "type": "buy_buttons",
-        "name": "Buy buttons",
-        "limit": 1,
-        "settings": [
-          {
-            "type": "checkbox",
-            "id": "show_dynamic_checkout",
-            "label": "Show dynamic checkout button",
-            "default": true
-          }
-        ]
-      }, {
-        "type": "sku",
-        "name": "SKU",
-        "limit": 1
-      }, {
-        "type": "inventory_status",
-        "name": "Inventory status",
-        "limit": 1
-      }, {
-        "type": "description",
-        "name": "Description",
-        "limit": 1
-      }, {
-        "type": "custom_liquid",
-        "name": "Custom liquid",
-        "settings": [
-          {
-            "type": "liquid",
-            "id": "custom_liquid",
-            "label": "Custom liquid"
-          }
-        ]
-      }
-    ],
-    "presets": [
-      {
-        "name": "Main product",
-        "blocks": [
-          {
-            "type": "vendor"
-          },
-          {
-            "type": "title"
-          },
-          {
-            "type": "price"
-          },
-          {
-            "type": "variant_picker"
-          }, {
-            "type": "volume_pricing"
-          }, {
-            "type": "quantity_selector"
-          }, {
-            "type": "buy_buttons"
-          }, {
-            "type": "inventory_status"
-          }, {
-            "type": "sku"
-          }, {
-            "type": "description"
-          }
-        ]
-      }
-    ]
-  }
+{
+  "name": "Main product",
+  "tag": "section",
+  "class": "shopify-section--main-product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "select",
+      "id": "media_layout",
+      "label": "Media layout",
+      "options": [
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        },
+        {
+          "value": "stacked",
+          "label": "Stacked"
+        }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show thumbnails",
+      "info": "Only applies to the carousel layout.",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Variants"
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Low stock threshold",
+      "info": "Show a low stock message when tracked inventory falls at or below this number.",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container width",
+      "default": "container-standard",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full width"
+        },
+        {
+          "value": "container-padded",
+          "label": "Full width (padded)"
+        },
+        {
+          "value": "container-standard",
+          "label": "Standard"
+        },
+        {
+          "value": "container-narrow",
+          "label": "Narrow"
+        }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "vendor",
+      "name": "Vendor",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "options": [
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "xl",
+              "label": "XL"
+            },
+            {
+              "value": "xxl",
+              "label": "XXL"
+            }
+          ],
+          "default": "large"
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1
+    },
+    {
+      "type": "volume_pricing",
+      "name": "Volume pricing",
+      "limit": 1
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Quantity selector",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout button",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "sku",
+      "name": "SKU",
+      "limit": 1
+    },
+    {
+      "type": "inventory_status",
+      "name": "Inventory status",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main product",
+      "blocks": [
+        {
+          "type": "vendor"
+        },
+        {
+          "type": "title"
+        },
+        {
+          "type": "price"
+        },
+        {
+          "type": "variant_picker"
+        },
+        {
+          "type": "volume_pricing"
+        },
+        {
+          "type": "quantity_selector"
+        },
+        {
+          "type": "buy_buttons"
+        },
+        {
+          "type": "inventory_status"
+        },
+        {
+          "type": "sku"
+        },
+        {
+          "type": "description"
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}
