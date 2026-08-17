@@ -74,8 +74,8 @@
       <p class="cart-drawer__note text-body text-body--small">{{ 'cart.taxes_and_shipping' | t }}</p>
 
       <div class="cart-drawer__footer-actions flex flex-column">
-        {%- render 'button', label: 'cart.view_cart' | t, url: routes.cart_url, button_style: 'secondary' -%}
-        {%- render 'button', label: 'cart.checkout' | t, url: '/checkout', button_style: 'primary' -%}
+        {%- render 'button', label: 'Continue Shopping', url: routes.cart_url, button_style: 'secondary' -%}
+        {%- render 'button', label: 'Checkout', url: '/checkout', button_style: 'primary' -%}
       </div>
     </div>
   {%- endif -%}
