@@ -7,58 +7,7 @@
   {%- else -%}
     <div class="cart-drawer__items flex flex-column">
       {%- for item in cart.items -%}
-        {%- liquid
-          assign line_quantity_min = item.variant.quantity_rule.min
-          assign line_quantity_max = 0
-          if item.variant.quantity_rule.max != null
-            assign line_quantity_max = item.variant.quantity_rule.max
-          endif
-          if item.variant.inventory_management == 'shopify' and item.variant.inventory_policy == 'deny'
-            if line_quantity_max == 0 or item.variant.inventory_quantity < line_quantity_max
-              assign line_quantity_max = item.variant.inventory_quantity
-            endif
-          endif
-        -%}
-        <div class="cart-drawer__item flex" data-cart-drawer-item data-line-key="{{ item.key }}">
-          <a href="{{ item.url }}" class="cart-drawer__item-media">
-            {%- render 'image', image: item.image, width: 160, sizes: '100px' -%}
-          </a>
-
-          <div class="cart-drawer__item-details flex flex-column flex-grow">
-            <a href="{{ item.url }}" class="cart-drawer__item-title text-body">{{ item.product.title }}</a>
-
-            {%- unless item.product.has_only_default_variant -%}
-              <p class="cart-drawer__item-variant text-body text-body--small">{{ item.variant.title }}</p>
-            {%- endunless -%}
-
-            {%- if item.original_price != item.final_price -%}
-              <p class="cart-drawer__item-price flex items-center text-body text-body--small">
-                <span class="cart-drawer__item-price-compare">{{ item.original_price | money }}</span>
-                <span class="cart-drawer__item-price-sale">{{ item.final_price | money }}</span>
-              </p>
-            {%- else -%}
-              <p class="cart-drawer__item-price text-body text-body--small">{{ item.original_price | money }}</p>
-            {%- endif -%}
-
-            <div class="cart-drawer__item-actions flex items-center">
-              {% liquid
-                assign id = 'CartDrawerQuantity-' | append: item.key
-                render 'quantity-selector', id: id, value: item.quantity, min: line_quantity_min, max: line_quantity_max, step: item.variant.quantity_rule.increment
-              %}
-
-              <button
-                type="button"
-                class="cart-drawer__item-remove text-body text-body--small"
-                data-cart-drawer-remove
-                aria-label="{{ 'cart.remove' | t }} {{ item.product.title | escape }}"
-              >
-                {{- 'cart.remove' | t -}}
-              </button>
-            </div>
-          </div>
-
-          <p class="cart-drawer__item-total text-body">{{ item.final_line_price | money }}</p>
-        </div>
+        {% render 'cart-item', item: item %}
       {%- endfor -%}
     </div>
 
