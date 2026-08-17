@@ -35,13 +35,6 @@
       </div>
     {%- endif -%}
 
-    {%- if settings.enable_quick_view -%}
-      <span class="product-card__quick-view items-center justify-center" aria-hidden="true">
-        {%- render 'icon', name: 'eye' -%}
-      </span>
-    {%- endif -%}
-
-
     {%- if settings.grid_button_action == 'quick_add' -%}
       <span
         class="product-card__atc-icon product-card__atc-icon--placeholder items-center justify-center"

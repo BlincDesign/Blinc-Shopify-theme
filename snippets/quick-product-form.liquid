@@ -1,10 +1,9 @@
 {%- comment -%}
-  Renders a compact "buy box" for a product: title, price, variant picker,
-  quantity, and an add-to-cart button, wrapped in <product-info> - the same
-  reusable component used on the product page. This is the single piece of
-  markup shared by Quick Add and Quick View (sections/quick-add.liquid and
-  sections/quick-view.liquid); the only difference between the two is
-  whether a media gallery is shown above it.
+  Renders a compact "buy box" for a product: title, price, volume pricing,
+  variant picker, quantity, and an add-to-cart button, wrapped in
+  <product-info> - the same reusable component used on the product page.
+  Fetched via sections/quick-view.liquid (?section_id=quick-view) and
+  injected into the shared <quick-modal> by assets/quick-add.js.
 
   Accepts:
   product (object, required)
@@ -19,14 +18,43 @@
   assign product_form_id = 'QuickForm-' | append: product.id
   assign quantity_input_id = 'QuickQuantity-' | append: product.id
 
-  assign buy_button_label = 'products.product.add_to_cart' | t
-  unless current_variant.available
-    assign buy_button_label = 'products.product.sold_out' | t
+  assign has_variant = false
+  unless current_variant == null
+    assign has_variant = true
   endunless
 
+  assign quantity_min = 1
   assign quantity_max = 0
-  if current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny'
-    assign quantity_max = current_variant.inventory_quantity
+  assign quantity_increment = 1
+  if has_variant
+    assign quantity_min = current_variant.quantity_rule.min
+    assign quantity_increment = current_variant.quantity_rule.increment
+    if current_variant.quantity_rule.max != null
+      assign quantity_max = current_variant.quantity_rule.max
+    endif
+    if current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny'
+      if quantity_max == 0 or current_variant.inventory_quantity < quantity_max
+        assign quantity_max = current_variant.inventory_quantity
+      endif
+    endif
+  endif
+
+  assign quantity_rule_unavailable = false
+  if has_variant and quantity_max > 0 and quantity_min > quantity_max
+    assign quantity_rule_unavailable = true
+  endif
+
+  assign can_add_to_cart = false
+  if has_variant and current_variant.available and quantity_rule_unavailable == false
+    assign can_add_to_cart = true
+  endif
+
+  if has_variant == false
+    assign buy_button_label = 'products.product.unavailable' | t
+  elsif current_variant.available == false or quantity_rule_unavailable
+    assign buy_button_label = 'products.product.sold_out' | t
+  else
+    assign buy_button_label = 'products.product.add_to_cart' | t
   endif
 -%}
 
@@ -101,6 +129,10 @@
 
       {%- render 'product-price', product: product, variant: current_variant -%}
 
+      {%- if product.quantity_price_breaks_configured? -%}
+        {%- render 'volume-pricing', variant: current_variant -%}
+      {%- endif -%}
+
       {%- unless product.has_only_default_variant -%}
         {%- render 'variant-picker', product: product -%}
       {%- endunless -%}
@@ -108,28 +140,42 @@
       <p
         class="product__inventory text-body text-body--small"
         data-product-inventory
-        data-state="{% if current_variant.available == false %}out-of-stock{% else %}in-stock{% endif %}"
-        {% if current_variant.available == false %}hidden{% endif %}
+        data-state="{% if has_variant == false or current_variant.available == false or quantity_rule_unavailable %}out-of-stock{% else %}in-stock{% endif %}"
+        {% if has_variant == false or current_variant.available and quantity_rule_unavailable == false %}hidden{% endif %}
       >
-        {%- if current_variant.available == false -%}
+        {%- if has_variant == false -%}
+        {%- elsif current_variant.available == false -%}
           {{ 'products.product.out_of_stock' | t }}
+        {%- elsif quantity_rule_unavailable -%}
+          {{ 'products.product.quantity_unavailable' | t | replace: '[min]', quantity_min | replace: '[count]', current_variant.inventory_quantity }}
         {%- endif -%}
       </p>
 
       <div class="product__quantity">
-        <label class="visually-hidden" for="{{ quantity_input_id }}">{{ 'products.product.quantity' | t }}</label>
-        {%- render 'quantity-selector', id: quantity_input_id, max: quantity_max -%}
+        <label class="text-body text-body--small" for="{{ quantity_input_id }}"> {{- 'products.product.quantity' | t -}}</label>
+
+                  {%- liquid
+                    assign quantity_disabled = true
+                    if can_add_to_cart
+                      assign quantity_disabled = false
+                    endif
+                  -%}
+
+                  {%- render 'quantity-selector', id: quantity_input_id, min: quantity_min, max: quantity_max, step: quantity_increment, disabled: quantity_disabled
+                  -%}
       </div>
 
       <div class="product__buy-buttons flex flex-column">
-        {%- render 'button',
-          label: buy_button_label,
-          type: 'submit',
-          name: 'add',
-          button_style: 'primary',
-          class: 'product__atc-button',
-          disabled: current_variant.available == false
-        -%}
+        {%- liquid
+                    assign button_disabled = true
+                    if can_add_to_cart
+                      assign button_disabled = false
+                    endif
+                  -%}
+
+                  {%- render 'button',
+                        label: buy_button_label, type: 'submit', name: 'add', button_style: 'primary', class: 'product__atc-button', disabled: button_disabled
+                  -%}
       </div>
 
       <a href="{{ product.url }}" class="quick-product-form__link text-body text-body--small">

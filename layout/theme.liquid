@@ -27,6 +27,7 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'product-form.css' | asset_url | stylesheet_tag }}
     {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+    {{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
 
 
     <link
@@ -68,10 +69,31 @@
       </dialog>
     </quick-modal>
 
+    <cart-drawer data-cart-url="{{ routes.cart_url }}">
+      <dialog class="cart-drawer" aria-label="{{ 'cart.title' | t }}">
+        <div class="cart-drawer__header flex items-center justify-between">
+          <h2 class="cart-drawer__title heading heading--small">{{ 'cart.title' | t }}</h2>
+          <button
+            type="button"
+            class="cart-drawer__close"
+            data-cart-drawer-close
+            aria-label="{{ 'general.accessibility.close' | t }}"
+          >
+            {%- render 'icon', name: 'close' -%}
+          </button>
+        </div>
+        <div class="cart-drawer__body" data-cart-drawer-body></div>
+        <p class="cart-drawer__loading text-body" data-cart-drawer-loading hidden>
+          {{- 'products.product.loading' | t -}}
+        </p>
+      </dialog>
+    </cart-drawer>
+
     <script>
       window.theme = window.theme || {};
       window.theme.routes = {
         cartAdd: '{{ routes.cart_add_url }}.js',
+        cartChange: '{{ routes.cart_change_url }}.js',
         cart: '{{ routes.cart_url }}.js'
       };
       window.theme.strings = {
@@ -86,5 +108,6 @@
     <script src="{{ 'variant-picker.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

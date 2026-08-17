@@ -16,12 +16,18 @@
   assign aspect_ratio = settings.grid_image_aspect_ratio | default: 1
   assign aspect_ratio_css = '1 / ' | append: aspect_ratio
   assign current_variant = product.selected_or_first_available_variant
-  assign is_available = current_variant.available
+  assign is_available = false
+  if current_variant and current_variant.available
+    assign is_available = true
+  endif
 
-  assign atc_label = 'products.product.add_to_cart' | t
-  unless is_available
+  if current_variant == null
+    assign atc_label = 'products.product.unavailable' | t
+  elsif is_available == false
     assign atc_label = 'products.product.sold_out' | t
-  endunless
+  else
+    assign atc_label = 'products.product.add_to_cart' | t
+  endif
 
   if settings.enable_video
     assign gallery_media = product.media
@@ -50,7 +56,7 @@
 
   assign media_sizes = '(min-width: 1024px) 25vw, (min-width: 749px) 33vw, 100vw'
 
-  assign data_quick_add_attributes = 'data-quick-modal-trigger data-url="' | append: product.url | append: '?section_id=quick-add"'
+  assign data_quick_view_attributes = 'data-quick-modal-trigger data-url="' | append: product.url | append: '?section_id=quick-view"'
 -%}
 
 <div class="product-card flex flex-column">
@@ -133,18 +139,6 @@
 
     {%- render 'product-badges', product: product -%}
 
-    {%- if settings.enable_quick_view -%}
-      <button
-        type="button"
-        class="product-card__quick-view items-center justify-center"
-        data-quick-modal-trigger
-        data-url="{{ product.url }}?section_id=quick-view"
-        aria-label="{{ 'products.product.quick_view' | t }} {{ product.title | escape }}"
-      >
-        {%- render 'icon', name: 'eye' -%}
-      </button>
-    {%- endif -%}
-
     {%- if settings.grid_button_action == 'quick_add' -%}
       {%- if product.has_only_default_variant -%}
         {%- form 'product', product, class: 'product-card__atc-form' -%}
@@ -163,8 +157,8 @@
           type="button"
           class="product-card__atc-icon items-center justify-center"
           data-quick-modal-trigger
-          data-url="{{ product.url }}?section_id=quick-add"
-          aria-label="{{ 'products.product.quick_add' | t }} {{ product.title | escape }}"
+          data-url="{{ product.url }}?section_id=quick-view"
+          aria-label="{{ 'products.product.quick_view' | t }} {{ product.title | escape }}"
           {%- unless is_available %} disabled{% endunless -%}
         >
           {%- render 'icon', name: 'cart' -%}
@@ -190,7 +184,7 @@
             type: 'button',
             button_style: 'primary',
             class: 'product-card__atc-button',
-            attributes: data_quick_add_attributes
+            attributes: data_quick_view_attributes
           -%}
         {%- endif -%}
       </div>

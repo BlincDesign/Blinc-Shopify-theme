@@ -1,10 +1,10 @@
 /**
- * <quick-modal> is a single, shared native <dialog> used by both Quick Add
- * (multi-variant products) and Quick View. Any trigger anywhere on the page
- * can open it via `data-quick-modal-trigger` + `data-url`; the fetched
- * section's markup (snippets/quick-product-form.liquid, via
- * sections/quick-add.liquid or sections/quick-view.liquid) is injected as-is.
- * Its <variant-picker>/<product-info>/<quantity-selector> custom elements
+ * <quick-modal> is a single, shared native <dialog> that opens Quick View for
+ * multi-variant products (from the product page, product cards, etc). Any
+ * trigger anywhere on the page can open it via `data-quick-modal-trigger` +
+ * `data-url`; the fetched section's markup (snippets/quick-product-form.liquid,
+ * via sections/quick-view.liquid) is injected as-is. Its
+ * <variant-picker>/<product-info>/<quantity-selector> custom elements
  * auto-upgrade on insertion, so no manual re-initialization is needed.
  */
 class QuickModal extends HTMLElement {

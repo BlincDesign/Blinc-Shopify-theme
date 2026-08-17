@@ -742,13 +742,6 @@
             "label": "Add to Cart"
           }
         ]
-      },
-      {
-        "type": "checkbox",
-        "id": "enable_quick_view",
-        "label": "Enable Quick View",
-        "info": "Adds a quick view button to product cards.",
-        "default": true
       }
     ]
   }

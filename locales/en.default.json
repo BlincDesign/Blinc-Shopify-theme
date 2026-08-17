@@ -49,7 +49,7 @@
       "in_stock": "In stock",
       "out_of_stock": "Out of stock",
       "low_stock": "Only [count] left in stock",
-      "quick_add": "Quick add",
+      "quantity_unavailable": "Requires a minimum order of [min], only [count] in stock",
       "quick_view": "Quick view",
       "choose_options": "Choose options",
       "variant_unavailable": "(unavailable)",
@@ -57,7 +57,10 @@
       "add_to_cart_error": "Couldn't add this item to your cart. Please try again.",
       "view_full_details": "View full details",
       "loading": "Loading",
-      "load_error": "Something went wrong. Please try again."
+      "load_error": "Something went wrong. Please try again.",
+      "volume_pricing_title": "Buy more, save more",
+      "volume_pricing_quantity": "Buy [count]+",
+      "volume_pricing_each": "each"
     }
   },
   "collections": {
@@ -80,6 +83,7 @@
     "subtotal": "Subtotal",
     "taxes_and_shipping": "Taxes and shipping calculated at checkout",
     "update": "Update cart",
-    "checkout": "Check out"
+    "checkout": "Check out",
+    "view_cart": "View cart"
   }
 }

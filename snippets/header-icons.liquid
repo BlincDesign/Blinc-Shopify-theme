@@ -24,7 +24,12 @@
     </a>
   {%- endif -%}
 
-  <a href="{{ routes.cart_url }}" class="header__cart items-center" aria-label="{{ 'general.header.cart' | t }}">
+  <a
+    href="{{ routes.cart_url }}"
+    class="header__cart items-center"
+    data-cart-drawer-trigger
+    aria-label="{{ 'general.header.cart' | t }}"
+  >
     {{ 'general.header.cart' | t }}
     <span class="header__cart-count" data-cart-count>({{ cart.item_count }})</span>
   </a>

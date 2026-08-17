@@ -269,8 +269,34 @@ product-info.is-loading {
     margin: 0;
 }
 
+.quantity-selector__button:disabled,
+.quantity-selector__input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .product__buy-buttons {
     gap: 0.75rem;
+}
+
+.volume-pricing {
+    border: 1px solid rgb(var(--color-border, 230, 230, 230));
+    padding: 0.75rem 1rem;
+}
+
+.volume-pricing__title {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.volume-pricing__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.volume-pricing__item {
+    gap: 1rem;
 }
 
 .product__atc-button {

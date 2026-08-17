@@ -80,19 +80,41 @@ class QuantitySelector extends HTMLElement {
         this.input?.addEventListener('change', () => this.clamp());
     }
 
+    // Dispatches a synthetic `change` so listeners outside this element
+    // (e.g. the cart drawer's AJAX update) react to +/- clicks the same way
+    // they react to typed input. clamp() itself must never dispatch - it's
+    // also invoked by the input's own native `change` listener below, and a
+    // dispatch there would recurse.
     step(direction) {
         if (!this.input) return;
+        const step = Number(this.input.step) || 1;
         const min = Number(this.input.min) || 1;
         const current = Number(this.input.value) || min;
-        this.input.value = current + direction;
+        this.input.value = current + direction * step;
         this.clamp();
+        this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
 
+    // Rounds to the nearest valid increment from `min` before clamping,
+    // matching HTML's own step validity semantics (value == min + n*step)
+    // so the stepper and native constraint validation never disagree.
     clamp() {
         if (!this.input) return;
         const min = Number(this.input.min) || 1;
         const max = this.input.max ? Number(this.input.max) : Infinity;
-        this.input.value = Math.min(Math.max(Number(this.input.value) || min, min), max);
+        const step = Number(this.input.step) || 1;
+
+        let value = Number(this.input.value) || min;
+        value = min + Math.round((value - min) / step) * step;
+        value = Math.min(Math.max(value, min), max);
+
+        this.input.value = value;
+    }
+
+    setMin(min) {
+        if (!this.input) return;
+        this.input.min = min;
+        if (Number(this.input.value) < min) this.input.value = min;
     }
 
     setMax(max) {
@@ -103,6 +125,18 @@ class QuantitySelector extends HTMLElement {
         } else {
             this.input.removeAttribute('max');
         }
+    }
+
+    setStep(step) {
+        if (!this.input) return;
+        this.input.step = step > 0 ? step : 1;
+    }
+
+    setDisabled(disabled) {
+        if (!this.input) return;
+        this.input.disabled = disabled;
+        if (this.decreaseBtn) this.decreaseBtn.disabled = disabled;
+        if (this.increaseBtn) this.increaseBtn.disabled = disabled;
     }
 }
 

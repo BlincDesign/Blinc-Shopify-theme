@@ -1,0 +1,31 @@
+{%- comment -%}
+  Renders Shopify's native quantity price breaks (variant.quantity_price_breaks)
+  as a simple tier list. Always renders the `data-product-volume-pricing`
+  wrapper (hidden when there are no breaks) so assets/variant-picker.js can
+  swap it via copyFragment on variant change, same convention as the price/
+  sku/inventory fragments.
+
+  Accepts:
+  variant (object, required)
+
+  Usage:
+  {% render 'volume-pricing', variant: current_variant %}
+{%- endcomment -%}
+
+<div class="volume-pricing" data-product-volume-pricing{% if variant.quantity_price_breaks.size == 0 %} hidden{% endif %}>
+  {%- if variant.quantity_price_breaks.size > 0 -%}
+    <p class="volume-pricing__title text-body text-body--small">{{ 'products.product.volume_pricing_title' | t }}</p>
+    <ul class="volume-pricing__list">
+      {%- for price_break in variant.quantity_price_breaks -%}
+        <li class="volume-pricing__item flex items-center justify-between text-body text-body--small">
+          <span class="volume-pricing__quantity">
+            {{- 'products.product.volume_pricing_quantity' | t | replace: '[count]', price_break.minimum_quantity -}}
+          </span>
+          <span class="volume-pricing__price">
+            {{- price_break.price | money }} {{ 'products.product.volume_pricing_each' | t -}}
+          </span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</div>

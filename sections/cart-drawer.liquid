@@ -1,0 +1,104 @@
+{%- comment -%}
+  Fetched via `{{ routes.cart_url }}?section_id=cart-drawer` by
+  assets/cart-drawer.js (Shopify's Section Rendering API, the same mechanism
+  assets/variant-picker.js and assets/quick-add.js already rely on) and
+  injected into the shared <cart-drawer> shell in layout/theme.liquid.
+  Never placed in a template - same pattern as sections/quick-view.liquid.
+
+  Reuses snippets/quantity-selector.liquid (the same component used on the
+  cart page and product forms) for line-item quantities, so
+  variant.quantity_rule is respected here too. Quantity changes and removals
+  are handled by assets/cart-drawer.js via /cart/change.js, then this
+  section is re-fetched so Liquid recomputes line pricing/subtotal - JS
+  never calculates cart totals itself.
+{%- endcomment -%}
+
+<div class="cart-drawer__content" data-cart-drawer-content data-item-count="{{ cart.item_count }}">
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-drawer__empty flex flex-column items-center text-center">
+      <p class="cart-drawer__empty-text text-body">{{ 'cart.empty' | t }}</p>
+      {%- render 'button', label: 'cart.continue_shopping' | t, url: routes.all_products_collection_url, button_style: 'primary' -%}
+    </div>
+  {%- else -%}
+    <div class="cart-drawer__items flex flex-column">
+      {%- for item in cart.items -%}
+        {%- liquid
+          assign line_quantity_min = item.variant.quantity_rule.min
+          assign line_quantity_max = 0
+          if item.variant.quantity_rule.max != null
+            assign line_quantity_max = item.variant.quantity_rule.max
+          endif
+          if item.variant.inventory_management == 'shopify' and item.variant.inventory_policy == 'deny'
+            if line_quantity_max == 0 or item.variant.inventory_quantity < line_quantity_max
+              assign line_quantity_max = item.variant.inventory_quantity
+            endif
+          endif
+        -%}
+        <div class="cart-drawer__item flex" data-cart-drawer-item data-line-key="{{ item.key }}">
+          <a href="{{ item.url }}" class="cart-drawer__item-media">
+            {%- render 'image', image: item.image, width: 160, sizes: '100px' -%}
+          </a>
+
+          <div class="cart-drawer__item-details flex flex-column flex-grow">
+            <a href="{{ item.url }}" class="cart-drawer__item-title text-body">{{ item.product.title }}</a>
+
+            {%- unless item.product.has_only_default_variant -%}
+              <p class="cart-drawer__item-variant text-body text-body--small">{{ item.variant.title }}</p>
+            {%- endunless -%}
+
+            {%- if item.original_price != item.final_price -%}
+              <p class="cart-drawer__item-price flex items-center text-body text-body--small">
+                <span class="cart-drawer__item-price-compare">{{ item.original_price | money }}</span>
+                <span class="cart-drawer__item-price-sale">{{ item.final_price | money }}</span>
+              </p>
+            {%- else -%}
+              <p class="cart-drawer__item-price text-body text-body--small">{{ item.original_price | money }}</p>
+            {%- endif -%}
+
+            <div class="cart-drawer__item-actions flex items-center">
+              {%- render 'quantity-selector',
+                id: 'CartDrawerQuantity-' | append: item.key,
+                value: item.quantity,
+                min: line_quantity_min,
+                max: line_quantity_max,
+                step: item.variant.quantity_rule.increment
+              -%}
+
+              <button
+                type="button"
+                class="cart-drawer__item-remove text-body text-body--small"
+                data-cart-drawer-remove
+                aria-label="{{ 'cart.remove' | t }} {{ item.product.title | escape }}"
+              >
+                {{- 'cart.remove' | t -}}
+              </button>
+            </div>
+          </div>
+
+          <p class="cart-drawer__item-total text-body">{{ item.final_line_price | money }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="cart-drawer__footer flex flex-column">
+      {%- if cart.total_discount > 0 -%}
+        <p class="cart-drawer__discount text-body text-body--small">{{ 'cart.discount' | t }}: -{{ cart.total_discount | money }}</p>
+      {%- endif -%}
+
+      <p class="cart-drawer__subtotal heading heading--small">{{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}</p>
+      <p class="cart-drawer__note text-body text-body--small">{{ 'cart.taxes_and_shipping' | t }}</p>
+
+      <div class="cart-drawer__footer-actions flex flex-column">
+        {%- render 'button', label: 'cart.view_cart' | t, url: routes.cart_url, button_style: 'secondary' -%}
+        {%- render 'button', label: 'cart.checkout' | t, url: '/checkout', button_style: 'primary' -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": []
+}
+{% endschema %}

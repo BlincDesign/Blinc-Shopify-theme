@@ -9,6 +9,7 @@
  * stays the single source of truth, and the same markup + JS works
  * unmodified on the product page, inside Quick Add, and inside Quick View.
  */
+
 class VariantPicker extends HTMLElement {
     connectedCallback() {
         this.addEventListener('change', this.onChange.bind(this));
@@ -20,12 +21,12 @@ class VariantPicker extends HTMLElement {
 
     getSelectedOptionValueIds() {
         return [...this.querySelectorAll('[data-option-position]')]
-            .sort((a, b) => Number(a.dataset.optionPosition) - Number(b.dataset.optionPosition))
+            .sort((a, b) => a - b)
             .map((group) => {
                 const select = group.querySelector('select[data-option-input]');
-                const input = select
-                    ? select.selectedOptions[0]
-                    : group.querySelector('input[data-option-input]:checked');
+                const input = select ?
+                    select.selectedOptions[0] :
+                    group.querySelector('input[data-option-input]:checked');
                 return input?.dataset.optionValueId;
             })
             .filter(Boolean);
@@ -40,6 +41,7 @@ class ProductInfo extends HTMLElement {
         this.priceEl = this.querySelector('[data-product-price]');
         this.skuEl = this.querySelector('[data-product-sku]');
         this.inventoryEl = this.querySelector('[data-product-inventory]');
+        this.volumePricingEl = this.querySelector('[data-product-volume-pricing]');
         this.variantIdInput = this.querySelector('[data-variant-id-input]');
         this.atcButton = this.querySelector('.product__atc-button');
         this.quantitySelector = this.querySelector('quantity-selector');
@@ -52,9 +54,21 @@ class ProductInfo extends HTMLElement {
         });
     }
 
-    async onOptionChange(trigger) {
+    disconnectedCallback() {
+        this.abortController?.abort();
+    }
+
+    // Debounces the expensive section request; visual option selection
+    // (the checked radio / selected dropdown option) is native browser
+    // state and already updates instantly regardless of when the request
+    // fires. The timer is reset on every subsequent change.
+    onOptionChange(trigger) {
         if (!this.variantPicker || !this.dataset.sectionId) return;
 
+        this.requestVariantUpdate(trigger);
+    }
+
+    async requestVariantUpdate(trigger) {
         this.abortController?.abort();
         this.abortController = new AbortController();
 
@@ -84,8 +98,9 @@ class ProductInfo extends HTMLElement {
         this.copyFragment(doc, '[data-product-price]', this.priceEl);
         this.copyFragment(doc, '[data-product-sku]', this.skuEl);
         this.copyFragment(doc, '[data-product-inventory]', this.inventoryEl, ['data-state']);
+        this.copyFragment(doc, '[data-product-volume-pricing]', this.volumePricingEl);
         this.updateBuyButton(doc);
-        this.updateQuantityMax(doc);
+        this.updateQuantityRules(doc);
         this.updateVariantId(doc);
         this.updateMedia(doc);
         this.updateUrl();
@@ -134,13 +149,18 @@ class ProductInfo extends HTMLElement {
         this.atcButton.classList.toggle('button--disabled', source.classList.contains('button--disabled'));
     }
 
-    // Reuses whatever `max` Liquid already computed for the fetched
-    // quantity input, rather than re-deriving inventory rules in JS.
-    updateQuantityMax(doc) {
+    // Reuses whatever min/max/step/disabled Liquid already computed (from
+    // variant.quantity_rule and inventory) for the fetched quantity input,
+    // rather than re-deriving those rules in JS.
+    updateQuantityRules(doc) {
         if (!this.quantitySelector) return;
         const source = doc.querySelector('[data-quantity-input]');
-        const max = source?.getAttribute('max');
-        this.quantitySelector.setMax(max ? Number(max) : 0);
+        if (!source) return;
+
+        this.quantitySelector.setMin(Number(source.getAttribute('min')) || 1);
+        this.quantitySelector.setStep(Number(source.getAttribute('step')) || 1);
+        this.quantitySelector.setMax(Number(source.getAttribute('max')) || 0);
+        this.quantitySelector.setDisabled(source.hasAttribute('disabled'));
     }
 
     updateVariantId(doc) {
