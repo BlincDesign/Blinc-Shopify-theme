@@ -2,7 +2,7 @@
   {%- if cart.item_count == 0 -%}
     <div class="cart-drawer__empty flex flex-column items-center text-center">
       <p class="cart-drawer__empty-text text-body">{{ 'cart.empty' | t }}</p>
-      {%- render 'button', label: 'cart.continue_shopping' | t, url: routes.all_products_collection_url, button_style: 'primary' -%}
+      {%- render 'button', label: 'Continue Shopping' , url: routes.all_products_collection_url, button_style: 'primary' -%}
     </div>
   {%- else -%}
     <div class="cart-drawer__items flex flex-column">
