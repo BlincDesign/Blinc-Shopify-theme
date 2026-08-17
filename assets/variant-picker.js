@@ -46,10 +46,6 @@ class ProductInfo extends HTMLElement {
         this.abortController?.abort();
     }
 
-    // Debounces the expensive section request; visual option selection
-    // (the checked radio / selected dropdown option) is native browser
-    // state and already updates instantly regardless of when the request
-    // fires. The timer is reset on every subsequent change.
     onOptionChange(trigger) {
         if (!this.variantPicker || !this.dataset.sectionId) return;
 
@@ -96,11 +92,6 @@ class ProductInfo extends HTMLElement {
         this.dispatchEvent(new CustomEvent('variant:change', { bubbles: true }));
     }
 
-    // <variant-picker>'s contents are swapped wholesale rather than
-    // diffed, since Liquid already recomputed selected/available/disabled
-    // state for every option value - there's nothing left for JS to work
-    // out itself. Focus is restored to the equivalent (freshly rendered)
-    // control so keyboard users don't lose their place.
     swapVariantPicker(doc, trigger) {
         const source = doc.querySelector('variant-picker');
         if (!source || !this.variantPicker) return;
@@ -111,8 +102,6 @@ class ProductInfo extends HTMLElement {
         if (trigger?.id) this.variantPicker.querySelector(`#${trigger.id}`)?.focus();
     }
 
-    // Copies a server-rendered fragment as-is (already-formatted price,
-    // translated inventory text, etc.) instead of rebuilding it in JS.
     copyFragment(doc, selector, destination, attributes = []) {
         const source = doc.querySelector(selector);
         if (!source || !destination) return;
@@ -137,9 +126,6 @@ class ProductInfo extends HTMLElement {
         this.atcButton.classList.toggle('button--disabled', source.classList.contains('button--disabled'));
     }
 
-    // Reuses whatever min/max/step/disabled Liquid already computed (from
-    // variant.quantity_rule and inventory) for the fetched quantity input,
-    // rather than re-deriving those rules in JS.
     updateQuantityRules(doc) {
         if (!this.quantitySelector) return;
         const source = doc.querySelector('[data-quantity-input]');
