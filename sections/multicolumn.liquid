@@ -274,13 +274,15 @@
       "min": 2,
       "max": 6,
       "step": 1,
-      "default": 4
+      "default": 4,
+      "visible_if": "{{ section.settings.carousal == false }}"
     },
     {
       "type": "select",
       "id": "mobile_columns",
       "label": "Columns mobile",
       "default": "2",
+      "visible_if": "{{ section.settings.carousal == false }}",
       "options": [
         {
           "label": "1",
