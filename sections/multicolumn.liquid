@@ -4,7 +4,7 @@
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
-  .multicolumn-section .column-content {
+  .multicolumn-section .multicolumn__column-content {
     padding: 1rem;
   }
 
@@ -18,7 +18,7 @@
 
 <div id="Multicolumn-{{ section.id }}" class="multicolum color-{{ section.settings.color_scheme }}">
   <div class="multicolumn__wrapper overflow-hidden {{ section.settings.container_width }}">
-    <div class="multicolumn-content">
+    <div class="multicolumn__content">
       {%- if section.settings.heading != blank or section.settings.collection != blank -%}
         <div class="multicolumn__header section__header flex flex-wrap justify-between items-center">
           {%- if section.settings.heading != blank -%}
@@ -67,7 +67,7 @@
             {% endif %}
           >
             {% if block.settings.column_video != blank or block.settings.column_image != blank %}
-              <div class="multicolumn-column-media">
+              <div class="multicolumn__column-media">
                 {% if block.settings.column_video != blank %}
                   {{
                     block.settings.column_video
@@ -88,21 +88,21 @@
               or block.settings.column_description != blank
               or block.settings.column_btn_label != blank
             %}
-              <div class="column-content gap-1 flex flex-column ">
+              <div class="multicolumn__column-content gap-1 flex flex-column ">
                 {% if block.settings.column_heading != blank %}
-                  <h3 class="column__heading">
+                  <h3 class="multicolumn__column-heading">
                     {{ block.settings.column_heading }}
                   </h3>
                 {% endif %}
 
                 {% if block.settings.column_description != blank %}
-                  <div class="column_description">
+                  <div class="multicolumn__column-description">
                     {{ block.settings.column_description }}
                   </div>
                 {% endif %}
 
                 {%- if block.settings.column_btn_label != blank -%}
-                  <div class="column_btn">
+                  <div class="multicolumn__column-btn">
                     {%- render 'button',
                       label: block.settings.column_btn_label,
                       url: block.settings.column_btn_link,
