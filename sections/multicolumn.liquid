@@ -17,7 +17,7 @@
 {%- endstyle -%}
 
 <div id="Multicolumn-{{ section.id }}" class="multicolum color-{{ section.settings.color_scheme }}">
-  <div class="multicolumn__wrapper hidden-overflow {{ section.settings.container_width }}">
+  <div class="multicolumn__wrapper overflow-hidden {{ section.settings.container_width }}">
     <div class="multicolumn-content">
       {%- if section.settings.heading != blank or section.settings.collection != blank -%}
         <div class="multicolumn__header section__header flex flex-wrap justify-between items-center">
@@ -38,7 +38,7 @@
       {%- endif -%}
     </div>
     <div
-      class="mulitcolumn-blocks grid grid-columns grid-columns-mobile"
+      class="mulitcolumn-blocks overflow-hidden grid grid-columns grid-columns-mobile"
       style="--grid-columns: {{ section.settings.columns }}; --grid-columns-mobile:{{ section.settings.mobile_columns | plus: 0 }}"
       {%- if section.settings.carousal -%}
         data-slider
