@@ -45,11 +45,11 @@
         data-slider-config='
           {
               "loop": "true",
-              "slidesPerView": {{ section.settings.mobile_columns | plus: 0 }},
+              "slidesPerView": {{ section.settings.slides_per_row_mb | plus: 0 }},
               "spaceBetween": 10,
               "breakpoints": {
                     "750": {
-                        "slidesPerView": {{ section.settings.columns | minus: 0.5 }},
+                        "slidesPerView": {{ section.settings.slides_per_row_dt | minus: 0.5 }},
                         "spaceBetween": 10
                     }
                 }
@@ -283,6 +283,33 @@
       "label": "Columns mobile",
       "default": "2",
       "visible_if": "{{ section.settings.carousal == false }}",
+      "options": [
+        {
+          "label": "1",
+          "value": "1"
+        },
+        {
+          "label": "2",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "slides_per_row_dt",
+      "label": "Slides per row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "visible_if": "{{ section.settings.carousal }}"
+    },
+    {
+      "type": "select",
+      "id": "slides_per_row_mb",
+      "label": "Slides per row (mobile)",
+      "default": "2",
+      "visible_if": "{{ section.settings.carousal }}",
       "options": [
         {
           "label": "1",
