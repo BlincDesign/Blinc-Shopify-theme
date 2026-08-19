@@ -91,7 +91,7 @@
           "type": "logo-column",
           "settings": {
             "custom_icon_image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
-            "icon_style": "rounded",
+            "icon_radius": 0,
             "native_icon_image": "",
             "icon_size": 100,
             "logo_link": "",
@@ -106,7 +106,7 @@
           "type": "logo-column",
           "settings": {
             "custom_icon_image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
-            "icon_style": "circle",
+            "icon_radius": 0,
             "native_icon_image": "",
             "icon_size": 100,
             "logo_link": "",
@@ -121,7 +121,7 @@
           "type": "logo-column",
           "settings": {
             "custom_icon_image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
-            "icon_style": "diamond",
+            "icon_radius": 0,
             "native_icon_image": "",
             "icon_size": 100,
             "logo_link": "",
@@ -136,7 +136,7 @@
           "type": "logo-column",
           "settings": {
             "custom_icon_image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
-            "icon_style": "square",
+            "icon_radius": 0,
             "native_icon_image": "",
             "icon_size": 100,
             "logo_link": "",
@@ -150,7 +150,7 @@
         "logo_column_bm4jHC": {
           "type": "logo-column",
           "settings": {
-            "icon_style": "square",
+            "icon_radius": 0,
             "native_icon_image": "",
             "icon_size": 24,
             "logo_link": "",
@@ -164,7 +164,7 @@
         "logo_column_JntBK7": {
           "type": "logo-column",
           "settings": {
-            "icon_style": "square",
+            "icon_radius": 0,
             "native_icon_image": "",
             "icon_size": 24,
             "logo_link": "",
@@ -178,7 +178,7 @@
         "logo_column_8qWy3x": {
           "type": "logo-column",
           "settings": {
-            "icon_style": "square",
+            "icon_radius": 0,
             "native_icon_image": "",
             "icon_size": 24,
             "logo_link": "",
@@ -192,7 +192,7 @@
         "logo_column_cTrnEU": {
           "type": "logo-column",
           "settings": {
-            "icon_style": "square",
+            "icon_radius": 0,
             "native_icon_image": "",
             "icon_size": 24,
             "logo_link": "",
