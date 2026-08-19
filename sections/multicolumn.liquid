@@ -89,7 +89,7 @@
                 or block.settings.column_description != blank
                 or block.settings.column_btn_label != blank
               %}
-                <div class="multicolumn__column-content gap-1 flex flex-column ">
+                <article class="multicolumn__column-content gap-1 flex flex-column ">
                   {% if block.settings.column_heading != blank %}
                     <h3 class="multicolumn__column-heading">
                       {{ block.settings.column_heading }}
@@ -111,10 +111,11 @@
                       -%}
                     </div>
                   {%- endif -%}
-                </div>
+                </article>
               {%- endif -%}
             </div>
-          {% when second_value %}
+          {% when 'logo-list' %}
+
 
         {% endcase %}
       {% endfor %}
@@ -200,6 +201,13 @@
             }
           ]
         }
+      ]
+    },
+    {
+      "type": "logo-column",
+      "name": "Logo column",
+      "settings": [
+
       ]
     }
   ],
