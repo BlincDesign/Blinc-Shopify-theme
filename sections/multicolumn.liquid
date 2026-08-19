@@ -60,6 +60,7 @@
         {% case block.type %}
           {% when 'column' %}
             <div
+              id="block-{{ block.id }}"
               class="multicolumn-column-block block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousel -%} swiper-slide {% endif %}"
               {%- if section.settings.carousel -%}
                 data-slide
@@ -114,7 +115,13 @@
               {%- endif -%}
             </div>
           {% when 'logo-column' %}
+            {% style %}
+              #block-{{ block.id }}.multicolumn_column_icon_image {
+                width: {{ block.settings.icon_size }}px;
+              }
+            {% endstyle %}
             <div
+              id="block-{{ block.id }}"
               class="multicolumn-logo-list-block block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousel -%} swiper-slide {% endif %}"
               {%- if section.settings.carousel -%}
                 data-slide
@@ -129,7 +136,7 @@
                       class: 'multicolumn_column_icon_image'
                     -%}
                   {% else %}
-                    {%- render 'icon', name: block.settings.native_icon_image, class: 'multicolumn_column_image' -%}
+                    {%- render 'icon', name: block.settings.native_icon_image, size: block.settings.icon_size, class: 'multicolumn_column_image' -%}
                   {% endif %}
                 </div>
               {% endif %}
@@ -255,12 +262,12 @@
       "settings": [
         {
           "type": "header",
-          "content": "Logo"
+          "content": "Icon"
         },
         {
           "type": "image_picker",
           "id": "custom_icon_image",
-          "label": "Logo"
+          "label": "Custom icon"
         },
         {
           "type": "select",
@@ -388,6 +395,16 @@
             { "label": "icon-minus", "value": "icon-minus" },
             { "label": "share_clipboard", "value": "share_clipboard" }
           ]
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 20,
+          "max": 100,
+          "step": 2,
+          "default": 24,
+          "label": "Size",
+          "unit": "px"
         },
         {
           "type": "url",
