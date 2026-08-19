@@ -122,7 +122,7 @@
             {% style %}
               #block-{{ block.id }} .multicolumn_column_icon_image {
                 width: {{ block.settings.icon_size }}px;
-                border-radius: {{ block.settings.icon_radius }}px;
+                border-radius: {{ block.settings.icon_radius }}%;
               }
             {% endstyle %}
             <div
@@ -293,7 +293,7 @@
           "max": 100,
           "step": 1,
           "default": 0,
-          "unit": "px",
+          "unit": "%",
           "visible_if": "{{ block.settings.custom_icon_image != blank }}",
         },
         {
