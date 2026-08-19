@@ -114,7 +114,55 @@
               {%- endif -%}
             </div>
           {% when 'logo-list' %}
+            <div
+              class="multicolumn-logo-list-block block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousel -%} swiper-slide {% endif %}"
+              {%- if section.settings.carousel -%}
+                data-slide
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              {% if block.settings.custom_icon_image != blank or block.settings.native_icon_image != blank %}
+                <div class="multicolumn__column-media">
+                  {% if block.settings.custom_icon_image != blank %}
+                    {%- render 'image',
+                      image: block.settings.custom_icon_image,
+                      class: 'multicolumn_column_icon_image'
+                    -%}
+                  {% else %}
+                    {%- render 'icon', name: block.settings.native_icon_image, class: 'multicolumn_column_image' -%}
+                  {% endif %}
+                </div>
+              {% endif %}
 
+              {% if block.settings.column_heading != blank
+                or block.settings.column_description != blank
+                or block.settings.column_btn_label != blank
+              %}
+                <article class="multicolumn__column-content gap-1 flex flex-column ">
+                  {% if block.settings.column_heading != blank %}
+                    <h3 class="multicolumn__column-heading">
+                      {{ block.settings.column_heading }}
+                    </h3>
+                  {% endif %}
+
+                  {% if block.settings.column_description != blank %}
+                    <div class="multicolumn__column-description">
+                      {{ block.settings.column_description }}
+                    </div>
+                  {% endif %}
+
+                  {%- if block.settings.column_btn_label != blank -%}
+                    <div class="multicolumn__column-btn">
+                      {%- render 'button',
+                        label: block.settings.column_btn_label,
+                        url: block.settings.column_btn_link,
+                        button_style: block.settings.column_btn_style
+                      -%}
+                    </div>
+                  {%- endif -%}
+                </article>
+              {%- endif -%}
+            </div>
         {% endcase %}
       {% endfor %}
       {%- if section.settings.carousel -%}</div>{% endif %}
@@ -211,12 +259,12 @@
         },
         {
           "type": "image_picker",
-          "id": "logo_image",
+          "id": "custom_icon_image",
           "label": "Logo"
         },
         {
           "type": "select",
-          "id": "icon_name",
+          "id": "native_icon_image",
           "label": "Icon",
           "options": [
             { "label": "None (auto)", "value": "" },
