@@ -20,10 +20,13 @@
   }
 {%- endstyle -%}
 
-<div id="Multicolumn-{{ section.id }}" class="multicolumn color-{{ section.settings.color_scheme }}">
+<div
+  id="Multicolumn-{{ section.id }}"
+  class="multicolumn color-{{ section.settings.color_scheme }}"
+>
   <div class="multicolumn__wrapper overflow-hidden {{ section.settings.container_width }}">
-    {%- if section.settings.heading != blank or section.settings.collection != blank -%}
-      <div class="multicolumn__header section__header flex flex-wrap justify-between items-center">
+    {%- if section.settings.heading != blank or section.settings.button != blank -%}
+      <header class="multicolumn__header section__header flex flex-wrap justify-between items-center">
         {%- if section.settings.heading != blank -%}
           <h2 class="multicolumn__heading heading heading--{{ section.settings.heading_size }}">
             {{ section.settings.heading }}
@@ -37,36 +40,76 @@
             button_style: section.settings.button_style
           -%}
         {%- endif -%}
-      </div>
+      </header>
     {%- endif -%}
+
     <div
-      class="multicolumn-blocks overflow-hidden grid grid-columns grid-columns-mobile"
-      style="--grid-columns: {{ section.settings.columns }}; --grid-columns-mobile:{{ section.settings.mobile_columns | plus: 0 }}"
-      {%- if section.settings.carousel -%}
+      class="multicolumn__blocks overflow-hidden grid grid-columns grid-columns-mobile"
+      style="
+        --grid-columns: {{ section.settings.columns }};
+        --grid-columns-mobile: {{ section.settings.mobile_columns | plus: 0 }};
+      "
+      {% if section.settings.carousel %}
         data-slider
         data-slider-config='
           {
-            "loop": "true",
+            "loop": true,
             "slidesPerView": {{ section.settings.slides_per_row_mb | plus: 0 }},
             "spaceBetween": "var(--layout-gap)",
             "breakpoints": {
-                  "750": {
-                      "slidesPerView": {{ section.settings.slides_per_row_dt | minus: 0.5 }},
-                      "spaceBetween": "var(--layout-gap)"
-                  }
+              "750": {
+                "slidesPerView": {{ section.settings.slides_per_row_dt | minus: 0.5 }},
+                "spaceBetween": "var(--layout-gap)"
               }
+            }
           }
         '
       {% endif %}
     >
-      {%- if section.settings.carousel -%}<div class="swiper-wrapper">{% endif %}
+      {% if section.settings.carousel %}
+        <div class="swiper-wrapper">
+      {% endif %}
+
       {% for block in section.blocks %}
+        {% capture column_content %}
+          {% if block.settings.column_heading != blank
+            or block.settings.column_description != blank
+            or block.settings.column_btn_label != blank
+          %}
+            <div class="multicolumn__column-content gap-1 flex flex-column">
+
+              {% if block.settings.column_heading != blank %}
+                <h3 class="multicolumn__column-heading">
+                  {{ block.settings.column_heading }}
+                </h3>
+              {% endif %}
+
+              {% if block.settings.column_description != blank %}
+                <div class="multicolumn__column-description">
+                  {{ block.settings.column_description }}
+                </div>
+              {% endif %}
+
+              {% if block.settings.column_btn_label != blank %}
+                <div class="multicolumn__column-button">
+                  {% render 'button',
+                    label: block.settings.column_btn_label,
+                    url: block.settings.column_btn_link,
+                    button_style: block.settings.column_btn_style
+                  %}
+                </div>
+              {% endif %}
+
+            </div>
+          {% endif %}
+        {% endcapture %}
+
         {% case block.type %}
           {% when 'column' %}
-            <div
+            <article
               id="block-{{ block.id }}"
-              class="multicolumn-column-block block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousel -%} swiper-slide {% endif %}"
-              {%- if section.settings.carousel -%}
+              class="multicolumn__column multicolumn__column--standard block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }}{% if section.settings.carousel %} swiper-slide{% endif %}"
+              {% if section.settings.carousel %}
                 data-slide
               {% endif %}
               {{ block.shopify_attributes }}
@@ -81,114 +124,67 @@
                         muted: true,
                         controls: false,
                         loop: true,
-                        class: 'multicolumn_column_video'
+                        class: 'multicolumn__column-video'
                     }}
                   {% else %}
-                    {%- render 'image', image: block.settings.column_image, class: 'multicolumn_column_image' -%}
+                    {% render 'image', image: block.settings.column_image, class: 'multicolumn__column-image' %}
                   {% endif %}
                 </div>
               {% endif %}
 
-              {% if block.settings.column_heading != blank
-                or block.settings.column_description != blank
-                or block.settings.column_btn_label != blank
-              %}
-                <article class="multicolumn__column-content gap-1 flex flex-column ">
-                  {% if block.settings.column_heading != blank %}
-                    <h3 class="multicolumn__column-heading">
-                      {{ block.settings.column_heading }}
-                    </h3>
-                  {% endif %}
+              {{ column_content }}
+            </article>
 
-                  {% if block.settings.column_description != blank %}
-                    <div class="multicolumn__column-description">
-                      {{ block.settings.column_description }}
-                    </div>
-                  {% endif %}
-
-                  {%- if block.settings.column_btn_label != blank -%}
-                    <div class="multicolumn__column-btn">
-                      {%- render 'button',
-                        label: block.settings.column_btn_label,
-                        url: block.settings.column_btn_link,
-                        button_style: block.settings.column_btn_style
-                      -%}
-                    </div>
-                  {%- endif -%}
-                </article>
-              {%- endif -%}
-            </div>
           {% when 'logo-column' %}
             {% style %}
-              #block-{{ block.id }} .multicolumn_column_icon_image {
-                width: {{ block.settings.icon_size }}px;
-                border-radius: {{ block.settings.icon_radius }}%;
+              #block-{{ block.id }} {
+                --multicolumn-icon-size: {{ block.settings.icon_size }}px;
+                --multicolumn-icon-radius: {{ block.settings.icon_radius }}%;
               }
             {% endstyle %}
-            <div
+
+            <article
               id="block-{{ block.id }}"
-              class="multicolumn-logo-list-block block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousel -%} swiper-slide {% endif %}"
-              {%- if section.settings.carousel -%}
+              class="multicolumn__column multicolumn__column--logo block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }}{% if section.settings.carousel %} swiper-slide{% endif %}"
+              {% if section.settings.carousel %}
                 data-slide
               {% endif %}
               {{ block.shopify_attributes }}
             >
               <div class="multicolumn__column-icon">
                 {% if block.settings.custom_icon_image != blank %}
-                  {%- render 'image',
-                    image: block.settings.custom_icon_image,
-                    class: 'multicolumn_column_icon_image'
-                  -%}
+                  {% render 'image', image: block.settings.custom_icon_image, class: 'multicolumn__column-icon-image' %}
+
                 {% elsif block.settings.native_icon_image != blank %}
-                  {%- render 'icon',
+                  {% render 'icon',
                     name: block.settings.native_icon_image,
                     size: block.settings.icon_size,
-                    class: 'multicolumn_column_image'
-                  -%}
+                    class: 'multicolumn__column-icon-svg'
+                  %}
+
                 {% else %}
                   {% liquid
                     assign fallback_icons = 'star,heart,truck,shield,leaf,gem,rocket,calendar' | split: ','
                     assign fallback_index = forloop.index0 | modulo: fallback_icons.size
                     assign fallback_icon = fallback_icons[fallback_index]
                   %}
-                  <span class="icon">
-                    {% render 'icon', name: fallback_icon, icon_class: fallback_icon, size: block.settings.icon_size %}
-                  </span>
+
+                  {% render 'icon',
+                    name: fallback_icon,
+                    size: block.settings.icon_size,
+                    class: 'multicolumn__column-icon-svg'
+                  %}
                 {% endif %}
               </div>
 
-              {% if block.settings.column_heading != blank
-                or block.settings.column_description != blank
-                or block.settings.column_btn_label != blank
-              %}
-                <article class="multicolumn__column-content gap-1 flex flex-column ">
-                  {% if block.settings.column_heading != blank %}
-                    <h3 class="multicolumn__column-heading">
-                      {{ block.settings.column_heading }}
-                    </h3>
-                  {% endif %}
-
-                  {% if block.settings.column_description != blank %}
-                    <div class="multicolumn__column-description">
-                      {{ block.settings.column_description }}
-                    </div>
-                  {% endif %}
-
-                  {%- if block.settings.column_btn_label != blank -%}
-                    <div class="multicolumn__column-btn">
-                      {%- render 'button',
-                        label: block.settings.column_btn_label,
-                        url: block.settings.column_btn_link,
-                        button_style: block.settings.column_btn_style
-                      -%}
-                    </div>
-                  {%- endif -%}
-                </article>
-              {%- endif -%}
-            </div>
+              {{ column_content }}
+            </article>
         {% endcase %}
       {% endfor %}
-      {%- if section.settings.carousel -%}</div>{% endif %}
+
+      {% if section.settings.carousel %}
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>
@@ -295,7 +291,7 @@
           "step": 1,
           "default": 0,
           "unit": "%",
-          "visible_if": "{{ block.settings.custom_icon_image != blank }}",
+          "visible_if": "{{ block.settings.custom_icon_image != blank }}"
         },
         {
           "type": "select",
@@ -439,7 +435,7 @@
           "id": "logo_link",
           "label": "Logo link"
         },
-        
+
         {
           "type": "header",
           "content": "Content"
