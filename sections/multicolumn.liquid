@@ -26,7 +26,7 @@
 >
   <div class="multicolumn__wrapper relative overflow-hidden {{ section.settings.container_width }}">
     {%- if section.settings.heading != blank or section.settings.button != blank -%}
-      <header class="multicolumn__header section__header flex flex-wrap justify-between items-center">
+      <div class="multicolumn__header section__header flex flex-wrap justify-between items-center">
         {%- if section.settings.heading != blank -%}
           <h2 class="multicolumn__heading heading heading--{{ section.settings.heading_size }}">
             {{ section.settings.heading }}
@@ -40,7 +40,7 @@
             button_style: section.settings.button_style
           -%}
         {%- endif -%}
-      </header>
+      </div>
     {%- endif -%}
 
     <div
