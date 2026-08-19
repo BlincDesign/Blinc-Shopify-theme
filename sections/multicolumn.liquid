@@ -286,6 +286,31 @@
         },
         {
           "type": "select",
+          "id": "icon_style",
+          "label": "Icon style",
+          "default": "square",
+          "visible_if": "{{ block.settings.custom_icon_image != blank }}",
+          "options": [
+            {
+              "value": "square",
+              "label": "Sqaure"
+            },
+            {
+              "value": "rounded",
+              "label": "Rounded"
+            },
+            {
+              "value": "circle",
+              "label": "Circle",
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond"
+            }
+          ]
+        },
+        {
+          "type": "select",
           "id": "native_icon_image",
           "label": "Icon",
           "options": [
