@@ -91,6 +91,51 @@
           "type": "logo-column",
           "settings": {
             "custom_icon_image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
+            "icon_style": "rounded",
+            "native_icon_image": "",
+            "icon_size": 100,
+            "logo_link": "",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "logo_column_Qpfzz6": {
+          "type": "logo-column",
+          "settings": {
+            "custom_icon_image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
+            "icon_style": "circle",
+            "native_icon_image": "",
+            "icon_size": 100,
+            "logo_link": "",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "logo_column_yfF3dB": {
+          "type": "logo-column",
+          "settings": {
+            "custom_icon_image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
+            "icon_style": "diamond",
+            "native_icon_image": "",
+            "icon_size": 100,
+            "logo_link": "",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "logo_column_hkWpkt": {
+          "type": "logo-column",
+          "settings": {
+            "custom_icon_image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
             "icon_style": "square",
             "native_icon_image": "",
             "icon_size": 100,
@@ -102,7 +147,7 @@
             "column_btn_style": "primary"
           }
         },
-        "logo_column_VtQ7YU": {
+        "logo_column_bm4jHC": {
           "type": "logo-column",
           "settings": {
             "icon_style": "square",
@@ -116,7 +161,7 @@
             "column_btn_style": "primary"
           }
         },
-        "logo_column_nUi7n9": {
+        "logo_column_JntBK7": {
           "type": "logo-column",
           "settings": {
             "icon_style": "square",
@@ -130,7 +175,21 @@
             "column_btn_style": "primary"
           }
         },
-        "logo_column_yWGAwT": {
+        "logo_column_8qWy3x": {
+          "type": "logo-column",
+          "settings": {
+            "icon_style": "square",
+            "native_icon_image": "",
+            "icon_size": 24,
+            "logo_link": "",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "logo_column_cTrnEU": {
           "type": "logo-column",
           "settings": {
             "icon_style": "square",
@@ -147,9 +206,13 @@
       },
       "block_order": [
         "logo_column_zkTHPF",
-        "logo_column_VtQ7YU",
-        "logo_column_nUi7n9",
-        "logo_column_yWGAwT"
+        "logo_column_Qpfzz6",
+        "logo_column_yfF3dB",
+        "logo_column_hkWpkt",
+        "logo_column_bm4jHC",
+        "logo_column_JntBK7",
+        "logo_column_8qWy3x",
+        "logo_column_cTrnEU"
       ],
       "name": "Multicolumn",
       "settings": {
