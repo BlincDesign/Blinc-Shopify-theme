@@ -132,31 +132,29 @@
               {% endif %}
               {{ block.shopify_attributes }}
             >
-              {% if block.settings.custom_icon_image != blank or block.settings.native_icon_image != blank %}
-                <div class="multicolumn__column-icon">
-                  {% if block.settings.custom_icon_image != blank %}
-                    {%- render 'image',
-                      image: block.settings.custom_icon_image,
-                      class: 'multicolumn_column_icon_image'
-                    -%}
-                  {% elsif block.settings.native_icon_image != blank %}
-                    {%- render 'icon',
-                      name: block.settings.native_icon_image,
-                      size: block.settings.icon_size,
-                      class: 'multicolumn_column_image'
-                    -%}
-                  {% else %}
-                    {% liquid
-                      assign fallback_icons = 'star,heart,truck,shield,leaf,gem,rocket,calendar' | split: ','
-                      assign fallback_index = forloop.index0 | modulo: fallback_icons.size
-                      assign fallback_icon = fallback_icons[fallback_index]
-                    %}
-                    <span class="icon">
-                      {% render 'icon', name: fallback_icon, icon_class: fallback_icon, size: block.settings.icon_size %}
-                    </span>
-                  {% endif %}
-                </div>
-              {% endif %}
+              <div class="multicolumn__column-icon">
+                {% if block.settings.custom_icon_image != blank %}
+                  {%- render 'image',
+                    image: block.settings.custom_icon_image,
+                    class: 'multicolumn_column_icon_image'
+                  -%}
+                {% elsif block.settings.native_icon_image != blank %}
+                  {%- render 'icon',
+                    name: block.settings.native_icon_image,
+                    size: block.settings.icon_size,
+                    class: 'multicolumn_column_image'
+                  -%}
+                {% else %}
+                  {% liquid
+                    assign fallback_icons = 'star,heart,truck,shield,leaf,gem,rocket,calendar' | split: ','
+                    assign fallback_index = forloop.index0 | modulo: fallback_icons.size
+                    assign fallback_icon = fallback_icons[fallback_index]
+                  %}
+                  <span class="icon">
+                    {% render 'icon', name: fallback_icon, icon_class: fallback_icon, size: block.settings.icon_size %}
+                  </span>
+                {% endif %}
+              </div>
 
               {% if block.settings.column_heading != blank
                 or block.settings.column_description != blank
