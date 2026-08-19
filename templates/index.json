@@ -101,7 +101,7 @@
             "column_btn_style": "primary"
           }
         },
-        "logo_column_JWttfj": {
+        "logo_column_xmahfB": {
           "type": "logo-column",
           "settings": {
             "native_icon_image": "",
@@ -117,7 +117,7 @@
       },
       "block_order": [
         "logo_column_i6qh9k",
-        "logo_column_JWttfj"
+        "logo_column_xmahfB"
       ],
       "name": "Multicolumn",
       "settings": {
