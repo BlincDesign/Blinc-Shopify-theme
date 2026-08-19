@@ -92,6 +92,7 @@
           "settings": {
             "custom_icon_image": "shopify://shop_images/images.jpg",
             "native_icon_image": "",
+            "icon_size": 64,
             "logo_link": "",
             "column_heading": "fghff",
             "column_description": "<p>fghghgh</p>",
@@ -104,6 +105,7 @@
           "type": "logo-column",
           "settings": {
             "native_icon_image": "",
+            "icon_size": 24,
             "logo_link": "",
             "column_heading": "",
             "column_description": "",
@@ -116,6 +118,7 @@
           "type": "logo-column",
           "settings": {
             "native_icon_image": "",
+            "icon_size": 24,
             "logo_link": "",
             "column_heading": "",
             "column_description": "",
@@ -128,6 +131,7 @@
           "type": "logo-column",
           "settings": {
             "native_icon_image": "",
+            "icon_size": 24,
             "logo_link": "",
             "column_heading": "",
             "column_description": "",
