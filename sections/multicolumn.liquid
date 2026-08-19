@@ -59,61 +59,64 @@
     >
       {%- if section.settings.carousal -%}<div class="swiper-wrapper">{% endif %}
       {% for block in section.blocks %}
-        {% if block.type == 'column' %}
-          <div
-            class="mulitcolumn-column-block flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousal -%} swiper-slide {% endif %}"
-            {%- if section.settings.carousal -%}
-              data-slide
-            {% endif %}
-          >
-            {% if block.settings.column_video != blank or block.settings.column_image != blank %}
-              <div class="multicolumn__column-media">
-                {% if block.settings.column_video != blank %}
-                  {{
-                    block.settings.column_video
-                    | video_tag:
-                      autoplay: true,
-                      muted: true,
-                      controls: false,
-                      loop: true,
-                      class: 'multicolumn_column_video'
-                  }}
-                {% else %}
-                  {%- render 'image', image: block.settings.column_image, class: 'multicolumn_column_image' -%}
-                {% endif %}
-              </div>
-            {% endif %}
+        {% case block.type %}
+          {% when 'column' %}
+            <div
+              class="mulitcolumn-column-block flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousal -%} swiper-slide {% endif %}"
+              {%- if section.settings.carousal -%}
+                data-slide
+              {% endif %}
+            >
+              {% if block.settings.column_video != blank or block.settings.column_image != blank %}
+                <div class="multicolumn__column-media">
+                  {% if block.settings.column_video != blank %}
+                    {{
+                      block.settings.column_video
+                      | video_tag:
+                        autoplay: true,
+                        muted: true,
+                        controls: false,
+                        loop: true,
+                        class: 'multicolumn_column_video'
+                    }}
+                  {% else %}
+                    {%- render 'image', image: block.settings.column_image, class: 'multicolumn_column_image' -%}
+                  {% endif %}
+                </div>
+              {% endif %}
 
-            {% if block.settings.column_heading != blank
-              or block.settings.column_description != blank
-              or block.settings.column_btn_label != blank
-            %}
-              <div class="multicolumn__column-content gap-1 flex flex-column ">
-                {% if block.settings.column_heading != blank %}
-                  <h3 class="multicolumn__column-heading">
-                    {{ block.settings.column_heading }}
-                  </h3>
-                {% endif %}
+              {% if block.settings.column_heading != blank
+                or block.settings.column_description != blank
+                or block.settings.column_btn_label != blank
+              %}
+                <div class="multicolumn__column-content gap-1 flex flex-column ">
+                  {% if block.settings.column_heading != blank %}
+                    <h3 class="multicolumn__column-heading">
+                      {{ block.settings.column_heading }}
+                    </h3>
+                  {% endif %}
 
-                {% if block.settings.column_description != blank %}
-                  <div class="multicolumn__column-description">
-                    {{ block.settings.column_description }}
-                  </div>
-                {% endif %}
+                  {% if block.settings.column_description != blank %}
+                    <div class="multicolumn__column-description">
+                      {{ block.settings.column_description }}
+                    </div>
+                  {% endif %}
 
-                {%- if block.settings.column_btn_label != blank -%}
-                  <div class="multicolumn__column-btn">
-                    {%- render 'button',
-                      label: block.settings.column_btn_label,
-                      url: block.settings.column_btn_link,
-                      button_style: block.settings.column_btn_style
-                    -%}
-                  </div>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
-          </div>
-        {% endif %}
+                  {%- if block.settings.column_btn_label != blank -%}
+                    <div class="multicolumn__column-btn">
+                      {%- render 'button',
+                        label: block.settings.column_btn_label,
+                        url: block.settings.column_btn_link,
+                        button_style: block.settings.column_btn_style
+                      -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {% when second_value %}
+
+        {% endcase %}
       {% endfor %}
       {%- if section.settings.carousal -%}</div>{% endif %}
     </div>
