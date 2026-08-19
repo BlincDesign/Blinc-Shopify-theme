@@ -152,7 +152,7 @@
                       assign fallback_icon = fallback_icons[fallback_index]
                     %}
                     <span class="icon">
-                      {% render 'icon', name: fallback_icon, icon_class: fallback_icon %}
+                      {% render 'icon', name: fallback_icon, icon_class: fallback_icon, size: block.settings.icon_size %}
                     </span>
                   {% endif %}
                 </div>
