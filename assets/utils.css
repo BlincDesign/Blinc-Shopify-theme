@@ -9,6 +9,10 @@
     margin: 0;
 }
 
+.relative {
+    position: relative;
+}
+
 .overflow-hidden {
     overflow: hidden;
 }
