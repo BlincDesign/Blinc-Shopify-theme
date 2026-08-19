@@ -18,25 +18,23 @@
 
 <div id="Multicolumn-{{ section.id }}" class="multicolum color-{{ section.settings.color_scheme }}">
   <div class="multicolumn__wrapper overflow-hidden {{ section.settings.container_width }}">
-    <div class="multicolumn__content">
-      {%- if section.settings.heading != blank or section.settings.collection != blank -%}
-        <div class="multicolumn__header section__header flex flex-wrap justify-between items-center">
-          {%- if section.settings.heading != blank -%}
-            <h2 class="multicolumn__heading heading heading--{{ section.settings.heading_size }}">
-              {{ section.settings.heading }}
-            </h2>
-          {%- endif -%}
+    {%- if section.settings.heading != blank or section.settings.collection != blank -%}
+      <div class="multicolumn__header section__header flex flex-wrap justify-between items-center">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="multicolumn__heading heading heading--{{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
 
-          {%- if section.settings.button != blank -%}
-            {%- render 'button',
-              label: section.settings.button,
-              url: section.settings.button_link,
-              button_style: section.settings.button_style
-            -%}
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-    </div>
+        {%- if section.settings.button != blank -%}
+          {%- render 'button',
+            label: section.settings.button,
+            url: section.settings.button_link,
+            button_style: section.settings.button_style
+          -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
     <div
       class="mulitcolumn-blocks overflow-hidden grid grid-columns grid-columns-mobile"
       style="--grid-columns: {{ section.settings.columns }}; --grid-columns-mobile:{{ section.settings.mobile_columns | plus: 0 }}"
@@ -115,7 +113,6 @@
               {%- endif -%}
             </div>
           {% when 'logo-list' %}
-
 
         {% endcase %}
       {% endfor %}
@@ -206,9 +203,7 @@
     {
       "type": "logo-column",
       "name": "Logo column",
-      "settings": [
-
-      ]
+      "settings": []
     }
   ],
   "settings": [
