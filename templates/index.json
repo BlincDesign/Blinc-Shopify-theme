@@ -101,33 +101,7 @@
             "column_btn_style": "primary"
           }
         },
-        "logo_column_CqLbBE": {
-          "type": "logo-column",
-          "settings": {
-            "native_icon_image": "",
-            "icon_size": 24,
-            "logo_link": "",
-            "column_heading": "",
-            "column_description": "",
-            "column_btn_label": "",
-            "column_btn_link": "",
-            "column_btn_style": "primary"
-          }
-        },
-        "logo_column_GKLMbC": {
-          "type": "logo-column",
-          "settings": {
-            "native_icon_image": "",
-            "icon_size": 24,
-            "logo_link": "",
-            "column_heading": "",
-            "column_description": "",
-            "column_btn_label": "",
-            "column_btn_link": "",
-            "column_btn_style": "primary"
-          }
-        },
-        "logo_column_BtzwdX": {
+        "logo_column_JWttfj": {
           "type": "logo-column",
           "settings": {
             "native_icon_image": "",
@@ -143,9 +117,7 @@
       },
       "block_order": [
         "logo_column_i6qh9k",
-        "logo_column_CqLbBE",
-        "logo_column_GKLMbC",
-        "logo_column_BtzwdX"
+        "logo_column_JWttfj"
       ],
       "name": "Multicolumn",
       "settings": {
