@@ -123,6 +123,24 @@
               #block-{{ block.id }} .multicolumn_column_icon_image {
                 width: {{ block.settings.icon_size }}px;
               }
+
+              #block-{{ block.id }} .multicolumn_column_icon_image {
+                {% case block.settings.icon_style %}
+                  {% when 'circle' %}
+                    border-radius: 50%;
+
+                  {% when 'rounded' %}
+                    border-radius: 1rem;
+                    corner-shape: squircle;
+
+                  {% when 'diamond' %}
+                    border-radius: 0;
+                    transform: rotate(45deg);
+
+                  {% when 'square' %}
+                    border-radius: 0;
+                  {% endcase %}
+              }
             {% endstyle %}
             <div
               id="block-{{ block.id }}"
