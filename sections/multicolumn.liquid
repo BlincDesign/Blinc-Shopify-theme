@@ -36,9 +36,9 @@
       </div>
     {%- endif -%}
     <div
-      class="mulitcolumn-blocks overflow-hidden grid grid-columns grid-columns-mobile"
+      class="multicolumn-blocks overflow-hidden grid grid-columns grid-columns-mobile"
       style="--grid-columns: {{ section.settings.columns }}; --grid-columns-mobile:{{ section.settings.mobile_columns | plus: 0 }}"
-      {%- if section.settings.carousal -%}
+      {%- if section.settings.carousel -%}
         data-slider
         data-slider-config='
           {
@@ -55,13 +55,13 @@
         '
       {% endif %}
     >
-      {%- if section.settings.carousal -%}<div class="swiper-wrapper">{% endif %}
+      {%- if section.settings.carousel -%}<div class="swiper-wrapper">{% endif %}
       {% for block in section.blocks %}
         {% case block.type %}
           {% when 'column' %}
             <div
-              class="mulitcolumn-column-block flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousal -%} swiper-slide {% endif %}"
-              {%- if section.settings.carousal -%}
+              class="multicolumn-column-block flex flex-column color-{{ section.settings.column_color_scheme }} {%- if section.settings.carousel -%} swiper-slide {% endif %}"
+              {%- if section.settings.carousel -%}
                 data-slide
               {% endif %}
             >
@@ -116,7 +116,7 @@
 
         {% endcase %}
       {% endfor %}
-      {%- if section.settings.carousal -%}</div>{% endif %}
+      {%- if section.settings.carousel -%}</div>{% endif %}
     </div>
   </div>
 </div>
@@ -269,8 +269,8 @@
     },
     {
       "type": "checkbox",
-      "id": "carousal",
-      "label": "Carousal",
+      "id": "carousel",
+      "label": "carousel",
       "default": false
     },
     {
@@ -281,14 +281,14 @@
       "max": 6,
       "step": 1,
       "default": 4,
-      "visible_if": "{{ section.settings.carousal == false }}"
+      "visible_if": "{{ section.settings.carousel == false }}"
     },
     {
       "type": "select",
       "id": "mobile_columns",
       "label": "Columns mobile",
       "default": "2",
-      "visible_if": "{{ section.settings.carousal == false }}",
+      "visible_if": "{{ section.settings.carousel == false }}",
       "options": [
         {
           "label": "1",
@@ -308,14 +308,14 @@
       "max": 6,
       "step": 1,
       "default": 4,
-      "visible_if": "{{ section.settings.carousal }}"
+      "visible_if": "{{ section.settings.carousel }}"
     },
     {
       "type": "select",
       "id": "slides_per_row_mb",
       "label": "Slides per row (mobile)",
       "default": "2",
-      "visible_if": "{{ section.settings.carousal }}",
+      "visible_if": "{{ section.settings.carousel }}",
       "options": [
         {
           "label": "1",
