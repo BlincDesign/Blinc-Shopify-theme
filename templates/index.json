@@ -90,8 +90,10 @@
         "logo_column_zkTHPF": {
           "type": "logo-column",
           "settings": {
+            "custom_icon_image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
+            "icon_style": "square",
             "native_icon_image": "",
-            "icon_size": 24,
+            "icon_size": 100,
             "logo_link": "",
             "column_heading": "Column",
             "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
@@ -103,6 +105,7 @@
         "logo_column_VtQ7YU": {
           "type": "logo-column",
           "settings": {
+            "icon_style": "square",
             "native_icon_image": "",
             "icon_size": 24,
             "logo_link": "",
@@ -116,6 +119,7 @@
         "logo_column_nUi7n9": {
           "type": "logo-column",
           "settings": {
+            "icon_style": "square",
             "native_icon_image": "",
             "icon_size": 24,
             "logo_link": "",
@@ -129,6 +133,7 @@
         "logo_column_yWGAwT": {
           "type": "logo-column",
           "settings": {
+            "icon_style": "square",
             "native_icon_image": "",
             "icon_size": 24,
             "logo_link": "",
