@@ -185,6 +185,8 @@
       {% if section.settings.carousel %}
         </div>
       {% endif %}
+
+      {% render 'swiper-pagination', type: section.settings.pagination_type %}
     </div>
   </div>
 </div>
@@ -544,6 +546,30 @@
     {
       "type": "header",
       "content": "Columns"
+    },
+    {
+      "type": "select",
+      "id": "pagination_type",
+      "default": "scrollbar",
+      "label": "Type",
+      "options": [
+        {
+          "value": "scrollbar",
+          "label": "Scrollbar"
+        },
+        {
+          "value": "bullets",
+          "label": "Bullets"
+        },
+        {
+          "value": "dynamic-bullets",
+          "label": "Dynamic bullets"
+        },
+        {
+          "value": "progressbar",
+          "label": "Progressbar"
+        },
+      ]
     },
     {
       "type": "color_scheme",
