@@ -84,6 +84,86 @@
         "padding_bottom_m": 32
       }
     },
+    "multicolumn_FMpFj4": {
+      "type": "multicolumn",
+      "blocks": {
+        "logo_column_i6qh9k": {
+          "type": "logo-column",
+          "settings": {
+            "custom_icon_image": "shopify://shop_images/images.jpg",
+            "native_icon_image": "",
+            "logo_link": "",
+            "column_heading": "fghff",
+            "column_description": "<p>fghghgh</p>",
+            "column_btn_label": "fghfghfh",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "logo_column_CqLbBE": {
+          "type": "logo-column",
+          "settings": {
+            "native_icon_image": "",
+            "logo_link": "",
+            "column_heading": "",
+            "column_description": "",
+            "column_btn_label": "",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "logo_column_GKLMbC": {
+          "type": "logo-column",
+          "settings": {
+            "native_icon_image": "",
+            "logo_link": "",
+            "column_heading": "",
+            "column_description": "",
+            "column_btn_label": "",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "logo_column_BtzwdX": {
+          "type": "logo-column",
+          "settings": {
+            "native_icon_image": "",
+            "logo_link": "",
+            "column_heading": "",
+            "column_description": "",
+            "column_btn_label": "",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "logo_column_i6qh9k",
+        "logo_column_CqLbBE",
+        "logo_column_GKLMbC",
+        "logo_column_BtzwdX"
+      ],
+      "name": "Multicolumn",
+      "settings": {
+        "heading": "Multicolumn",
+        "heading_size": "large",
+        "button": "Button",
+        "button_link": "",
+        "button_style": "link",
+        "column_color_scheme": "",
+        "carousel": false,
+        "columns": 4,
+        "mobile_columns": "2",
+        "slides_per_row_dt": 4,
+        "slides_per_row_mb": "2",
+        "color_scheme": "",
+        "container_width": "container-standard",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_top_m": 32,
+        "padding_bottom_m": 32
+      }
+    },
     "featured_collection_hhAeW6": {
       "type": "featured-collection",
       "name": "Featured collection",
@@ -484,6 +564,7 @@
   },
   "order": [
     "multicolumn_caXf8n",
+    "multicolumn_FMpFj4",
     "featured_collection_hhAeW6",
     "rich_text",
     "media_with_text_ML7CFL",
