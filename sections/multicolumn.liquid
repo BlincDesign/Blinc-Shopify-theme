@@ -137,9 +137,9 @@
 
           {% when 'logo-column' %}
             {% style %}
-              #block-{{ block.id }} {
-                --multicolumn-icon-size: {{ block.settings.icon_size }}px;
-                --multicolumn-icon-radius: {{ block.settings.icon_radius }}%;
+              #block-{{ block.id }} .multicolumn__column-icon-image {
+                width: {{ block.settings.icon_size }}px;
+                border-radius: {{ block.settings.icon_radius }}%;
               }
             {% endstyle %}
 
