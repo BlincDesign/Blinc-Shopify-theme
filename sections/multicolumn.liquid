@@ -44,7 +44,7 @@
     {%- endif -%}
 
     <div
-      class="multicolumn__blocks overflow-hidden grid grid-columns grid-columns-mobile"
+      class="multicolumn__blocks overflow-hidden {% unless section.settings.carousel %} grid grid-columns grid-columns-mobile {% endunless %}"
       style="
         --grid-columns: {{ section.settings.columns }};
         --grid-columns-mobile: {{ section.settings.mobile_columns | plus: 0 }};
