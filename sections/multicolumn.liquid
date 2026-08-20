@@ -550,10 +550,30 @@
       "content": "Columns"
     },
     {
+      "type": "color_scheme",
+      "id": "column_color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel",
+      "label": "Carousel",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_arrows",
+      "label": "Show arrows",
+      "default": false,
+      "visible_if": "{{ section.settings.carousel }}"
+    },
+    {
       "type": "select",
       "id": "pagination_type",
       "default": "scrollbar",
       "label": "Type",
+      "visible_if": "{{ section.settings.carousel }}",
       "options": [
         {
           "value": "",
@@ -576,18 +596,6 @@
           "label": "Progressbar"
         },
       ]
-    },
-    {
-      "type": "color_scheme",
-      "id": "column_color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-2"
-    },
-    {
-      "type": "checkbox",
-      "id": "carousel",
-      "label": "Carousel",
-      "default": false
     },
     {
       "type": "range",
