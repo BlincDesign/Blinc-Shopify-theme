@@ -45,10 +45,12 @@
 
     <div
       class="multicolumn__blocks overflow-hidden {% unless section.settings.carousel %} grid grid-columns grid-columns-mobile {% endunless %}"
-      style="
-        --grid-columns: {{ section.settings.columns }};
-        --grid-columns-mobile: {{ section.settings.mobile_columns | plus: 0 }};
-      "
+      {% unless section.settings.carousel %}
+        style="
+          --grid-columns: {{ section.settings.columns }};
+          --grid-columns-mobile: {{ section.settings.mobile_columns | plus: 0 }};
+        "
+      {% endunless %}
       {% if section.settings.carousel %}
         data-slider
         data-slider-config='
