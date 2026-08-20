@@ -12,6 +12,13 @@
     padding: 1rem 1rem 0;
   }
 
+  .swiper-scrollbar, .swiper-pagination {
+    position: relative;
+    margin-block-start: 20px;
+    margin-inline: auto;
+    --swiper-scrollbar-sides-offset: 200px;
+  }
+
   @media screen and (max-width: 749px) {
     #Multicolumn-{{ section.id }} {
       padding-top: {{ section.settings.padding_top_m }}px;
