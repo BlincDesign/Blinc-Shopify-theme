@@ -1,10 +1,35 @@
+<div>
+    <div>
+        {{ section.settings.image }}
+        </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 {% schema %}
 {
     "name": "image-banner",
     "tag": "section",
     "class": "shopify-section--image-banner",
     "settings": [
-
+        {
+            "type": "header",
+            "content": "Image"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Select an Image"
+        }
     ],
     "blocks": [
 
