@@ -1043,6 +1043,11 @@ a.main-collection__pagination-link:focus-visible {
   --swiper-navigation-color: rgb(var(--color-accent));
 }
 
+.swiper-button-next svg, .swiper-button-prev svg {
+  width: 16px;
+  height: 16px;
+}
+
 .swiper-button-next svg path, .swiper-button-prev svg path {
   fill: rgb(var(--color-border)) !important;
   stroke: rgb(var(--color-border)) !important;
