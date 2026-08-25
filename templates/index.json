@@ -13,7 +13,8 @@
       "type": "image-banner",
       "name": "Image Banner",
       "settings": {
-        "image": "shopify://shop_images/682340964645_1.jpg"
+        "image": "shopify://shop_images/682340964645_1.jpg",
+        "image_2": "shopify://shop_images/images.jpg"
       }
     },
     "rich_text": {
