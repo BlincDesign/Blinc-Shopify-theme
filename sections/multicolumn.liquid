@@ -32,8 +32,8 @@
 {%- endstyle -%}
 
 {%- liquid
-  assign columns_desktop = section.settings.columns_desktop | default: 4
-  assign columns_mobile = section.settings.columns_mobile | default: 1
+  assign columns_desktop = section.settings.columns | default: 4
+  assign columns_mobile = section.settings.mobile_columns | default: 1
 
   assign desktop_fraction = 100 | divided_by: columns_desktop
   assign mobile_fraction = 100 | divided_by: columns_mobile
