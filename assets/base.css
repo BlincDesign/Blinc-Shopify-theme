@@ -1039,6 +1039,14 @@ a.main-collection__pagination-link:focus-visible {
   width: calc(100% - var(--swiper-scrollbar-sides-offset, 1%) * 2) !important;
 }
 
+.swiper-button-next, .swiper-button-prev {
+  --swiper-navigation-color: rgb(var(--color-accent));
+}
+
+.swiper-button-next svg, .swiper-button-prev svg {
+  fill: rgb(var(--color-border));
+}
+
 .swiper-pagination-progressbar {
   --swiper-pagination-progressbar-bg-color: rgb(var(--color-accent));
 }
