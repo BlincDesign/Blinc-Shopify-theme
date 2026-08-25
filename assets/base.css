@@ -1044,8 +1044,8 @@ a.main-collection__pagination-link:focus-visible {
 }
 
 .swiper-button-next svg, .swiper-button-prev svg {
-  width: 16px;
-  height: 16px;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 .swiper-button-next svg path, .swiper-button-prev svg path {
