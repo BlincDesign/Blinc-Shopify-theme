@@ -53,9 +53,9 @@
 
 <div
   id="Multicolumn-{{ section.id }}"
-  class="multicolumn section color-{{ section.settings.color_scheme }}"
+  class="multicolumn color-{{ section.settings.color_scheme }}"
 >
-  <div class="multicolumn__wrapper relative overflow-hidden {{ section.settings.container_width }}">
+  <div class="multicolumn__wrapper section__wrapper relative overflow-hidden {{ section.settings.container_width }}">
     {%- if section.settings.heading != blank or section.settings.button != blank -%}
       <div class="multicolumn__header section__header flex flex-wrap justify-between items-center">
         {%- if section.settings.heading != blank -%}
