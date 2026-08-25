@@ -121,7 +121,7 @@
         "column_color_scheme": "scheme-2",
         "carousel": true,
         "enable_arrows": true,
-        "pagination_type": "scrollbar",
+        "pagination_type": "progressbar",
         "columns": 4,
         "mobile_columns": "2",
         "slides_per_row_dt": 4,
