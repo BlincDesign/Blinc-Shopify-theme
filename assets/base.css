@@ -1038,6 +1038,14 @@ a.main-collection__pagination-link:focus-visible {
   --swiper-scrollbar-sides-offset: 200px;
 }
 
+.swiper-pagination-progressbar {
+  --swiper-pagination-progressbar-bg-color: rgb(var(--color-accent));
+}
+
+.swiper-pagination-progressbar-fill {
+  --swiper-pagination-color:  rgb(var(--color-border));
+}
+
 .swiper-scrollbar {
   --swiper-scrollbar-bg-color: rgb(var(--color-accent));
 }
