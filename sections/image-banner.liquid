@@ -1,43 +1,36 @@
 <div>
-    <div>
-        {{ section.settings.image }}
-        </div>
+  <div>
+    {% if section.settings.image != blank %}
+      {{
+        section.settings.image
+        | image_url: width: 2000
+        | image_tag: loading: 'lazy'
+      }}
+    {% endif %}
+  </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 {% schema %}
 {
-    "name": "image-banner",
-    "tag": "section",
-    "class": "shopify-section--image-banner",
-    "settings": [
-        {
-            "type": "header",
-            "content": "Image"
-        },
-        {
-            "type": "image_picker",
-            "id": "image",
-            "label": "Select an Image"
-        }
-    ],
-    "blocks": [
-
-    ],
-    "presets": [
-        {
-            "name": "Image Banner"
-        }
-    ]
+  "name": "Image Banner",
+  "tag": "section",
+  "class": "shopify-section--image-banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Select an image"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Image Banner"
+    }
+  ]
 }
 {% endschema %}
