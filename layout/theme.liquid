@@ -23,7 +23,7 @@
 
     {{ content_for_header }}
 
-    {{ 'utils.css' | asset_url | stylesheet_tag }}
+    {% comment %} {{ 'utils.css' | asset_url | stylesheet_tag }} {% endcomment %}
     {{ 'base.css' | asset_url | stylesheet_tag }}
 
     
