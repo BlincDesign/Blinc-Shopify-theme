@@ -72,7 +72,7 @@
         "button_style": "link",
         "column_color_scheme": "scheme-2",
         "carousel": true,
-        "enable_arrows": false,
+        "enable_arrows": true,
         "pagination_type": "scrollbar",
         "columns": 4,
         "mobile_columns": "2",
