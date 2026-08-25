@@ -1072,4 +1072,25 @@ a.main-collection__pagination-link:focus-visible {
   --swiper-scrollbar-drag-bg-color: rgb(var(--color-border));
 }
 
+.swiper-button-prev {
+    left: -100px !important;
+}
+
+.swiper-button-next {
+    right: -100px !important;
+}
+
+.multicolumn__wrapper:hover .swiper-navigation .swiper-button-prev {
+    left: var(--swiper-navigation-sides-offset,4px) !important;
+}
+
+.multicolumn__wrapper:hover .swiper-navigation .swiper-button-next {
+    right: var(--swiper-navigation-sides-offset,4px) !important;
+}
+
+.swiper-navigation .swiper-button-prev,
+.swiper-navigation .swiper-button-next {
+    transition: left 0.25s cubic-bezier(0.4, 0, 1, 1), right 0.25s cubic-bezier(0.4, 0, 1, 1);
+}
+
 /* Swiper */
