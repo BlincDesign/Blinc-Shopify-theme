@@ -1024,3 +1024,18 @@ a.main-collection__pagination-link:focus-visible {
 }
 
 /* End Cart */
+
+/* Swiper */
+
+.swiper-scrollbar, .swiper-pagination {
+  position: relative !important;
+  bottom: unset !important;
+  left: unset !important;
+  top: unset !important;
+  right: unset !important;
+  margin-block-start: 20px;
+  margin-inline: auto;
+  --swiper-scrollbar-sides-offset: 200px;
+}
+
+/* Swiper */
