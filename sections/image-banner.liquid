@@ -3,7 +3,7 @@
     {% if section.settings.image != blank %}
       {{
         section.settings.image
-        | image_url: width: 2000
+        | image_url: width: 1000
         | image_tag: loading: 'lazy'
       }}
     {% endif %}
@@ -12,7 +12,7 @@
     {% if section.settings.image != blank %}
       {{
         section.settings.image_2
-        | image_url: width: 2000
+        | image_url: width: 1000
         | image_tag: loading: 'lazy'
       }}
     {% endif %}
