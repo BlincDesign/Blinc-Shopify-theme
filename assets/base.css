@@ -1045,6 +1045,8 @@ a.main-collection__pagination-link:focus-visible {
 
 .swiper-button-next svg path, .swiper-button-prev svg path {
   fill: rgb(var(--color-border)) !important;
+  stroke: rgb(var(--color-border)) !important;
+  stroke-width: 1.5px;
 }
 
 .swiper-pagination-progressbar {
