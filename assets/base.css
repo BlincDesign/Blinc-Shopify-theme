@@ -1038,6 +1038,10 @@ a.main-collection__pagination-link:focus-visible {
   --swiper-scrollbar-sides-offset: 200px;
 }
 
+.swiper-scrollbar {
+  --swiper-scrollbar-bg-color: rgb(var(--color-accent));
+}
+
 .swiper-scrollbar-drag {
   --swiper-scrollbar-drag-bg-color: rgb(var(--color-border));
 }
