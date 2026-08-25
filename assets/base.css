@@ -1036,7 +1036,7 @@ a.main-collection__pagination-link:focus-visible {
   margin-block-start: 20px;
   margin-inline: auto;
   --swiper-scrollbar-sides-offset: 200px;
-  width: calc(100% - var(--swiper-scrollbar-sides-offset, 1%) * 2);
+  width: calc(100% - var(--swiper-scrollbar-sides-offset, 1%) * 2) !important;
 }
 
 .swiper-pagination-progressbar {
