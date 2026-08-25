@@ -1,6 +1,18 @@
+{% style %}
+  .image-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+{% endstyle %}
+
+
+
+
 <div class="{% if section.settings.image != blank and section.settings.image_2 != blank %}flex{% endif %}">
+  
   {% if section.settings.image != blank %}
-    <div class="{% if section.settings.image_2 != blank %}flex-grow{% endif %}">
+    <div class="flex-grow">
       {{
         section.settings.image
         | image_url: width: 1000
@@ -18,7 +30,10 @@
       }}
     </div>
   {% endif %}
+
 </div>
+
+
 
 {% schema %}
 {
