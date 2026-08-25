@@ -1039,7 +1039,7 @@ a.main-collection__pagination-link:focus-visible {
 }
 
 .swiper-scrollbar-drag {
-  --swiper-scrollbar-drag-bg-color: var(--color-border);
+  --swiper-scrollbar-drag-bg-color: rgb(var(--color-border));
 }
 
 /* Swiper */
