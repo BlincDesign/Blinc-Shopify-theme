@@ -8,6 +8,15 @@
       }}
     {% endif %}
   </div>
+  <div>
+    {% if section.settings.image != blank %}
+      {{
+        section.settings.image_2
+        | image_url: width: 2000
+        | image_tag: loading: 'lazy'
+      }}
+    {% endif %}
+  </div>
 </div>
 
 {% schema %}
@@ -17,13 +26,14 @@
   "class": "shopify-section--image-banner",
   "settings": [
     {
-      "type": "header",
-      "content": "Image"
-    },
-    {
       "type": "image_picker",
       "id": "image",
-      "label": "Select an image"
+      "label": "Image1"
+    },
+    {
+        "type": "image_picker",
+        "id": "image_2",
+        "label": "Image"
     }
   ],
   "blocks": [],
