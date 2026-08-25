@@ -68,7 +68,7 @@
           "secondary_button_label_hover": "#121212",
           "secondary_button_hover": "#f5f5f5",
           "secondary_button_border_hover": "#121212",
-          "accent": "#121212",
+          "accent": "#E6E6E6",
           "border": "#3A3A3A"
         }
       },
@@ -112,6 +112,27 @@
           "secondary_button_border_hover": "#121212",
           "accent": "#121212",
           "border": "#e6e6e6"
+        }
+      },
+      "scheme-1627cd6d-d6d1-4f03-859b-ddcef06c6f3d": {
+        "settings": {
+          "background": "#ffffff",
+          "background_gradient": "",
+          "text": "#121212",
+          "button_label": "#ffffff",
+          "button": "#121212",
+          "button_border": "#121212",
+          "button_label_hover": "#ffffff",
+          "button_hover": "#2b2b2b",
+          "button_border_hover": "#2b2b2b",
+          "secondary_button_label": "#121212",
+          "secondary_button": "#ffffff",
+          "secondary_button_border": "#e6e6e6",
+          "secondary_button_label_hover": "#121212",
+          "secondary_button_hover": "#f5f5f5",
+          "secondary_button_border_hover": "#121212",
+          "accent": "#121212",
+          "border": "#3A3A3A"
         }
       }
     }
