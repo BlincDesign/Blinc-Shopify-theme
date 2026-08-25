@@ -1044,7 +1044,7 @@ a.main-collection__pagination-link:focus-visible {
 }
 
 .swiper-button-next svg, .swiper-button-prev svg {
-  fill: rgb(var(--color-border));
+  path: rgb(var(--color-border)) !important;
 }
 
 .swiper-pagination-progressbar {
