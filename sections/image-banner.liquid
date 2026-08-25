@@ -1,22 +1,23 @@
-<div>
-  <div>
-    {% if section.settings.image != blank %}
+<div class="{% if section.settings.image != blank and section.settings.image_2 != blank %}flex{% endif %}">
+  {% if section.settings.image != blank %}
+    <div class="{% if section.settings.image_2 != blank %}flex-grow{% endif %}">
       {{
         section.settings.image
         | image_url: width: 1000
         | image_tag: loading: 'lazy'
       }}
-    {% endif %}
-  </div>
-  <div>
-    {% if section.settings.image != blank %}
+    </div>
+  {% endif %}
+
+  {% if section.settings.image_2 != blank %}
+    <div class="flex-grow">
       {{
         section.settings.image_2
         | image_url: width: 1000
         | image_tag: loading: 'lazy'
       }}
-    {% endif %}
-  </div>
+    </div>
+  {% endif %}
 </div>
 
 {% schema %}
