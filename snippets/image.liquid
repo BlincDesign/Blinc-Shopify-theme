@@ -42,19 +42,6 @@
   assign display_width = width | default: 1200
   assign widths = widths | default: '375, 550, 750, 1100, 1500, 1600'
 
-  # Trim widths so we never generate srcset candidates way bigger than needed
-  assign max_width = display_width | times: 2
-  assign trimmed_widths = ''
-  assign widths_arr = widths | split: ', '
-  for w in widths_arr
-    assign w_num = w | plus: 0
-    if w_num <= max_width
-      assign trimmed_widths = trimmed_widths | append: w | append: ', '
-    endif
-  endfor
-  assign trimmed_widths = trimmed_widths | append: max_width | remove: ', ,' | strip_newlines
-  assign widths = trimmed_widths | split: ', ' | uniq | join: ', '
-
   if sizes == blank
     if width
       assign sizes = '(min-width: ' | append: width | append: 'px) ' | append: width | append: 'px, 100vw'
@@ -73,19 +60,11 @@
   endif
 
   assign alt_text = alt | default: image.alt | default: ''
+
   assign loading = loading | default: 'lazy'
   assign fetchpriority = fetchpriority | default: 'auto'
-  assign object_position = object_position | default: image.presentation.focal_point
 
-  # Compute explicit height from the image's native aspect ratio to prevent CLS,
-  # unless an explicit aspect_ratio override is passed
-  if aspect_ratio != blank
-    assign render_height = display_width | divided_by: aspect_ratio | round
-  elsif image.aspect_ratio
-    assign render_height = display_width | divided_by: image.aspect_ratio | round
-  else
-    assign render_height = image.height
-  endif
+  assign object_position = object_position | default: image.presentation.focal_point
 
   capture image_style
     if aspect_ratio != blank
@@ -96,17 +75,15 @@
     endif
   endcapture
   assign image_style = image_style | strip
-
   assign placeholder_class = css_class | append: ' placeholder-svg' | strip
   assign placeholder = placeholder | default: 'image'
 -%}
+
 {%- if image -%}
   {{
     image
     | image_url: width: display_width
     | image_tag:
-      width: display_width,
-      height: render_height,
       widths: widths,
       sizes: sizes,
       alt: alt_text,
