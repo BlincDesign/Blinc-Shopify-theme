@@ -38,6 +38,17 @@
   if section.index <= 2
     assign is_above_fold_section = true
   endif
+
+  assign total_slides = section.blocks.size
+  assign max_slides_per_view = section.settings.slides_per_row_dt
+  if section.settings.slides_per_row_mb > max_slides_per_view
+    assign max_slides_per_view = section.settings.slides_per_row_mb
+  endif
+  assign min_required_for_loop = max_slides_per_view | times: 2
+  assign should_loop = false
+  if total_slides >= min_required_for_loop
+    assign should_loop = true
+  endif
 -%}
 
 <div
@@ -75,7 +86,7 @@
         data-slider
         data-slider-config='
           {
-            "loop": true,
+            "loop": {{ should_loop }},
             "slidesPerView": {{ section.settings.slides_per_row_mb | minus: 0.5 }},
             "spaceBetween": "var(--layout-gap)",
             "breakpoints": {
