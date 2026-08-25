@@ -140,7 +140,7 @@
                         class: 'multicolumn__column-video'
                     }}
                   {% else %}
-                    {% render 'image', image: block.settings.column_image, class: 'multicolumn__column-image', sizes: '(min-width: 750px) calc(100vw / ' | append: section.settings.columns_desktop | append: '), 100vw' %}
+                    {% render 'image', image: block.settings.column_image, class: 'multicolumn__column-image', sizes: '(min-width: 750px) 335px, 100vw' %}
                   {% endif %}
                 </div>
               {% endif %}
