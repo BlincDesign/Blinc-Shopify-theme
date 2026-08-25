@@ -72,7 +72,86 @@
         "button_style": "link",
         "column_color_scheme": "scheme-2",
         "carousel": true,
+        "enable_arrows": false,
+        "pagination_type": "scrollbar",
         "columns": 4,
+        "mobile_columns": "2",
+        "slides_per_row_dt": 4,
+        "slides_per_row_mb": "2",
+        "color_scheme": "",
+        "container_width": "container-standard",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_top_m": 32,
+        "padding_bottom_m": 32
+      }
+    },
+    "multicolumn_k7Kcj4": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_9hNMJn": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "column_QwjpcH": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "column_w7ciCY": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        },
+        "column_6JpVB3": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "column_9hNMJn",
+        "column_QwjpcH",
+        "column_w7ciCY",
+        "column_6JpVB3"
+      ],
+      "name": "Multicolumn",
+      "settings": {
+        "heading": "Multicolumn",
+        "heading_size": "large",
+        "button": "Button",
+        "button_link": "#",
+        "button_style": "link",
+        "column_color_scheme": "scheme-2",
+        "carousel": false,
+        "enable_arrows": false,
+        "pagination_type": "scrollbar",
+        "columns": 2,
         "mobile_columns": "2",
         "slides_per_row_dt": 4,
         "slides_per_row_mb": "2",
@@ -222,7 +301,9 @@
         "button_link": "",
         "button_style": "link",
         "column_color_scheme": "",
-        "carousel": false,
+        "carousel": true,
+        "enable_arrows": false,
+        "pagination_type": "scrollbar",
         "columns": 4,
         "mobile_columns": "2",
         "slides_per_row_dt": 4,
@@ -635,6 +716,7 @@
   },
   "order": [
     "multicolumn_caXf8n",
+    "multicolumn_k7Kcj4",
     "multicolumn_FMpFj4",
     "featured_collection_hhAeW6",
     "rich_text",
