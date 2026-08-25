@@ -21,7 +21,7 @@
 {%- endstyle -%}
 
 {%- liquid
-   if section.settings.carousel
+  if section.settings.carousel
     assign columns_desktop = section.settings.slides_per_row_dt | default: 4 | minus: 0.5
     assign columns_mobile = section.settings.slides_per_row_mb | default: 2 | minus: 0.5
   else
@@ -33,6 +33,11 @@
   assign mobile_fraction = 100 | divided_by: columns_mobile | round: 2
 
   assign column_sizes = '(min-width: 750px) ' | append: desktop_fraction | append: 'vw, ' | append: mobile_fraction | append: 'vw'
+
+  assign is_above_fold_section = false
+  if section.index <= 2
+    assign is_above_fold_section = true
+  endif
 -%}
 
 <div
@@ -88,6 +93,19 @@
       {% endif %}
 
       {% for block in section.blocks %}
+        {%- liquid
+          assign is_priority = false
+          if is_above_fold_section and forloop.index == 1
+            assign is_priority = true
+          endif
+          assign img_loading = 'lazy'
+          assign img_fetchpriority = 'auto'
+          if is_priority
+            assign img_loading = 'eager'
+            assign img_fetchpriority = 'high'
+          endif
+        -%}
+
         {% capture column_content %}
           {% if block.settings.column_heading != blank
             or block.settings.column_description != blank
@@ -144,7 +162,13 @@
                         class: 'multicolumn__column-video'
                     }}
                   {% else %}
-                    {% render 'image', image: block.settings.column_image, class: 'multicolumn__column-image', sizes: column_sizes %}
+                    {% render 'image',
+                      image: block.settings.column_image,
+                      class: 'multicolumn__column-image',
+                      sizes: column_sizes,
+                      loading: img_loading,
+                      fetchpriority: img_fetchpriority
+                    %}
                   {% endif %}
                 </div>
               {% endif %}
@@ -170,7 +194,13 @@
             >
               <div class="multicolumn__column-icon">
                 {% if block.settings.custom_icon_image != blank %}
-                  {% render 'image', image: block.settings.custom_icon_image, class: 'multicolumn__column-icon-image' %}
+                  {% render 'image',
+                    image: block.settings.custom_icon_image,
+                    class: 'multicolumn__column-icon-image',
+                    sizes: column_sizes,
+                    loading: img_loading,
+                    fetchpriority: img_fetchpriority
+                  %}
 
                 {% elsif block.settings.native_icon_image != blank %}
                   {% render 'icon',
@@ -203,7 +233,10 @@
         </div>
       {% endif %}
 
-      {% render 'swiper-pagination', type: section.settings.pagination_type, enable_arrows: section.settings.enable_arrows %}
+      {% render 'swiper-pagination',
+        type: section.settings.pagination_type,
+        enable_arrows: section.settings.enable_arrows
+      %}
     </div>
   </div>
 </div>
@@ -609,7 +642,7 @@
         {
           "value": "progressbar",
           "label": "Progressbar"
-        },
+        }
       ]
     },
     {
