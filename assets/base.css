@@ -1043,8 +1043,8 @@ a.main-collection__pagination-link:focus-visible {
   --swiper-navigation-color: rgb(var(--color-accent));
 }
 
-.swiper-button-next svg, .swiper-button-prev svg {
-  path: rgb(var(--color-border)) !important;
+.swiper-button-next svg path, .swiper-button-prev svg path {
+  fill: rgb(var(--color-border)) !important;
 }
 
 .swiper-pagination-progressbar {
