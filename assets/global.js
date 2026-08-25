@@ -201,7 +201,8 @@ class Slider {
             resolvedConfig.pagination = {
                 clickable: true,
                 ...resolvedConfig.pagination,
-                el: paginationEl
+                el: paginationEl,
+                type: paginationEl.dataset.paginationType || 'bullets'
             };
         }
 
