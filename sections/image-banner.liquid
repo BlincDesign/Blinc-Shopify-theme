@@ -23,9 +23,9 @@
 >
 
   {% if section.settings.image != blank %}
-    {% liquid
+    {% comment %} {% liquid
       assign calculated_image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
-    %}
+    %} {% endcomment %}
     <div class="flex-grow">
       {{
         section.settings.image
