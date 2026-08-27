@@ -15,7 +15,8 @@
       "settings": {
         "image": "shopify://shop_images/683713509111_0.jpg",
         "image_2": "shopify://shop_images/681784663080_2.jpg",
-        "image_overlay_opacity": 10
+        "image_overlay_opacity": 10,
+        "image_height": "large"
       }
     },
     "rich_text": {
