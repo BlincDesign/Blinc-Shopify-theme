@@ -27,9 +27,7 @@
   id="Banner-{{ section.id }}"
   class="{% if section.settings.image != blank and section.settings.image_2 != blank %}flex{% endif %}"
 >
-  {% liquid
-    assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
-  %}
+  
   {% if section.settings.image != blank %}
     <div class="flex-grow">
       {{
