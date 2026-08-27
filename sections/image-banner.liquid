@@ -27,6 +27,9 @@
   
   {% if section.settings.image != blank %}
     <div class="flex-grow">
+      {% liquid
+         assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+      %}
       {{
         section.settings.image
         | image_url: width: 3840
