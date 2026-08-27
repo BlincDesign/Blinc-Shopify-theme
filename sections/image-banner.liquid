@@ -33,11 +33,11 @@
 
 <div
   id="Banner-{{ section.id }}"
-  class="{% if section.settings.image != blank and section.settings.image_2 != blank %}flex{% endif %} banner--{{ section.settings.image_height }}"
+  class="{% if section.settings.image != blank and section.settings.image_2 != blank %}flex{% endif %}"
 >
   
   {% if section.settings.image != blank %}
-    <div class="flex-grow">
+    <div class="flex-grow banner--{{ section.settings.image_height }}">
       {{
         section.settings.image
         | image_url: width: 3840
