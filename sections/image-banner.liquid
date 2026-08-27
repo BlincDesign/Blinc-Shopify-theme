@@ -37,7 +37,7 @@
 >
   
   {% if section.settings.image != blank %}
-    <div class="flex-grow banner--{{ section.settings.image_height }}">
+    <div class="flex-grow">
       {{
         section.settings.image
         | image_url: width: 3840
