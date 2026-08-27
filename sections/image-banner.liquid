@@ -30,7 +30,8 @@
       {{
         section.settings.image
         | image_url: width: 3840
-        | image_tag: loading: 'lazy'
+        | image_tag: 
+        height: image_height
       }}
     </div>
   {% endif %}
@@ -40,7 +41,8 @@
       {{
         section.settings.image_2
         | image_url: width: 3840
-        | image_tag: loading: 'lazy'
+        | image_tag: 
+        height: image_height
       }}
     </div>
   {% endif %}
@@ -73,6 +75,30 @@
         "unit": "%",
         "label": "Overlay Opacity",
         "default": 0
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt for first image"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "mediun",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "mediun",
+      "label": "Medium"
     }
   ],
   "blocks": [],
