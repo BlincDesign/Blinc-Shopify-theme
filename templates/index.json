@@ -14,8 +14,9 @@
       "name": "Image Banner",
       "settings": {
         "image": "shopify://shop_images/683713509111_0.jpg",
+        "image_2": "shopify://shop_images/683713509111_4.jpg",
         "image_overlay_opacity": 20,
-        "image_height": "adapt"
+        "image_height": "small"
       }
     },
     "rich_text": {
