@@ -1,12 +1,25 @@
 {% style %}
- 
+  #Banner-{{ section.id }} {
+  position: relative;
+}
+
+#Banner-{{ section.id }}::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000;
+  pointer-events: none;
+}
+
+  #Banner-{{ section.id }}::after {
+    opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
+  }
 {% endstyle %}
 
-
-
-
-<div class="{% if section.settings.image != blank and section.settings.image_2 != blank %}flex{% endif %}">
-  
+<div
+  id="Banner-{{ section.id }}"
+  class="{% if section.settings.image != blank and section.settings.image_2 != blank %}flex{% endif %}"
+>
   {% if section.settings.image != blank %}
     <div class="flex-grow">
       {{
@@ -26,7 +39,6 @@
       }}
     </div>
   {% endif %}
-
 </div>
 
 
@@ -46,6 +58,16 @@
         "type": "image_picker",
         "id": "image_2",
         "label": "Image 2"
+    },
+    {
+        "type": "range",
+        "id": "image_overlay_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 10,
+        "unit": "%",
+        "label": "Overlay Opacity",
+        "default": 0
     }
   ],
   "blocks": [],
