@@ -2,6 +2,12 @@
   #Banner-{{ section.id }} {
   position: relative;
 }
+  #Banner-{{ section.id }} img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
 #Banner-{{ section.id }}::after {
   content: '';
@@ -11,30 +17,7 @@
   pointer-events: none;
   opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
 }
-    {% if section.settings.image_height == 'adapt' %}
-  #Banner-{{ section.id }} img{
-    width: 100%;
-    height: auto;
-  }
-
-{% elsif section.settings.image_height == 'small' %}
-  #Banner-{{ section.id }} img{
-    width: 100%
-    height: 300px;
-  }
-
-  {% elsif section.settings.image_height == 'medium' %}
-  #Banner-{{ section.id }} img{
-    width: 100%;
-    height: 450px;
-  }
-
-{% elsif section.settings.image_height == 'large' %}
-  #Banner-{{ section.id }} img{
-    width: 100%
-    height: 600px;
-  }
-{% endif %}
+  
 
 {% endstyle %}
 
