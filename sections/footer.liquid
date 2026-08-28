@@ -1,32 +1,76 @@
-<footer class="footer color-{{ section.settings.color_scheme }}">
+<div class="footer color-{{ section.settings.color_scheme }}">
   <div class="footer__wrapper page-width flex flex-wrap items-center justify-between">
     {%- if section.settings.menu.links.size > 0 -%}
       <nav class="footer__nav" aria-label="Footer">
         <ul class="footer__nav-list flex flex-wrap">
           {%- for link in section.settings.menu.links -%}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
           {%- endfor -%}
         </ul>
       </nav>
     {%- endif -%}
 
-    <p class="footer__copyright">
-      {{ "now" | date: "%Y" }} &copy; {{ shop.name }}
-    </p>
+    <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
   </div>
-</footer>
+</div>
 
 {% schema %}
 {
   "name": "Footer",
+  "tag": "footer",
   "class": "shopify-section--footer",
-  "settings": [
+  "enabled_on": {"groups": ["footer"]},
+  "blocks": [
     {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Menu",
-      "default": "footer"
+      "type": "@app"
     },
+    {
+      "type": "logo",
+      "name": "logo",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "contact",
+      "name": "Contact us",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "large-image",
+      "name": "Large image",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "copyright",
+      "name": "Copyright",
+      "limit": 1,
+      "settings": []
+    }
+  ],
+  "settings": [
     {
       "type": "color_scheme",
       "id": "color_scheme",
