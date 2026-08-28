@@ -17,6 +17,9 @@
               </div>
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
+                <h3 class="multicolumn__column-heading">
+                  {{ block.settings.menu_heading }}
+                </h3>
                 <nav class="footer__nav" aria-label="Footer" {{ block.shopify_attributes }}>
                   <ul class="footer__nav-list flex flex-column gap-1">
                     {%- for link in menu.links -%}
@@ -80,6 +83,12 @@
       "name": "Menu",
       "limit": 4,
       "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "menu_heading",
+          "label": "Heading",
+          "default": "Title"
+        },
         {
           "type": "link_list",
           "id": "menu",
