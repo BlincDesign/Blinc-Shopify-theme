@@ -549,6 +549,19 @@ const Toast = {
 window.theme = window.theme || {};
 window.theme.toast = Toast;
 
+window.theme.debounce = function debounce(fn, wait = 300) {
+    let timer;
+
+    function debounced(...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), wait);
+    }
+
+    debounced.cancel = () => clearTimeout(timer);
+
+    return debounced;
+};
+
 class CartForm {
     constructor() {
         document.addEventListener('submit', (event) => this.handleSubmit(event));
