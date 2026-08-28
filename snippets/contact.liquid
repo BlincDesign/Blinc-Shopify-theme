@@ -1,0 +1,114 @@
+{% comment %}
+  Reusable Contact Form
+
+  Usage:
+  {% render 'contact-form',
+    show_name: true,
+    show_email: true,
+    show_phone: true,
+    show_subject: true,
+    show_message: true
+  %}
+
+  Available fields:
+  - show_name
+  - show_email
+  - show_phone
+  - show_subject
+  - show_message
+{% endcomment %}
+
+{%- assign show_name = show_name | default: true -%}
+{%- assign show_email = show_email | default: true -%}
+{%- assign show_phone = show_phone | default: false -%}
+{%- assign show_subject = show_subject | default: false -%}
+{%- assign show_message = show_message | default: true -%}
+
+{% form 'contact', class: 'contact-form' %}
+  {% if form.posted_successfully? %}
+    <div class="contact-form__success" role="status">
+      Success
+      {% comment %} {{ 'templates.contact.form.post_success' | t }} {% endcomment %}
+    </div>
+  {% endif %}
+
+  {{ form.errors | default_errors }}
+
+  {% if show_name %}
+    <div class="contact-form__field">
+      <label for="ContactForm-name"> Name </label>
+
+      <input
+        type="text"
+        id="ContactForm-name"
+        name="contact[name]"
+        value="{{ form.name }}"
+        autocomplete="name"
+        placeholder="Name"
+      >
+    </div>
+  {% endif %}
+
+  {% if show_email %}
+    <div class="contact-form__field">
+      <label for="ContactForm-email"> Email </label>
+
+      <input
+        type="email"
+        id="ContactForm-email"
+        name="contact[email]"
+        value="{{ form.email }}"
+        autocomplete="email"
+        autocorrect="off"
+        autocapitalize="off"
+        required
+        placeholder="Email"
+      >
+    </div>
+  {% endif %}
+
+  {% if show_phone %}
+    <div class="contact-form__field">
+      <label for="ContactForm-phone"> Phone </label>
+
+      <input
+        type="tel"
+        id="ContactForm-phone"
+        name="contact[phone]"
+        value="{{ form.phone }}"
+        autocomplete="tel"
+        placeholder="Phone"
+      >
+    </div>
+  {% endif %}
+
+  {% if show_subject %}
+    <div class="contact-form__field">
+      <label for="ContactForm-subject"> Subject </label>
+
+      <input
+        type="text"
+        id="ContactForm-subject"
+        name="contact[subject]"
+        value="{{ form.subject }}"
+        placeholder="Subject"
+      >
+    </div>
+  {% endif %}
+
+  {% if show_message %}
+    <div class="contact-form__field">
+      <label for="ContactForm-message"> Message </label>
+
+      <textarea
+        rows="6"
+        id="ContactForm-message"
+        name="contact[body]"
+        placeholder="Message"
+        required
+      >{{ form.body }}</textarea>
+    </div>
+  {% endif %}
+
+  <button type="submit" class="contact-form__submit">Submit</button>
+{% endform %}
