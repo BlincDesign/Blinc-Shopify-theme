@@ -1,16 +1,4 @@
-{%- comment -%}
-  Computes a variant's quantity rule (min/max/increment, clamped against
-  inventory policy) and renders snippets/quantity-selector.liquid with it.
-  Liquid can't return computed values to a caller, so this snippet owns
-  the full computation-to-markup path rather than exposing the numbers.
-
-  sections/main-product.liquid and snippets/quick-product-form.liquid
-  intentionally keep their own copy of this clamp - they also need the
-  same numbers for inventory-message text and buy-button disabled state,
-  not just the selector, so routing them through a selector-only snippet
-  would either duplicate the computation anyway or pull unrelated
-  concerns into this one.
-
+{%- comment -%} 
   Accepts:
   variant (object, required)
   id (string, required) - passed through to quantity-selector.
