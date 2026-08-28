@@ -65,7 +65,9 @@
         },
         "large_image_qTjGBj": {
           "type": "large-image",
-          "settings": {}
+          "settings": {
+            "large_image": "shopify://shop_images/Screenshot_2026-08-08_010234-removebg-preview.png"
+          }
         }
       },
       "block_order": [
