@@ -458,7 +458,7 @@
         "pagination_type": "scrollbar",
         "columns": 3,
         "mobile_columns": "2",
-        "slides_per_row_dt": 4,
+        "slides_per_row_dt": 3,
         "slides_per_row_mb": "2",
         "color_scheme": "",
         "container_width": "container-standard",
