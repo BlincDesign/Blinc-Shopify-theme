@@ -189,7 +189,12 @@ class CartDrawer extends HTMLElement {
     async updateLine(input) {
         const line = input.closest('[data-cart-item]')?.dataset.lineKey;
         if (!line) return;
-        await this.changeLine(line, Number(input.value));
+              input.disabled = true;
+        try {
+            await this.changeLine(line, Number(input.value));
+        } finally {
+            input.disabled = false;
+        }
     }
 
     async removeLine(button) {
@@ -204,17 +209,12 @@ class CartDrawer extends HTMLElement {
         try {
             const response = await fetch(routes.cartChange || '/cart/change.js', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                },
-                body: JSON.stringify({
-                    id,
-                    quantity
-                }),
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({ id, quantity }),
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.description || `Cart change failed: ${response.status}`);
+
             this.isSyncingSelf = true;
             window.theme.dispatchCartUpdate(data);
             this.isSyncingSelf = false;
