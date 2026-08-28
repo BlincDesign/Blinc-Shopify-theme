@@ -1,8 +1,4 @@
-{%- comment -%}
-  Renders a single swatch (color or image) using Shopify's native product
-  option swatch data. Falls back to nothing if the option value has no
-  swatch configured - callers should only render this when a swatch exists.
-
+{%- comment -%} 
   Accepts:
   swatch (object, required) - A value's `swatch` object (product.options_with_values[].values[].swatch).
   shape (string, optional) - 'circle' (default) or 'square'.
