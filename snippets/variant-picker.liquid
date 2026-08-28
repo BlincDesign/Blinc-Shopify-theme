@@ -1,24 +1,4 @@
-{%- comment -%}
-  Renders the reusable product variant picker: buttons/pills, a dropdown, or
-  native Shopify color/image swatches (chosen automatically per option when
-  swatches are configured in Shopify admin).
-
-  Availability, "selected", and "unavailable" states are always computed by
-  Liquid - on the first render, and on every later option change
-  <product-info> (assets/theme.js) re-fetches this same section with
-  `?option_values=...`, which tells Shopify's Liquid engine to recompute
-  everything (price, availability, the resolved variant) as if that
-  combination were selected, then swaps this element's contents wholesale.
-  The picker never re-implements Shopify's own availability logic in JS.
-
-  This is the single variant-selection component reused across the product
-  page, Quick Add, and Quick View (snippets/quick-product-form.liquid) - same
-  markup, same JS, so behavior never has to be re-implemented per context.
-
-  Must be rendered inside a <product-info> wrapper (assets/theme.js)
-  that provides the section id / product url used to re-fetch on change, and
-  inside the product's <form>.
-
+{%- comment -%} 
   Accepts:
   product (object, required)
   picker_style (string, optional) - 'pills' or 'dropdown'. Default: settings.variant_picker_style.
