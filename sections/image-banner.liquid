@@ -47,6 +47,12 @@
       object-fit: cover;
     }
   {% endif %}
+
+  .banner__content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
 {% endstyle %}
 
 <div
@@ -77,8 +83,9 @@
     </div>
   {% endif %}
 
-  <div class="banner_content">
-  <div class="content_box">
+<div class="banner__content flex items-center justify-center">
+  <div class="banner__box">
+    <!-- Blocks -->
   </div>
 </div>
 
