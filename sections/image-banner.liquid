@@ -1,0 +1,139 @@
+{% liquid
+  if section.settings.image != blank
+    assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+  endif
+%}
+
+{% style %}
+  #Banner-{{ section.id }} {
+    position: relative;
+  }
+
+  #Banner-{{ section.id }} img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  #Banner-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #000;
+    pointer-events: none;
+    opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
+  }
+
+  {% if section.settings.image_height == 'adapt' %}
+    #Banner-{{ section.id }} img {
+      height: auto;
+    }
+
+  {% elsif section.settings.image_height == 'small' %}
+    #Banner-{{ section.id }} img {
+      height: 420px;
+      object-fit: cover;
+    }
+
+  {% elsif section.settings.image_height == 'medium' %}
+    #Banner-{{ section.id }} img {
+      height: 560px;
+      object-fit: cover;
+    }
+
+  {% elsif section.settings.image_height == 'large' %}
+    #Banner-{{ section.id }} img {
+      height: 720px;
+      object-fit: cover;
+    }
+  {% endif %}
+{% endstyle %}
+
+<div
+  id="Banner-{{ section.id }}"
+  class="{% if section.settings.image != blank and section.settings.image_2 != blank %}flex{% endif %}"
+>
+  {% if section.settings.image != blank %}
+    <div class="flex-grow">
+      {{
+        section.settings.image
+        | image_url: width: 3840
+        | image_tag:
+          loading: 'lazy',
+          height: image_height
+      }}
+    </div>
+  {% endif %}
+
+  {% if section.settings.image_2 != blank %}
+    <div class="flex-grow">
+      {{
+        section.settings.image_2
+        | image_url: width: 3840
+        | image_tag:
+          loading: 'lazy',
+          height: image_height
+      }}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Image Banner",
+  "tag": "section",
+  "class": "shopify-section--image-banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "range",
+      "id": "image_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt for first image"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium",
+      "label": "Image Height"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Image banner"
+    }
+  ]
+}
+{% endschema %}
