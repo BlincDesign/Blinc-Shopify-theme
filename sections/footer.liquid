@@ -7,7 +7,7 @@
           assign logo = block.settings.logo
           assign logo_size = block.settings.logo_size
         %}
-        <div class="footer__blocks footer__blocks-{{ block.type }}">
+        <div class="footer__blocks footer__blocks-{{ block.type }} flex-grow">
           {% case block.type %}
             {% when '@app' %}
               {% render block %}
