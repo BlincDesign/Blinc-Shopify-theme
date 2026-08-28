@@ -126,16 +126,6 @@
                 </div>
               {% endif %}
 
-              {% if block.settings.column_btn_label != blank %}
-                <div class="testimonial__column-button">
-                  {% render 'button',
-                    label: block.settings.column_btn_label,
-                    url: block.settings.column_btn_link,
-                    button_style: block.settings.column_btn_style
-                  %}
-                </div>
-              {% endif %}
-
             </div>
           {% endif %}
         {% endcapture %}
@@ -229,41 +219,6 @@
           "id": "column_description",
           "label": "Description",
           "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
-        },
-        {
-          "type": "header",
-          "content": "Button"
-        },
-        {
-          "type": "text",
-          "id": "column_btn_label",
-          "label": "Label",
-          "default": "Button"
-        },
-        {
-          "type": "url",
-          "id": "column_btn_link",
-          "label": "Link"
-        },
-        {
-          "type": "select",
-          "id": "column_btn_style",
-          "default": "primary",
-          "label": "Button style",
-          "options": [
-            {
-              "label": "Primary",
-              "value": "primary"
-            },
-            {
-              "label": "Secondary",
-              "value": "secondary"
-            },
-            {
-              "label": "Link",
-              "value": "link"
-            }
-          ]
         }
       ]
     }
