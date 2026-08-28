@@ -18,6 +18,8 @@
   endfor
 -%}
 
+{{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
 {%- if section.blocks.size > 0 -%}
   {{ 'cart-blocks.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
@@ -28,89 +30,105 @@
   <script src="{{ 'discount-code.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-<cart-drawer data-cart-url="{{ routes.cart_url }}">
-  <div
-    class="cart-drawer__content color-{{ section.settings.color_scheme }}"
-    data-cart-drawer-content
-    data-item-count="{{ cart.item_count }}"
-  >
-    {%- if section.blocks.size > 0 -%}
-      <div class="cart-drawer__blocks flex flex-column">
-        {%- for block in section.blocks -%}
-          {%- case block.type -%}
-            {%- when 'free_shipping_progress' -%}
-              {%- render 'free-shipping-progress', block: block -%}
-            {%- when 'minimum_order_message' -%}
-              {%- render 'minimum-order-message', block: block -%}
-            {%- when 'upsell_products' -%}
-              {%- render 'upsell-products', block: block -%}
-            {%- when 'discount_code' -%}
-              {%- render 'discount-code', block: block -%}
-            {%- when 'cart_note' -%}
-              {%- render 'cart-note', block: block -%}
-            {%- when 'po_reference' -%}
-              {%- render 'po-reference', block: block -%}
-            {%- when 'checkout_info' -%}
-              {%- render 'checkout-info', block: block -%}
-            {%- else -%}
-              {%- render 'content-blocks', block: block -%}
-          {%- endcase -%}
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
+<cart-drawer data-cart-url="{{ routes.cart_url }}" data-section-id="{{ section.id }}">
+  <dialog class="cart-drawer color-{{ section.settings.color_scheme }}" aria-label="{{ 'cart.title' | t }}">
+    <div class="cart-drawer__header flex items-center justify-between">
+      <p class="heading heading--small">{{ 'cart.title' | t }}</p>
+      <button
+        type="button"
+        class="cart-drawer__close"
+        data-cart-drawer-close
+        aria-label="{{ 'general.accessibility.close' | t }}"
+      >
+        {%- render 'icon', name: 'close' -%}
+      </button>
+    </div>
 
-    {%- if cart.item_count == 0 -%}
-      <div class="cart-drawer__empty flex flex-column items-center text-center">
-        <p class="cart-drawer__empty-text text-body">{{ 'cart.empty' | t }}</p>
-        {%- render 'button',
-          label: continue_shopping_label,
-          url: routes.all_products_collection_url,
-          button_style: 'primary'
-        -%}
-      </div>
-    {%- else -%}
-      <div class="cart-drawer__items flex flex-column">
-        {%- for item in cart.items -%}
-          {% render 'cart-item', item: item %}
-        {%- endfor -%}
-      </div>
-
-      <div class="cart-drawer__footer flex flex-column">
-        {%- if cart.total_discount > 0 -%}
-          <p class="cart-drawer__discount text-body text-body--small">
-            {{ 'cart.discount' | t }}: -{{ cart.total_discount | money }}
-          </p>
+    <div class="cart-drawer__body" data-cart-drawer-body>
+      <div data-cart-drawer-content data-item-count="{{ cart.item_count }}">
+        {%- if section.blocks.size > 0 -%}
+          <div class="cart-drawer__blocks flex flex-column">
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'free_shipping_progress' -%}
+                  {%- render 'free-shipping-progress', block: block -%}
+                {%- when 'minimum_order_message' -%}
+                  {%- render 'minimum-order-message', block: block -%}
+                {%- when 'upsell_products' -%}
+                  {%- render 'upsell-products', block: block -%}
+                {%- when 'discount_code' -%}
+                  {%- render 'discount-code', block: block -%}
+                {%- when 'cart_note' -%}
+                  {%- render 'cart-note', block: block -%}
+                {%- when 'po_reference' -%}
+                  {%- render 'po-reference', block: block -%}
+                {%- when 'checkout_info' -%}
+                  {%- render 'checkout-info', block: block -%}
+                {%- else -%}
+                  {%- render 'content-blocks', block: block -%}
+              {%- endcase -%}
+            {%- endfor -%}
+          </div>
         {%- endif -%}
 
-        <p class="cart-drawer__subtotal heading heading--small">
-          {{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}
-        </p>
-
-        {%- unless has_checkout_info_block -%}
-          <p class="cart-drawer__note text-body text-body--small">{{ 'cart.taxes_and_shipping' | t }}</p>
-        {%- endunless -%}
-
-        <div class="cart-drawer__footer-actions flex flex-column">
-          {%- render 'button',
-            label: continue_shopping_label,
-            url: routes.all_products_collection_url,
-            button_style: 'secondary'
-          -%}
-
-          {%- form 'cart', cart, class: 'cart-drawer__checkout-form' -%}
+        {%- if cart.item_count == 0 -%}
+          <div class="cart-drawer__empty flex flex-column items-center text-center">
+            <p class="cart-drawer__empty-text text-body">{{ 'cart.empty' | t }}</p>
             {%- render 'button',
-              label: checkout_label,
-              type: 'submit',
-              name: 'checkout',
-              button_style: 'primary',
-              attributes: 'data-checkout-button'
+              label: continue_shopping_label,
+              url: routes.all_products_collection_url,
+              button_style: 'primary'
             -%}
-            {{- content_for_additional_checkout_buttons -}}
-          {%- endform -%}
-        </div>
+          </div>
+        {%- else -%}
+          <div class="cart-drawer__items flex flex-column">
+            {%- for item in cart.items -%}
+              {% render 'cart-item', item: item %}
+            {%- endfor -%}
+          </div>
+
+          <div class="cart-drawer__footer flex flex-column">
+            {%- if cart.total_discount > 0 -%}
+              <p class="cart-drawer__discount text-body text-body--small">
+                {{ 'cart.discount' | t }}: -{{ cart.total_discount | money }}
+              </p>
+            {%- endif -%}
+
+            <p class="cart-drawer__subtotal heading heading--small">
+              {{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}
+            </p>
+
+            {%- unless has_checkout_info_block -%}
+              <p class="cart-drawer__note text-body text-body--small">{{ 'cart.taxes_and_shipping' | t }}</p>
+            {%- endunless -%}
+
+            <div class="cart-drawer__footer-actions flex flex-column">
+              {%- render 'button',
+                label: continue_shopping_label,
+                url: routes.all_products_collection_url,
+                button_style: 'secondary'
+              -%}
+
+              {%- form 'cart', cart, class: 'cart-drawer__checkout-form' -%}
+                {%- render 'button',
+                  label: checkout_label,
+                  type: 'submit',
+                  name: 'checkout',
+                  button_style: 'primary',
+                  attributes: 'data-checkout-button'
+                -%}
+                {{- content_for_additional_checkout_buttons -}}
+              {%- endform -%}
+            </div>
+          </div>
+        {%- endif -%}
       </div>
-    {%- endif -%}
-  </div>
+    </div>
+
+    <p class="cart-drawer__loading text-body" data-cart-drawer-loading hidden>
+      {{- 'products.product.loading' | t -}}
+    </p>
+  </dialog>
 </cart-drawer>
 {% schema %}
 {

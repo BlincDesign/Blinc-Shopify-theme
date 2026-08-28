@@ -104,10 +104,14 @@
       "settings": {
         "color_scheme": "scheme-1"
       }
+    },
+    "quick-modal": {
+      "type": "quick-modal"
     }
   },
   "order": [
     "header",
-    "cart-drawer"
+    "cart-drawer",
+    "quick-modal"
   ]
 }

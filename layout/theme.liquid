@@ -35,6 +35,17 @@
   </head>
 
   <body class="template-{{ request.page_type }} flex flex-column">
+    {%- comment -%}
+      theme.js defines window.theme's shared utilities (debounce, toast,
+      slider, etc.) that section-specific scripts depend on (e.g.
+      assets/cart-field.js). It must be the first deferred script in
+      document order so it always finishes before those - deferred scripts
+      run in source order after parsing, regardless of where in the page
+      the section that needs them ends up (header-group, footer-group, or
+      main content).
+    {%- endcomment -%}
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+
     <a class="skip-to-content-link visually-hidden" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
 
     {% sections 'header-group' %}
@@ -46,23 +57,6 @@
     {% sections 'footer-group' %}
 
     <div class="toast-region" data-toast-region aria-live="polite" aria-atomic="true"></div>
-
-    <quick-modal data-error-text="{{ 'products.product.load_error' | t }}">
-      <dialog class="quick-modal" aria-label="{{ 'products.product.quick_view' | t }}">
-        <button
-          type="button"
-          class="quick-modal__close"
-          data-quick-modal-close
-          aria-label="{{ 'general.accessibility.close' | t }}"
-        >
-          {%- render 'icon', name: 'close' -%}
-        </button>
-        <div class="quick-modal__body" data-quick-modal-body></div>
-        <p class="quick-modal__loading text-body" data-quick-modal-loading hidden>
-          {{- 'products.product.loading' | t -}}
-        </p>
-      </dialog>
-    </quick-modal>
 
     <script>
       window.theme = window.theme || {};
@@ -81,6 +75,5 @@
 
     <script src="{{ 'variables.js' | asset_url }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
-    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
