@@ -13,11 +13,9 @@
       "type": "image-banner",
       "name": "Image Banner",
       "settings": {
-        "image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
         "image_2": "shopify://shop_images/Murals.webp",
         "image_overlay_opacity": 40,
-        "image_height": "large",
-        "image_behavior": "ambient"
+        "image_height": "large"
       }
     },
     "rich_text": {
