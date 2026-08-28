@@ -1,11 +1,4 @@
 {%- comment -%}
-  Renders a responsive, accessible Shopify image with an automatic srcset
-  and optional cropping via aspect-ratio.
-
-  Defaults to lazy-loading. For above-the-fold / LCP images (e.g. the first
-  image in a hero, or a header logo), the caller must explicitly pass
-  `loading: 'eager'` and `fetchpriority: 'high'`.
-
   Accepts:
   image (object, optional) - The Shopify image object. When blank, renders the built-in `placeholder` SVG instead.
   width (number, optional) - Max display width in px. Drives the fallback `src` size and the default `sizes` value.
