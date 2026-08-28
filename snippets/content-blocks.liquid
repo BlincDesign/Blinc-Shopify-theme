@@ -4,11 +4,11 @@
   must define matching block types/settings in its own schema
 
   Usage:
-  {% render 'content-blocks', type: section.block %}
+  {% render 'content-blocks', blocks: section.blocks %}
 {%- endcomment -%}
 
 {%- for block in blocks -%}
-  {%- case type -%}
+  {%- case block.type -%}
     {%- when 'heading' -%}
       {%- if block.settings.heading != blank -%}
         <h2
