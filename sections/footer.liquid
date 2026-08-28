@@ -17,18 +17,20 @@
               </div>
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
-                <h3 class="footer__menu-heading heading heading--{{ block.settings.heading_size }}">
-                  {{ block.settings.menu_heading }}
-                </h3>
-                <nav class="footer__nav" aria-label="Footer" {{ block.shopify_attributes }}>
-                  <ul class="footer__nav-list flex flex-column gap-1">
-                    {%- for link in menu.links -%}
-                      <li>
-                        <a href="{{ link.url }}">{{ link.title }}</a>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                </nav>
+                <div {{ block.shopify_attributes }}>
+                  <h3 class="footer__menu-heading heading heading--{{ block.settings.heading_size }}">
+                    {{ block.settings.menu_heading }}
+                  </h3>
+                  <nav class="footer__nav" aria-label="Footer">
+                    <ul class="footer__nav-list flex flex-column gap-1">
+                      {%- for link in menu.links -%}
+                        <li>
+                          <a href="{{ link.url }}">{{ link.title }}</a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </nav>
+                </div>
               {% endif %}
             {% when 'newsletter' %}
 
