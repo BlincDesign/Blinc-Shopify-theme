@@ -10,6 +10,7 @@
  * coupling to this element - mirrors the theme's existing cart:updated /
  * variant:change custom event pattern (assets/theme.js).
  */
+
 class CartDrawer extends HTMLElement {
     connectedCallback() {
         this.dialog = this.querySelector('dialog');
@@ -38,11 +39,6 @@ class CartDrawer extends HTMLElement {
             if (removeButton) this.removeLine(removeButton);
         });
 
-        // Bound once so disconnectedCallback can remove these exact
-        // listeners - the Theme Editor reloads this section (replacing this
-        // element outright) whenever its settings/blocks change, and
-        // unremoved document-level listeners would otherwise leak a
-        // duplicate set on every save.
         this.onTriggerClick = this.onTriggerClick.bind(this);
         this.onCartUpdated = this.onCartUpdated.bind(this);
         document.addEventListener('click', this.onTriggerClick);
@@ -66,12 +62,10 @@ class CartDrawer extends HTMLElement {
     }
 
     onCartUpdated() {
+        if (this.isSyncingSelf) return;
         this.open();
     }
 
-    // Lets merchants see the drawer update live while editing its settings
-    // or blocks in the Theme Editor. Design-mode only - never runs on the
-    // live storefront.
     bindThemeEditor() {
         if (!window.Shopify || !window.Shopify.designMode) return;
 
@@ -131,13 +125,16 @@ class CartDrawer extends HTMLElement {
             this.updateContent(content);
             this.updateCartCount(content);
 
-            // Keeps self-updating blocks (e.g. <free-shipping-progress>)
-            // correct even when nothing changed in this tab - e.g. opening
-            // the drawer after the cart changed in another tab.
-            window.theme.dispatchCartUpdate({ total_price: Number(content.dataset.totalPrice) });
+            this.isSyncingSelf = true;
+            window.theme.dispatchCartUpdate({
+                total_price: Number(content.dataset.totalPrice)
+            });
+            this.isSyncingSelf = false;
 
             document.dispatchEvent(new CustomEvent('cart-drawer:updated', {
-                detail: { itemCount: Number(content.dataset.itemCount) },
+                detail: {
+                    itemCount: Number(content.dataset.itemCount)
+                },
             }));
         } catch (error) {
             if (error.name === 'AbortError') return;
@@ -145,11 +142,6 @@ class CartDrawer extends HTMLElement {
         }
     }
 
-    // Swaps in only the regions that actually changed instead of wiping
-    // and rebuilding the whole body in one shot - a region a single fetch
-    // didn't render (e.g. mid-request) can never wipe out content the
-    // current markup already has, so blocks/items/footer can't vanish just
-    // because one of the others changed.
     updateContent(newContent) {
         const wrapper = this.body.querySelector('[data-cart-drawer-content]');
         if (!wrapper) {
@@ -161,8 +153,6 @@ class CartDrawer extends HTMLElement {
         const wasEmpty = Boolean(wrapper.querySelector('.cart-drawer__empty'));
         const isEmpty = Boolean(newContent.querySelector('.cart-drawer__empty'));
 
-        // The empty/non-empty markup shapes differ enough (no items list,
-        // no footer) that swapping the whole thing is simpler and safer.
         if (isEmpty || wasEmpty) {
             wrapper.replaceWith(newContent);
             return;
@@ -174,19 +164,12 @@ class CartDrawer extends HTMLElement {
         this.swapRegion(wrapper, newContent, '.cart-drawer__footer');
     }
 
-    // Replaces one region in place only when both the current and freshly
-    // fetched markup have it - never removes a region on its own.
     swapRegion(currentRoot, newRoot, selector) {
         const current = currentRoot.querySelector(selector);
         const updated = newRoot.querySelector(selector);
         if (current && updated) current.replaceWith(this.preserveSelfUpdating(current, updated));
     }
 
-    // Self-updating blocks (root element marked data-self-updating="<name>",
-    // e.g. <free-shipping-progress>) manage their own DOM from the
-    // cart:updated event and don't want to be overwritten by a section
-    // fetch that's always one round-trip behind - keep the live instance
-    // instead of the freshly fetched one before swapping the region in.
     preserveSelfUpdating(current, updated) {
         current.querySelectorAll('[data-self-updating]').forEach((live) => {
             const fresh = updated.querySelector(`[data-self-updating="${live.dataset.selfUpdating}"]`);
@@ -221,12 +204,20 @@ class CartDrawer extends HTMLElement {
         try {
             const response = await fetch(routes.cartChange || '/cart/change.js', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify({ id, quantity }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                },
+                body: JSON.stringify({
+                    id,
+                    quantity
+                }),
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.description || `Cart change failed: ${response.status}`);
+            this.isSyncingSelf = true;
             window.theme.dispatchCartUpdate(data);
+            this.isSyncingSelf = false;
         } catch (error) {
             console.error(error);
             window.theme.toast?.show(
