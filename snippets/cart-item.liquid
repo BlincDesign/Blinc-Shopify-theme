@@ -1,13 +1,3 @@
-{%- comment -%}
-  Renders a single cart line item. Shared, context-neutral component used
-  by both sections/cart-drawer.liquid and sections/main-cart.liquid - not
-  a block, since every line item must consistently support the same
-  fields regardless of where the cart is rendered.
-
-  Usage:
-  {% render 'cart-item', item: item %}
-{%- endcomment -%}
-
 {%- liquid
   assign is_available = false
   if item.variant.available
