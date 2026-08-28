@@ -1,17 +1,22 @@
 <div class="footer color-{{ section.settings.color_scheme }}">
   <div class="footer__wrapper page-width flex flex-wrap items-center">
-    {% for block in section.blocks %}
+    {% for block in section.blocks %}'
+      {% liquid
+        assign block = block.settings
+      %}
       <div class="footer__blocks footer__blocks-{{ block.type }}">
         {% case block.type %}
           {% when '@app' %}
             {% render block %}
           {% when 'logo' %}
+            <div {{ block.shopify_attributes }}>
 
+            </div>
           {% when 'menu' %}
-            {% if block.settings.menu.links.size > 0 %}
-              <nav class="footer__nav" aria-label="Footer">
+            {% if block.menu.links.size > 0 %}
+              <nav class="footer__nav" aria-label="Footer" {{ block.shopify_attributes }}>
                 <ul class="footer__nav-list flex flex-column gap-1">
-                  {%- for link in block.settings.menu.links -%}
+                  {%- for link in block.menu.links -%}
                     <li>
                       <a href="{{ link.url }}">{{ link.title }}</a>
                     </li>
@@ -48,7 +53,23 @@
       "type": "logo",
       "name": "Logo",
       "limit": 1,
-      "settings": []
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo"
+        },
+        {
+          "type": "range",
+          "id": "logo_size",
+          "label": "Size",
+          "min": 100,
+          "max": 500,
+          "default":  100,
+          "step": 10,
+          "unit": "px",
+        }
+      ]
     },
     {
       "type": "menu",
