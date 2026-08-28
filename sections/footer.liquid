@@ -30,6 +30,24 @@
                 {% render 'image', image: logo, alt: logo.alt %}
               </div>
 
+              {% if block.settings.logo_heading != blank
+                or block.settings.logo_description != blank
+              %}
+                <div class="multicolumn__column-content gap-1 flex flex-column">
+                  {% if block.settings.logo_heading != blank %}
+                    <h3 class="multicolumn__column-heading">
+                      {{ block.settings.logo_heading }}
+                    </h3>
+                  {% endif %}
+
+                  {% if block.settings.logo_description != blank %}
+                    <div class="multicolumn__column-description">
+                      {{ block.settings.logo_description }}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
                 <div class="flex flex-column gap-half" {{ block.shopify_attributes }}>
@@ -94,7 +112,23 @@
           "default": 100,
           "step": 10,
           "unit": "px"
-        }
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "logo_heading",
+          "label": "Heading",
+          "default": "Column"
+        },
+        {
+          "type": "richtext",
+          "id": "logo_description",
+          "label": "Description",
+          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+        },
       ]
     },
     {
