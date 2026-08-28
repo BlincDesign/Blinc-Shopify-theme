@@ -18,12 +18,7 @@
   endfor
 -%}
 
-{%- comment -%}
-  Block-specific CSS/JS, loaded only when a block that needs it is
-  present. Sits outside [data-cart-drawer-content] so <cart-drawer>'s
-  refresh() (assets/theme.js, which only extracts that node from each fetch response) never
-  re-inserts these tags on every cart change.
-{%- endcomment -%}
+
 {%- if section.blocks.size > 0 -%}
   {{ 'cart-blocks.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
@@ -34,7 +29,11 @@
   <script src="{{ 'discount-code.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-<div class="cart-drawer__content color-{{ section.settings.color_scheme }}" data-cart-drawer-content data-item-count="{{ cart.item_count }}">
+<div
+  class="cart-drawer__content color-{{ section.settings.color_scheme }}"
+  data-cart-drawer-content
+  data-item-count="{{ cart.item_count }}"
+>
   {%- if section.blocks.size > 0 -%}
     <div class="cart-drawer__blocks flex flex-column">
       {%- for block in section.blocks -%}
@@ -63,7 +62,11 @@
   {%- if cart.item_count == 0 -%}
     <div class="cart-drawer__empty flex flex-column items-center text-center">
       <p class="cart-drawer__empty-text text-body">{{ 'cart.empty' | t }}</p>
-      {%- render 'button', label: continue_shopping_label, url: routes.all_products_collection_url, button_style: 'primary' -%}
+      {%- render 'button',
+        label: continue_shopping_label,
+        url: routes.all_products_collection_url,
+        button_style: 'primary'
+      -%}
     </div>
   {%- else -%}
     <div class="cart-drawer__items flex flex-column">
@@ -74,20 +77,34 @@
 
     <div class="cart-drawer__footer flex flex-column">
       {%- if cart.total_discount > 0 -%}
-        <p class="cart-drawer__discount text-body text-body--small">{{ 'cart.discount' | t }}: -{{ cart.total_discount | money }}</p>
+        <p class="cart-drawer__discount text-body text-body--small">
+          {{ 'cart.discount' | t }}: -{{ cart.total_discount | money }}
+        </p>
       {%- endif -%}
 
-      <p class="cart-drawer__subtotal heading heading--small">{{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}</p>
+      <p class="cart-drawer__subtotal heading heading--small">
+        {{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}
+      </p>
 
       {%- unless has_checkout_info_block -%}
         <p class="cart-drawer__note text-body text-body--small">{{ 'cart.taxes_and_shipping' | t }}</p>
       {%- endunless -%}
 
       <div class="cart-drawer__footer-actions flex flex-column">
-        {%- render 'button', label: continue_shopping_label, url: routes.all_products_collection_url, button_style: 'secondary' -%}
+        {%- render 'button',
+          label: continue_shopping_label,
+          url: routes.all_products_collection_url,
+          button_style: 'secondary'
+        -%}
 
         {%- form 'cart', cart, class: 'cart-drawer__checkout-form' -%}
-          {%- render 'button', label: checkout_label, type: 'submit', name: 'checkout', button_style: 'primary', attributes: 'data-checkout-button' -%}
+          {%- render 'button',
+            label: checkout_label,
+            type: 'submit',
+            name: 'checkout',
+            button_style: 'primary',
+            attributes: 'data-checkout-button'
+          -%}
           {{- content_for_additional_checkout_buttons -}}
         {%- endform -%}
       </div>
