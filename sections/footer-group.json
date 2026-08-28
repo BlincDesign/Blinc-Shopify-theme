@@ -13,8 +13,18 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "menu_YhExki": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer"
+          }
+        }
+      },
+      "block_order": [
+        "menu_YhExki"
+      ],
       "settings": {
-        "menu": "footer",
         "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac"
       }
     }
