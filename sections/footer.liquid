@@ -1,44 +1,46 @@
-<div class="footer color-{{ section.settings.color_scheme }} {{ section.settings.container_width }}">
-  <div class="footer__wrapper flex flex-wrap items-center">
-    {% for block in section.blocks -%}
-      {% liquid
-        assign menu = block.settings.menu
-        assign logo = block.settings.logo
-        assign logo_size = block.settings.logo_size
-      %}
-      <div class="footer__blocks footer__blocks-{{ block.type }}">
-        {% case block.type %}
-          {% when '@app' %}
-            {% render block %}
-          {% when 'logo' %}
-            <div {{ block.shopify_attributes }}>
-              {% render 'image', image: logo, alt: logo.alt, display_width: logo_size %}
-            </div>
-          {% when 'menu' %}
-            {% if menu.links.size > 0 %}
-              <nav class="footer__nav" aria-label="Footer" {{ block.shopify_attributes }}>
-                <ul class="footer__nav-list flex flex-column gap-1">
-                  {%- for link in menu.links -%}
-                    <li>
-                      <a href="{{ link.url }}">{{ link.title }}</a>
-                    </li>
-                  {%- endfor -%}
-                </ul>
-              </nav>
-            {% endif %}
-          {% when 'newsletter' %}
+<div id="Footer-{{ section.id }}" class="footer color-{{ section.settings.color_scheme }} ">
+  <div class="{{ section.settings.container_width }}">
+    <div class="footer__wrapper flex flex-wrap items-center">
+      {% for block in section.blocks -%}
+        {% liquid
+          assign menu = block.settings.menu
+          assign logo = block.settings.logo
+          assign logo_size = block.settings.logo_size
+        %}
+        <div class="footer__blocks footer__blocks-{{ block.type }}">
+          {% case block.type %}
+            {% when '@app' %}
+              {% render block %}
+            {% when 'logo' %}
+              <div {{ block.shopify_attributes }}>
+                {% render 'image', image: logo, alt: logo.alt, display_width: logo_size %}
+              </div>
+            {% when 'menu' %}
+              {% if menu.links.size > 0 %}
+                <nav class="footer__nav" aria-label="Footer" {{ block.shopify_attributes }}>
+                  <ul class="footer__nav-list flex flex-column gap-1">
+                    {%- for link in menu.links -%}
+                      <li>
+                        <a href="{{ link.url }}">{{ link.title }}</a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </nav>
+              {% endif %}
+            {% when 'newsletter' %}
 
-          {% when 'contact' %}
+            {% when 'contact' %}
 
-          {% when 'newsletter' %}
+            {% when 'newsletter' %}
 
-          {% when 'large-image' %}
+            {% when 'large-image' %}
 
-        {% endcase %}
-      </div>
-    {% endfor %}
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+    <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
   </div>
-  <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
 </div>
 
 {% schema %}
@@ -135,7 +137,7 @@
           "label": "Narrow"
         }
       ]
-    },
+    }
   ]
 }
 {% endschema %}
