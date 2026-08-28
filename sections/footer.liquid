@@ -1,19 +1,35 @@
 <div class="footer color-{{ section.settings.color_scheme }}">
-  <div class="footer__wrapper page-width flex flex-wrap items-center justify-between">
-    {%- if section.settings.menu.links.size > 0 -%}
-      <nav class="footer__nav" aria-label="Footer">
-        <ul class="footer__nav-list flex flex-wrap">
-          {%- for link in section.settings.menu.links -%}
-            <li>
-              <a href="{{ link.url }}">{{ link.title }}</a>
-            </li>
-          {%- endfor -%}
-        </ul>
-      </nav>
-    {%- endif -%}
+  <div class="footer__wrapper page-width flex flex-wrap items-center">
+    {% for block in section.blocks %}
+      <div class="footer__blocks footer__blocks-{{ block.type }}">
+        {% case block.type %}
+          {% when '@app' %}
+            {% render block %}
+          {% when 'logo' %}
 
-    <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
+          {% when 'menu' %}
+            <nav class="footer__nav" aria-label="Footer">
+              <ul class="footer__nav-list flex flex-wrap">
+                {%- for link in block.settings.menu.links -%}
+                  <li>
+                    <a href="{{ link.url }}">{{ link.title }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </nav>
+          {% when 'newsletter' %}
+
+          {% when 'contact' %}
+
+          {% when 'newsletter' %}
+
+          {% when 'large-image' %}
+
+        {% endcase %}
+      </div>
+    {% endfor %}
   </div>
+  <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
 </div>
 
 {% schema %}
@@ -21,7 +37,7 @@
   "name": "Footer",
   "tag": "footer",
   "class": "shopify-section--footer",
-  "enabled_on": {"groups": ["footer"]},
+  "enabled_on": { "groups": ["footer"] },
   "blocks": [
     {
       "type": "@app"
@@ -60,12 +76,6 @@
     {
       "type": "large-image",
       "name": "Large image",
-      "limit": 1,
-      "settings": []
-    },
-    {
-      "type": "copyright",
-      "name": "Copyright",
       "limit": 1,
       "settings": []
     }
