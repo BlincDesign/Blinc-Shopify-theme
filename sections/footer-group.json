@@ -63,11 +63,9 @@
           "type": "contact",
           "settings": {}
         },
-        "large_image_qTjGBj": {
-          "type": "large-image",
-          "settings": {
-            "large_image": "shopify://shop_images/Screenshot_2026-08-08_010234-removebg-preview.png"
-          }
+        "large_logo_NUTM9R": {
+          "type": "large-logo",
+          "settings": {}
         }
       },
       "block_order": [
@@ -78,7 +76,7 @@
         "menu_f6dgAc",
         "newsletter_VbtLDi",
         "contact_Fx6tVX",
-        "large_image_qTjGBj"
+        "large_logo_NUTM9R"
       ],
       "settings": {
         "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac",
