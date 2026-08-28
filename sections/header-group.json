@@ -17,7 +17,7 @@
         "logo": "shopify://shop_images/HOP_Logo-01_600x200_31944f15-f15f-41f0-8438-95e9b3744b9b.svg",
         "logo_max_width": 500,
         "logo_max_height": 50,
-        "sticky_logo_scale": 60,
+        "sticky_logo_max_height": 40,
         "logo_position": "middle-left",
         "mobile_logo_position": "left",
         "menu": "customer-account-main-menu",
