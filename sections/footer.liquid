@@ -10,7 +10,7 @@
           {% when 'menu' %}
             {% if block.settings.menu.links.size > 0 %}
               <nav class="footer__nav" aria-label="Footer">
-                <ul class="footer__nav-list flex flex-wrap">
+                <ul class="footer__nav-list flex flex-column gap-1">
                   {%- for link in block.settings.menu.links -%}
                     <li>
                       <a href="{{ link.url }}">{{ link.title }}</a>
