@@ -17,9 +17,23 @@
     height: 100%;
     object-fit: cover;
   }
-
-
-
+  {% if section.settings.image_height == 'adapt' %}
+    #Banner-{{ section.id }} img {
+      height: auto;
+    }
+  {% elsif section.settings.image_height == 'small' %}
+    #Banner-{{ section.id }} img{
+      height: 420px;
+    }
+  {% elsif section.settings.image_height == 'medium' %}
+    #Banner-{{ section.id }} img{
+      height: 560px;
+    }
+  {% elsif section.settings.image_height == 'large' %}
+    #Banner-{{ section.id }}{
+      height: 720px;
+    }
+  {% endif %}
 {% endstyle %}
 
 <div
@@ -28,9 +42,9 @@
 >
 
   {% if section.settings.image != blank %}
-    {% liquid
+   {% liquid
        assign image_height = section.settings.image.width| divided_by: section.settings.image.aspect_ratio 
-    %}  
+    %} 
     <div class="flex-grow">
       {{
         section.settings.image
