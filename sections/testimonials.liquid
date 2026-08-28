@@ -2,7 +2,7 @@
   assign quote_preset = section.settings.quote_preset
   assign info_preset = section.settings.info_preset
 
-    case section.settings.image_ratio
+  case section.settings.image_ratio
     when 'square'
       assign aspect_ratio = '1 / 1'
     when 'portrait'
@@ -10,7 +10,7 @@
     when 'landscape'
       assign aspect_ratio = '4 / 3'
     else
-      assign aspect_ratio = section.settings.image.aspect_ratio
+      assign aspect_ratio = 'auto'
   endcase
 -%}
 
@@ -28,52 +28,55 @@
   }
 {%- endstyle -%}
 
-<div class="testimonials color-{{ section.settings.color_scheme }}">
-  {% for block in section.blocks %}
-    {%- liquid
-      assign image = block.settings.image
-      assign quote = block.settings.quote
-      assign info = block.settings.info
-    -%}
-    <div class="testimonial-block">
-      {% if image != blank %}
-        <div class="testimonial__image">
-          {%- render 'image',
-          image: image,
-          aspect_ratio: aspect_ratio,
-          width: 800,
-          sizes: '(min-width: 750px) 50vw, 100vw'
-        -%}
-        </div>
-      {% endif %}
-      {% if image != blank %}
-        <div class="testimonial__quote {{ quote_preset }}">
-          {{ quote }}
-        </div>
-      {% endif %}
-      {% if image != blank %}
-        <div class="testimonial__info {{ info_preset }}">
-          {{ info }}
-        </div>
-      {% endif %}
-    </div>
-  {% endfor %}
+<div class="testimonials color-{{ section.settings.color_scheme }} {{ section.settings.container_width }}">
+  <div class="testimonials__wrapper">
+
+    {% for block in section.blocks %}
+      <div
+        class="testimonial-block"
+        {{ block.shopify_attributes }}
+      >
+
+        {% if block.settings.image != blank %}
+          <div class="testimonial__image">
+            {%- render 'image',
+              image: block.settings.image,
+              aspect_ratio: aspect_ratio,
+              width: 800,
+              sizes: '(min-width: 750px) 50vw, 100vw'
+            -%}
+          </div>
+        {% endif %}
+
+        {% if block.settings.quote != blank %}
+          <div class="testimonial__quote {{ quote_preset }}">
+            {{ block.settings.quote }}
+          </div>
+        {% endif %}
+
+        {% if block.settings.info != blank %}
+          <div class="testimonial__info {{ info_preset }}">
+            {{ block.settings.info }}
+          </div>
+        {% endif %}
+
+      </div>
+    {% endfor %}
+
+  </div>
 </div>
 
 {% schema %}
 {
   "name": "Testimonials",
   "class": "shopify-section--testimonials",
+
   "settings": [
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Layout"
     },
     {
       "type": "select",
@@ -96,6 +99,70 @@
         {
           "value": "container-narrow",
           "label": "Narrow"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "default": "square",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "quote_preset",
+      "label": "Quote typography",
+      "default": "h2",
+      "options": [
+        {
+          "value": "h1",
+          "label": "Heading 1"
+        },
+        {
+          "value": "h2",
+          "label": "Heading 2"
+        },
+        {
+          "value": "h3",
+          "label": "Heading 3"
+        },
+        {
+          "value": "body",
+          "label": "Body"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "info_preset",
+      "label": "Info typography",
+      "default": "body",
+      "options": [
+        {
+          "value": "h3",
+          "label": "Heading 3"
+        },
+        {
+          "value": "body",
+          "label": "Body"
+        },
+        {
+          "value": "caption",
+          "label": "Caption"
         }
       ]
     },
@@ -132,9 +199,10 @@
       "default": 32
     }
   ],
+
   "blocks": [
     {
-      "type": "image",
+      "type": "testimonial",
       "name": "Testimonial",
       "settings": [
         {
@@ -158,18 +226,19 @@
       ]
     }
   ],
+
   "presets": [
     {
       "name": "Testimonials",
       "blocks": [
         {
-          "type": "image"
+          "type": "testimonial"
         },
         {
-          "type": "image"
+          "type": "testimonial"
         },
         {
-          "type": "image"
+          "type": "testimonial"
         }
       ]
     }
