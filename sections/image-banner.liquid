@@ -14,7 +14,11 @@
     width: 100%;
     object-fit: cover;
   }
-
+#Banner-{{ section.id }} .banner__content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
   #Banner-{{ section.id }}::after {
     content: '';
     position: absolute;
