@@ -56,21 +56,11 @@
   class="testimonial color-{{ section.settings.color_scheme }}"
 >
   <div class="testimonial__wrapper section__wrapper relative overflow-hidden {{ section.settings.container_width }}">
-    {%- if section.settings.heading != blank or section.settings.button != blank -%}
-      <div class="testimonial__header section__header flex flex-wrap justify-between items-center">
-        {%- if section.settings.heading != blank -%}
+    {%- if section.settings.heading != blank -%}
+      <div class="testimonial__header">
           <h2 class="testimonial__heading heading heading--{{ section.settings.heading_size }}">
             {{ section.settings.heading }}
           </h2>
-        {%- endif -%}
-
-        {%- if section.settings.button != blank -%}
-          {%- render 'button',
-            label: section.settings.button,
-            url: section.settings.button_link,
-            button_style: section.settings.button_style
-          -%}
-        {%- endif -%}
       </div>
     {%- endif -%}
 
