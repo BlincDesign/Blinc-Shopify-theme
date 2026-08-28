@@ -8,15 +8,17 @@
           {% when 'logo' %}
 
           {% when 'menu' %}
-            <nav class="footer__nav" aria-label="Footer">
-              <ul class="footer__nav-list flex flex-wrap">
-                {%- for link in block.settings.menu.links -%}
-                  <li>
-                    <a href="{{ link.url }}">{{ link.title }}</a>
-                  </li>
-                {%- endfor -%}
-              </ul>
-            </nav>
+            {% if block.settings.menu.links.size > 0 %}
+              <nav class="footer__nav" aria-label="Footer">
+                <ul class="footer__nav-list flex flex-wrap">
+                  {%- for link in block.settings.menu.links -%}
+                    <li>
+                      <a href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </nav>
+            {% endif %}
           {% when 'newsletter' %}
 
           {% when 'contact' %}
