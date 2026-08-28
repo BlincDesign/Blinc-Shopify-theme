@@ -1,3 +1,19 @@
+{%- liquid
+  assign quote_preset = section.settings.quote_preset
+  assign info_preset = section.settings.info_preset
+
+    case section.settings.image_ratio
+    when 'square'
+      assign aspect_ratio = '1 / 1'
+    when 'portrait'
+      assign aspect_ratio = '3 / 4'
+    when 'landscape'
+      assign aspect_ratio = '4 / 3'
+    else
+      assign aspect_ratio = section.settings.image.aspect_ratio
+  endcase
+-%}
+
 {%- style -%}
   #shopify-section-{{ section.id }} {
     padding-top: {{ section.settings.padding_top }}px;
@@ -12,13 +28,37 @@
   }
 {%- endstyle -%}
 
-
 <div class="testimonials color-{{ section.settings.color_scheme }}">
-
+  {% for block in section.blocks %}
+    {%- liquid
+      assign image = block.settings.image
+      assign quote = block.settings.quote
+      assign info = block.settings.info
+    -%}
+    <div class="testimonial-block">
+      {% if image != blank %}
+        <div class="testimonial__image">
+          {%- render 'image',
+          image: image,
+          aspect_ratio: aspect_ratio,
+          width: 800,
+          sizes: '(min-width: 750px) 50vw, 100vw'
+        -%}
+        </div>
+      {% endif %}
+      {% if image != blank %}
+        <div class="testimonial__quote {{ quote_preset }}">
+          {{ quote }}
+        </div>
+      {% endif %}
+      {% if image != blank %}
+        <div class="testimonial__info {{ info_preset }}">
+          {{ info }}
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
 </div>
-
-
-
 
 {% schema %}
 {
@@ -92,9 +132,46 @@
       "default": 32
     }
   ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "500 x 500px recommended"
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>Include a favorite customer quote or feedback here.</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "info",
+          "label": "Info",
+          "default": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Testimonials"
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
     }
   ]
 }
