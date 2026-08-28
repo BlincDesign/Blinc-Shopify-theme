@@ -17,15 +17,45 @@
         "menu_YhExki": {
           "type": "menu",
           "settings": {
+            "menu_heading": "Title",
+            "heading_size": "small",
+            "menu": "footer"
+          }
+        },
+        "menu_NdU4mx": {
+          "type": "menu",
+          "settings": {
+            "menu_heading": "Title",
+            "heading_size": "small",
+            "menu": "footer"
+          }
+        },
+        "menu_ymBmCT": {
+          "type": "menu",
+          "settings": {
+            "menu_heading": "Title",
+            "heading_size": "small",
+            "menu": "footer"
+          }
+        },
+        "menu_f6dgAc": {
+          "type": "menu",
+          "settings": {
+            "menu_heading": "Title",
+            "heading_size": "small",
             "menu": "footer"
           }
         }
       },
       "block_order": [
-        "menu_YhExki"
+        "menu_YhExki",
+        "menu_NdU4mx",
+        "menu_ymBmCT",
+        "menu_f6dgAc"
       ],
       "settings": {
-        "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac"
+        "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac",
+        "container_width": "container-standard"
       }
     }
   },
