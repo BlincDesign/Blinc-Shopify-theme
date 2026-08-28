@@ -30,8 +30,8 @@
         {% endcase %}
       </div>
     {% endfor %}
+    <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
   </div>
-  <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
 </div>
 
 {% schema %}
