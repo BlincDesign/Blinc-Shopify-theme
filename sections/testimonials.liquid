@@ -57,10 +57,10 @@
 >
   <div class="testimonial__wrapper section__wrapper relative overflow-hidden {{ section.settings.container_width }}">
     {%- if section.settings.heading != blank -%}
-      <div class="testimonial__header">
-          <h2 class="testimonial__heading heading heading--{{ section.settings.heading_size }}">
-            {{ section.settings.heading }}
-          </h2>
+      <div class="testimonial__header text-{{ section.settings.heading_alignment }}">
+        <h2 class="testimonial__heading heading heading--{{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h2>
       </div>
     {%- endif -%}
 
@@ -140,41 +140,40 @@
           {% endif %}
         {% endcapture %}
 
-            <article
-              id="block-{{ block.id }}"
-              class="testimonial__column testimonial__column--standard block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }}{% if section.settings.carousel %} swiper-slide{% endif %}"
-              {% if section.settings.carousel %}
-                data-slide
+        <article
+          id="block-{{ block.id }}"
+          class="testimonial__column testimonial__column--standard block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }}{% if section.settings.carousel %} swiper-slide{% endif %}"
+          {% if section.settings.carousel %}
+            data-slide
+          {% endif %}
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.column_video != blank or block.settings.column_image != blank %}
+            <div class="testimonial__column-media">
+              {% if block.settings.column_video != blank %}
+                {{
+                  block.settings.column_video
+                  | video_tag:
+                    autoplay: true,
+                    muted: true,
+                    controls: false,
+                    loop: true,
+                    class: 'testimonial__column-video'
+                }}
+              {% else %}
+                {% render 'image',
+                  image: block.settings.column_image,
+                  class: 'testimonial__column-image',
+                  sizes: column_sizes,
+                  loading: img_loading,
+                  fetchpriority: img_fetchpriority
+                %}
               {% endif %}
-              {{ block.shopify_attributes }}
-            >
-              {% if block.settings.column_video != blank or block.settings.column_image != blank %}
-                <div class="testimonial__column-media">
-                  {% if block.settings.column_video != blank %}
-                    {{
-                      block.settings.column_video
-                      | video_tag:
-                        autoplay: true,
-                        muted: true,
-                        controls: false,
-                        loop: true,
-                        class: 'testimonial__column-video'
-                    }}
-                  {% else %}
-                    {% render 'image',
-                      image: block.settings.column_image,
-                      class: 'testimonial__column-image',
-                      sizes: column_sizes,
-                      loading: img_loading,
-                      fetchpriority: img_fetchpriority
-                    %}
-                  {% endif %}
-                </div>
-              {% endif %}
+            </div>
+          {% endif %}
 
-              {{ column_content }}
-            </article>
-
+          {{ column_content }}
+        </article>
       {% endfor %}
 
       {% if section.settings.carousel %}
@@ -290,33 +289,22 @@
       "default": "large"
     },
     {
-      "type": "text",
-      "id": "button",
-      "label": "Button label",
-      "default": "Button"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button link"
-    },
-    {
       "type": "select",
-      "id": "button_style",
-      "default": "link",
-      "label": "Button style",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "default": "left",
       "options": [
         {
-          "label": "Primary",
-          "value": "primary"
+          "value": "left",
+          "label": "Left"
         },
         {
-          "label": "Secondary",
-          "value": "secondary"
+          "value": "center",
+          "label": "Center"
         },
         {
-          "label": "Link",
-          "value": "link"
+          "value": "right",
+          "label": "Right"
         }
       ]
     },
