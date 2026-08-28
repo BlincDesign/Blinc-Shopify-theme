@@ -1,0 +1,101 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_m }}px;
+      padding-bottom: {{ section.settings.padding_bottom_m }}px;
+    }
+  }
+{%- endstyle -%}
+
+
+<div class="testimonials color-{{ section.settings.color_scheme }}">
+
+</div>
+
+
+
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "class": "shopify-section--testimonials",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "default": "container-standard",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        },
+        {
+          "value": "container-padded",
+          "label": "Full Width (Padded)"
+        },
+        {
+          "value": "container-standard",
+          "label": "Standard"
+        },
+        {
+          "value": "container-narrow",
+          "label": "Narrow"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Spacing Desktop"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Top spacing (px)",
+      "default": 48
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Bottom spacing (px)",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Spacing Mobile"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_m",
+      "label": "Top spacing (px)",
+      "default": 32
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_m",
+      "label": "Bottom spacing (px)",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials"
+    }
+  ]
+}
+{% endschema %}
