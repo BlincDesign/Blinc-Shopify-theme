@@ -459,7 +459,7 @@
         "carousel": false,
         "enable_arrows": true,
         "pagination_type": "scrollbar",
-        "columns": 4,
+        "columns": 3,
         "mobile_columns": "2",
         "slides_per_row_dt": 4,
         "slides_per_row_mb": "2",
