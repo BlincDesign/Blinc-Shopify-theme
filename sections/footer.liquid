@@ -17,12 +17,12 @@
               </div>
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
-                <div class="flex flex-column gap-0.5" {{ block.shopify_attributes }}>
+                <div class="flex flex-column gap-half" {{ block.shopify_attributes }}>
                   <h3 class="footer__menu-heading heading heading--{{ block.settings.heading_size }}">
                     {{ block.settings.menu_heading }}
                   </h3>
                   <nav class="footer__nav" aria-label="Footer">
-                    <ul class="footer__nav-list flex flex-column gap-0.5">
+                    <ul class="footer__nav-list flex flex-column gap-half">
                       {%- for link in menu.links -%}
                         <li>
                           <a href="{{ link.url }}">{{ link.title }}</a>
