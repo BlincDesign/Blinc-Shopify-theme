@@ -95,10 +95,40 @@
     </div>
   {% endif %}
 
-<div class="banner_content flex items-center justify-center">
-  <div class="banner_box">
-    <h1>Heading no 1</h1>
-    <p>Lorem is the text Shopify is the best platform</p>
+<div
+  class="banner__content flex
+    {% case section.settings.desktop_content_position %}
+      {% when 'top-left' %}
+        items-start justify-left
+
+      {% when 'top-center' %}
+        items-start justify-center
+
+      {% when 'top-right' %}
+        items-start justify-right
+
+      {% when 'middle-left' %}
+        items-center justify-left
+
+      {% when 'middle-center' %}
+        items-center justify-center
+
+      {% when 'middle-right' %}
+        items-center justify-right
+
+      {% when 'bottom-left' %}
+        items-end justify-left
+
+      {% when 'bottom-center' %}
+        items-end justify-center
+
+      {% when 'bottom-right' %}
+        items-end justify-right
+    {% endcase %}
+  "
+>
+  <div class="banner__box">
+    <!-- Blocks will come here -->
   </div>
 </div>
 
@@ -153,7 +183,51 @@
       ],
       "default": "medium",
       "label": "Image Height"
+    },
+    {
+  "type": "select",
+  "id": "desktop_content_position",
+  "options": [
+    {
+      "value": "top-left",
+      "label": "Top left"
+    },
+    {
+      "value": "top-center",
+      "label": "Top center"
+    },
+    {
+      "value": "top-right",
+      "label": "Top right"
+    },
+    {
+      "value": "middle-left",
+      "label": "Middle left"
+    },
+    {
+      "value": "middle-center",
+      "label": "Middle center"
+    },
+    {
+      "value": "middle-right",
+      "label": "Middle right"
+    },
+    {
+      "value": "bottom-left",
+      "label": "Bottom left"
+    },
+    {
+      "value": "bottom-center",
+      "label": "Bottom center"
+    },
+    {
+      "value": "bottom-right",
+      "label": "Bottom right"
     }
+  ],
+  "default": "middle-center",
+  "label": "Desktop content position"
+}
   ],
   "blocks": [],
   "presets": [
