@@ -14,7 +14,7 @@
 
 <div id="Footer-{{ section.id }}" class="footer color-{{ section.settings.color_scheme }} ">
   <div class="flex flex-column gap-1 {{ width_class }}">
-    <div class="footer__wrapper flex flex-wrap items-center">
+    <div class="footer__wrapper flex flex-wrap items-start">
       {% for block in section.blocks -%}
         {% liquid
           assign menu = block.settings.menu
