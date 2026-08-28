@@ -431,7 +431,7 @@
         "button": "Button",
         "button_link": "",
         "button_style": "link",
-        "column_color_scheme": "",
+        "column_color_scheme": "scheme-1",
         "carousel": false,
         "enable_arrows": true,
         "pagination_type": "scrollbar",
