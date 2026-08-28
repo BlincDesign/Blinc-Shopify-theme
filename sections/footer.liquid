@@ -1,8 +1,10 @@
-<div class="footer color-{{ section.settings.color_scheme }}">
-  <div class="footer__wrapper page-width flex flex-wrap items-center">
-    {% for block in section.blocks %}'
+<div class="footer page-width color-{{ section.settings.color_scheme }}">
+  <div class="footer__wrapper flex flex-wrap items-center">
+    {% for block in section.blocks -%}
       {% liquid
-        assign block = block.settings
+        assign menu = block.settings.menu
+        assign logo = block.settings.logo
+        assign logo_size = block.settings.logo_size
       %}
       <div class="footer__blocks footer__blocks-{{ block.type }}">
         {% case block.type %}
@@ -10,13 +12,13 @@
             {% render block %}
           {% when 'logo' %}
             <div {{ block.shopify_attributes }}>
-
+              {% render 'image', image: logo, alt: logo.alt, display_width: logo_size %}
             </div>
           {% when 'menu' %}
-            {% if block.menu.links.size > 0 %}
+            {% if menu.links.size > 0 %}
               <nav class="footer__nav" aria-label="Footer" {{ block.shopify_attributes }}>
                 <ul class="footer__nav-list flex flex-column gap-1">
-                  {%- for link in block.menu.links -%}
+                  {%- for link in menu.links -%}
                     <li>
                       <a href="{{ link.url }}">{{ link.title }}</a>
                     </li>
@@ -34,8 +36,8 @@
 
         {% endcase %}
       </div>
+      <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
     {% endfor %}
-    <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
   </div>
 </div>
 
@@ -65,9 +67,9 @@
           "label": "Size",
           "min": 100,
           "max": 500,
-          "default":  100,
+          "default": 100,
           "step": 10,
-          "unit": "px",
+          "unit": "px"
         }
       ]
     },
