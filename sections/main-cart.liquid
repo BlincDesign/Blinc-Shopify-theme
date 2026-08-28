@@ -1,10 +1,11 @@
 {%- comment -%}
-  Basic cart section: a plain `{% form 'cart' %}` (no AJAX) listing line
-  items with a quantity stepper (reuses snippets/quantity-selector.liquid,
-  the same one the product form uses) and a remove link via
-  `item.url_to_remove`, plus a subtotal/checkout footer. No JS is required
-  for the cart to function - quantity changes are submitted with the
-  "Update cart" button, and removal is a plain link.
+  AJAX cart page. Shares snippets/cart-item.liquid for line items and the
+  same block set as sections/cart-drawer.liquid (rendered via the shared
+  snippets/content-blocks.liquid), so free shipping progress, discount
+  code, cart note, etc. behave identically in both places. Quantity
+  changes and removal auto-save via assets/cart-page.js (<cart-page>),
+  which re-fetches this section (?section_id=main-cart) after every
+  change - the same pattern <cart-drawer> (assets/theme.js) uses for the drawer.
 {%- endcomment -%}
 
 {%- style -%}
@@ -14,71 +15,96 @@
   }
 {%- endstyle -%}
 
+{%- liquid
+  assign continue_shopping_label = 'cart.continue_shopping' | t
+  assign checkout_label = 'cart.checkout' | t
+
+  assign has_checkout_info_block = false
+  assign has_cart_field_block = false
+  assign has_discount_block = false
+  for block in section.blocks
+    if block.type == 'checkout_info'
+      assign has_checkout_info_block = true
+    endif
+    if block.type == 'cart_note' or block.type == 'po_reference'
+      assign has_cart_field_block = true
+    endif
+    if block.type == 'discount_code'
+      assign has_discount_block = true
+    endif
+  endfor
+-%}
+
+{%- comment -%}
+  Page-specific + block-specific CSS/JS. Sits outside [data-cart-page-content]
+  so assets/cart-page.js's refresh() (which only extracts that node from
+  each fetch response) never re-inserts these tags on every cart change.
+{%- endcomment -%}
+{{ 'cart-page.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart-page.js' | asset_url }}" defer="defer"></script>
+{%- if section.blocks.size > 0 -%}
+  {{ 'cart-blocks.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{%- if has_cart_field_block -%}
+  <script src="{{ 'cart-field.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{%- if has_discount_block -%}
+  <script src="{{ 'discount-code.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
 <div class="cart color-{{ section.settings.color_scheme }}">
   <div class="cart__wrapper {{ section.settings.container_width }}">
     <h1 class="cart__title heading heading--xl">{{ 'cart.title' | t }}</h1>
 
-    {%- if cart.item_count == 0 -%}
-      <div class="cart__empty flex flex-column items-center text-center">
-        <p class="cart__empty-text text-body">{{ 'cart.empty' | t }}</p>
-        {%- render 'button', label: 'cart.continue_shopping' | t, url: routes.all_products_collection_url, button_style: 'primary' -%}
-      </div>
-    {%- else -%}
-      {%- form 'cart', cart, class: 'cart__form' -%}
-        <div class="cart__items flex flex-column">
-          {%- for item in cart.items -%}
-            <div class="cart__item flex">
-              <a href="{{ item.url }}" class="cart__item-media">
-                {%- render 'image', image: item.image, width: 200, sizes: '120px' -%}
-              </a>
-
-              <div class="cart__item-details flex flex-column flex-grow">
-                <a href="{{ item.url }}" class="cart__item-title text-body">{{ item.product.title }}</a>
-
-                {%- unless item.product.has_only_default_variant -%}
-                  <p class="cart__item-variant text-body text-body--small">{{ item.variant.title }}</p>
-                {%- endunless -%}
-
-                {%- if item.original_price != item.final_price -%}
-                  <p class="cart__item-price flex items-center text-body text-body--small">
-                    <span class="cart__item-price-compare">{{ item.original_price | money }}</span>
-                    <span class="cart__item-price-sale">{{ item.final_price | money }}</span>
-                  </p>
-                {%- else -%}
-                  <p class="cart__item-price text-body text-body--small">{{ item.original_price | money }}</p>
-                {%- endif -%}
-
-                <div class="cart__item-actions flex items-center">
-                  {%- render 'quantity-selector',
-                    id: 'CartQuantity-' | append: item.key,
-                    name: 'updates[' | append: item.key | append: ']',
-                    value: item.quantity
-                  -%}
-
-                  <a href="{{ item.url_to_remove }}" class="cart__item-remove text-body text-body--small">{{ 'cart.remove' | t }}</a>
-                </div>
+    <cart-page data-cart-url="{{ routes.cart_url }}">
+      <div data-cart-page-body>
+        <div class="cart-page__content" data-cart-page-content data-item-count="{{ cart.item_count }}">
+          {%- if cart.item_count == 0 -%}
+            <div class="cart__empty flex flex-column items-center text-center">
+              <p class="cart__empty-text text-body">{{ 'cart.empty' | t }}</p>
+              {%- render 'button', label: continue_shopping_label, url: routes.all_products_collection_url, button_style: 'primary' -%}
+            </div>
+          {%- else -%}
+            <div class="cart__layout">
+              <div class="cart__items flex flex-column">
+                {%- for item in cart.items -%}
+                  {%- render 'cart-item', item: item -%}
+                {%- endfor -%}
               </div>
 
-              <p class="cart__item-total text-body">{{ item.final_line_price | money }}</p>
+              <div class="cart__rail flex flex-column">
+                {%- if section.blocks.size > 0 -%}
+                  <div class="cart__blocks flex flex-column">
+                    {%- render 'content-blocks', blocks: section.blocks -%}
+                  </div>
+                {%- endif -%}
+
+                <div class="cart__footer flex flex-column">
+                  {%- if cart.total_discount > 0 -%}
+                    <p class="cart__discount text-body text-body--small">{{ 'cart.discount' | t }}: -{{ cart.total_discount | money }}</p>
+                  {%- endif -%}
+
+                  <p class="cart__subtotal heading heading--small">{{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}</p>
+
+                  {%- unless has_checkout_info_block -%}
+                    <p class="cart__note text-body text-body--small">{{ 'cart.taxes_and_shipping' | t }}</p>
+                  {%- endunless -%}
+
+                  <div class="cart__footer-actions flex flex-column">
+                    {%- render 'button', label: continue_shopping_label, url: routes.all_products_collection_url, button_style: 'secondary' -%}
+
+                    {%- form 'cart', cart, class: 'cart__checkout-form' -%}
+                      {%- render 'button', label: checkout_label, type: 'submit', name: 'checkout', button_style: 'primary', attributes: 'data-checkout-button' -%}
+                      {{- content_for_additional_checkout_buttons -}}
+                    {%- endform -%}
+                  </div>
+                </div>
+              </div>
             </div>
-          {%- endfor -%}
-        </div>
-
-        <div class="cart__footer flex flex-column items-end">
-          {%- if cart.total_discount > 0 -%}
-            <p class="cart__discount text-body text-body--small">{{ 'cart.discount' | t }}: -{{ cart.total_discount | money }}</p>
           {%- endif -%}
-
-          <p class="cart__subtotal heading heading--small">{{ 'cart.subtotal' | t }}: {{ cart.total_price | money }}</p>
-          <p class="cart__note text-body text-body--small">{{ 'cart.taxes_and_shipping' | t }}</p>
-
-          <div class="cart__footer-actions flex flex-wrap justify-end">
-            {%- render 'button', label: 'cart.update' | t, type: 'submit', name: 'update', button_style: 'secondary' -%}
-            {%- render 'button', label: 'cart.checkout' | t, type: 'submit', name: 'checkout', button_style: 'primary' -%}
-          </div>
         </div>
-      {%- endform -%}
-    {%- endif -%}
+      </div>
+    </cart-page>
   </div>
 </div>
 
@@ -125,6 +151,272 @@
       "step": 4,
       "unit": "px",
       "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Free shipping over $500"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "xl", "label": "XL" },
+            { "value": "xxl", "label": "XXL" }
+          ],
+          "default": "small"
+        }
+      ]
+    },
+    {
+      "type": "caption",
+      "name": "Caption",
+      "settings": [
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Wholesale accounts"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Minimum order quantities apply. Contact your rep with questions.</p>"
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "label": "Text size",
+          "options": [
+            { "value": "regular", "label": "Regular" },
+            { "value": "small", "label": "Small" }
+          ],
+          "default": "small"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Button 1"
+        },
+        {
+          "type": "text",
+          "id": "button_1_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_1_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_1_style",
+          "label": "Button style",
+          "default": "primary",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "link", "label": "Link" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Button 2"
+        },
+        {
+          "type": "text",
+          "id": "button_2_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_2_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_2_style",
+          "label": "Button style",
+          "default": "link",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "link", "label": "Link" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "free_shipping_progress",
+      "name": "Free shipping progress",
+      "settings": [
+        {
+          "type": "text",
+          "id": "progress_text",
+          "label": "Progress message",
+          "default": "You're [amount] away from free shipping",
+          "info": "Use [amount] for the amount remaining. Set the threshold in Theme Settings → Cart."
+        },
+        {
+          "type": "text",
+          "id": "success_text",
+          "label": "Success message",
+          "default": "You've unlocked free shipping!"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_bar",
+          "label": "Show progress bar",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "upsell_products",
+      "name": "Upsell products",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "You may also like"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "Products",
+          "limit": 8
+        },
+        {
+          "type": "range",
+          "id": "products_to_show",
+          "label": "Products to show",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "default": 3
+        }
+      ]
+    },
+    {
+      "type": "cart_note",
+      "name": "Cart note",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Order notes"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Placeholder text",
+          "default": "Add a note to your order"
+        }
+      ]
+    },
+    {
+      "type": "discount_code",
+      "name": "Discount code",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Discount code"
+        }
+      ]
+    },
+    {
+      "type": "minimum_order_message",
+      "name": "Minimum order message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "message_text",
+          "label": "Message",
+          "default": "Add [amount] more to reach the [threshold] minimum order",
+          "info": "Use [amount] and [threshold]. Set the threshold in Theme Settings → Cart."
+        },
+        {
+          "type": "text",
+          "id": "success_text",
+          "label": "Success message",
+          "default": "Minimum order met"
+        }
+      ]
+    },
+    {
+      "type": "po_reference",
+      "name": "PO / job reference",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "PO / Job Reference"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Placeholder",
+          "default": "Enter your PO or job number"
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Require before checkout",
+          "default": false,
+          "info": "Shows a warning and focuses this field if left blank when Checkout is clicked. Cannot block checkout outright."
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid"
+        }
+      ]
+    },
+    {
+      "type": "checkout_info",
+      "name": "Checkout information",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Message",
+          "default": "<p>Taxes and shipping calculated at checkout.</p>"
+        }
+      ]
     }
   ],
   "presets": [

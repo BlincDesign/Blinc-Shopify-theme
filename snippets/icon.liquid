@@ -1,7 +1,7 @@
 {%- comment -%}
   Renders an inline SVG icon.
   Usage: {% render 'icon', name: 'account', class: 'account' size: 16 %}
-  Accepts: 'account', 'chevron', 'chevron-right', 'chevron-left', 'cart', 'play', 'close', 'eye'
+  Accepts: 'account', 'chevron', 'chevron-right', 'chevron-left', 'cart', 'play', 'close', 'eye', 'spinner', 'check'
 {%- endcomment -%}
 
 <span
@@ -99,6 +99,35 @@
       >
         <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"></path>
         <circle cx="12" cy="12" r="2.75"></circle>
+      </svg>
+
+    {%- when 'spinner' -%}
+      <svg
+        class="icon icon--spinner"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M12 2.5a9.5 9.5 0 1 0 9.5 9.5" opacity="0.85"></path>
+      </svg>
+
+    {%- when 'check' -%}
+      <svg
+        class="icon icon--check"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M5 12.5l4.5 4.5L19 7"></path>
       </svg>
   {%- endcase -%}
 </span>

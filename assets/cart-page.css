@@ -1,0 +1,70 @@
+
+/* Main cart page layout - a two-column rail on desktop (items on the
+   left, blocks/footer on the right), single column on mobile. Item styling
+   (.cart-item, shared with the drawer) lives in the global base.css; block
+   styling lives in cart-blocks.css - this file only handles the
+   page-specific arrangement. */
+
+.cart__title {
+    margin: 2rem 0 1.5rem;
+}
+
+.cart__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+@media screen and (min-width: 750px) {
+    .cart__layout {
+        flex-direction: row;
+    }
+
+    .cart__items {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .cart__rail {
+        flex: 0 0 22rem;
+    }
+}
+
+.cart__items {
+    gap: 1.5rem;
+}
+
+.cart__rail {
+    gap: 1.5rem;
+}
+
+.cart__blocks {
+    gap: 0.5rem;
+}
+
+.cart__footer {
+    gap: 0.375rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(var(--color-border, 230, 230, 230));
+}
+
+.cart__note {
+    opacity: 0.7;
+}
+
+.cart__footer-actions {
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.cart__checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.cart__empty {
+    gap: 1rem;
+    padding: 4rem 0;
+}

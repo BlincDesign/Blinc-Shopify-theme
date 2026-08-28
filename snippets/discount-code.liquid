@@ -1,0 +1,56 @@
+{%- comment -%}
+  Renders a discount code input + Apply button, or the currently applied
+  code(s) with a Remove control. AJAX behavior lives in
+  assets/discount-code.js (<discount-code-form> custom element), which
+  posts to the cartUpdate route and triggers a full cart-drawer/cart-page
+  refresh on success or failure.
+
+  Accepts:
+  block (object, required) - a `discount_code` schema block.
+
+  Usage:
+  {% render 'discount-code', block: block %}
+{%- endcomment -%}
+
+<discount-code-form
+  class="discount-code"
+  data-applying-text="{{ 'cart.discount_code.applying' | t }}"
+  data-success-text="{{ 'cart.discount_code.success' | t }}"
+  data-error-text="{{ 'cart.discount_code.error' | t }}"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.heading != blank -%}
+    <p class="discount-code__heading heading heading--small">{{ block.settings.heading }}</p>
+  {%- endif -%}
+
+  {%- if cart.cart_level_discount_applications.size > 0 -%}
+    <ul class="discount-code__applied">
+      {%- for discount_application in cart.cart_level_discount_applications -%}
+        <li class="discount-code__chip flex items-center">
+          {%- render 'icon', name: 'check', size: 16 -%}
+          <span>{{ discount_application.title }}</span>
+          <button type="button" class="discount-code__remove" data-discount-remove>
+            {{- 'cart.discount_code.remove' | t -}}
+          </button>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- else -%}
+    <div class="discount-code__row flex">
+      <label class="visually-hidden" for="DiscountCode-{{ block.id }}">{{ 'cart.discount_code.placeholder' | t }}</label>
+      <input
+        type="text"
+        id="DiscountCode-{{ block.id }}"
+        class="discount-code__input"
+        placeholder="{{ 'cart.discount_code.placeholder' | t }}"
+        data-discount-input
+        autocomplete="off"
+      >
+      <button type="button" class="discount-code__button items-center justify-center" data-discount-apply>
+        <span data-discount-button-label>{{ 'cart.discount_code.apply' | t }}</span>
+        <span class="discount-code__spinner" data-discount-spinner hidden>{%- render 'icon', name: 'spinner', size: 16 -%}</span>
+      </button>
+    </div>
+    <p class="discount-code__status text-body text-body--small" data-discount-status role="status" aria-live="polite"></p>
+  {%- endif -%}
+</discount-code-form>

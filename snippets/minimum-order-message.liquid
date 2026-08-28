@@ -1,0 +1,41 @@
+{%- comment -%}
+  Renders informational progress toward settings.minimum_order_threshold.
+  This is messaging only - it does not gate or disable checkout. Renders
+  nothing if the merchant hasn't set a threshold.
+
+  Accepts:
+  block (object, required) - a `minimum_order_message` schema block.
+
+  Usage:
+  {% render 'minimum-order-message', block: block %}
+{%- endcomment -%}
+
+{%- liquid
+  assign threshold = settings.minimum_order_threshold | default: 0
+-%}
+
+{%- if threshold > 0 -%}
+  {%- liquid
+    assign threshold_cents = threshold | times: 100
+    assign remaining_cents = threshold_cents | minus: cart.total_price
+    assign has_reached_threshold = false
+    if remaining_cents <= 0
+      assign has_reached_threshold = true
+    endif
+
+    assign remaining_money = remaining_cents | money
+    assign threshold_money = threshold_cents | money
+  -%}
+  <div class="minimum-order-message" {{ block.shopify_attributes }} data-state="{% if has_reached_threshold %}complete{% else %}in-progress{% endif %}">
+    {%- if has_reached_threshold -%}
+      <p class="minimum-order-message__message text-body text-body--small flex items-center">
+        {%- render 'icon', name: 'check', size: 16 -%}
+        {{ block.settings.success_text }}
+      </p>
+    {%- else -%}
+      <p class="minimum-order-message__message text-body text-body--small">
+        {{ block.settings.message_text | replace: '[amount]', remaining_money | replace: '[threshold]', threshold_money }}
+      </p>
+    {%- endif -%}
+  </div>
+{%- endif -%}

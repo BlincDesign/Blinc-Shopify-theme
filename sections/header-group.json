@@ -33,9 +33,55 @@
         "enable_language_selector": false,
         "enable_customer_account_icon": true
       }
+    },
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "free-shipping-progress": {
+          "type": "free_shipping_progress",
+          "settings": {}
+        },
+        "minimum-order-message": {
+          "type": "minimum_order_message",
+          "settings": {}
+        },
+        "upsell-products": {
+          "type": "upsell_products",
+          "settings": {}
+        },
+        "cart-note": {
+          "type": "cart_note",
+          "settings": {}
+        },
+        "po-reference": {
+          "type": "po_reference",
+          "settings": {}
+        },
+        "discount-code": {
+          "type": "discount_code",
+          "settings": {}
+        },
+        "checkout-info": {
+          "type": "checkout_info",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "free-shipping-progress",
+        "minimum-order-message",
+        "upsell-products",
+        "cart-note",
+        "po-reference",
+        "discount-code",
+        "checkout-info"
+      ]
     }
   },
   "order": [
-    "header"
+    "header",
+    "cart-drawer"
   ]
 }

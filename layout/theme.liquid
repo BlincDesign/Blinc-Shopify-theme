@@ -23,12 +23,7 @@
 
     {{ content_for_header }}
 
-    {{ 'utils.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
-    {{ 'product-form.css' | asset_url | stylesheet_tag }}
-    {{ 'quick-add.css' | asset_url | stylesheet_tag }}
-    {{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
-
 
     <link
       rel="stylesheet"
@@ -94,20 +89,18 @@
       window.theme.routes = {
         cartAdd: '{{ routes.cart_add_url }}.js',
         cartChange: '{{ routes.cart_change_url }}.js',
+        cartUpdate: '{{ routes.cart_update_url }}.js',
         cart: '{{ routes.cart_url }}.js'
       };
       window.theme.strings = {
         addedToCart: {{ 'products.product.added_to_cart' | t | json }},
-        addToCartError: {{ 'products.product.add_to_cart_error' | t | json }}
+        addToCartError: {{ 'products.product.add_to_cart_error' | t | json }},
+        lineErrorGeneric: {{ 'cart.line_error_generic' | t | json }}
       };
     </script>
 
     <script src="{{ 'variables.js' | asset_url }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
-    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'variant-picker.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

@@ -50,5 +50,81 @@
           {%- endif -%}
         </div>
       {%- endif -%}
+
+    {%- when 'free_shipping_progress' -%}
+      {%- render 'free-shipping-progress', block: block -%}
+
+    {%- when 'minimum_order_message' -%}
+      {%- render 'minimum-order-message', block: block -%}
+
+    {%- when 'upsell_products' -%}
+      {%- render 'upsell-products', block: block -%}
+
+    {%- when 'discount_code' -%}
+      {%- render 'discount-code', block: block -%}
+
+    {%- when 'cart_note' -%}
+      <cart-field
+        class="cart-note"
+        data-field="note"
+        data-saving-text="{{ 'cart.note.saving' | t }}"
+        data-saved-text="{{ 'cart.note.saved' | t }}"
+        data-error-text="{{ 'cart.note.error' | t }}"
+        {{ block.shopify_attributes }}
+      >
+        {%- if block.settings.heading != blank -%}
+          <p class="cart-note__heading heading heading--small">{{ block.settings.heading }}</p>
+        {%- endif -%}
+        <label class="visually-hidden" for="CartNote-{{ block.id }}">{{ block.settings.heading }}</label>
+        <textarea
+          id="CartNote-{{ block.id }}"
+          class="cart-note__textarea"
+          placeholder="{{ block.settings.placeholder }}"
+          rows="3"
+          data-cart-field-input
+        >{{ cart.note }}</textarea>
+        <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
+      </cart-field>
+
+    {%- when 'po_reference' -%}
+      <cart-field
+        class="po-reference"
+        data-field="attributes[po-reference]"
+        data-saving-text="{{ 'cart.po_reference.saving' | t }}"
+        data-saved-text="{{ 'cart.po_reference.saved' | t }}"
+        data-error-text="{{ 'cart.po_reference.error' | t }}"
+        {%- if block.settings.required %}
+          data-required
+          data-required-warning="{{ 'cart.po_reference.required_warning' | t }}"
+        {%- endif %}
+        {{ block.shopify_attributes }}
+      >
+        {%- if block.settings.heading != blank -%}
+          <p class="po-reference__heading heading heading--small">{{ block.settings.heading }}</p>
+        {%- endif -%}
+        <label class="visually-hidden" for="PoReference-{{ block.id }}">{{ block.settings.heading }}</label>
+        <input
+          type="text"
+          id="PoReference-{{ block.id }}"
+          class="po-reference__input"
+          placeholder="{{ block.settings.placeholder }}"
+          value="{{ cart.attributes['po-reference'] }}"
+          autocomplete="off"
+          data-cart-field-input
+        >
+        <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
+      </cart-field>
+
+    {%- when 'custom_liquid' -%}
+      <div class="custom-liquid" {{ block.shopify_attributes }}>
+        {{ block.settings.custom_liquid }}
+      </div>
+
+    {%- when 'checkout_info' -%}
+      {%- if block.settings.text != blank -%}
+        <div class="checkout-info content-block__text text-body text-body--small" {{ block.shopify_attributes }}>
+          {{ block.settings.text }}
+        </div>
+      {%- endif -%}
   {%- endcase -%}
 {%- endfor -%}

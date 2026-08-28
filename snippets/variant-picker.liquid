@@ -5,7 +5,7 @@
 
   Availability, "selected", and "unavailable" states are always computed by
   Liquid - on the first render, and on every later option change
-  assets/variant-picker.js re-fetches this same section with
+  <product-info> (assets/theme.js) re-fetches this same section with
   `?option_values=...`, which tells Shopify's Liquid engine to recompute
   everything (price, availability, the resolved variant) as if that
   combination were selected, then swaps this element's contents wholesale.
@@ -15,7 +15,7 @@
   page, Quick Add, and Quick View (snippets/quick-product-form.liquid) - same
   markup, same JS, so behavior never has to be re-implemented per context.
 
-  Must be rendered inside a <product-info> wrapper (assets/variant-picker.js)
+  Must be rendered inside a <product-info> wrapper (assets/theme.js)
   that provides the section id / product url used to re-fetch on change, and
   inside the product's <form>.
 

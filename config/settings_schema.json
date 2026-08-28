@@ -744,5 +744,30 @@
         ]
       }
     ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Free shipping"
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold",
+        "info": "Amount in your store's currency, e.g. 500. Leave blank to disable free shipping progress messaging."
+      },
+      {
+        "type": "header",
+        "content": "Minimum order"
+      },
+      {
+        "type": "number",
+        "id": "minimum_order_threshold",
+        "label": "Minimum order threshold",
+        "info": "Amount in your store's currency, e.g. 250. Leave blank to disable minimum order messaging."
+      }
+    ]
   }
 ]

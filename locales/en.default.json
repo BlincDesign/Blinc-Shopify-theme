@@ -84,6 +84,26 @@
     "taxes_and_shipping": "Taxes and shipping calculated at checkout",
     "update": "Update cart",
     "checkout": "Check out",
-    "view_cart": "View cart"
+    "view_cart": "View cart",
+    "note": {
+      "saving": "Saving…",
+      "saved": "Saved",
+      "error": "Couldn't save your note"
+    },
+    "discount_code": {
+      "placeholder": "Enter discount code",
+      "apply": "Apply",
+      "applying": "Applying…",
+      "success": "Discount applied",
+      "error": "Invalid or expired code",
+      "remove": "Remove"
+    },
+    "po_reference": {
+      "saving": "Saving…",
+      "saved": "Saved",
+      "error": "Couldn't save",
+      "required_warning": "Enter a PO or job reference before checking out"
+    },
+    "line_error_generic": "This item couldn't be updated. Please try again."
   }
 }

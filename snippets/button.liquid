@@ -37,7 +37,8 @@
       href="{{ url }}"
       class="{{ button_class }}"
       {%- if id != blank %} id="{{ id }}"{% endif -%}
-      {%- if new_tab %} target="_blank" rel="noopener"{% endif %}
+      {%- if new_tab %} target="_blank" rel="noopener"{% endif -%}
+      {%- if attributes != blank %} {{ attributes }}{% endif -%}
     >
       {{ label | escape }}
     </a>

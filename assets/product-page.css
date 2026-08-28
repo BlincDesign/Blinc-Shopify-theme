@@ -1,7 +1,7 @@
 
 /* Product page section layout. The reusable buy-box styles (media, price,
-   variant picker, quantity, buy buttons) live in assets/product-form.css
-   since Quick Add / Quick View also use them. */
+   variant picker, quantity, buy buttons) live in the global base.css since
+   Quick Add / Quick View also use them. */
 
 .product-section {
     gap: 0 20px;

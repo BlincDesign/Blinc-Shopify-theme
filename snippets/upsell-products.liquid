@@ -1,0 +1,41 @@
+{%- comment -%}
+  Renders a merchant-curated cross-sell grid inside the cart. Reuses the
+  existing product-card component as-is, so add-to-cart (AJAX via the
+  site-wide CartForm in assets/theme.js) and quick-view work identically to
+  everywhere else in the theme.
+
+  Accepts:
+  block (object, required) - an `upsell_products` schema block.
+
+  Usage:
+  {% render 'upsell-products', block: block %}
+{%- endcomment -%}
+
+{%- liquid
+  assign cart_product_ids = cart.items | map: 'product_id'
+  assign products_to_show = block.settings.products_to_show | default: 3
+  assign upsell_count = 0
+-%}
+
+{%- capture upsell_cards -%}
+  {%- for product in block.settings.products -%}
+    {%- unless cart_product_ids contains product.id -%}
+      {%- if upsell_count < products_to_show -%}
+        {%- render 'product-card', product: product -%}
+        {%- assign upsell_count = upsell_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if upsell_count > 0 -%}
+  <div class="upsell-products" {{ block.shopify_attributes }}>
+    {%- if block.settings.heading != blank -%}
+      <p class="upsell-products__heading heading heading--small">{{ block.settings.heading }}</p>
+    {%- endif -%}
+
+    <div class="upsell-products__grid grid">
+      {{ upsell_cards }}
+    </div>
+  </div>
+{%- endif -%}
