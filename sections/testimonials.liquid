@@ -109,7 +109,7 @@
 
         {% capture column_content %}
           {% if block.settings.column_heading != blank
-            or block.settings.column_description != blank
+            or block.settings.column_info != blank
             or block.settings.column_btn_label != blank
           %}
             <div class="testimonial__column-content gap-1 flex flex-column">
@@ -120,9 +120,9 @@
                 </h3>
               {% endif %}
 
-              {% if block.settings.column_description != blank %}
-                <div class="testimonial__column-description">
-                  {{ block.settings.column_description }}
+              {% if block.settings.column_info != blank %}
+                <div class="testimonial__column-info">
+                  {{ block.settings.column_info }}
                 </div>
               {% endif %}
 
@@ -212,13 +212,13 @@
           "type": "inline_richtext",
           "id": "column_heading",
           "label": "Heading",
-          "default": "Column"
+          "default": "Include a favorite customer quote or feedback here."
         },
         {
           "type": "richtext",
-          "id": "column_description",
-          "label": "Description",
-          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+          "id": "column_info",
+          "label": "Info",
+          "default": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
         }
       ]
     }
