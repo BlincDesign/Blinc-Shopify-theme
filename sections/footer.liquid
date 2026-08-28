@@ -21,7 +21,7 @@
           assign logo = block.settings.logo_image
           assign logo_size = block.settings.logo_size
         %}
-        <div class="footer__blocks footer__blocks-{{ block.type }} {% unless block.type == 'large-image' %} flex-grow {% endunless %}">
+        <div class="footer__blocks footer__blocks-{{ block.type }} {% unless block.type == 'large-logo' %} flex-grow {% endunless %}">
           {% case block.type %}
             {% when '@app' %}
               {% render block %}
@@ -69,9 +69,9 @@
 
             {% when 'newsletter' %}
 
-            {% when 'large-image' %}
+            {% when 'large-logo' %}
               <div {{ block.shopify_attributes }}>
-                {% render 'image', image: block.settings.large_image, alt: block.settings.large_image %}
+                {% render 'image', image: block.settings.large_logo, alt: block.settings.large_logo %}
               </div>
           {% endcase %}
         </div>
@@ -174,13 +174,13 @@
       "settings": []
     },
     {
-      "type": "large-image",
-      "name": "Large image",
+      "type": "large-logo",
+      "name": "Large logo",
       "limit": 1,
       "settings": [
         {
           "type": "image_picker",
-          "id": "large_image",
+          "id": "large_logo",
           "label": "Logo"
         }
       ]
