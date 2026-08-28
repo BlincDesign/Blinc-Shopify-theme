@@ -453,7 +453,7 @@
         "heading_size": "large",
         "heading_alignment": "left",
         "column_color_scheme": "scheme-1",
-        "carousel": false,
+        "carousel": true,
         "enable_arrows": true,
         "pagination_type": "scrollbar",
         "columns": 3,
