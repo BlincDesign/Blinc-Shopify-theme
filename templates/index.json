@@ -13,6 +13,8 @@
       "type": "image-banner",
       "name": "Image banner",
       "settings": {
+        "image": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_c8d56011-43b5-47aa-b9fb-686b4440aed8.png",
+        "image_2": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_c8d56011-43b5-47aa-b9fb-686b4440aed8.png",
         "image_overlay_opacity": 0,
         "image_height": "medium"
       }
