@@ -66,7 +66,13 @@
             {% when 'newsletter' %}
               {% render 'newsletter' %}
             {% when 'contact' %}
-              {% render 'contact' %}
+              {% render 'contact',
+                show_name: true,
+                show_email: true,
+                show_phone: true,
+                show_subject: true,
+                show_message: true
+              %}
             {% when 'newsletter' %}
 
             {% when 'large-logo' %}
