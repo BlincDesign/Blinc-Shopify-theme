@@ -17,7 +17,7 @@
               </div>
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
-                <h3 class="multicolumn__column-heading">
+                <h3 class="footer__menu-heading heading heading--{{ block.settings.heading_size }}">
                   {{ block.settings.menu_heading }}
                 </h3>
                 <nav class="footer__nav" aria-label="Footer" {{ block.shopify_attributes }}>
@@ -88,6 +88,17 @@
           "id": "menu_heading",
           "label": "Heading",
           "default": "Title"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" }
+          ],
+          "default": "small"
         },
         {
           "type": "link_list",
