@@ -1,5 +1,5 @@
 <div id="Footer-{{ section.id }}" class="footer color-{{ section.settings.color_scheme }} ">
-  <div class="{{ section.settings.container_width }}">
+  <div class="flex flex-column gap-1 {{ section.settings.container_width }}">
     <div class="footer__wrapper flex flex-wrap items-center">
       {% for block in section.blocks -%}
         {% liquid
