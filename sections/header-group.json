@@ -36,37 +36,60 @@
     },
     "cart-drawer": {
       "type": "cart-drawer",
-      "settings": {
-        "color_scheme": "scheme-1"
-      },
       "blocks": {
         "free-shipping-progress": {
           "type": "free_shipping_progress",
-          "settings": {}
+          "settings": {
+            "progress_text": "You're [amount] away from free shipping",
+            "success_text": "You've unlocked free shipping!",
+            "show_bar": true
+          }
         },
         "minimum-order-message": {
           "type": "minimum_order_message",
-          "settings": {}
+          "settings": {
+            "message_text": "Add [amount] more to reach the [threshold] minimum order",
+            "success_text": "Minimum order met"
+          }
         },
         "upsell-products": {
           "type": "upsell_products",
-          "settings": {}
+          "settings": {
+            "heading": "You may also like",
+            "products": [
+              "classic-round-cut-925-sterling-silver-cz-gemstone-tennis-bracelet-copy",
+              "mlyh_990758200818",
+              "mlyh_988750823140"
+            ],
+            "products_to_show": 3
+          }
         },
         "cart-note": {
           "type": "cart_note",
-          "settings": {}
+          "settings": {
+            "heading": "Order notes",
+            "placeholder": "Add a note to your order"
+          }
         },
         "po-reference": {
           "type": "po_reference",
-          "settings": {}
+          "settings": {
+            "heading": "PO / Job Reference",
+            "placeholder": "Enter your PO or job number",
+            "required": false
+          }
         },
         "discount-code": {
           "type": "discount_code",
-          "settings": {}
+          "settings": {
+            "heading": "Discount code"
+          }
         },
         "checkout-info": {
           "type": "checkout_info",
-          "settings": {}
+          "settings": {
+            "text": "<p>Taxes and shipping calculated at checkout.</p>"
+          }
         }
       },
       "block_order": [
@@ -77,7 +100,10 @@
         "po-reference",
         "discount-code",
         "checkout-info"
-      ]
+      ],
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
