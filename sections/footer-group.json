@@ -17,7 +17,7 @@
         "logo_MtRKpE": {
           "type": "logo",
           "settings": {
-            "logo_image": "shopify://shop_images/Screenshot_2026-08-08_010234-removebg-preview.png",
+            "logo_image": "shopify://shop_images/HOP_Logo-01_600x200_31944f15-f15f-41f0-8438-95e9b3744b9b.svg",
             "logo_size": 500
           }
         },
@@ -63,7 +63,7 @@
       ],
       "settings": {
         "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac",
-        "container_width": "container-padded"
+        "enable_full_width": true
       }
     }
   },
