@@ -128,8 +128,7 @@ class CartDrawer extends HTMLElement {
             const content = doc.querySelector('[data-cart-drawer-content]');
             if (!content) throw new Error('Cart drawer response had no content');
 
-            this.body.innerHTML = '';
-            this.body.appendChild(content);
+            this.updateContent(content);
             this.updateCartCount(content);
 
             document.dispatchEvent(new CustomEvent('cart-drawer:updated', {
@@ -139,6 +138,43 @@ class CartDrawer extends HTMLElement {
             if (error.name === 'AbortError') return;
             console.error(error);
         }
+    }
+
+    // Swaps in only the regions that actually changed instead of wiping
+    // and rebuilding the whole body in one shot - a region a single fetch
+    // didn't render (e.g. mid-request) can never wipe out content the
+    // current markup already has, so blocks/items/footer can't vanish just
+    // because one of the others changed.
+    updateContent(newContent) {
+        const wrapper = this.body.querySelector('[data-cart-drawer-content]');
+        if (!wrapper) {
+            this.body.innerHTML = '';
+            this.body.appendChild(newContent);
+            return;
+        }
+
+        const wasEmpty = Boolean(wrapper.querySelector('.cart-drawer__empty'));
+        const isEmpty = Boolean(newContent.querySelector('.cart-drawer__empty'));
+
+        // The empty/non-empty markup shapes differ enough (no items list,
+        // no footer) that swapping the whole thing is simpler and safer.
+        if (isEmpty || wasEmpty) {
+            wrapper.replaceWith(newContent);
+            return;
+        }
+
+        wrapper.dataset.itemCount = newContent.dataset.itemCount;
+        this.swapRegion(wrapper, newContent, '.cart-drawer__blocks');
+        this.swapRegion(wrapper, newContent, '.cart-drawer__items');
+        this.swapRegion(wrapper, newContent, '.cart-drawer__footer');
+    }
+
+    // Replaces one region in place only when both the current and freshly
+    // fetched markup have it - never removes a region on its own.
+    swapRegion(currentRoot, newRoot, selector) {
+        const current = currentRoot.querySelector(selector);
+        const updated = newRoot.querySelector(selector);
+        if (current && updated) current.replaceWith(updated);
     }
 
     updateCartCount(content) {

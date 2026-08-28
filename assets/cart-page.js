@@ -72,13 +72,49 @@ class CartPage extends HTMLElement {
             const content = doc.querySelector('[data-cart-page-content]');
             if (!content) throw new Error('Cart page response had no content');
 
-            this.body.innerHTML = '';
-            this.body.appendChild(content);
+            this.updateContent(content);
             this.updateCartCount(content);
         } catch (error) {
             if (error.name === 'AbortError') return;
             console.error(error);
         }
+    }
+
+    // Swaps in only the regions that actually changed instead of wiping
+    // and rebuilding the whole body in one shot - mirrors
+    // <cart-drawer>'s updateContent() (assets/cart-drawer.js) so a region a
+    // single fetch didn't render can never wipe out content the current
+    // markup already has.
+    updateContent(newContent) {
+        const wrapper = this.body.querySelector('[data-cart-page-content]');
+        if (!wrapper) {
+            this.body.innerHTML = '';
+            this.body.appendChild(newContent);
+            return;
+        }
+
+        const wasEmpty = Boolean(wrapper.querySelector('.cart__empty'));
+        const isEmpty = Boolean(newContent.querySelector('.cart__empty'));
+
+        // The empty/non-empty markup shapes differ enough (no items list,
+        // no rail) that swapping the whole thing is simpler and safer.
+        if (isEmpty || wasEmpty) {
+            wrapper.replaceWith(newContent);
+            return;
+        }
+
+        wrapper.dataset.itemCount = newContent.dataset.itemCount;
+        this.swapRegion(wrapper, newContent, '.cart__items');
+        this.swapRegion(wrapper, newContent, '.cart__blocks');
+        this.swapRegion(wrapper, newContent, '.cart__footer');
+    }
+
+    // Replaces one region in place only when both the current and freshly
+    // fetched markup have it - never removes a region on its own.
+    swapRegion(currentRoot, newRoot, selector) {
+        const current = currentRoot.querySelector(selector);
+        const updated = newRoot.querySelector(selector);
+        if (current && updated) current.replaceWith(updated);
     }
 
     updateCartCount(content) {
