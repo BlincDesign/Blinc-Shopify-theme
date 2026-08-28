@@ -433,6 +433,22 @@
             "column_info": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
           }
         },
+        "column_4Mw8Af": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_df5748a3-e257-49f1-9c54-2bdd25186cae.png",
+            "column_heading": "Column",
+            "column_info": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
+          }
+        },
+        "column_JdrRQ6": {
+          "type": "column",
+          "settings": {
+            "column_image": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_df5748a3-e257-49f1-9c54-2bdd25186cae.png",
+            "column_heading": "Column",
+            "column_info": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
+          }
+        },
         "column_VCgnJc": {
           "type": "column",
           "settings": {
@@ -445,6 +461,8 @@
         "column_Ky7Nga",
         "column_77JKhx",
         "column_ByzifQ",
+        "column_4Mw8Af",
+        "column_JdrRQ6",
         "column_VCgnJc"
       ],
       "name": "Testimonials",
