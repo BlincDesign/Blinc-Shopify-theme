@@ -42,11 +42,15 @@
 
           {% endcase %}
         </div>
-
       {%- endfor %}
-      </div> <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p> </div> </div>
+    </div>
+    <p class="footer__copyright">
+      <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
+    </p>
+  </div>
+</div>
 
-      {% schema %}
+{% schema %}
 {
   "name": "Footer",
   "tag": "footer",
@@ -160,4 +164,4 @@
     }
   ]
 }
-      {% endschema %}
+{% endschema %}
