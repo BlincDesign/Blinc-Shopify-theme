@@ -18,7 +18,9 @@
           "type": "logo",
           "settings": {
             "logo_image": "shopify://shop_images/HOP_Logo-01_600x200_31944f15-f15f-41f0-8438-95e9b3744b9b.svg",
-            "logo_size": 500
+            "logo_size": 500,
+            "logo_heading": "Column",
+            "logo_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
           }
         },
         "menu_YhExki": {
@@ -52,6 +54,18 @@
             "heading_size": "small",
             "menu": "footer"
           }
+        },
+        "newsletter_VbtLDi": {
+          "type": "newsletter",
+          "settings": {}
+        },
+        "contact_Fx6tVX": {
+          "type": "contact",
+          "settings": {}
+        },
+        "large_image_qTjGBj": {
+          "type": "large-image",
+          "settings": {}
         }
       },
       "block_order": [
@@ -59,7 +73,10 @@
         "menu_YhExki",
         "menu_NdU4mx",
         "menu_ymBmCT",
-        "menu_f6dgAc"
+        "menu_f6dgAc",
+        "newsletter_VbtLDi",
+        "contact_Fx6tVX",
+        "large_image_qTjGBj"
       ],
       "settings": {
         "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac",
