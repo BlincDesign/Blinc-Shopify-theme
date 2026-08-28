@@ -409,43 +409,38 @@
     "testimonials_GABiRp": {
       "type": "testimonials",
       "blocks": {
-        "testimonial_e8LAW3": {
-          "type": "testimonial",
+        "column_Ky7Nga": {
+          "type": "column",
           "settings": {
-            "image": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_df5748a3-e257-49f1-9c54-2bdd25186cae.png",
-            "quote": "<p>Include a favorite customer quote or feedback here.</p>",
-            "info": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
-          }
-        },
-        "testimonial_HVGMgN": {
-          "type": "testimonial",
-          "settings": {
-            "image": "shopify://shop_images/fcndk_fxa_37_6_5.jpg",
-            "quote": "<p>Include a favorite customer quote or feedback here.</p>",
-            "info": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
-          }
-        },
-        "testimonial_UXCkB6": {
-          "type": "testimonial",
-          "settings": {
-            "image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
-            "quote": "<p>Include a favorite customer quote or feedback here.</p>",
-            "info": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
+            "column_image": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_df5748a3-e257-49f1-9c54-2bdd25186cae.png",
+            "column_heading": "Column",
+            "column_description": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "column_btn_label": "Button",
+            "column_btn_link": "",
+            "column_btn_style": "primary"
           }
         }
       },
       "block_order": [
-        "testimonial_e8LAW3",
-        "testimonial_HVGMgN",
-        "testimonial_UXCkB6"
+        "column_Ky7Nga"
       ],
       "name": "Testimonials",
       "settings": {
+        "heading": "testimonial",
+        "heading_size": "large",
+        "button": "Button",
+        "button_link": "",
+        "button_style": "link",
+        "column_color_scheme": "",
+        "carousel": false,
+        "enable_arrows": true,
+        "pagination_type": "scrollbar",
+        "columns": 4,
+        "mobile_columns": "2",
+        "slides_per_row_dt": 4,
+        "slides_per_row_mb": "2",
         "color_scheme": "",
         "container_width": "container-standard",
-        "image_ratio": "square",
-        "quote_preset": "h2",
-        "info_preset": "body",
         "padding_top": 48,
         "padding_bottom": 48,
         "padding_top_m": 32,
