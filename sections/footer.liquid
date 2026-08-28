@@ -7,13 +7,18 @@
           assign logo = block.settings.logo_image
           assign logo_size = block.settings.logo_size
         %}
+        {% style %}
+          .footer__logo {
+            width: {{ logo_size }}px;
+          }
+        {% endstyle %}
         <div class="footer__blocks footer__blocks-{{ block.type }} flex-grow">
           {% case block.type %}
             {% when '@app' %}
               {% render block %}
             {% when 'logo' %}
-              <div {{ block.shopify_attributes }}>
-                {% render 'image', image: logo, alt: logo.alt, display_width: logo_size %}
+              <div class="footer__logo" {{ block.shopify_attributes }}>
+                {% render 'image', image: logo, alt: logo.alt %}
               </div>
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
