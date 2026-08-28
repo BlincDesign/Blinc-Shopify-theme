@@ -39,15 +39,15 @@
 >
 
   {% if section.settings.image != blank %}
-    {% comment %} {% liquid
-      assign calculated_image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
-    %} {% endcomment %}
+    {% liquid
+       assign image_height = section.settings.image.width| divided_by: section.settings.image.aspect_ratio 
+    %} 
     <div class="flex-grow">
       {{
         section.settings.image
         | image_url: width: 3840
         | image_tag:
-          height: calculated_image_height
+          height: image_height
       }}
     </div>
   {% endif %}
@@ -58,7 +58,7 @@
         section.settings.image_2
         | image_url: width: 3840
         | image_tag:
-          height: calculated_image_height
+          height: image_height
       }}
     </div>
   {% endif %}
