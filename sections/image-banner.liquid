@@ -16,15 +16,19 @@
     pointer-events: none;
     opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
   }
-      .banner--small {
-      height: 300px;
+
+  .banner--adapt{
+    height: auto;
+  }
+  .banner--small {
+      height: 45rem;
     }
 
-    .banner--medium {
+  .banner--medium {
       height: 56rem;
     }
 
-    .banner--large {
+  .banner--large {
       height: 72rem;
     }
 {% endstyle %}
