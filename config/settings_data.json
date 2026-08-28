@@ -45,6 +45,8 @@
     "enable_video": true,
     "grid_slider_loop": true,
     "grid_image_aspect_ratio": 1.2,
+    "free_shipping_threshold": 500,
+    "minimum_order_threshold": 100,
     "show_badges": false,
     "media_style": "single",
     "page_width": 1400,
