@@ -1,15 +1,15 @@
 {%- style -%}
-  #multicolumn-{{ section.id }} {
+  #testimonial-{{ section.id }} {
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
-  #multicolumn-{{ section.id }} .multicolumn__column-content {
+  #testimonial-{{ section.id }} .testimonial__column-content {
     padding: 1rem;
   }
 
   @media screen and (max-width: 749px) {
-    #multicolumn-{{ section.id }} {
+    #testimonial-{{ section.id }} {
       padding-top: {{ section.settings.padding_top_m }}px;
       padding-bottom: {{ section.settings.padding_bottom_m }}px;
     }
@@ -57,21 +57,21 @@
 -%}
 
 <div
-  id="multicolumn-{{ section.id }}"
-  class="multicolumn color-{{ section.settings.color_scheme }}"
+  id="testimonial-{{ section.id }}"
+  class="testimonial color-{{ section.settings.color_scheme }}"
 >
-  <div class="multicolumn__wrapper section__wrapper relative overflow-hidden {{ section.settings.container_width }}">
+  <div class="testimonial__wrapper section__wrapper relative overflow-hidden {{ section.settings.container_width }}">
 
     {% if section.settings.heading != blank %}
-      <div class="multicolumn__header text-{{ section.settings.heading_alignment }}">
-        <h2 class="multicolumn__heading heading heading--{{ section.settings.heading_size }}">
+      <div class="testimonial__header text-{{ section.settings.heading_alignment }}">
+        <h2 class="testimonial__heading heading heading--{{ section.settings.heading_size }}">
           {{ section.settings.heading }}
         </h2>
       </div>
     {% endif %}
 
     <div
-      class="multicolumn__blocks overflow-hidden{% unless section.settings.carousel %} grid grid-columns grid-columns-mobile{% endunless %}"
+      class="testimonial__blocks overflow-hidden{% unless section.settings.carousel %} grid grid-columns grid-columns-mobile{% endunless %}"
       {% unless section.settings.carousel %}
         style="
           --grid-columns: {{ section.settings.columns }};
@@ -122,8 +122,8 @@
         <article
           id="block-{{ block.id }}"
           class="
-            multicolumn__column
-            multicolumn__column--{{ block.type }}
+            testimonial__column
+            testimonial__column--{{ block.type }}
             flex
             flex-column
             color-{{ section.settings.column_color_scheme }}
@@ -136,7 +136,7 @@
         >
 
           {% if block.settings.column_video != blank or block.settings.column_image != blank %}
-            <div class="multicolumn__column-media">
+            <div class="testimonial__column-media">
 
               {% if block.settings.column_video != blank %}
 
@@ -148,14 +148,14 @@
                     controls: false,
                     loop: true,
                     playsinline: true,
-                    class: 'multicolumn__column-video'
+                    class: 'testimonial__column-video'
                 }}
 
               {% elsif block.settings.column_image != blank %}
 
                 {% render 'image',
                   image: block.settings.column_image,
-                  class: 'multicolumn__column-image',
+                  class: 'testimonial__column-image',
                   sizes: column_sizes,
                   loading: img_loading,
                   fetchpriority: img_fetchpriority
@@ -167,16 +167,16 @@
           {% endif %}
 
           {% if block.settings.column_heading != blank or block.settings.column_info != blank %}
-            <div class="multicolumn__column-content gap-1 flex flex-column">
+            <div class="testimonial__column-content gap-1 flex flex-column">
 
               {% if block.settings.column_heading != blank %}
-                <h3 class="multicolumn__column-heading">
+                <h3 class="testimonial__column-heading">
                   {{ block.settings.column_heading }}
                 </h3>
               {% endif %}
 
               {% if block.settings.column_info != blank %}
-                <div class="multicolumn__column-info">
+                <div class="testimonial__column-info">
                   {{ block.settings.column_info }}
                 </div>
               {% endif %}
@@ -204,9 +204,9 @@
 
 {% schema %}
 {
-  "name": "multicolumns",
+  "name": "Testimonials",
   "tag": "section",
-  "class": "multicolumns-section",
+  "class": "testimonials-section",
   "disabled_on": {
     "groups": ["header", "footer"]
   },
@@ -214,7 +214,7 @@
   "blocks": [
     {
       "type": "column",
-      "name": "multicolumn",
+      "name": "Testimonial",
       "settings": [
         {
           "type": "header",
@@ -256,7 +256,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "multicolumns"
+      "default": "Testimonials"
     },
     {
       "type": "select",
@@ -486,7 +486,7 @@
 
   "presets": [
     {
-      "name": "multicolumns",
+      "name": "Testimonials",
       "blocks": [
         {
           "type": "column"
