@@ -14,6 +14,13 @@
     "footer": {
       "type": "footer",
       "blocks": {
+        "logo_MtRKpE": {
+          "type": "logo",
+          "settings": {
+            "logo_image": "shopify://shop_images/Screenshot_2026-08-08_010234-removebg-preview.png",
+            "logo_size": 100
+          }
+        },
         "menu_YhExki": {
           "type": "menu",
           "settings": {
@@ -48,6 +55,7 @@
         }
       },
       "block_order": [
+        "logo_MtRKpE",
         "menu_YhExki",
         "menu_NdU4mx",
         "menu_ymBmCT",
