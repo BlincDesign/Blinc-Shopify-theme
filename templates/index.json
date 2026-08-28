@@ -15,7 +15,7 @@
       "settings": {
         "image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
         "image_2": "shopify://shop_images/4_cbdf2a1f-40fc-4cd0-b5bc-6131b5eb79bd.webp",
-        "image_overlay_opacity": 20,
+        "image_overlay_opacity": 40,
         "image_height": "adapt"
       }
     },
