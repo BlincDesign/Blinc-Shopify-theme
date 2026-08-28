@@ -64,26 +64,6 @@
       </dialog>
     </quick-modal>
 
-    <cart-drawer data-cart-url="{{ routes.cart_url }}">
-      <dialog class="cart-drawer" aria-label="{{ 'cart.title' | t }}">
-        <div class="cart-drawer__header flex items-center justify-between">
-          <h2 class="cart-drawer__title heading heading--small">{{ 'cart.title' | t }}</h2>
-          <button
-            type="button"
-            class="cart-drawer__close"
-            data-cart-drawer-close
-            aria-label="{{ 'general.accessibility.close' | t }}"
-          >
-            {%- render 'icon', name: 'close' -%}
-          </button>
-        </div>
-        <div class="cart-drawer__body" data-cart-drawer-body></div>
-        <p class="cart-drawer__loading text-body" data-cart-drawer-loading hidden>
-          {{- 'products.product.loading' | t -}}
-        </p>
-      </dialog>
-    </cart-drawer>
-
     <script>
       window.theme = window.theme || {};
       window.theme.routes = {
