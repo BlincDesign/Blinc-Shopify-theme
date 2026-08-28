@@ -1,5 +1,12 @@
+{%- liquid
+  assign width_class = 'container-standard'
+  if section.settings.enable_full_width
+    assign width_class = 'footer__wrapper--full-width'
+  endif
+-%}
+
 <div id="Footer-{{ section.id }}" class="footer color-{{ section.settings.color_scheme }} ">
-  <div class="flex flex-column gap-1 {{ section.settings.container_width }}">
+  <div class="flex flex-column gap-1 {{ width_class }}">
     <div class="footer__wrapper flex flex-wrap items-center">
       {% for block in section.blocks -%}
         {% liquid
