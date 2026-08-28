@@ -86,11 +86,14 @@
     "checkout": "Check out",
     "view_cart": "View cart",
     "note": {
+      "add": "Add a note",
+      "edit": "Edit note",
       "saving": "Saving…",
       "saved": "Saved",
       "error": "Couldn't save your note"
     },
     "discount_code": {
+      "trigger": "Apply discount code",
       "placeholder": "Enter discount code",
       "apply": "Apply",
       "applying": "Applying…",

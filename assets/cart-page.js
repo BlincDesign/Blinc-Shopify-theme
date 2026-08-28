@@ -46,6 +46,7 @@ class CartPage extends HTMLElement {
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.description || `Cart change failed: ${response.status}`);
+            window.theme.dispatchCartUpdate(data);
         } catch (error) {
             console.error(error);
             window.theme.toast?.show(
@@ -74,6 +75,10 @@ class CartPage extends HTMLElement {
 
             this.updateContent(content);
             this.updateCartCount(content);
+
+            // Keeps self-updating blocks (e.g. <free-shipping-progress>)
+            // correct even when nothing changed in this tab.
+            window.theme.dispatchCartUpdate({ total_price: Number(content.dataset.totalPrice) });
         } catch (error) {
             if (error.name === 'AbortError') return;
             console.error(error);
@@ -114,7 +119,20 @@ class CartPage extends HTMLElement {
     swapRegion(currentRoot, newRoot, selector) {
         const current = currentRoot.querySelector(selector);
         const updated = newRoot.querySelector(selector);
-        if (current && updated) current.replaceWith(updated);
+        if (current && updated) current.replaceWith(this.preserveSelfUpdating(current, updated));
+    }
+
+    // Self-updating blocks (root element marked data-self-updating="<name>",
+    // e.g. <free-shipping-progress>) manage their own DOM from the
+    // cart:updated event and don't want to be overwritten by a section
+    // fetch that's always one round-trip behind - keep the live instance
+    // instead of the freshly fetched one before swapping the region in.
+    preserveSelfUpdating(current, updated) {
+        current.querySelectorAll('[data-self-updating]').forEach((live) => {
+            const fresh = updated.querySelector(`[data-self-updating="${live.dataset.selfUpdating}"]`);
+            fresh?.replaceWith(live);
+        });
+        return updated;
     }
 
     updateCartCount(content) {

@@ -1,8 +1,16 @@
 {%- comment -%}
   Renders progress toward settings.free_shipping_threshold. Renders
-  nothing if the merchant hasn't set a threshold. Purely server-rendered -
-  updates for free whenever the parent cart-drawer/cart-page section
-  re-fetches after a cart change, no JS needed.
+  nothing if the merchant hasn't set a threshold.
+
+  Self-updates from the theme-wide `cart:updated` event
+  (window.theme.dispatchCartUpdate, assets/theme.js; handled by
+  assets/free-shipping-progress.js) whenever the cart changes, so it
+  reacts instantly instead of waiting on a drawer/page section refresh.
+  Server-rendered here for first paint and no-JS correctness - the data-*
+  attributes below are its only inputs once the custom element takes over,
+  and its data-self-updating marker tells <cart-drawer>/<cart-page>'s
+  section-driven block swap to leave it alone (assets/cart-drawer.js,
+  assets/cart-page.js).
 
   Accepts:
   block (object, required) - a `free_shipping_progress` schema block.
@@ -31,22 +39,32 @@
 
     assign remaining_money = remaining_cents | money
   -%}
-  <div class="free-shipping-progress" {{ block.shopify_attributes }} data-state="{% if has_reached_threshold %}complete{% else %}in-progress{% endif %}">
-    {%- if has_reached_threshold -%}
-      <p class="free-shipping-progress__message text-body text-body--small flex items-center">
+  <free-shipping-progress
+    class="free-shipping-progress"
+    data-self-updating="free-shipping-progress"
+    data-state="{% if has_reached_threshold %}complete{% else %}in-progress{% endif %}"
+    data-threshold="{{ threshold_cents }}"
+    data-currency="{{ cart.currency.iso_code }}"
+    data-progress-text="{{ block.settings.progress_text | escape }}"
+    data-success-text="{{ block.settings.success_text | escape }}"
+    data-show-bar="{{ block.settings.show_bar }}"
+    {{ block.shopify_attributes }}
+  >
+    <p class="free-shipping-progress__message text-body text-body--small flex items-center">
+      {%- if has_reached_threshold -%}
         {%- render 'icon', name: 'check', size: 16 -%}
-        {{ block.settings.success_text }}
-      </p>
-    {%- else -%}
-      <p class="free-shipping-progress__message text-body text-body--small">
-        {{ block.settings.progress_text | replace: '[amount]', remaining_money }}
-      </p>
-    {%- endif -%}
+        {{- block.settings.success_text -}}
+      {%- else -%}
+        {{- block.settings.progress_text | replace: '[amount]', remaining_money -}}
+      {%- endif -%}
+    </p>
 
     {%- if block.settings.show_bar -%}
       <div class="free-shipping-progress__bar">
         <div class="free-shipping-progress__bar-fill" style="width: {{ percent }}%;"></div>
       </div>
     {%- endif -%}
-  </div>
+
+    <template data-check-icon>{%- render 'icon', name: 'check', size: 16 -%}</template>
+  </free-shipping-progress>
 {%- endif -%}

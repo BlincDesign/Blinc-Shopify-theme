@@ -5,6 +5,8 @@
   assign has_checkout_info_block = false
   assign has_cart_field_block = false
   assign has_discount_block = false
+  assign has_free_shipping_block = false
+  assign has_popup_block = false
   for block in section.blocks
     if block.type == 'checkout_info'
       assign has_checkout_info_block = true
@@ -15,6 +17,12 @@
     if block.type == 'discount_code'
       assign has_discount_block = true
     endif
+    if block.type == 'free_shipping_progress' and settings.free_shipping_threshold > 0
+      assign has_free_shipping_block = true
+    endif
+    if block.type == 'cart_note' or block.type == 'discount_code'
+      assign has_popup_block = true
+    endif
   endfor
 -%}
 
@@ -23,11 +31,17 @@
 {%- if section.blocks.size > 0 -%}
   {{ 'cart-blocks.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
+{%- if has_popup_block -%}
+  <script src="{{ 'cart-popup.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 {%- if has_cart_field_block -%}
   <script src="{{ 'cart-field.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 {%- if has_discount_block -%}
   <script src="{{ 'discount-code.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{%- if has_free_shipping_block -%}
+  <script src="{{ 'free-shipping-progress.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
 <cart-drawer data-cart-url="{{ routes.cart_url }}" data-section-id="{{ section.id }}">
@@ -45,7 +59,7 @@
     </div>
 
     <div class="cart-drawer__body" data-cart-drawer-body>
-      <div data-cart-drawer-content data-item-count="{{ cart.item_count }}">
+      <div data-cart-drawer-content data-item-count="{{ cart.item_count }}" data-total-price="{{ cart.total_price }}">
         {%- if section.blocks.size > 0 -%}
           <div class="cart-drawer__blocks flex flex-column">
             {%- for block in section.blocks -%}
@@ -73,6 +87,7 @@
 
         {%- if cart.item_count == 0 -%}
           <div class="cart-drawer__empty flex flex-column items-center text-center">
+            {%- render 'icon', name: 'cart', class: 'cart-drawer__empty-icon', size: 32 -%}
             <p class="cart-drawer__empty-text text-body">{{ 'cart.empty' | t }}</p>
             {%- render 'button',
               label: continue_shopping_label,

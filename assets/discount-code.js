@@ -46,6 +46,7 @@ class DiscountCodeForm extends HTMLElement {
             });
             const cart = await response.json();
             if (!response.ok) throw new Error(cart.description || `Discount update failed: ${response.status}`);
+            window.theme.dispatchCartUpdate(cart);
 
             const applied = (cart.cart_level_discount_applications || []).some(
                 (application) => application.title === discount

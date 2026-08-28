@@ -1,6 +1,7 @@
 {%- comment -%}
-  Renders a discount code input + Apply button, or the currently applied
-  code(s) with a Remove control. AJAX behavior lives in
+  Renders the currently applied discount code(s) with a Remove control, or
+  a trigger that opens the discount code input in a popup (assets/
+  cart-popup.js, <cart-popup>). AJAX behavior lives in
   assets/discount-code.js (<discount-code-form> custom element), which
   posts to the cartUpdate route and triggers a full cart-drawer/cart-page
   refresh on success or failure.
@@ -19,11 +20,11 @@
   data-error-text="{{ 'cart.discount_code.error' | t }}"
   {{ block.shopify_attributes }}
 >
-  {%- if block.settings.heading != blank -%}
-    <p class="discount-code__heading heading heading--small">{{ block.settings.heading }}</p>
-  {%- endif -%}
-
   {%- if cart.cart_level_discount_applications.size > 0 -%}
+    {%- if block.settings.heading != blank -%}
+      <p class="discount-code__heading heading heading--small">{{ block.settings.heading }}</p>
+    {%- endif -%}
+
     <ul class="discount-code__applied">
       {%- for discount_application in cart.cart_level_discount_applications -%}
         <li class="discount-code__chip flex items-center">
@@ -36,21 +37,47 @@
       {%- endfor -%}
     </ul>
   {%- else -%}
-    <div class="discount-code__row flex">
-      <label class="visually-hidden" for="DiscountCode-{{ block.id }}">{{ 'cart.discount_code.placeholder' | t }}</label>
-      <input
-        type="text"
-        id="DiscountCode-{{ block.id }}"
-        class="discount-code__input"
-        placeholder="{{ 'cart.discount_code.placeholder' | t }}"
-        data-discount-input
-        autocomplete="off"
+    <cart-popup>
+      <button
+        type="button"
+        class="discount-code__trigger cart-popup__trigger text-body text-body--small"
+        data-cart-popup-trigger
       >
-      <button type="button" class="discount-code__button items-center justify-center" data-discount-apply>
-        <span data-discount-button-label>{{ 'cart.discount_code.apply' | t }}</span>
-        <span class="discount-code__spinner" data-discount-spinner hidden>{%- render 'icon', name: 'spinner', size: 16 -%}</span>
+        {{- 'cart.discount_code.trigger' | t -}}
       </button>
-    </div>
-    <p class="discount-code__status text-body text-body--small" data-discount-status role="status" aria-live="polite"></p>
+
+      <dialog class="cart-popup" aria-label="{{ block.settings.heading }}">
+        <div class="cart-popup__header flex items-center justify-between">
+          <p class="heading heading--small">{{ block.settings.heading }}</p>
+          <button
+            type="button"
+            class="cart-popup__close"
+            data-cart-popup-close
+            aria-label="{{ 'general.accessibility.close' | t }}"
+          >
+            {%- render 'icon', name: 'close' -%}
+          </button>
+        </div>
+
+        <div class="cart-popup__body">
+          <div class="discount-code__row flex">
+            <label class="visually-hidden" for="DiscountCode-{{ block.id }}">{{ 'cart.discount_code.placeholder' | t }}</label>
+            <input
+              type="text"
+              id="DiscountCode-{{ block.id }}"
+              class="discount-code__input"
+              placeholder="{{ 'cart.discount_code.placeholder' | t }}"
+              data-discount-input
+              autocomplete="off"
+            >
+            <button type="button" class="discount-code__button items-center justify-center" data-discount-apply>
+              <span data-discount-button-label>{{ 'cart.discount_code.apply' | t }}</span>
+              <span class="discount-code__spinner" data-discount-spinner hidden>{%- render 'icon', name: 'spinner', size: 16 -%}</span>
+            </button>
+          </div>
+          <p class="discount-code__status text-body text-body--small" data-discount-status role="status" aria-live="polite"></p>
+        </div>
+      </dialog>
+    </cart-popup>
   {%- endif -%}
 </discount-code-form>

@@ -20,6 +20,30 @@ window.theme.debounce = function debounce(fn, delay = 400) {
     };
 };
 
+// Formats a shop-currency amount (in cents) for client-side UI that can't
+// use Liquid's `money` filter - e.g. cart blocks that self-update from the
+// cart:updated event below instead of waiting on a section refresh.
+window.theme.formatMoney = function formatMoney(cents, currencyCode) {
+    try {
+        return new Intl.NumberFormat(document.documentElement.lang || 'en', {
+            style: 'currency',
+            currency: currencyCode,
+        }).format(cents / 100);
+    } catch (error) {
+        return (cents / 100).toFixed(2);
+    }
+};
+
+// Broadcasts a cart mutation theme-wide so any interested listener - the
+// cart drawer, self-updating blocks like <free-shipping-progress>, future
+// ones - can react on its own, without the code that made the change
+// needing to know who's listening. Every AJAX cart mutation (add/change/
+// update) calls this with the cart object its endpoint returns, so
+// listeners always get real, current cart totals.
+window.theme.dispatchCartUpdate = function dispatchCartUpdate(cart) {
+    document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+};
+
 class StickyHeader {
   constructor(header) {
     this.header = header;
@@ -556,9 +580,9 @@ class CartForm {
             const data = await response.json();
             if (!response.ok) throw new Error(data.description || 'Cart request failed');
 
-            await this.updateCartCount();
+            const cart = await this.updateCartCount();
             Toast.show(window.theme.strings?.addedToCart, 'success');
-            document.dispatchEvent(new CustomEvent('cart:updated', { detail: { item: data } }));
+            window.theme.dispatchCartUpdate(cart);
 
             form.closest('quick-modal')?.close();
         } catch (error) {

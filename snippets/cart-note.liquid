@@ -1,5 +1,6 @@
 {%- comment -%}
-  Renders the cart note field. AJAX save behavior lives in
+  Renders a trigger that opens the cart note field in a popup (assets/
+  cart-popup.js, <cart-popup>). AJAX save behavior lives in
   assets/cart-field.js (<cart-field> custom element).
 
   Accepts:
@@ -9,24 +10,45 @@
   {% render 'cart-note', block: block %}
 {%- endcomment -%}
 
-<cart-field
-  class="cart-note"
-  data-field="note"
-  data-saving-text="{{ 'cart.note.saving' | t }}"
-  data-saved-text="{{ 'cart.note.saved' | t }}"
-  data-error-text="{{ 'cart.note.error' | t }}"
-  {{ block.shopify_attributes }}
->
-  {%- if block.settings.heading != blank -%}
-    <p class="cart-note__heading heading heading--small">{{ block.settings.heading }}</p>
-  {%- endif -%}
-  <label class="visually-hidden" for="CartNote-{{ block.id }}">{{ block.settings.heading }}</label>
-  <textarea
-    id="CartNote-{{ block.id }}"
-    class="cart-note__textarea"
-    placeholder="{{ block.settings.placeholder }}"
-    rows="3"
-    data-cart-field-input
-  >{{ cart.note }}</textarea>
-  <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
-</cart-field>
+<cart-popup class="cart-note" {{ block.shopify_attributes }}>
+  <button type="button" class="cart-note__trigger cart-popup__trigger text-body text-body--small" data-cart-popup-trigger>
+    {%- if cart.note != blank -%}
+      {{- 'cart.note.edit' | t -}}
+    {%- else -%}
+      {{- 'cart.note.add' | t -}}
+    {%- endif -%}
+  </button>
+
+  <dialog class="cart-popup" aria-label="{{ block.settings.heading }}">
+    <div class="cart-popup__header flex items-center justify-between">
+      <p class="heading heading--small">{{ block.settings.heading }}</p>
+      <button
+        type="button"
+        class="cart-popup__close"
+        data-cart-popup-close
+        aria-label="{{ 'general.accessibility.close' | t }}"
+      >
+        {%- render 'icon', name: 'close' -%}
+      </button>
+    </div>
+
+    <div class="cart-popup__body">
+      <cart-field
+        data-field="note"
+        data-saving-text="{{ 'cart.note.saving' | t }}"
+        data-saved-text="{{ 'cart.note.saved' | t }}"
+        data-error-text="{{ 'cart.note.error' | t }}"
+      >
+        <label class="visually-hidden" for="CartNote-{{ block.id }}">{{ block.settings.heading }}</label>
+        <textarea
+          id="CartNote-{{ block.id }}"
+          class="cart-note__textarea"
+          placeholder="{{ block.settings.placeholder }}"
+          rows="3"
+          data-cart-field-input
+        >{{ cart.note }}</textarea>
+        <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
+      </cart-field>
+    </div>
+  </dialog>
+</cart-popup>

@@ -39,8 +39,10 @@ class CartField extends HTMLElement {
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                 body: JSON.stringify(this.buildPayload(this.input.value)),
             });
+            const cart = await response.json();
             if (!response.ok) throw new Error(`Cart update failed: ${response.status}`);
             this.setStatus(this.dataset.savedText, 'saved');
+            window.theme.dispatchCartUpdate(cart);
         } catch (error) {
             console.error(error);
             this.setStatus(this.dataset.errorText, 'error');
