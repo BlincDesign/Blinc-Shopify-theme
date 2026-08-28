@@ -405,6 +405,52 @@
         "padding_top_m": 20,
         "padding_bottom_m": 20
       }
+    },
+    "testimonials_GABiRp": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_e8LAW3": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_df5748a3-e257-49f1-9c54-2bdd25186cae.png",
+            "quote": "<p>Include a favorite customer quote or feedback here.</p>",
+            "info": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
+          }
+        },
+        "testimonial_HVGMgN": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/fcndk_fxa_37_6_5.jpg",
+            "quote": "<p>Include a favorite customer quote or feedback here.</p>",
+            "info": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
+          }
+        },
+        "testimonial_UXCkB6": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
+            "quote": "<p>Include a favorite customer quote or feedback here.</p>",
+            "info": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_e8LAW3",
+        "testimonial_HVGMgN",
+        "testimonial_UXCkB6"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "color_scheme": "",
+        "container_width": "container-standard",
+        "image_ratio": "square",
+        "quote_preset": "h2",
+        "info_preset": "body",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_top_m": 32,
+        "padding_bottom_m": 32
+      }
     }
   },
   "order": [
@@ -415,6 +461,7 @@
     "media_with_text_RDtETM",
     "media_with_text_qn6Bim",
     "media_with_text_KNnafK",
-    "rich_text_CfffUi"
+    "rich_text_CfffUi",
+    "testimonials_GABiRp"
   ]
 }
