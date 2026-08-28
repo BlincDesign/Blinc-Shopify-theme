@@ -1,17 +1,6 @@
-/**
- * Global, site-wide theme JS. Everything in this file is needed on every
- * page (sticky header, quantity selector, sliders, product variant/media
- * behavior, site-wide add-to-cart) - so it loads once via layout/theme.liquid
- * instead of as separate globally-loaded files. Functionality that's only
- * needed by one section/block lives in its own asset and is loaded only
- * from that section/snippet (e.g. assets/cart-drawer.js, assets/quick-modal.js).
- */
-
 window.theme = window.theme || {};
 window.theme.settings = window.theme.settings || {};
 
-// Debounces autosave-on-input behaviors (e.g. cart note, PO reference) -
-// no equivalent utility exists elsewhere in the theme.
 window.theme.debounce = function debounce(fn, delay = 400) {
     let timeoutId;
     return function debounced(...args) {
@@ -20,9 +9,6 @@ window.theme.debounce = function debounce(fn, delay = 400) {
     };
 };
 
-// Formats a shop-currency amount (in cents) for client-side UI that can't
-// use Liquid's `money` filter - e.g. cart blocks that self-update from the
-// cart:updated event below instead of waiting on a section refresh.
 window.theme.formatMoney = function formatMoney(cents, currencyCode) {
     try {
         return new Intl.NumberFormat(document.documentElement.lang || 'en', {
@@ -34,12 +20,6 @@ window.theme.formatMoney = function formatMoney(cents, currencyCode) {
     }
 };
 
-// Broadcasts a cart mutation theme-wide so any interested listener - the
-// cart drawer, self-updating blocks like <free-shipping-progress>, future
-// ones - can react on its own, without the code that made the change
-// needing to know who's listening. Every AJAX cart mutation (add/change/
-// update) calls this with the cart object its endpoint returns, so
-// listeners always get real, current cart totals.
 window.theme.dispatchCartUpdate = function dispatchCartUpdate(cart) {
     document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
 };
@@ -122,11 +102,6 @@ class QuantitySelector extends HTMLElement {
         this.input?.addEventListener('change', () => this.clamp());
     }
 
-    // Dispatches a synthetic `change` so listeners outside this element
-    // (e.g. the cart drawer's AJAX update) react to +/- clicks the same way
-    // they react to typed input. clamp() itself must never dispatch - it's
-    // also invoked by the input's own native `change` listener below, and a
-    // dispatch there would recurse.
     step(direction) {
         if (!this.input) return;
         const step = Number(this.input.step) || 1;
@@ -137,9 +112,6 @@ class QuantitySelector extends HTMLElement {
         this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
 
-    // Rounds to the nearest valid increment from `min` before clamping,
-    // matching HTML's own step validity semantics (value == min + n*step)
-    // so the stepper and native constraint validation never disagree.
     clamp() {
         if (!this.input) return;
         const min = Number(this.input.min) || 1;
@@ -318,12 +290,6 @@ if (document.readyState === 'loading') {
 }
 
 
-/**
- * <variant-picker> / <product-info> - the reusable product "buy box"
- * behavior (variant selection, AJAX variant swap, media sync). Global
- * because the same markup is reused inside Quick Add / Quick View, not
- * just the product page.
- */
 class VariantPicker extends HTMLElement {
     connectedCallback() {
         this.addEventListener('change', this.onChange.bind(this));
@@ -516,12 +482,6 @@ class ProductInfo extends HTMLElement {
 customElements.define('product-info', ProductInfo);
 
 
-/**
- * Site-wide AJAX add-to-cart. Intercepts every `/cart/add` form submission -
- * the product page, product cards, and both Quick Add / Quick View - so
- * adding to cart never hard-navigates. Deliberately does not build a cart
- * drawer; it just updates the header cart count and shows a toast.
- */
 const Toast = {
     region: null,
 
