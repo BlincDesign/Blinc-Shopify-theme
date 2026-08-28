@@ -5,6 +5,13 @@
   endif
 -%}
 
+{% style %}
+  .footer__logo {
+    width: var(--logo-width);
+    margin-inline-end: 2rem;
+  }
+{% endstyle %}
+
 <div id="Footer-{{ section.id }}" class="footer color-{{ section.settings.color_scheme }} ">
   <div class="flex flex-column gap-1 {{ width_class }}">
     <div class="footer__wrapper flex flex-wrap items-center">
@@ -14,20 +21,15 @@
           assign logo = block.settings.logo_image
           assign logo_size = block.settings.logo_size
         %}
-        {% style %}
-          .footer__logo {
-            width: {{ logo_size }}px;
-            margin-inline-end: 2rem;
-          }
-        {% endstyle %}
         <div class="footer__blocks footer__blocks-{{ block.type }} flex-grow">
           {% case block.type %}
             {% when '@app' %}
               {% render block %}
             {% when 'logo' %}
-              <div class="footer__logo" {{ block.shopify_attributes }}>
+              <div style="--logo-width: {{ logo_size }}px" class="footer__logo" {{ block.shopify_attributes }}>
                 {% render 'image', image: logo, alt: logo.alt %}
               </div>
+
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
                 <div class="flex flex-column gap-half" {{ block.shopify_attributes }}>
