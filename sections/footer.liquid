@@ -64,7 +64,7 @@
                 </div>
               {% endif %}
             {% when 'newsletter' %}
-              {% render 'newsletter' %}
+              {% render 'newsletter-form', show_name: true, show_email: true, show_consent: false %}
 
             {% when 'large-logo' %}
               <div {{ block.shopify_attributes }}>
