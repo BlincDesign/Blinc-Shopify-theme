@@ -11,14 +11,19 @@
   {%- case block.type -%}
     {%- when 'heading' -%}
       {%- if block.settings.heading != blank -%}
-        <h2 class="content-block__heading heading heading--{{ block.settings.heading_size }} column" {{ block.shopify_attributes }}>
+        <h2
+          class="content-block__heading heading heading--{{ block.settings.heading_size }} column"
+          {{ block.shopify_attributes }}
+        >
           {{ block.settings.heading }}
         </h2>
       {%- endif -%}
 
     {%- when 'caption' -%}
       {%- if block.settings.caption != blank -%}
-        <p class="content-block__caption text-subheading column" {{ block.shopify_attributes }}>{{ block.settings.caption }}</p>
+        <p class="content-block__caption text-subheading column" {{ block.shopify_attributes }}>
+          {{ block.settings.caption }}
+        </p>
       {%- endif -%}
 
     {%- when 'text' -%}
@@ -83,7 +88,12 @@
           rows="3"
           data-cart-field-input
         >{{ cart.note }}</textarea>
-        <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
+        <p
+          class="cart-field__status text-body text-body--small"
+          data-cart-field-status
+          role="status"
+          aria-live="polite"
+        ></p>
       </cart-field>
 
     {%- when 'po_reference' -%}
@@ -112,7 +122,12 @@
           autocomplete="off"
           data-cart-field-input
         >
-        <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
+        <p
+          class="cart-field__status text-body text-body--small"
+          data-cart-field-status
+          role="status"
+          aria-live="polite"
+        ></p>
       </cart-field>
 
     {%- when 'custom_liquid' -%}
