@@ -15,7 +15,8 @@
       "settings": {
         "image_2": "shopify://shop_images/Murals.webp",
         "image_overlay_opacity": 40,
-        "image_height": "large"
+        "image_height": "large",
+        "desktop_content_position": "middle-center"
       }
     },
     "rich_text": {
