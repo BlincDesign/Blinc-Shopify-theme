@@ -1,4 +1,4 @@
-<div class="footer page-width color-{{ section.settings.color_scheme }}">
+<div class="footer color-{{ section.settings.color_scheme }} {{ section.settings.container_width }}">
   <div class="footer__wrapper flex flex-wrap items-center">
     {% for block in section.blocks -%}
       {% liquid
@@ -111,7 +111,31 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
-    }
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "default": "container-standard",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full Width"
+        },
+        {
+          "value": "container-padded",
+          "label": "Full Width (Padded)"
+        },
+        {
+          "value": "container-standard",
+          "label": "Standard"
+        },
+        {
+          "value": "container-narrow",
+          "label": "Narrow"
+        }
+      ]
+    },
   ]
 }
 {% endschema %}
