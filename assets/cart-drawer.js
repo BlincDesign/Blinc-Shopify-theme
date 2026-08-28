@@ -19,6 +19,9 @@ class CartDrawer extends HTMLElement {
 
         if (!this.dialog || !this.body) return;
 
+        this.lineDebouncers = new Map();
+        this.lineAbortControllers = new Map();
+
         this.dialog.addEventListener('click', (event) => {
             if (event.target === this.dialog) this.close();
         });
@@ -52,6 +55,8 @@ class CartDrawer extends HTMLElement {
         document.removeEventListener('cart:updated', this.onCartUpdated);
         this.unbindThemeEditor?.();
         this.abortController?.abort();
+        this.lineDebouncers?.forEach((debounced) => debounced.cancel());
+        this.lineAbortControllers?.forEach((controller) => controller.abort());
     }
 
     onTriggerClick(event) {
@@ -186,31 +191,49 @@ class CartDrawer extends HTMLElement {
         });
     }
 
-    async updateLine(input) {
+    updateLine(input) {
         const line = input.closest('[data-cart-item]')?.dataset.lineKey;
         if (!line) return;
-              input.disabled = true;
-        try {
-            await this.changeLine(line, Number(input.value));
-        } finally {
-            input.disabled = false;
+
+        if (!this.lineDebouncers.has(line)) {
+            this.lineDebouncers.set(
+                line,
+                window.theme.debounce((quantity) => this.changeLine(line, quantity), 350)
+            );
         }
+
+        this.lineDebouncers.get(line)(Number(input.value));
     }
 
-    async removeLine(button) {
+    removeLine(button) {
         const line = button.closest('[data-cart-item]')?.dataset.lineKey;
         if (!line) return;
-        await this.changeLine(line, 0);
+
+        this.lineDebouncers.get(line)?.cancel();
+        this.lineDebouncers.delete(line);
+
+        return this.changeLine(line, 0);
     }
 
     async changeLine(id, quantity) {
         const routes = window.theme.routes || {};
 
+        this.lineAbortControllers.get(id)?.abort();
+        const controller = new AbortController();
+        this.lineAbortControllers.set(id, controller);
+
         try {
             const response = await fetch(routes.cartChange || '/cart/change.js', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify({ id, quantity }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                },
+                body: JSON.stringify({
+                    id,
+                    quantity
+                }),
+                signal: controller.signal,
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.description || `Cart change failed: ${response.status}`);
@@ -219,11 +242,16 @@ class CartDrawer extends HTMLElement {
             window.theme.dispatchCartUpdate(data);
             this.isSyncingSelf = false;
         } catch (error) {
+            if (error.name === 'AbortError') return;
             console.error(error);
             window.theme.toast?.show(
                 error.message || window.theme.strings?.lineErrorGeneric,
                 'error'
             );
+        } finally {
+            if (this.lineAbortControllers.get(id) === controller) {
+                this.lineAbortControllers.delete(id);
+            }
         }
 
         await this.refresh();
