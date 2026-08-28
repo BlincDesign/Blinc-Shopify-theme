@@ -17,12 +17,12 @@
               </div>
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
-                <div {{ block.shopify_attributes }}>
+                <div class="flex flex-column gap-0.5" {{ block.shopify_attributes }}>
                   <h3 class="footer__menu-heading heading heading--{{ block.settings.heading_size }}">
                     {{ block.settings.menu_heading }}
                   </h3>
                   <nav class="footer__nav" aria-label="Footer">
-                    <ul class="footer__nav-list flex flex-column gap-1">
+                    <ul class="footer__nav-list flex flex-column gap-0.5>
                       {%- for link in menu.links -%}
                         <li>
                           <a href="{{ link.url }}">{{ link.title }}</a>
@@ -42,13 +42,11 @@
 
           {% endcase %}
         </div>
-      {% endfor %}
-    </div>
-    <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p>
-  </div>
-</div>
 
-{% schema %}
+      {%- endfor %}
+      </div> <p class="footer__copyright">{{ 'now' | date: '%Y' }} &copy; {{ shop.name }}</p> </div> </div>
+
+      {% schema %}
 {
   "name": "Footer",
   "tag": "footer",
@@ -162,4 +160,4 @@
     }
   ]
 }
-{% endschema %}
+      {% endschema %}
