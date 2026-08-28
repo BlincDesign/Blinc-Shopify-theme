@@ -179,8 +179,12 @@ class Slider {
         if (slider.swiper) return;
 
         try {
-            if (typeof window.Swiper === 'undefined') throw new Error('Swiper is not available');
+            if (typeof window.Swiper === 'undefined') {
+                throw new Error('Swiper is not available');
+            }
+
             slider.swiper = new window.Swiper(slider, this.getConfig(slider));
+
             delete slider.dataset.sliderError;
         } catch (error) {
             slider.dataset.sliderError = 'true';
@@ -198,8 +202,10 @@ class Slider {
 
     destroyOne(slider) {
         if (!slider.swiper) return;
+
         slider.swiper.destroy(true, true);
         slider.swiper = null;
+
         delete slider.dataset.sliderError;
     }
 
@@ -221,34 +227,113 @@ class Slider {
 
         const config = this.merge(this.defaults, overrides);
 
+        // Resolve CSS variables before passing config to Swiper.
+        const resolvedConfig = this.resolveCSSVariables(config, slider);
+
         const prevEl = slider.querySelector('[slider-prev]');
         const nextEl = slider.querySelector('[slider-next]');
         const scrollbarEl = slider.querySelector('[slider-scrollbar]');
         const paginationEl = slider.querySelector('[slider-pagination]');
 
         if (prevEl && nextEl) {
-            config.navigation = {
-                ...config.navigation,
+            resolvedConfig.navigation = {
+                ...resolvedConfig.navigation,
                 prevEl,
                 nextEl
             };
         }
 
         if (scrollbarEl) {
-            config.scrollbar = {
+            resolvedConfig.scrollbar = {
                 draggable: true,
-                ...config.scrollbar,
+                ...resolvedConfig.scrollbar,
                 el: scrollbarEl
             };
         } else if (paginationEl) {
-            config.pagination = {
+            resolvedConfig.pagination = {
                 clickable: true,
-                ...config.pagination,
-                el: paginationEl
+                ...resolvedConfig.pagination,
+                el: paginationEl,
+                type: paginationEl.dataset.paginationType || 'bullets'
             };
         }
 
-        return config;
+        return resolvedConfig;
+    }
+
+    resolveCSSVariables(value, element) {
+        if (typeof value === 'string') {
+            const cssVariableMatch = value.match(/^var\(\s*(--[\w-]+)(?:\s*,\s*(.+))?\s*\)$/);
+
+            if (!cssVariableMatch) {
+                return value;
+            }
+
+            const variableName = cssVariableMatch[1];
+            const fallback = cssVariableMatch[2];
+
+            const computedValue = getComputedStyle(element)
+                .getPropertyValue(variableName)
+                .trim();
+
+            const resolvedValue = computedValue || fallback;
+
+            if (!resolvedValue) {
+                console.warn(
+                    `CSS variable "${variableName}" could not be resolved.`,
+                    element
+                );
+
+                return value;
+            }
+
+            return this.cssValueToPixels(resolvedValue, element);
+        }
+
+        if (Array.isArray(value)) {
+            return value.map((item) => this.resolveCSSVariables(item, element));
+        }
+
+        if (isPlainObject(value)) {
+            const output = {};
+
+            for (const [key, nestedValue] of Object.entries(value)) {
+                output[key] = this.resolveCSSVariables(nestedValue, element);
+            }
+
+            return output;
+        }
+
+        return value;
+    }
+
+    cssValueToPixels(value, element) {
+        const numericValue = parseFloat(value);
+
+        if (Number.isNaN(numericValue)) {
+            return value;
+        }
+
+        // Already pixels.
+        if (value.endsWith('px')) {
+            return numericValue;
+        }
+
+        // Convert relative CSS units such as rem/em/%/vw/etc.
+        const probe = document.createElement('div');
+
+        probe.style.position = 'absolute';
+        probe.style.visibility = 'hidden';
+        probe.style.pointerEvents = 'none';
+        probe.style.width = value;
+
+        element.appendChild(probe);
+
+        const pixels = probe.getBoundingClientRect().width;
+
+        probe.remove();
+
+        return pixels;
     }
 
     merge(defaults = {}, overrides = {}) {
@@ -270,10 +355,16 @@ class Slider {
     }
 
     bindShopifySections() {
-        document.addEventListener('shopify:section:load', (event) => this.init(event.target));
-        document.addEventListener('shopify:section:unload', (event) => this.destroy(event.target));
+        document.addEventListener('shopify:section:load', (event) => {
+            this.init(event.target);
+        });
+
+        document.addEventListener('shopify:section:unload', (event) => {
+            this.destroy(event.target);
+        });
     }
 }
+
 
 function isPlainObject(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
