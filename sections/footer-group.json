@@ -65,7 +65,9 @@
         },
         "large_logo_NUTM9R": {
           "type": "large-logo",
-          "settings": {}
+          "settings": {
+            "large_logo": "shopify://shop_images/Screenshot_2026-08-08_010234-removebg-preview.png"
+          }
         }
       },
       "block_order": [
