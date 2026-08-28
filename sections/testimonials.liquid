@@ -29,11 +29,11 @@
 {%- endstyle -%}
 
 <div class="testimonials color-{{ section.settings.color_scheme }} {{ section.settings.container_width }}">
-  <div class="testimonials__wrapper">
+  <div class="testimonials__wrapper flex flex-wrap">
 
     {% for block in section.blocks %}
       <div
-        class="testimonial-block flex flex-wrap"
+        class="testimonial-block"
         {{ block.shopify_attributes }}
       >
 
