@@ -95,9 +95,12 @@
     </div>
   {% endif %}
 
+{% assign content_position = section.settings.desktop_content_position | split: '-' %}
+
 <div
-  class="banner__content flex banner__content--{{ section.settings.desktop_content_position }}"
->
+  class="
+    banner__content flex items-{{ content_position[0] }} justify-{{ content_position[1] }}">
+
   <div class="banner__box">
     <h1>Heading no 1</h1>
     <p>Lorem is the text Shopify is the best platform</p>
@@ -155,49 +158,48 @@
       ],
       "default": "medium",
       "label": "Image Height"
-    },
-    {
+    },{
   "type": "select",
   "id": "desktop_content_position",
   "options": [
     {
-      "value": "top-left",
+      "value": "start-left",
       "label": "Top left"
     },
     {
-      "value": "top-center",
+      "value": "start-center",
       "label": "Top center"
     },
     {
-      "value": "top-right",
+      "value": "start-right",
       "label": "Top right"
     },
     {
-      "value": "middle-left",
+      "value": "center-left",
       "label": "Middle left"
     },
     {
-      "value": "middle-center",
+      "value": "center-center",
       "label": "Middle center"
     },
     {
-      "value": "middle-right",
+      "value": "center-right",
       "label": "Middle right"
     },
     {
-      "value": "bottom-left",
+      "value": "end-left",
       "label": "Bottom left"
     },
     {
-      "value": "bottom-center",
+      "value": "end-center",
       "label": "Bottom center"
     },
     {
-      "value": "bottom-right",
+      "value": "end-right",
       "label": "Bottom right"
     }
   ],
-  "default": "middle-center",
+  "default": "center-center",
   "label": "Desktop content position"
 }
   ],
