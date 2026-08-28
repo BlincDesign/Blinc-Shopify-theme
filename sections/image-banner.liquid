@@ -17,27 +17,7 @@
     height: 100%;
     object-fit: cover;
   }
-  #Banner-{{ section.id }} {
-    height: {{ image_height }}px;
-    position: relative;
-  }
-  {% if section.settings.image_height == 'adapt' %}
-  #Banner-{{ section.id }} {
-    height: auto;
-  }
-{% elsif section.settings.image_height == 'small' %}
-  #Banner-{{ section.id }} {
-    height: 300px;
-  }
-{% elsif section.settings.image_height == 'medium' %}
-  #Banner-{{ section.id }} {
-    height: 450px;
-  }
-{% elsif section.settings.image_height == 'large' %}
-  #Banner-{{ section.id }} {
-    height: 600px;
-  }
-{% endif %}
+
 
 
 {% endstyle %}
