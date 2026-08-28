@@ -1,0 +1,16 @@
+{%- comment -%}
+  Renders the checkout information message shown in place of the default
+  taxes/shipping note.
+
+  Accepts:
+  block (object, required) - a `checkout_info` schema block.
+
+  Usage:
+  {% render 'checkout-info', block: block %}
+{%- endcomment -%}
+
+{%- if block.settings.text != blank -%}
+  <div class="checkout-info content-block__text text-body text-body--small" {{ block.shopify_attributes }}>
+    {{ block.settings.text }}
+  </div>
+{%- endif -%}

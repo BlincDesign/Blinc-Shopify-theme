@@ -1,130 +1,61 @@
 {%- comment -%}
-  Renders the shared "heading / caption / text / buttons" block set used by
-  content sections (e.g. Rich text, Media with text). The parent section
-  must define matching block types/settings in its own schema
+  Renders a single shared content block: heading / caption / text /
+  buttons / custom_liquid. The parent section must define matching block
+  types/settings in its own schema and delegate these types to this
+  snippet from within its own block loop.
+
+  Accepts:
+  block (object, required) - a block whose type is one of the above.
 
   Usage:
-  {% render 'content-blocks', blocks: section.blocks %}
+  {% render 'content-blocks', block: block %}
 {%- endcomment -%}
 
-{%- for block in blocks -%}
-  {%- case block.type -%}
-    {%- when 'heading' -%}
-      {%- if block.settings.heading != blank -%}
-        <h2 class="content-block__heading heading heading--{{ block.settings.heading_size }} column" {{ block.shopify_attributes }}>
-          {{ block.settings.heading }}
-        </h2>
-      {%- endif -%}
+{%- case block.type -%}
+  {%- when 'heading' -%}
+    {%- if block.settings.heading != blank -%}
+      <h2 class="content-block__heading heading heading--{{ block.settings.heading_size }} column" {{ block.shopify_attributes }}>
+        {{ block.settings.heading }}
+      </h2>
+    {%- endif -%}
 
-    {%- when 'caption' -%}
-      {%- if block.settings.caption != blank -%}
-        <p class="content-block__caption text-subheading column" {{ block.shopify_attributes }}>{{ block.settings.caption }}</p>
-      {%- endif -%}
+  {%- when 'caption' -%}
+    {%- if block.settings.caption != blank -%}
+      <p class="content-block__caption text-subheading column" {{ block.shopify_attributes }}>{{ block.settings.caption }}</p>
+    {%- endif -%}
 
-    {%- when 'text' -%}
-      {%- if block.settings.text != blank -%}
-        <div
-          class="content-block__text text-body{% if block.settings.text_size == 'small' %} text-body--small{% endif %} column"
-          {{ block.shopify_attributes }}
-        >
-          {{ block.settings.text }}
-        </div>
-      {%- endif -%}
-
-    {%- when 'buttons' -%}
-      {%- if block.settings.button_1_label != blank or block.settings.button_2_label != blank -%}
-        <div class="content-block__buttons flex flex-wrap items-center column" {{ block.shopify_attributes }}>
-          {%- if block.settings.button_1_label != blank -%}
-            {%- render 'button',
-              label: block.settings.button_1_label,
-              url: block.settings.button_1_link,
-              button_style: block.settings.button_1_style
-            -%}
-          {%- endif -%}
-          {%- if block.settings.button_2_label != blank -%}
-            {%- render 'button',
-              label: block.settings.button_2_label,
-              url: block.settings.button_2_link,
-              button_style: block.settings.button_2_style
-            -%}
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-
-    {%- when 'free_shipping_progress' -%}
-      {%- render 'free-shipping-progress', block: block -%}
-
-    {%- when 'minimum_order_message' -%}
-      {%- render 'minimum-order-message', block: block -%}
-
-    {%- when 'upsell_products' -%}
-      {%- render 'upsell-products', block: block -%}
-
-    {%- when 'discount_code' -%}
-      {%- render 'discount-code', block: block -%}
-
-    {%- when 'cart_note' -%}
-      <cart-field
-        class="cart-note"
-        data-field="note"
-        data-saving-text="{{ 'cart.note.saving' | t }}"
-        data-saved-text="{{ 'cart.note.saved' | t }}"
-        data-error-text="{{ 'cart.note.error' | t }}"
+  {%- when 'text' -%}
+    {%- if block.settings.text != blank -%}
+      <div
+        class="content-block__text text-body{% if block.settings.text_size == 'small' %} text-body--small{% endif %} column"
         {{ block.shopify_attributes }}
       >
-        {%- if block.settings.heading != blank -%}
-          <p class="cart-note__heading heading heading--small">{{ block.settings.heading }}</p>
-        {%- endif -%}
-        <label class="visually-hidden" for="CartNote-{{ block.id }}">{{ block.settings.heading }}</label>
-        <textarea
-          id="CartNote-{{ block.id }}"
-          class="cart-note__textarea"
-          placeholder="{{ block.settings.placeholder }}"
-          rows="3"
-          data-cart-field-input
-        >{{ cart.note }}</textarea>
-        <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
-      </cart-field>
-
-    {%- when 'po_reference' -%}
-      <cart-field
-        class="po-reference"
-        data-field="attributes[po-reference]"
-        data-saving-text="{{ 'cart.po_reference.saving' | t }}"
-        data-saved-text="{{ 'cart.po_reference.saved' | t }}"
-        data-error-text="{{ 'cart.po_reference.error' | t }}"
-        {%- if block.settings.required %}
-          data-required
-          data-required-warning="{{ 'cart.po_reference.required_warning' | t }}"
-        {%- endif %}
-        {{ block.shopify_attributes }}
-      >
-        {%- if block.settings.heading != blank -%}
-          <p class="po-reference__heading heading heading--small">{{ block.settings.heading }}</p>
-        {%- endif -%}
-        <label class="visually-hidden" for="PoReference-{{ block.id }}">{{ block.settings.heading }}</label>
-        <input
-          type="text"
-          id="PoReference-{{ block.id }}"
-          class="po-reference__input"
-          placeholder="{{ block.settings.placeholder }}"
-          value="{{ cart.attributes['po-reference'] }}"
-          autocomplete="off"
-          data-cart-field-input
-        >
-        <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
-      </cart-field>
-
-    {%- when 'custom_liquid' -%}
-      <div class="custom-liquid" {{ block.shopify_attributes }}>
-        {{ block.settings.custom_liquid }}
+        {{ block.settings.text }}
       </div>
+    {%- endif -%}
 
-    {%- when 'checkout_info' -%}
-      {%- if block.settings.text != blank -%}
-        <div class="checkout-info content-block__text text-body text-body--small" {{ block.shopify_attributes }}>
-          {{ block.settings.text }}
-        </div>
-      {%- endif -%}
-  {%- endcase -%}
-{%- endfor -%}
+  {%- when 'buttons' -%}
+    {%- if block.settings.button_1_label != blank or block.settings.button_2_label != blank -%}
+      <div class="content-block__buttons flex flex-wrap items-center column" {{ block.shopify_attributes }}>
+        {%- if block.settings.button_1_label != blank -%}
+          {%- render 'button',
+            label: block.settings.button_1_label,
+            url: block.settings.button_1_link,
+            button_style: block.settings.button_1_style
+          -%}
+        {%- endif -%}
+        {%- if block.settings.button_2_label != blank -%}
+          {%- render 'button',
+            label: block.settings.button_2_label,
+            url: block.settings.button_2_link,
+            button_style: block.settings.button_2_style
+          -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  {%- when 'custom_liquid' -%}
+    <div class="custom-liquid" {{ block.shopify_attributes }}>
+      {{ block.settings.custom_liquid }}
+    </div>
+{%- endcase -%}

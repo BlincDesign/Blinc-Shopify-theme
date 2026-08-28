@@ -1,0 +1,38 @@
+{%- comment -%}
+  Renders the PO / job reference field. AJAX save behavior lives in
+  assets/cart-field.js (<cart-field> custom element).
+
+  Accepts:
+  block (object, required) - a `po_reference` schema block.
+
+  Usage:
+  {% render 'po-reference', block: block %}
+{%- endcomment -%}
+
+<cart-field
+  class="po-reference"
+  data-field="attributes[po-reference]"
+  data-saving-text="{{ 'cart.po_reference.saving' | t }}"
+  data-saved-text="{{ 'cart.po_reference.saved' | t }}"
+  data-error-text="{{ 'cart.po_reference.error' | t }}"
+  {%- if block.settings.required %}
+    data-required
+    data-required-warning="{{ 'cart.po_reference.required_warning' | t }}"
+  {%- endif %}
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.heading != blank -%}
+    <p class="po-reference__heading heading heading--small">{{ block.settings.heading }}</p>
+  {%- endif -%}
+  <label class="visually-hidden" for="PoReference-{{ block.id }}">{{ block.settings.heading }}</label>
+  <input
+    type="text"
+    id="PoReference-{{ block.id }}"
+    class="po-reference__input"
+    placeholder="{{ block.settings.placeholder }}"
+    value="{{ cart.attributes['po-reference'] }}"
+    autocomplete="off"
+    data-cart-field-input
+  >
+  <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
+</cart-field>

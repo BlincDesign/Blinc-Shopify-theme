@@ -1,0 +1,32 @@
+{%- comment -%}
+  Renders the cart note field. AJAX save behavior lives in
+  assets/cart-field.js (<cart-field> custom element).
+
+  Accepts:
+  block (object, required) - a `cart_note` schema block.
+
+  Usage:
+  {% render 'cart-note', block: block %}
+{%- endcomment -%}
+
+<cart-field
+  class="cart-note"
+  data-field="note"
+  data-saving-text="{{ 'cart.note.saving' | t }}"
+  data-saved-text="{{ 'cart.note.saved' | t }}"
+  data-error-text="{{ 'cart.note.error' | t }}"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.heading != blank -%}
+    <p class="cart-note__heading heading heading--small">{{ block.settings.heading }}</p>
+  {%- endif -%}
+  <label class="visually-hidden" for="CartNote-{{ block.id }}">{{ block.settings.heading }}</label>
+  <textarea
+    id="CartNote-{{ block.id }}"
+    class="cart-note__textarea"
+    placeholder="{{ block.settings.placeholder }}"
+    rows="3"
+    data-cart-field-input
+  >{{ cart.note }}</textarea>
+  <p class="cart-field__status text-body text-body--small" data-cart-field-status role="status" aria-live="polite"></p>
+</cart-field>

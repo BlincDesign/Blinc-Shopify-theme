@@ -37,7 +37,26 @@
 <div class="cart-drawer__content color-{{ section.settings.color_scheme }}" data-cart-drawer-content data-item-count="{{ cart.item_count }}">
   {%- if section.blocks.size > 0 -%}
     <div class="cart-drawer__blocks flex flex-column">
-      {%- render 'content-blocks', blocks: section.blocks -%}
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'free_shipping_progress' -%}
+            {%- render 'free-shipping-progress', block: block -%}
+          {%- when 'minimum_order_message' -%}
+            {%- render 'minimum-order-message', block: block -%}
+          {%- when 'upsell_products' -%}
+            {%- render 'upsell-products', block: block -%}
+          {%- when 'discount_code' -%}
+            {%- render 'discount-code', block: block -%}
+          {%- when 'cart_note' -%}
+            {%- render 'cart-note', block: block -%}
+          {%- when 'po_reference' -%}
+            {%- render 'po-reference', block: block -%}
+          {%- when 'checkout_info' -%}
+            {%- render 'checkout-info', block: block -%}
+          {%- else -%}
+            {%- render 'content-blocks', block: block -%}
+        {%- endcase -%}
+      {%- endfor -%}
     </div>
   {%- endif -%}
 
