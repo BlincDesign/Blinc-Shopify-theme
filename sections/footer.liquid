@@ -4,7 +4,7 @@
       {% for block in section.blocks -%}
         {% liquid
           assign menu = block.settings.menu
-          assign logo = block.settings.logo
+          assign logo = block.settings.logo_image
           assign logo_size = block.settings.logo_size
         %}
         <div class="footer__blocks footer__blocks-{{ block.type }} flex-grow">
