@@ -1783,3 +1783,71 @@ html.cart-drawer-open {
 }
 
 /* End Cart drawer */
+
+/* Swiper */
+
+.swiper-scrollbar, .swiper-pagination {
+  position: relative !important;
+  bottom: unset !important;
+  left: unset !important;
+  top: unset !important;
+  right: unset !important;
+  margin-block-start: 20px;
+  margin-inline: auto;
+  --swiper-scrollbar-sides-offset: 200px;
+  width: calc(100% - var(--swiper-scrollbar-sides-offset, 1%) * 2) !important;
+}
+
+.swiper-button-next, .swiper-button-prev {
+  --swiper-navigation-color: rgb(var(--color-accent));
+}
+
+.swiper-button-next svg, .swiper-button-prev svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.swiper-button-next svg path, .swiper-button-prev svg path {
+  fill: rgb(var(--color-border)) !important;
+  stroke: rgb(var(--color-border)) !important;
+  stroke-width: 1.5px;
+}
+
+.swiper-pagination-progressbar {
+  --swiper-pagination-progressbar-bg-color: rgb(var(--color-accent));
+}
+
+.swiper-pagination-progressbar-fill {
+  --swiper-pagination-color:  rgb(var(--color-border));
+}
+
+.swiper-scrollbar {
+  --swiper-scrollbar-bg-color: rgb(var(--color-accent));
+}
+
+.swiper-scrollbar-drag {
+  --swiper-scrollbar-drag-bg-color: rgb(var(--color-border));
+}
+
+.swiper-button-prev {
+    left: -100px !important;
+}
+
+.swiper-button-next {
+    right: -100px !important;
+}
+
+.section__wrapper:hover .swiper-navigation .swiper-button-prev {
+    left: var(--swiper-navigation-sides-offset,4px) !important;
+}
+
+.section__wrapper:hover .swiper-navigation .swiper-button-next {
+    right: var(--swiper-navigation-sides-offset,4px) !important;
+}
+
+.swiper-navigation .swiper-button-prev,
+.swiper-navigation .swiper-button-next {
+    transition: left 0.25s cubic-bezier(0.4, 0, 1, 1), right 0.25s cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* Swiper */
