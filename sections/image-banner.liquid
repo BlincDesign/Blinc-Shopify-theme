@@ -1,3 +1,11 @@
+{% liquid
+  if section.settings.image != blank
+    assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio | round
+  endif
+%}
+
+{{ image_height }}
+
 {% style %}
   #Banner-{{ section.id }} {
     position: relative;
@@ -53,7 +61,8 @@
         section.settings.image
         | image_url: width: 3840
         | image_tag:
-          loading: 'lazy'
+          loading: 'lazy',
+          height: image_height
       }}
     </div>
   {% endif %}
@@ -64,7 +73,8 @@
         section.settings.image_2
         | image_url: width: 3840
         | image_tag:
-          loading: 'lazy'
+          loading: 'lazy',
+          height: image_height
       }}
     </div>
   {% endif %}
