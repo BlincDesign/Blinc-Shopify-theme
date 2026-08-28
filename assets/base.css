@@ -988,6 +988,15 @@ a.main-collection__pagination-link:focus-visible {
     margin-block-end: 1.5rem;
 }
 
+
+.relative {
+    position: relative;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
 .flex {
     display: flex;
 }
