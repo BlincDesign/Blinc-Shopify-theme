@@ -1,0 +1,50 @@
+{% liquid
+  assign enable_arrows = enable_arrows | default: false
+%}
+
+{%- case type -%}
+  {%- when 'bullets' -%}
+    <div
+      class="swiper-pagination"
+      slider-pagination
+      data-pagination-type="bullets"
+    ></div>
+
+  {%- when 'dynamic-bullets' -%}
+    <div
+      class="swiper-pagination"
+      slider-pagination
+      data-pagination-type="dynamic-bullets"
+    ></div>
+
+  {%- when 'progressbar' -%}
+    <div
+      class="swiper-pagination"
+      slider-pagination
+      data-pagination-type="progressbar"
+    ></div>
+
+  {%- when 'scrollbar' -%}
+    <div
+      class="swiper-scrollbar"
+      slider-scrollbar
+    ></div>
+{%- endcase -%}
+
+{% if enable_arrows %}
+  <div class="swiper-navigation">
+    <button
+      type="button"
+      class="swiper-button-prev"
+      slider-prev
+      aria-label="Next slide"
+    ></button>
+
+    <button
+      type="button"
+      class="swiper-button-next"
+      slider-next
+      aria-label="Previous slide"
+    ></button>
+  </div>
+{% endif %}
