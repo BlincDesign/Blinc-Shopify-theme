@@ -1,77 +1,445 @@
-{%- liquid
-  assign quote_preset = section.settings.quote_preset
-  assign info_preset = section.settings.info_preset
-
-  case section.settings.image_ratio
-    when 'square'
-      assign aspect_ratio = '1 / 1'
-    when 'portrait'
-      assign aspect_ratio = '3 / 4'
-    when 'landscape'
-      assign aspect_ratio = '4 / 3'
-    else
-      assign aspect_ratio = 'auto'
-  endcase
--%}
-
 {%- style -%}
-  #shopify-section-{{ section.id }} {
+  #testimonial-{{ section.id }} {
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
+  .testimonial-section .testimonial__column-content {
+    padding: 1rem;
+  }
+
+  .testimonial-section .testimonial__column-icon {
+    padding: 1rem 1rem 0;
+  }
+
   @media screen and (max-width: 749px) {
-    #shopify-section-{{ section.id }} {
+    #testimonial-{{ section.id }} {
       padding-top: {{ section.settings.padding_top_m }}px;
       padding-bottom: {{ section.settings.padding_bottom_m }}px;
     }
   }
 {%- endstyle -%}
 
-<div class="testimonials color-{{ section.settings.color_scheme }} {{ section.settings.container_width }}">
-  <div class="testimonials__wrapper flex flex-wrap">
+{%- liquid
+  if section.settings.carousel
+    assign columns_desktop = section.settings.slides_per_row_dt | default: 4 | minus: 0.5
+    assign columns_mobile = section.settings.slides_per_row_mb | default: 2 | minus: 0.5
+  else
+    assign columns_desktop = section.settings.columns | default: 4
+    assign columns_mobile = section.settings.mobile_columns | default: 2
+  endif
 
-    {% for block in section.blocks %}
-      <div
-        class="testimonial-block"
-        {{ block.shopify_attributes }}
-      >
+  assign desktop_fraction = 100 | divided_by: columns_desktop | round: 2
+  assign mobile_fraction = 100 | divided_by: columns_mobile | round: 2
 
-        {% if block.settings.image != blank %}
-        <div class="testimonial__image">
-            {%- render 'image',
-            image: block.settings.image,
-            aspect_ratio: aspect_ratio,
-            width: 400,
-            sizes: '(min-width: 750px) 400px, 100vw'
-            -%}
-        </div>
-        {% endif %}
+  assign column_sizes = '(min-width: 750px) ' | append: desktop_fraction | append: 'vw, ' | append: mobile_fraction | append: 'vw'
 
-        {% if block.settings.quote != blank %}
-          <div class="testimonial__quote {{ quote_preset }}">
-            {{ block.settings.quote }}
-          </div>
-        {% endif %}
+  assign is_above_fold_section = false
+  if section.index <= 2
+    assign is_above_fold_section = true
+  endif
 
-        {% if block.settings.info != blank %}
-          <div class="testimonial__info {{ info_preset }}">
-            {{ block.settings.info }}
-          </div>
-        {% endif %}
+  assign total_slides = section.blocks.size
+  assign max_slides_per_view = section.settings.slides_per_row_dt
+  if section.settings.slides_per_row_mb > max_slides_per_view
+    assign max_slides_per_view = section.settings.slides_per_row_mb
+  endif
+  assign min_required_for_loop = max_slides_per_view | times: 2
+  assign should_loop = false
+  if total_slides >= min_required_for_loop
+    assign should_loop = true
+  endif
+-%}
 
+<div
+  id="testimonial-{{ section.id }}"
+  class="testimonial color-{{ section.settings.color_scheme }}"
+>
+  <div class="testimonial__wrapper section__wrapper relative overflow-hidden {{ section.settings.container_width }}">
+    {%- if section.settings.heading != blank or section.settings.button != blank -%}
+      <div class="testimonial__header section__header flex flex-wrap justify-between items-center">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="testimonial__heading heading heading--{{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.button != blank -%}
+          {%- render 'button',
+            label: section.settings.button,
+            url: section.settings.button_link,
+            button_style: section.settings.button_style
+          -%}
+        {%- endif -%}
       </div>
-    {% endfor %}
+    {%- endif -%}
 
+    <div
+      class="testimonial__blocks overflow-hidden {% unless section.settings.carousel %} grid grid-columns grid-columns-mobile {% endunless %}"
+      {% unless section.settings.carousel %}
+        style="
+          --grid-columns: {{ section.settings.columns }};
+          --grid-columns-mobile: {{ section.settings.mobile_columns | plus: 0 }};
+        "
+      {% endunless %}
+      {% if section.settings.carousel %}
+        data-slider
+        data-slider-config='
+          {
+            "loop": {{ should_loop }},
+            "slidesPerView": {{ section.settings.slides_per_row_mb | minus: 0.5 }},
+            "spaceBetween": "var(--layout-gap)",
+            "breakpoints": {
+              "750": {
+                "slidesPerView": {{ section.settings.slides_per_row_dt | minus: 0.5 }},
+                "spaceBetween": "var(--layout-gap)"
+              }
+            }
+          }
+        '
+      {% endif %}
+    >
+      {% if section.settings.carousel %}
+        <div class="swiper-wrapper">
+      {% endif %}
+
+      {% for block in section.blocks %}
+        {%- liquid
+          assign is_priority = false
+          if is_above_fold_section and forloop.index == 1
+            assign is_priority = true
+          endif
+          assign img_loading = 'lazy'
+          assign img_fetchpriority = 'auto'
+          if is_priority
+            assign img_loading = 'eager'
+            assign img_fetchpriority = 'high'
+          endif
+        -%}
+
+        {% capture column_content %}
+          {% if block.settings.column_heading != blank
+            or block.settings.column_description != blank
+            or block.settings.column_btn_label != blank
+          %}
+            <div class="testimonial__column-content gap-1 flex flex-column">
+
+              {% if block.settings.column_heading != blank %}
+                <h3 class="testimonial__column-heading">
+                  {{ block.settings.column_heading }}
+                </h3>
+              {% endif %}
+
+              {% if block.settings.column_description != blank %}
+                <div class="testimonial__column-description">
+                  {{ block.settings.column_description }}
+                </div>
+              {% endif %}
+
+              {% if block.settings.column_btn_label != blank %}
+                <div class="testimonial__column-button">
+                  {% render 'button',
+                    label: block.settings.column_btn_label,
+                    url: block.settings.column_btn_link,
+                    button_style: block.settings.column_btn_style
+                  %}
+                </div>
+              {% endif %}
+
+            </div>
+          {% endif %}
+        {% endcapture %}
+
+            <article
+              id="block-{{ block.id }}"
+              class="testimonial__column testimonial__column--standard block-{{ block.type }} flex flex-column color-{{ section.settings.column_color_scheme }}{% if section.settings.carousel %} swiper-slide{% endif %}"
+              {% if section.settings.carousel %}
+                data-slide
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              {% if block.settings.column_video != blank or block.settings.column_image != blank %}
+                <div class="testimonial__column-media">
+                  {% if block.settings.column_video != blank %}
+                    {{
+                      block.settings.column_video
+                      | video_tag:
+                        autoplay: true,
+                        muted: true,
+                        controls: false,
+                        loop: true,
+                        class: 'testimonial__column-video'
+                    }}
+                  {% else %}
+                    {% render 'image',
+                      image: block.settings.column_image,
+                      class: 'testimonial__column-image',
+                      sizes: column_sizes,
+                      loading: img_loading,
+                      fetchpriority: img_fetchpriority
+                    %}
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {{ column_content }}
+            </article>
+
+      {% endfor %}
+
+      {% if section.settings.carousel %}
+        </div>
+      {% endif %}
+
+      {% render 'swiper-controls',
+        type: section.settings.pagination_type,
+        enable_arrows: section.settings.enable_arrows
+      %}
+    </div>
   </div>
 </div>
 
 {% schema %}
 {
   "name": "Testimonials",
-  "class": "shopify-section--testimonials",
-
+  "tag": "section",
+  "class": "testimonials-section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "video",
+          "id": "column_video",
+          "label": "Video",
+          "info": "If video is added image wont be displayed"
+        },
+        {
+          "type": "image_picker",
+          "id": "column_image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "column_heading",
+          "label": "Heading",
+          "default": "Column"
+        },
+        {
+          "type": "richtext",
+          "id": "column_description",
+          "label": "Description",
+          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "column_btn_label",
+          "label": "Label",
+          "default": "Button"
+        },
+        {
+          "type": "url",
+          "id": "column_btn_link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "column_btn_style",
+          "default": "primary",
+          "label": "Button style",
+          "options": [
+            {
+              "label": "Primary",
+              "value": "primary"
+            },
+            {
+              "label": "Secondary",
+              "value": "secondary"
+            },
+            {
+              "label": "Link",
+              "value": "link"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "testimonial"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "xl", "label": "XL" },
+        { "value": "xxl", "label": "XXL" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Button label",
+      "default": "Button"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "default": "link",
+      "label": "Button style",
+      "options": [
+        {
+          "label": "Primary",
+          "value": "primary"
+        },
+        {
+          "label": "Secondary",
+          "value": "secondary"
+        },
+        {
+          "label": "Link",
+          "value": "link"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Columns"
+    },
+    {
+      "type": "color_scheme",
+      "id": "column_color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel",
+      "label": "Carousel",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_arrows",
+      "label": "Show arrows",
+      "default": true,
+      "visible_if": "{{ section.settings.carousel }}"
+    },
+    {
+      "type": "select",
+      "id": "pagination_type",
+      "default": "scrollbar",
+      "label": "Type",
+      "visible_if": "{{ section.settings.carousel }}",
+      "options": [
+        {
+          "value": "",
+          "label": "None"
+        },
+        {
+          "value": "scrollbar",
+          "label": "Scrollbar"
+        },
+        {
+          "value": "bullets",
+          "label": "Bullets"
+        },
+        {
+          "value": "dynamic-bullets",
+          "label": "Dynamic bullets"
+        },
+        {
+          "value": "progressbar",
+          "label": "Progressbar"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "visible_if": "{{ section.settings.carousel == false }}"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Columns mobile",
+      "default": "2",
+      "visible_if": "{{ section.settings.carousel == false }}",
+      "options": [
+        {
+          "label": "1",
+          "value": "1"
+        },
+        {
+          "label": "2",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "slides_per_row_dt",
+      "label": "Slides per row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "visible_if": "{{ section.settings.carousel }}"
+    },
+    {
+      "type": "select",
+      "id": "slides_per_row_mb",
+      "label": "Slides per row (mobile)",
+      "default": "2",
+      "visible_if": "{{ section.settings.carousel }}",
+      "options": [
+        {
+          "label": "1",
+          "value": "1"
+        },
+        {
+          "label": "2",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
     {
       "type": "color_scheme",
       "id": "color_scheme",
@@ -99,70 +467,6 @@
         {
           "value": "container-narrow",
           "label": "Narrow"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "image_ratio",
-      "label": "Image ratio",
-      "default": "square",
-      "options": [
-        {
-          "value": "square",
-          "label": "Square"
-        },
-        {
-          "value": "portrait",
-          "label": "Portrait"
-        },
-        {
-          "value": "landscape",
-          "label": "Landscape"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "quote_preset",
-      "label": "Quote typography",
-      "default": "h2",
-      "options": [
-        {
-          "value": "h1",
-          "label": "Heading 1"
-        },
-        {
-          "value": "h2",
-          "label": "Heading 2"
-        },
-        {
-          "value": "h3",
-          "label": "Heading 3"
-        },
-        {
-          "value": "body",
-          "label": "Body"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "info_preset",
-      "label": "Info typography",
-      "default": "body",
-      "options": [
-        {
-          "value": "h3",
-          "label": "Heading 3"
-        },
-        {
-          "value": "body",
-          "label": "Body"
-        },
-        {
-          "value": "caption",
-          "label": "Caption"
         }
       ]
     },
@@ -199,46 +503,21 @@
       "default": 32
     }
   ],
-
-  "blocks": [
-    {
-      "type": "testimonial",
-      "name": "Testimonial",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image",
-          "info": "500 x 500px recommended"
-        },
-        {
-          "type": "richtext",
-          "id": "quote",
-          "label": "Quote",
-          "default": "<p>Include a favorite customer quote or feedback here.</p>"
-        },
-        {
-          "type": "richtext",
-          "id": "info",
-          "label": "Info",
-          "default": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
-        }
-      ]
-    }
-  ],
-
   "presets": [
     {
       "name": "Testimonials",
       "blocks": [
         {
-          "type": "testimonial"
+          "type": "column"
         },
         {
-          "type": "testimonial"
+          "type": "column"
         },
         {
-          "type": "testimonial"
+          "type": "column"
+        },
+        {
+          "type": "column"
         }
       ]
     }
