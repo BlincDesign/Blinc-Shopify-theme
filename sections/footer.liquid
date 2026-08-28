@@ -70,7 +70,9 @@
             {% when 'newsletter' %}
 
             {% when 'large-image' %}
-
+              <div {{ block.shopify_attributes }}>
+                {% render 'image', image: block.settings.large_image, alt: block.settings.large_image %}
+              </div>
           {% endcase %}
         </div>
       {%- endfor %}
@@ -175,7 +177,13 @@
       "type": "large-image",
       "name": "Large image",
       "limit": 1,
-      "settings": []
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "large_image",
+          "label": "Logo"
+        }
+      ]
     }
   ],
   "settings": [
