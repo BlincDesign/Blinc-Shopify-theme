@@ -105,12 +105,12 @@
             </h2>
 
           {% when 'text' %}
-            <div {{ block.shopify_attributes }}>
+            <div>
               {{ block.settings.text }}
             </div>
 
           {% when 'buttons' %}
-            <div class="flex gap-1 btns" {{ block.shopify_attributes }}>
+            <div class="flex gap-1 btns">
               {% if block.settings.button_label_1 != blank %}
                 <a href="{{ block.settings.button_link_1 }}">
                   {{ block.settings.button_label_1 }}
