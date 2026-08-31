@@ -11,6 +11,34 @@
   "sections": {
     "image_banner_ezPTw9": {
       "type": "image-banner",
+      "blocks": {
+        "heading_QMDtN9": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image banner heading"
+          }
+        },
+        "text_TQUYzM": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Lorem is the ndlfdsfj ds f j l jl j l j l j lkjlkfjdskfds fjdskflkdssfjdsjflkdsjlfkjdsfjdsdlkfjdlskfjdslkjflkdsjflkdsjflkdsjflkdsjfdsjfldsfjldskfjldksfjdsksjfdskfjldskfjdslskfjdsskfjdslsfjdsslfjdlskfjldsksfjdslkfjdsslkfjdslfj</p>"
+          }
+        },
+        "buttons_9EH9VV": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Button 1",
+            "button_link_1": "",
+            "button_label_2": "Button 2",
+            "button_link_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_QMDtN9",
+        "text_TQUYzM",
+        "buttons_9EH9VV"
+      ],
       "name": "Image Banner",
       "settings": {
         "image_2": "shopify://shop_images/Murals.webp",
