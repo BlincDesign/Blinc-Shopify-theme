@@ -5,74 +5,74 @@
 %}
 
 {% style %}
-    #Banner-{{ section.id }} {
-      position: relative;
-    }
+      #Banner-{{ section.id }} {
+        position: relative;
+      }
 
-    #Banner-{{ section.id }} img {
-      display: block;
-      width: 100%;
-      object-fit: cover;
-    }
-    #Banner-{{ section.id }}::after {
-      content: '';
+      #Banner-{{ section.id }} img {
+        display: block;
+        width: 100%;
+        object-fit: cover;
+      }
+      #Banner-{{ section.id }}::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: #000;
+        pointer-events: none;
+        opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
+      }
+
+      {% if section.settings.image_height == 'adapt' %}
+        #Banner-{{ section.id }} img {
+          height: auto;
+        }
+
+      {% elsif section.settings.image_height == 'small' %}
+        #Banner-{{ section.id }} img {
+          height: 420px;
+          object-fit: cover;
+        }
+
+      {% elsif section.settings.image_height == 'medium' %}
+        #Banner-{{ section.id }} img {
+          height: 560px;
+          object-fit: cover;
+        }
+
+      {% elsif section.settings.image_height == 'large' %}
+        #Banner-{{ section.id }} img {
+          height: 720px;
+          object-fit: cover;
+        }
+      {% endif %}
+
+      .banner__content {
       position: absolute;
       inset: 0;
-      background: #000;
-      pointer-events: none;
-      opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
+      z-index: 2;
+      width: 1200px;
+      padding: 50px;
+      height: auto;
+      margin: 0 auto;
+
     }
-
-    {% if section.settings.image_height == 'adapt' %}
-      #Banner-{{ section.id }} img {
-        height: auto;
-      }
-
-    {% elsif section.settings.image_height == 'small' %}
-      #Banner-{{ section.id }} img {
-        height: 420px;
-        object-fit: cover;
-      }
-
-    {% elsif section.settings.image_height == 'medium' %}
-      #Banner-{{ section.id }} img {
-        height: 560px;
-        object-fit: cover;
-      }
-
-    {% elsif section.settings.image_height == 'large' %}
-      #Banner-{{ section.id }} img {
-        height: 720px;
-        object-fit: cover;
-      }
-    {% endif %}
-
-    .banner__content {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    width: 1200px;
-    padding: 50px;
-    height: auto;
-    margin: 0 auto;
-
+    .banner__box {
+      background: white;
+      padding: 40px;
+      row-gap: 20px;
+      text-align: center;
+      max-width: 710px;
+      min-width: 450px;
   }
-  .banner__box {
-    background: white;
-    padding: 40px;
-    row-gap: 20px;
-    text-align: center;
-    max-width: 710px;
-    min-width: 450px;
-}
-.btns {
-    justify-content: center;
-}
-.btns a {
-    padding: 15px 35px;
-    background: #959191;
-    color: #fff;
-}
+  .btns {
+      justify-content: center;
+  }
+  .btns a {
+      padding: 15px 35px;
+      background: #959191;
+      color: #fff;
+  }
 {% endstyle %}
 
 <div
@@ -105,9 +105,9 @@
             </h2>
 
           {% when 'text' %}
-            <p>
+            <div {{ block.shopify_attributes }}>
               {{ block.settings.text }}
-            </p>
+            </div>
 
           {% when 'buttons' %}
             <div class="flex gap-1 btns">
