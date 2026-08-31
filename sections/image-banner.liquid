@@ -101,9 +101,41 @@
   class="banner__content flex items-{{ content_position[0] }} justify-{{ content_position[1] }}">
 
   <div class="banner__box">
-    <h1>Heading no 1</h1>
-    <p>Lorem is the text Shopify is the best platform</p>
-  </div>
+  {% for block in section.blocks %}
+    
+    {% case block.type %}
+
+      {% when 'heading' %}
+        <h2 {{ block.shopify_attributes }}>
+          {{ block.settings.heading }}
+        </h2>
+
+      {% when 'text' %}
+        <div {{ block.shopify_attributes }}>
+          {{ block.settings.text }}
+        </div>
+
+      {% when 'buttons' %}
+        <div class="flex gap-1" {{ block.shopify_attributes }}>
+
+          {% if block.settings.button_label_1 != blank %}
+            <a href="{{ block.settings.button_link_1 }}">
+              {{ block.settings.button_label_1 }}
+            </a>
+          {% endif %}
+
+          {% if block.settings.button_label_2 != blank %}
+            <a href="{{ block.settings.button_link_2 }}">
+              {{ block.settings.button_label_2 }}
+            </a>
+          {% endif %}
+
+        </div>
+
+    {% endcase %}
+
+  {% endfor %}
+</div>
 </div>
 
 </div>
@@ -202,7 +234,61 @@
   "label": "Desktop content position"
 }
   ],
-  "blocks": [],
+  "blocks": [
+    {
+    "type": "heading",
+    "name": "Heading",
+    "limit": 1,
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "default": "Image banner heading",
+        "label": "Heading"
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "name": "Text",
+    "limit": 1,
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "text",
+        "default": "<p>Add your description here.</p>",
+        "label": "Text"
+      }
+    ]
+  },
+  {
+    "type": "buttons",
+    "name": "Buttons",
+    "limit": 1,
+    "settings": [
+      {
+        "type": "text",
+        "id": "button_label_1",
+        "label": "First button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link_1",
+        "label": "First button link"
+      },
+      {
+        "type": "text",
+        "id": "button_label_2",
+        "label": "Second button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link_2",
+        "label": "Second button link"
+      }
+    ]
+  }
+  ],
   "presets": [
     {
       "name": "Image banner"
