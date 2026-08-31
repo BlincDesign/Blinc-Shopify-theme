@@ -5,66 +5,66 @@
 %}
 
 {% style %}
-  #Banner-{{ section.id }} {
-    position: relative;
-  }
+    #Banner-{{ section.id }} {
+      position: relative;
+    }
 
-  #Banner-{{ section.id }} img {
-    display: block;
-    width: 100%;
-    object-fit: cover;
-  }
-  #Banner-{{ section.id }}::after {
-    content: '';
+    #Banner-{{ section.id }} img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+    }
+    #Banner-{{ section.id }}::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #000;
+      pointer-events: none;
+      opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
+    }
+
+    {% if section.settings.image_height == 'adapt' %}
+      #Banner-{{ section.id }} img {
+        height: auto;
+      }
+
+    {% elsif section.settings.image_height == 'small' %}
+      #Banner-{{ section.id }} img {
+        height: 420px;
+        object-fit: cover;
+      }
+
+    {% elsif section.settings.image_height == 'medium' %}
+      #Banner-{{ section.id }} img {
+        height: 560px;
+        object-fit: cover;
+      }
+
+    {% elsif section.settings.image_height == 'large' %}
+      #Banner-{{ section.id }} img {
+        height: 720px;
+        object-fit: cover;
+      }
+    {% endif %}
+
+    .banner__content {
     position: absolute;
     inset: 0;
-    background: #000;
-    pointer-events: none;
-    opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
+    z-index: 2;
+    width: 1200px;
+    padding: 50px;
+    height: auto;
+    margin: 0 auto;
+
   }
-
-  {% if section.settings.image_height == 'adapt' %}
-    #Banner-{{ section.id }} img {
-      height: auto;
-    }
-
-  {% elsif section.settings.image_height == 'small' %}
-    #Banner-{{ section.id }} img {
-      height: 420px;
-      object-fit: cover;
-    }
-
-  {% elsif section.settings.image_height == 'medium' %}
-    #Banner-{{ section.id }} img {
-      height: 560px;
-      object-fit: cover;
-    }
-
-  {% elsif section.settings.image_height == 'large' %}
-    #Banner-{{ section.id }} img {
-      height: 720px;
-      object-fit: cover;
-    }
-  {% endif %}
-
-  .banner__content {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 1200px;
-  padding: 50px;
-  height: auto;
-  margin: 0 auto;
-  
-}
-.banner__box {
-    background: white;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    height: fit-content;
-}
+  .banner__box {
+      background: white;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+      height: fit-content;
+  }
 {% endstyle %}
 
 <div
@@ -73,71 +73,52 @@
 >
   {% if section.settings.image != blank %}
     <div class="flex-grow">
-      {{
-        section.settings.image
-        | image_url: width: 3840
-        | image_tag:
-          loading: 'lazy',
-          height: image_height
-      }}
+      {{ section.settings.image | image_url: width: 3840 | image_tag: loading: 'lazy', height: image_height }}
     </div>
   {% endif %}
 
   {% if section.settings.image_2 != blank %}
     <div class="flex-grow">
-      {{
-        section.settings.image_2
-        | image_url: width: 3840
-        | image_tag:
-          loading: 'lazy',
-          height: image_height
-      }}
+      {{ section.settings.image_2 | image_url: width: 3840 | image_tag: loading: 'lazy', height: image_height }}
     </div>
   {% endif %}
 
-{% assign content_position = section.settings.desktop_content_position | split: '-' %}
+  {% assign content_position = section.settings.desktop_content_position | split: '-' %}
 
-<div
-  class="banner__content flex items-{{ content_position[0] }} justify-{{ content_position[1] }}">
+  <div
+    class="banner__content flex items-{{ content_position[0] }} justify-{{ content_position[1] }}"
+  >
+    <div class="banner__box">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'heading' %}
+            <h2 {{ block.shopify_attributes }}>
+              {{ block.settings.heading }}
+            </h2>
 
-  <div class="banner__box">
-  {% for block in section.blocks %}
-    
-    {% case block.type %}
+          {% when 'text' %}
+            <div {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+            </div>
 
-      {% when 'heading' %}
-        <h2 {{ block.shopify_attributes }}>
-          {{ block.settings.heading }}
-        </h2>
+          {% when 'buttons' %}
+            <div class="flex gap-1" {{ block.shopify_attributes }}>
+              {% if block.settings.button_label_1 != blank %}
+                <a href="{{ block.settings.button_link_1 }}">
+                  {{ block.settings.button_label_1 }}
+                </a>
+              {% endif %}
 
-      {% when 'text' %}
-        <div {{ block.shopify_attributes }}>
-          {{ block.settings.text }}
-        </div>
-
-      {% when 'buttons' %}
-        <div class="flex gap-1" {{ block.shopify_attributes }}>
-
-          {% if block.settings.button_label_1 != blank %}
-            <a href="{{ block.settings.button_link_1 }}">
-              {{ block.settings.button_label_1 }}
-            </a>
-          {% endif %}
-
-          {% if block.settings.button_label_2 != blank %}
-            <a href="{{ block.settings.button_link_2 }}">
-              {{ block.settings.button_label_2 }}
-            </a>
-          {% endif %}
-
-        </div>
-
-    {% endcase %}
-
-  {% endfor %}
-</div>
-</div>
-
+              {% if block.settings.button_label_2 != blank %}
+                <a href="{{ block.settings.button_link_2 }}">
+                  {{ block.settings.button_label_2 }}
+                </a>
+              {% endif %}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
 {% schema %}
@@ -189,105 +170,106 @@
       ],
       "default": "medium",
       "label": "Image Height"
-    },{
-  "type": "select",
-  "id": "desktop_content_position",
-  "options": [
-    {
-      "value": "start-left",
-      "label": "Top left"
     },
     {
-      "value": "start-center",
-      "label": "Top center"
-    },
-    {
-      "value": "start-right",
-      "label": "Top right"
-    },
-    {
-      "value": "center-left",
-      "label": "Middle left"
-    },
-    {
-      "value": "center-center",
-      "label": "Middle center"
-    },
-    {
-      "value": "center-right",
-      "label": "Middle right"
-    },
-    {
-      "value": "end-left",
-      "label": "Bottom left"
-    },
-    {
-      "value": "end-center",
-      "label": "Bottom center"
-    },
-    {
-      "value": "end-right",
-      "label": "Bottom right"
+      "type": "select",
+      "id": "desktop_content_position",
+      "options": [
+        {
+          "value": "start-left",
+          "label": "Top left"
+        },
+        {
+          "value": "start-center",
+          "label": "Top center"
+        },
+        {
+          "value": "start-right",
+          "label": "Top right"
+        },
+        {
+          "value": "center-left",
+          "label": "Middle left"
+        },
+        {
+          "value": "center-center",
+          "label": "Middle center"
+        },
+        {
+          "value": "center-right",
+          "label": "Middle right"
+        },
+        {
+          "value": "end-left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "end-center",
+          "label": "Bottom center"
+        },
+        {
+          "value": "end-right",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "center-center",
+      "label": "Desktop content position"
     }
-  ],
-  "default": "center-center",
-  "label": "Desktop content position"
-}
   ],
   "blocks": [
     {
-    "type": "heading",
-    "name": "Heading",
-    "limit": 1,
-    "settings": [
-      {
-        "type": "text",
-        "id": "heading",
-        "default": "Image banner heading",
-        "label": "Heading"
-      }
-    ]
-  },
-  {
-    "type": "text",
-    "name": "Text",
-    "limit": 1,
-    "settings": [
-      {
-        "type": "richtext",
-        "id": "text",
-        "default": "<p>Add your description here.</p>",
-        "label": "Text"
-      }
-    ]
-  },
-  {
-    "type": "buttons",
-    "name": "Buttons",
-    "limit": 1,
-    "settings": [
-      {
-        "type": "text",
-        "id": "button_label_1",
-        "label": "First button label"
-      },
-      {
-        "type": "url",
-        "id": "button_link_1",
-        "label": "First button link"
-      },
-      {
-        "type": "text",
-        "id": "button_label_2",
-        "label": "Second button label"
-      },
-      {
-        "type": "url",
-        "id": "button_link_2",
-        "label": "Second button link"
-      }
-    ]
-  }
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Image banner heading",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Add your description here.</p>",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label_1",
+          "label": "First button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link_1",
+          "label": "First button link"
+        },
+        {
+          "type": "text",
+          "id": "button_label_2",
+          "label": "Second button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "Second button link"
+        }
+      ]
+    }
   ],
   "presets": [
     {
