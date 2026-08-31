@@ -60,8 +60,6 @@
   .banner__box {
       background: white;
       padding: 40px;
-      display: flex;
-      flex-direction: column;
       row-gap: 20px;
       height: fit-content;
   }
@@ -88,7 +86,7 @@
   <div
     class="banner__content flex items-{{ content_position[0] }} justify-{{ content_position[1] }}"
   >
-    <div class="banner__box">
+    <div class="flex flex-column banner__box">
       {% for block in section.blocks %}
         {% case block.type %}
           {% when 'heading' %}
