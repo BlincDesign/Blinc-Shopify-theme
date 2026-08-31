@@ -93,6 +93,7 @@
 
   {% assign content_position = section.settings.desktop_content_position | split: '-' %}
 
+  {% if section.blocks.size > 0 %}
   <div
     class="banner__content flex items-{{ content_position[0] }} justify-{{ content_position[1] }}"
   >
@@ -127,7 +128,9 @@
       {% endfor %}
     </div>
   </div>
+  {% endif %}
 </div>
+
 
 {% schema %}
 {
