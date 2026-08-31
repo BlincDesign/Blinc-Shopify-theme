@@ -11,11 +11,40 @@
   "sections": {
     "image_banner_ezPTw9": {
       "type": "image-banner",
+      "blocks": {
+        "heading_aaVQGT": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image banner heading"
+          }
+        },
+        "text_fxEYyh": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Add your description here.</p>"
+          }
+        },
+        "buttons_U48gxd": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "1",
+            "button_link_1": "",
+            "button_label_2": "2",
+            "button_link_2": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_aaVQGT",
+        "text_fxEYyh",
+        "buttons_U48gxd"
+      ],
       "name": "Image Banner",
       "settings": {
+        "image": "shopify://shop_images/682340964645_4.jpg",
         "image_2": "shopify://shop_images/Murals.webp",
         "image_overlay_opacity": 40,
-        "image_height": "large",
+        "image_height": "small",
         "desktop_content_position": "center-center"
       }
     },
