@@ -12,7 +12,7 @@
     "image_banner_ezPTw9": {
       "type": "image-banner",
       "blocks": {
-        "heading_QMDtN9": {
+        "heading_i9JCkn": {
           "type": "heading",
           "settings": {
             "heading": "Image banner heading"
@@ -21,7 +21,7 @@
         "text_TQUYzM": {
           "type": "text",
           "settings": {
-            "text": "<p>Lorem is the ndlfdsfj ds f j l jl j l j l j lkjlkfjdskfds fjdskflkdssfjdsjflkdsjlfkjdsfjdsdlkfjdlskfjdslkjflkdsjflkdsjflkdsjflkdsjfdsjfldsfjldskfjldksfjdsksjfdskfjldskfjdslskfjdsskfjdslsfjdsslfjdlskfjldsksfjdslkfjdsslkfjdslfj</p>"
+            "text": "<p><strong>Lorem Ipsum</strong>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.<br/><br/></p>"
           }
         },
         "buttons_9EH9VV": {
@@ -35,7 +35,7 @@
         }
       },
       "block_order": [
-        "heading_QMDtN9",
+        "heading_i9JCkn",
         "text_TQUYzM",
         "buttons_9EH9VV"
       ],
