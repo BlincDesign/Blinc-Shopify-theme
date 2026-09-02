@@ -15,21 +15,21 @@
         "heading_MYEBXK": {
           "type": "heading",
           "settings": {
-            "heading": "Image banner heading"
+            "heading": ""
           }
         },
         "text_Hykraz": {
           "type": "text",
           "settings": {
-            "text": "Add your description here.Add your description here.Add your description here.Add your description here.Add your description here.Add your description here.Add your description here.Add your description here.Add your description"
+            "text": ""
           }
         },
         "buttons_6rDahd": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Button 1",
+            "button_label_1": "",
             "button_link_1": "",
-            "button_label_2": "Button 2",
+            "button_label_2": "",
             "button_link_2": ""
           }
         }
