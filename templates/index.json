@@ -44,7 +44,7 @@
         "image": "shopify://shop_images/682340964645_4.jpg",
         "image_2": "shopify://shop_images/Murals.webp",
         "image_overlay_opacity": 40,
-        "image_height": "small",
+        "image_height": "medium",
         "desktop_content_position": "center-center"
       }
     },
