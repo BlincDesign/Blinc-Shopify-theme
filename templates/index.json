@@ -11,6 +11,24 @@
   "sections": {
     "image_banner_ezPTw9": {
       "type": "image-banner",
+      "blocks": {
+        "heading_GYdQtp": {
+          "type": "heading",
+          "settings": {
+            "heading": "Image banner heading"
+          }
+        },
+        "text_RHeAJL": {
+          "type": "text",
+          "settings": {
+            "text": "Add your description here."
+          }
+        }
+      },
+      "block_order": [
+        "heading_GYdQtp",
+        "text_RHeAJL"
+      ],
       "name": "Image Banner",
       "settings": {
         "image": "shopify://shop_images/682340964645_4.jpg",
