@@ -12,22 +12,32 @@
     "image_banner_ezPTw9": {
       "type": "image-banner",
       "blocks": {
-        "heading_GYdQtp": {
+        "heading_6c3fY6": {
           "type": "heading",
           "settings": {
-            "heading": "Image banner heading"
+            "heading": "Image banner"
           }
         },
-        "text_RHeAJL": {
+        "text_fz3MGM": {
           "type": "text",
           "settings": {
-            "text": "Add your description here."
+            "text": "Give customers details about the banner image(s) or content on the template."
+          }
+        },
+        "buttons_fwetCU": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "",
+            "button_link_1": "",
+            "button_label_2": "",
+            "button_link_2": ""
           }
         }
       },
       "block_order": [
-        "heading_GYdQtp",
-        "text_RHeAJL"
+        "heading_6c3fY6",
+        "text_fz3MGM",
+        "buttons_fwetCU"
       ],
       "name": "Image Banner",
       "settings": {
