@@ -189,6 +189,7 @@
       "block_order": [
         "buttons_hLX8Qc"
       ],
+      "disabled": true,
       "name": "Rich text",
       "settings": {
         "text_alignment": "center",
