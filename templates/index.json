@@ -11,34 +11,6 @@
   "sections": {
     "image_banner_ezPTw9": {
       "type": "image-banner",
-      "blocks": {
-        "heading_MYEBXK": {
-          "type": "heading",
-          "settings": {
-            "heading": ""
-          }
-        },
-        "text_Hykraz": {
-          "type": "text",
-          "settings": {
-            "text": ""
-          }
-        },
-        "buttons_6rDahd": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "",
-            "button_link_1": "",
-            "button_label_2": "",
-            "button_link_2": ""
-          }
-        }
-      },
-      "block_order": [
-        "heading_MYEBXK",
-        "text_Hykraz",
-        "buttons_6rDahd"
-      ],
       "name": "Image Banner",
       "settings": {
         "image": "shopify://shop_images/682340964645_4.jpg",
