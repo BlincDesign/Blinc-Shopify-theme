@@ -93,7 +93,7 @@
   <div
     class="banner__content flex items-{{ content_position[0] }} justify-{{ content_position[1] }}"
   >
-    <div class="flex flex-column banner__box">
+    <div class="flex flex-column banner__box text-{{ section.settings.content_alignment }}">
       {% for block in section.blocks %}
         {% case block.type %}
           {% when 'heading' %}
@@ -107,7 +107,7 @@
             </div>
 
           {% when 'buttons' %}
-            <div class="flex gap-1 btns">
+            <div class="flex gap-1 btns justify-{{ section.settings.content_alignment }}">
               {% if block.settings.button_label_1 != blank %}
                 <a href="{{ block.settings.button_link_1 }}">
                   {{ block.settings.button_label_1 }}
@@ -224,6 +224,26 @@
       ],
       "default": "center-center",
       "label": "Position"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Alignment"
     }
   ],
   "blocks": [
