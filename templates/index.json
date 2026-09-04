@@ -21,7 +21,7 @@
         "text_fz3MGM": {
           "type": "text",
           "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.Give customers details about the banner image(s) or content on the template.Give customers details about the banner image(s) or content on the template.Give customers details about the banner image(s) or content on the template."
+            "text": "<p>Give customers details about the banner image(s) or content on the template.Give customers details about the banner image(s) or content on the template.Give customers details about the banner image(s) or content on the template.Give customers details about the banner image(s) or content on the template.</p>"
           }
         },
         "buttons_6fDcWH": {
@@ -42,6 +42,7 @@
       "name": "Image Banner",
       "settings": {
         "image": "shopify://shop_images/682340964645_4.jpg",
+        "image_2": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_1b57cf4d-54fd-4e72-9598-9d639d70baa3.png",
         "image_overlay_opacity": 40,
         "image_height": "large",
         "desktop_content_position": "center-center",
