@@ -27,7 +27,7 @@
 
           assign large_logo = block.settings.large_logo
         %}
-        <div class="footer__blocks footer__blocks-{{ block.type }} {% unless block.type == 'large-logo' %} flex-grow {% endunless %}">
+        <div class="footer__blocks footer__blocks--{{ block.type }} {% unless block.type == 'large-logo' %} flex-grow {% endunless %}">
           {% case block.type %}
             {% when '@app' %}
               {% render block %}
