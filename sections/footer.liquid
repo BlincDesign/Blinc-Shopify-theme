@@ -32,9 +32,6 @@
             {% when '@app' %}
               {% render block %}
             {% when 'logo' %}
-              <div style="--logo-width: {{ logo_size }}px" class="footer__logo" {{ block.shopify_attributes }}>
-                {% render 'image', image: logo, alt: logo.alt %}
-              </div>
               <a
                 href="{{ routes.root_url }}"
                 class="footer__logo"
