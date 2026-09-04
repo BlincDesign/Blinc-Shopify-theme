@@ -18,8 +18,14 @@
       {% for block in section.blocks -%}
         {% liquid
           assign menu = block.settings.menu
+          assign heading_size = block.settings.heading_size
+          assign menu_heading = block.settings.menu_heading
           assign logo = block.settings.logo_image
           assign logo_size = block.settings.logo_size
+          assign logo_heading = block.settings.logo_heading
+          assign logo_description = block.settings.logo_description
+
+          assign large_logo = block.settings.large_logo
         %}
         <div class="footer__blocks footer__blocks-{{ block.type }} {% unless block.type == 'large-logo' %} flex-grow {% endunless %}">
           {% case block.type %}
@@ -30,17 +36,17 @@
                 {% render 'image', image: logo, alt: logo.alt %}
               </div>
 
-              {% if block.settings.logo_heading != blank or block.settings.logo_description != blank %}
-                <div class="multicolumn__column-content gap-1 flex flex-column">
-                  {% if block.settings.logo_heading != blank %}
-                    <p class="multicolumn__column-heading">
-                      {{ block.settings.logo_heading }}
+              {% if logo_heading != blank or logo_description != blank %}
+                <div class="footer__logo-content gap-1 flex flex-column">
+                  {% if logo_heading != blank %}
+                    <p class="footer__logo-content-heading">
+                      {{ logo_heading }}
                     </p>
                   {% endif %}
 
-                  {% if block.settings.logo_description != blank %}
-                    <div class="multicolumn__column-description">
-                      {{ block.settings.logo_description }}
+                  {% if logo_description != blank %}
+                    <div class="footer__logo-content-description">
+                      {{ logo_description }}
                     </div>
                   {% endif %}
                 </div>
@@ -49,8 +55,8 @@
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
                 <div class="flex flex-column gap-half" {{ block.shopify_attributes }}>
-                  <h3 class="footer__menu-heading heading heading--{{ block.settings.heading_size }}">
-                    {{ block.settings.menu_heading }}
+                  <h3 class="footer__menu-heading heading heading--{{ heading_size }}">
+                    {{ menu_heading }}
                   </h3>
                   <nav class="footer__nav" aria-label="Footer">
                     <ul class="footer__nav-list flex flex-column gap-half">
@@ -68,7 +74,7 @@
 
             {% when 'large-logo' %}
               <div {{ block.shopify_attributes }}>
-                {% render 'image', image: block.settings.large_logo, alt: block.settings.large_logo %}
+                {% render 'image', image: large_logo, alt: large_logo.alt %}
               </div>
           {% endcase %}
         </div>

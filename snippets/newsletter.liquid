@@ -1,0 +1,94 @@
+{% comment %}
+  Reusable Newsletter Form
+
+  Usage:
+
+  {% render 'newsletter-form',
+    show_name: true,
+    show_email: true,
+    show_consent: false
+  %}
+
+  Available fields:
+  - show_name
+  - show_email
+  - show_consent
+{% endcomment %}
+
+{%- assign show_name = show_name | default: false -%}
+{%- assign show_email = show_email | default: true -%}
+{%- assign show_consent = show_consent | default: false -%}
+
+{% form 'customer', class: 'newsletter-form' %}
+
+  <input type="hidden" name="contact[tags]" value="newsletter">
+
+  {% if form.posted_successfully? %}
+    <div class="newsletter-form__success" role="status">
+      Thanks for subscribing!
+    </div>
+  {% endif %}
+
+  {{ form.errors | default_errors }}
+
+  {% if show_name %}
+    <div class="newsletter-form__field">
+      <label for="NewsletterForm-name">
+        Name
+      </label>
+
+      <input
+        type="text"
+        id="NewsletterForm-name"
+        name="contact[first_name]"
+        value="{{ form.first_name }}"
+        autocomplete="given-name"
+        placeholder="Name"
+      >
+    </div>
+  {% endif %}
+
+  {% if show_email %}
+    <div class="newsletter-form__field">
+      <label for="NewsletterForm-email">
+        Email
+      </label>
+
+      <input
+        type="email"
+        id="NewsletterForm-email"
+        name="contact[email]"
+        value="{{ form.email }}"
+        autocomplete="email"
+        autocorrect="off"
+        autocapitalize="off"
+        required
+        placeholder="Email"
+      >
+    </div>
+  {% endif %}
+
+  {% if show_consent %}
+    <div class="newsletter-form__field newsletter-form__field--checkbox">
+      <input
+        type="checkbox"
+        id="NewsletterForm-consent"
+        name="contact[accepts_marketing]"
+        value="true"
+        required
+      >
+
+      <label for="NewsletterForm-consent">
+        I agree to receive marketing emails.
+      </label>
+    </div>
+  {% endif %}
+
+  <button
+    type="submit"
+    class="newsletter-form__submit"
+  >
+    Subscribe
+  </button>
+
+{% endform %}
