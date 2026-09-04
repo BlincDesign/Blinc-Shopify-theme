@@ -35,6 +35,15 @@
               <div style="--logo-width: {{ logo_size }}px" class="footer__logo" {{ block.shopify_attributes }}>
                 {% render 'image', image: logo, alt: logo.alt %}
               </div>
+              <a
+                href="{{ routes.root_url }}"
+                class="footer__logo"
+                style="--logo-width: {{ logo_size }}px"
+                aria-label="{{ shop.name | escape }}"
+                {{ block.shopify_attributes }}
+              >
+                {% render 'image', image: logo, alt: shop.name %}
+              </a>
 
               {% if logo_heading != blank or logo_description != blank %}
                 <div class="footer__logo-content gap-1 flex flex-column">
@@ -55,10 +64,10 @@
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
                 <div class="flex flex-column gap-half" {{ block.shopify_attributes }}>
-                  <h3 class="footer__menu-heading heading heading--{{ heading_size }}">
-                    {{ menu_heading }}
-                  </h3>
-                  <nav class="footer__nav" aria-label="Footer">
+                  <nav class="footer__nav" aria-label="{{ menu_heading | escape }}">
+                    <h3 class="footer__menu-heading heading heading--{{ heading_size }}">
+                      {{ menu_heading }}
+                    </h3>
                     <ul class="footer__nav-list flex flex-column gap-half">
                       {%- for link in menu.links -%}
                         <li>
