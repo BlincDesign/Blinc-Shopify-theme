@@ -99,9 +99,9 @@
             </h2>
 
           {% when 'text' %}
-            <div {{ block.shopify_attributes }}>
+            <p {{ block.shopify_attributes }}>
               {{ block.settings.text }}
-            </div>
+            </p>
 
           {% when 'buttons' %}
             <div class="flex gap-1 btns justify-{{ section.settings.content_alignment }}">
