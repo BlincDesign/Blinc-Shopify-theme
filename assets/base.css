@@ -1107,6 +1107,10 @@ a.main-collection__pagination-link:focus-visible {
     outline: none;
 }
 
+.footer__logo {
+    width: var(--logo-width);
+  }
+
 .footer__blocks.footer__blocks--logo {
   margin-right: 2rem;
 } 

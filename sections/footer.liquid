@@ -6,10 +6,7 @@
 -%}
 
 {% style %}
-  .footer__logo {
-    width: var(--logo-width);
-    margin-inline-end: 2rem;
-  }
+  
 {% endstyle %}
 
 <div id="Footer-{{ section.id }}" class="footer color-{{ section.settings.color_scheme }} ">
@@ -81,7 +78,7 @@
             {% when 'large-logo' %}
               <div {{ block.shopify_attributes }}>
                 <a href="{{ routes.root_url }}">
-                {% render 'image', image: large_logo, alt: large_logo.alt %}
+                  {% render 'image', image: large_logo, alt: large_logo.alt %}
                 </a>
               </div>
           {% endcase %}
