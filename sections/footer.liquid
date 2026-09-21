@@ -58,7 +58,7 @@
             {% when 'menu' %}
               {% if menu.links.size > 0 %}
                 <div class="flex flex-column gap-half" {{ block.shopify_attributes }}>
-                  <nav class="footer__nav" aria-label="{{ menu_heading | escape }}">
+                  <nav class="flex flex-column footer__nav gap-1" aria-label="{{ menu_heading | escape }}">
                     <h3 class="footer__menu-heading heading heading--{{ heading_size }}">
                       {{ menu_heading }}
                     </h3>
