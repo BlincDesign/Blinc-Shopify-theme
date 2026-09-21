@@ -617,19 +617,6 @@ details[open] > .header__nav-link .icon--chevron {
 /* End Header */
 
 
-/* Footer */
-
-.footer {
-  padding: 2.5rem 1.5rem;
-  border-top: 1px solid rgb(var(--color-border, 230, 230, 230));
-
-}
-
-.footer__wrapper {
-    gap: 1rem;
-}
-
-
 /* Content blocks */
 
 .content-block__buttons {
@@ -1094,6 +1081,16 @@ a.main-collection__pagination-link:focus-visible {
 /* Swiper */
 
 /* footer */
+
+.footer {
+  padding: 2.5rem 0;
+  border-top: 1px solid rgb(var(--color-border, 230, 230, 230));
+
+}
+
+.footer__wrapper {
+    gap: 1rem;
+}
 
 .newsletter-form__field {
     display: flex;
