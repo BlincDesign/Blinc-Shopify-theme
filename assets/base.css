@@ -1107,4 +1107,8 @@ a.main-collection__pagination-link:focus-visible {
     outline: none;
 }
 
+.footer__blocks.footer__blocks--logo {
+  margin-right: 2rem;
+} 
+
 /* footer */
