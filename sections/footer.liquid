@@ -85,6 +85,12 @@
         </div>
       {%- endfor %}
     </div>
+
+    {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
+            <div class="footer__follow-on-shop">
+              {{ shop | login_button: action: 'follow' }}
+            </div>
+          {%- endif -%}
     <p class="footer__copyright">
       <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
     </p>
@@ -199,6 +205,17 @@
       "type": "checkbox",
       "id": "enable_full_width",
       "label": "Enable full-width footer",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Utilities"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shop",
+      "label": "Follow on Shop",
+      "info": "Shop Pay must be enabled. Learn more[https://help.shopify.com/manual/online-store/themes/customizing-themes/follow-on-shop]",
       "default": false
     }
   ]
