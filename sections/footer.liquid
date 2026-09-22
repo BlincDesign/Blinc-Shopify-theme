@@ -40,7 +40,7 @@
                 aria-label="{{ shop.name | escape }}"
                 {{ block.shopify_attributes }}
               >
-                {% render 'image', image: logo, alt: shop.name %}
+                {% render 'image', image: logo, alt: shop.name, sizes: '(max-width: 749px) 50vw' %}
               </a>
 
               {% if logo_heading != blank or logo_description != blank %}
