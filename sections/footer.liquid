@@ -100,7 +100,7 @@
       {%- render 'social-icons', class: 'footer__list-social' -%}
     {%- endif -%}
 
-    {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+    {% comment %} {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%} {% endcomment %}
       <localization-form>
         {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
           <div>
@@ -109,9 +109,9 @@
           </div>
         {%- endform -%}
       </localization-form>
-    {%- endif -%}
+    {% comment %} {%- endif -%} {% endcomment %}
 
-    {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+    {% comment %} {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%} {% endcomment %}
       <localization-form>
         {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
           <div>
@@ -122,7 +122,7 @@
           </div>
         {%- endform -%}
       </localization-form>
-    {%- endif -%}
+    {% comment %} {%- endif -%} {% endcomment %}
 
     <div class="flex flex-wrap justify-between">
       <p class="footer__copyright">
