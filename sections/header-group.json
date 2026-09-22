@@ -106,7 +106,8 @@
       }
     },
     "quick-modal": {
-      "type": "quick-modal"
+      "type": "quick-modal",
+      "settings": {}
     }
   },
   "order": [

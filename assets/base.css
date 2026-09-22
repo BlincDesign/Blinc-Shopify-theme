@@ -137,6 +137,11 @@ main {
     border: 0;
 }
 
+.overflow-hidden {
+    overflow: hidden;
+    position: relative;
+}
+
 .skip-to-content-link {
     position: absolute;
     top: -100%;
