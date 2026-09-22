@@ -97,11 +97,25 @@
     {%- endif -%}
 
     {%- if section.settings.enable_social_media_icons and has_social_icons -%}
-            {%- render 'social-icons', class: 'footer__list-social' -%}
-          {%- endif -%}
+      {%- render 'social-icons', class: 'footer__list-social' -%}
+    {%- endif -%}
+
     <p class="footer__copyright">
       <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
     </p>
+
+    {%- if section.settings.enable_payment -%}
+      <div class="footer__payment">
+        <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+        <ul class="list list-payment" role="list">
+          {%- for type in shop.enabled_payment_types -%}
+            <li class="list-payment__item">
+              {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
   </div>
 </div>
 
@@ -230,6 +244,12 @@
       "type": "checkbox",
       "id": "enable_social_media_icons",
       "label": "Social media icons",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_payment",
+      "label": "Payment method icons",
       "default": false
     }
   ]
