@@ -46,6 +46,7 @@
     "enable_video": true,
     "grid_slider_loop": true,
     "grid_image_aspect_ratio": 1.2,
+    "social_facebook_link": "#",
     "show_badges": false,
     "media_style": "single",
     "page_width": 1400,
@@ -68,8 +69,8 @@
           "secondary_button_label_hover": "#121212",
           "secondary_button_hover": "#f5f5f5",
           "secondary_button_border_hover": "#121212",
-          "accent": "#E6E6E6",
-          "border": "#3A3A3A"
+          "accent": "#e6e6e6",
+          "border": "#3a3a3a"
         }
       },
       "scheme-2": {
@@ -132,7 +133,7 @@
           "secondary_button_hover": "#f5f5f5",
           "secondary_button_border_hover": "#121212",
           "accent": "#121212",
-          "border": "#3A3A3A"
+          "border": "#3a3a3a"
         }
       }
     }
