@@ -47,7 +47,9 @@
     </div>
 
     <div class="media-with-text__content flex flex-column flex-grow text-{{ section.settings.text_alignment }} justify-{{ section.settings.vertical_position }} rte-column">
-      {%- render 'content-blocks', blocks: section.blocks -%}
+      {%- for block in section.blocks -%}
+        {%- render 'content-blocks', block: block -%}
+      {%- endfor -%}
     </div>
   </div>
 </div>

@@ -1,0 +1,37 @@
+{%- comment -%}
+  Renders the shared Quick Add / Quick View modal shell. Included via the
+  header-group section group so it's present on every page - product cards
+  anywhere (grids, search results, even the cart drawer's upsell block) can
+  trigger it via `data-quick-modal-trigger`. Intentionally thin: body
+  content is fetched on demand from sections/quick-view.liquid via
+  snippets/quick-product-form.liquid, so this section only renders the
+  empty dialog shell.
+{%- endcomment -%}
+
+{{ 'quick-modal.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'quick-modal.js' | asset_url }}" defer="defer"></script>
+
+<quick-modal data-error-text="{{ 'products.product.load_error' | t }}">
+  <dialog class="quick-modal" aria-label="{{ 'products.product.quick_view' | t }}">
+    <button
+      type="button"
+      class="quick-modal__close"
+      data-quick-modal-close
+      aria-label="{{ 'general.accessibility.close' | t }}"
+    >
+      {%- render 'icon', name: 'close' -%}
+    </button>
+    <div class="quick-modal__body" data-quick-modal-body></div>
+    <p class="quick-modal__loading text-body" data-quick-modal-loading hidden>
+      {{- 'products.product.loading' | t -}}
+    </p>
+  </dialog>
+</quick-modal>
+
+{% schema %}
+{
+  "name": "Quick modal",
+  "tag": "div",
+  "class": "shopify-section--quick-modal"
+}
+{% endschema %}

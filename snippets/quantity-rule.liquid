@@ -1,0 +1,34 @@
+{%- comment -%} 
+  Accepts:
+  variant (object, required)
+  id (string, required) - passed through to quantity-selector.
+  name (string, optional)
+  value (number, optional)
+  disabled (boolean, optional)
+
+  Usage:
+  {% render 'quantity-rule', variant: item.variant, id: 'CartQuantity-' | append: item.key, name: 'updates[' | append: item.key | append: ']', value: item.quantity %}
+{%- endcomment -%}
+
+{%- liquid
+  assign quantity_min = variant.quantity_rule.min
+  assign quantity_max = 0
+  if variant.quantity_rule.max != null
+    assign quantity_max = variant.quantity_rule.max
+  endif
+  if variant.inventory_management == 'shopify' and variant.inventory_policy == 'deny'
+    if quantity_max == 0 or variant.inventory_quantity < quantity_max
+      assign quantity_max = variant.inventory_quantity
+    endif
+  endif
+-%}
+
+{%- render 'quantity-selector',
+  id: id,
+  name: name,
+  value: value,
+  min: quantity_min,
+  max: quantity_max,
+  step: variant.quantity_rule.increment,
+  disabled: disabled
+-%}
