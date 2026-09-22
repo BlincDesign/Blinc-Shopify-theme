@@ -100,34 +100,36 @@
       {%- render 'social-icons', class: 'footer__list-social' -%}
     {%- endif -%}
 
-    {% comment %} {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%} {% endcomment %}
-      <localization-form>
-        {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
-          <div>
-            <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
-            {%- render 'country-localization', localPosition: 'FooterCountry' -%}
-          </div>
-        {%- endform -%}
-      </localization-form>
-    {% comment %} {%- endif -%} {% endcomment %}
-
-    {% comment %} {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%} {% endcomment %}
-      <localization-form>
-        {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
-          <div>
-            <h2 class="caption-large text-body" id="FooterLanguageLabel">
-              {{ 'localization.language_label' | t }}
-            </h2>
-            {%- render 'language-localization', localPosition: 'FooterLanguage' -%}
-          </div>
-        {%- endform -%}
-      </localization-form>
-    {% comment %} {%- endif -%} {% endcomment %}
-
     <div class="flex flex-wrap justify-between">
       <p class="footer__copyright">
         <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
       </p>
+
+      <div>
+        {% comment %} {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%} {% endcomment %}
+        <localization-form>
+          {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+            <div>
+              <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
+              {%- render 'country-localization', localPosition: 'FooterCountry' -%}
+            </div>
+          {%- endform -%}
+        </localization-form>
+        {% comment %} {%- endif -%} {% endcomment %}
+
+        {% comment %} {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%} {% endcomment %}
+        <localization-form>
+          {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+            <div>
+              <h2 class="caption-large text-body" id="FooterLanguageLabel">
+                {{ 'localization.language_label' | t }}
+              </h2>
+              {%- render 'language-localization', localPosition: 'FooterLanguage' -%}
+            </div>
+          {%- endform -%}
+        </localization-form>
+        {% comment %} {%- endif -%} {% endcomment %}
+      </div>
 
       {%- if section.settings.enable_payment -%}
         <div class="footer__payment">
