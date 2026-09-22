@@ -88,7 +88,8 @@
     <div class="cart-item__actions flex items-center">
       {%- liquid
         assign quantity_id = 'CartQuantity-' | append: item.key
-        render 'quantity-rule', variant: item.variant, id: quantity_id, name: 'updates[' | append: item.key | append: ']', value: item.quantity
+        assign quantity_name = 'updates[' | append: item.key | append: ']'
+        render 'quantity-rule', variant: item.variant, id: quantity_id, name: quantity_name, value: item.quantity
       -%}
 
       <button

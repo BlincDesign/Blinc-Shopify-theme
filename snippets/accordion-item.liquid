@@ -1,0 +1,50 @@
+{%- comment -%}
+  A single accessible disclosure item. Must be rendered inside an `<accordion-group>`
+  element (see assets/accordion.js) for the expand/collapse behavior to work.
+
+  Accepts:
+  id (string, required) - a unique id for this item, used to build the trigger/panel ids.
+  title (string, required) - the trigger label.
+  content (string, required) - the panel's HTML content.
+  open (boolean, optional) - renders expanded by default. Default: false.
+  attributes (string, optional) - raw additional HTML attributes on the wrapping element
+    (e.g. `{{ block.shopify_attributes }}`).
+
+  Usage:
+  <accordion-group class="accordion">
+    {% render 'accordion-item', id: block.id, title: block.settings.heading, content: block.settings.content, attributes: block.shopify_attributes %}
+  </accordion-group>
+{%- endcomment -%}
+
+{%- liquid
+  assign trigger_id = 'AccordionTrigger-' | append: id
+  assign panel_id = 'AccordionPanel-' | append: id
+  assign open = open | default: false
+-%}
+
+<div class="accordion-item" {% if attributes != blank %}{{ attributes }}{% endif %}>
+  <h3 class="accordion-item__header">
+    <button
+      type="button"
+      class="accordion-item__trigger"
+      id="{{ trigger_id }}"
+      aria-expanded="{{ open }}"
+      aria-controls="{{ panel_id }}"
+    >
+      <span class="accordion-item__title">{{ title }}</span>
+      <span class="accordion-item__icon" aria-hidden="true">
+        {%- render 'icon', name: 'plus' -%}
+      </span>
+    </button>
+  </h3>
+  <div
+    class="accordion-item__panel{% if open %} accordion-item__panel--open{% endif %}"
+    id="{{ panel_id }}"
+    role="region"
+    aria-labelledby="{{ trigger_id }}"
+  >
+    <div class="accordion-item__panel-inner">
+      {{ content }}
+    </div>
+  </div>
+</div>

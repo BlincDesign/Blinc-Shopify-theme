@@ -1,0 +1,128 @@
+{%- liquid
+  assign middle_title = blank
+  assign middle_url = blank
+  assign final_title = page_title
+
+  case template.name
+    when 'product'
+      assign final_title = product.title
+      if collection != blank
+        assign middle_title = collection.title
+        assign middle_url = collection.url
+      endif
+    when 'collection'
+      assign final_title = collection.title
+    when 'article'
+      assign final_title = article.title
+      if blog != blank
+        assign middle_title = blog.title
+        assign middle_url = blog.url
+      endif
+    when 'blog'
+      assign final_title = blog.title
+    when 'page'
+      assign final_title = page.title
+    when 'search'
+      assign final_title = 'general.search.title' | t
+  endcase
+
+  assign final_position = 2
+  if middle_title != blank
+    assign final_position = 3
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .breadcrumbs {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<div class="breadcrumbs color-{{ section.settings.color_scheme }}">
+  <div class="breadcrumbs__wrapper {{ section.settings.container_width }}">
+    <nav class="breadcrumbs__nav" aria-label="{{ 'general.breadcrumbs.label' | t }}">
+      <ol
+        class="breadcrumbs__list flex flex-wrap items-center"
+        itemscope
+        itemtype="https://schema.org/BreadcrumbList"
+      >
+        <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a class="breadcrumbs__link" href="{{ routes.root_url }}" itemprop="item">
+            <span itemprop="name">{{ 'general.breadcrumbs.home' | t }}</span>
+          </a>
+          <meta itemprop="position" content="1">
+        </li>
+
+        {%- if middle_title != blank -%}
+          <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+            <a class="breadcrumbs__link" href="{{ middle_url }}" itemprop="item">
+              <span itemprop="name">{{ middle_title }}</span>
+            </a>
+            <meta itemprop="position" content="2">
+          </li>
+        {%- endif -%}
+
+        {%- if final_title != blank -%}
+          <li
+            class="breadcrumbs__item breadcrumbs__item--current"
+            itemprop="itemListElement"
+            itemscope
+            itemtype="https://schema.org/ListItem"
+            aria-current="page"
+          >
+            <span class="breadcrumbs__separator" aria-hidden="true">/</span>
+            <span itemprop="name">{{ final_title }}</span>
+            <meta itemprop="position" content="{{ final_position }}">
+          </li>
+        {%- endif -%}
+      </ol>
+    </nav>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Breadcrumbs",
+  "tag": "section",
+  "class": "shopify-section--breadcrumbs",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "default": "container-standard",
+      "options": [
+        { "value": "full-width", "label": "Full Width" },
+        { "value": "container-padded", "label": "Full Width (Padded)" },
+        { "value": "container-standard", "label": "Standard" },
+        { "value": "container-narrow", "label": "Narrow" }
+      ]
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Top spacing (px)",
+      "default": 16
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Bottom spacing (px)",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Breadcrumbs"
+    }
+  ]
+}
+{% endschema %}

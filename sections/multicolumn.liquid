@@ -203,7 +203,7 @@
               {% endif %}
               {{ block.shopify_attributes }}
             >
-              <div class="multicolumn__column-icon">
+              {% capture column_icon %}
                 {% if block.settings.custom_icon_image != blank %}
                   {% render 'image',
                     image: block.settings.custom_icon_image,
@@ -233,7 +233,13 @@
                     class: 'multicolumn__column-icon-svg'
                   %}
                 {% endif %}
-              </div>
+              {% endcapture %}
+
+              {% if block.settings.logo_link != blank %}
+                <a href="{{ block.settings.logo_link }}" class="multicolumn__column-icon">{{ column_icon }}</a>
+              {% else %}
+                <div class="multicolumn__column-icon">{{ column_icon }}</div>
+              {% endif %}
 
               {{ column_content }}
             </article>

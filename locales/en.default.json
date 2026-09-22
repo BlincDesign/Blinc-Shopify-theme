@@ -9,6 +9,33 @@
  */
 {
   "general": {
+    "view_all": "View all",
+    "select_product_placeholder": "Select a product to preview this section.",
+    "breadcrumbs": {
+      "label": "Breadcrumb",
+      "home": "Home"
+    },
+    "search": {
+      "title": "Search results"
+    },
+    "before_after": {
+      "handle_label": "Comparison slider. Use the left and right arrow keys to adjust.",
+      "before": "Before",
+      "after": "After"
+    },
+    "social": {
+      "links": {
+        "facebook": "Facebook",
+        "instagram": "Instagram",
+        "youtube": "YouTube",
+        "tiktok": "TikTok",
+        "twitter": "Twitter",
+        "pinterest": "Pinterest",
+        "snapchat": "Snapchat",
+        "tumblr": "Tumblr",
+        "vimeo": "Vimeo"
+      }
+    },
     "accessibility": {
       "skip_to_content": "Skip to content",
       "close": "Close"
@@ -17,6 +44,11 @@
       "menu": "Menu",
       "cart": "Cart",
       "account": "Account"
+    }
+  },
+  "sections": {
+    "footer": {
+      "payment": "Payment methods"
     }
   },
   "localization": {
@@ -108,5 +140,21 @@
       "required_warning": "Enter a PO or job reference before checking out"
     },
     "line_error_generic": "This item couldn't be updated. Please try again."
+  },
+  "contact_form": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Send",
+    "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
+  },
+  "newsletter": {
+    "name": "Name",
+    "email": "Email",
+    "consent": "I agree to receive marketing emails.",
+    "subscribe": "Subscribe",
+    "post_success": "Thanks for subscribing!"
   }
 }

@@ -175,6 +175,11 @@ class Slider {
 
         const config = this.merge(this.defaults, overrides);
 
+        // Respect the user's OS-level motion preference for every carousel in the theme.
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            delete config.autoplay;
+        }
+
         // Resolve CSS variables before passing config to Swiper.
         const resolvedConfig = this.resolveCSSVariables(config, slider);
 
@@ -330,3 +335,26 @@ if (document.readyState === 'loading') {
 } else {
     bootSlider();
 }
+
+// Respect the user's OS-level motion preference for every background/autoplaying
+// <video autoplay> in the theme (Hero, Image Banner, Multicolumn, etc.) - the
+// Slider class above only covers Swiper-driven carousels, not native video.
+function disableAutoplayVideosIfReducedMotion(container = document) {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    container.querySelectorAll('video[autoplay]').forEach((video) => {
+        video.pause();
+        video.removeAttribute('autoplay');
+        video.setAttribute('controls', 'controls');
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => disableAutoplayVideosIfReducedMotion());
+} else {
+    disableAutoplayVideosIfReducedMotion();
+}
+
+document.addEventListener('shopify:section:load', (event) => {
+    disableAutoplayVideosIfReducedMotion(event.target);
+});

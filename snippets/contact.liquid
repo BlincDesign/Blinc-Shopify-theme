@@ -2,7 +2,7 @@
   Reusable Contact Form
 
   Usage:
-  {% render 'contact-form',
+  {% render 'contact',
     show_name: true,
     show_email: true,
     show_phone: true,
@@ -27,8 +27,7 @@
 {% form 'contact', class: 'contact-form' %}
   {% if form.posted_successfully? %}
     <div class="contact-form__success" role="status">
-      Success
-      {% comment %} {{ 'templates.contact.form.post_success' | t }} {% endcomment %}
+      {{ 'contact_form.post_success' | t }}
     </div>
   {% endif %}
 
@@ -36,7 +35,7 @@
 
   {% if show_name %}
     <div class="contact-form__field">
-      <label for="ContactForm-name"> Name </label>
+      <label for="ContactForm-name">{{ 'contact_form.name' | t }}</label>
 
       <input
         type="text"
@@ -44,14 +43,14 @@
         name="contact[name]"
         value="{{ form.name }}"
         autocomplete="name"
-        placeholder="Name"
+        placeholder="{{ 'contact_form.name' | t }}"
       >
     </div>
   {% endif %}
 
   {% if show_email %}
     <div class="contact-form__field">
-      <label for="ContactForm-email"> Email </label>
+      <label for="ContactForm-email">{{ 'contact_form.email' | t }}</label>
 
       <input
         type="email"
@@ -62,14 +61,14 @@
         autocorrect="off"
         autocapitalize="off"
         required
-        placeholder="Email"
+        placeholder="{{ 'contact_form.email' | t }}"
       >
     </div>
   {% endif %}
 
   {% if show_phone %}
     <div class="contact-form__field">
-      <label for="ContactForm-phone"> Phone </label>
+      <label for="ContactForm-phone">{{ 'contact_form.phone' | t }}</label>
 
       <input
         type="tel"
@@ -77,38 +76,38 @@
         name="contact[phone]"
         value="{{ form.phone }}"
         autocomplete="tel"
-        placeholder="Phone"
+        placeholder="{{ 'contact_form.phone' | t }}"
       >
     </div>
   {% endif %}
 
   {% if show_subject %}
     <div class="contact-form__field">
-      <label for="ContactForm-subject"> Subject </label>
+      <label for="ContactForm-subject">{{ 'contact_form.subject' | t }}</label>
 
       <input
         type="text"
         id="ContactForm-subject"
         name="contact[subject]"
         value="{{ form.subject }}"
-        placeholder="Subject"
+        placeholder="{{ 'contact_form.subject' | t }}"
       >
     </div>
   {% endif %}
 
   {% if show_message %}
     <div class="contact-form__field">
-      <label for="ContactForm-message"> Message </label>
+      <label for="ContactForm-message">{{ 'contact_form.message' | t }}</label>
 
       <textarea
         rows="6"
         id="ContactForm-message"
         name="contact[body]"
-        placeholder="Message"
+        placeholder="{{ 'contact_form.message' | t }}"
         required
       >{{ form.body }}</textarea>
     </div>
   {% endif %}
 
-  <button type="submit" class="contact-form__submit">Submit</button>
+  <button type="submit" class="button contact-form__submit">{{ 'contact_form.submit' | t }}</button>
 {% endform %}

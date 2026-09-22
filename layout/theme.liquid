@@ -36,13 +36,20 @@
 
   <body class="template-{{ request.page_type }} flex flex-column">
     {%- comment -%}
+      variables.js sets window.theme.settings (e.g. the Slider class's
+      defaults) and must run before theme.js, which reads those settings
+      synchronously while constructing window.theme.slider.
+    {%- endcomment -%}
+    <script src="{{ 'variables.js' | asset_url }}" defer="defer"></script>
+
+    {%- comment -%}
       theme.js defines window.theme's shared utilities (debounce, toast,
       slider, etc.) that section-specific scripts depend on (e.g.
-      assets/cart-field.js). It must be the first deferred script in
-      document order so it always finishes before those - deferred scripts
-      run in source order after parsing, regardless of where in the page
-      the section that needs them ends up (header-group, footer-group, or
-      main content).
+      assets/cart-field.js). It must be the first deferred script after
+      variables.js in document order so it always finishes before those -
+      deferred scripts run in source order after parsing, regardless of
+      where in the page the section that needs them ends up (header-group,
+      footer-group, or main content).
     {%- endcomment -%}
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
 
@@ -73,7 +80,6 @@
       };
     </script>
 
-    <script src="{{ 'variables.js' | asset_url }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer="defer"></script>
   </body>
 </html>

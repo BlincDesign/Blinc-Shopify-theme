@@ -1,0 +1,234 @@
+{%- style -%}
+  #Announcement-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #Announcement-{{ section.id }} .marquee__track {
+    animation-duration: {{ section.settings.marquee_speed }}s;
+    gap: {{ section.settings.item_gap }}px;
+  }
+
+  #Announcement-{{ section.id }} .announcement__item {
+    margin-inline-end: {{ section.settings.item_gap }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    #Announcement-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_m }}px;
+      padding-bottom: {{ section.settings.padding_bottom_m }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign should_loop = false
+  if section.blocks.size > 1
+    assign should_loop = true
+  endif
+-%}
+
+<div id="Announcement-{{ section.id }}" class="announcement color-{{ section.settings.color_scheme }}">
+  {%- if section.blocks.size > 0 -%}
+    {%- if section.settings.display_mode == 'marquee' -%}
+      <div class="announcement__marquee marquee" role="region" aria-label="Announcements">
+        <div class="marquee__track flex items-center">
+          {%- for i in (1..2) -%}
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign hidden_copy = false
+                if i == 2
+                  assign hidden_copy = true
+                endif
+              -%}
+              {%- if block.settings.link != blank -%}
+                <a
+                  href="{{ block.settings.link }}"
+                  class="announcement__item text-body--small"
+                  {% if hidden_copy %}
+                    aria-hidden="true"
+                    tabindex="-1"
+                  {% else %}
+                    {{ block.shopify_attributes }}
+                  {% endif %}
+                >
+                  {{ block.settings.text }}
+                </a>
+              {%- else -%}
+                <p
+                  class="announcement__item text-body--small"
+                  {% if hidden_copy %}
+                    aria-hidden="true"
+                  {% else %}
+                    {{ block.shopify_attributes }}
+                  {% endif %}
+                >
+                  {{ block.settings.text }}
+                </p>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- else -%}
+      <div
+        class="announcement__slider overflow-hidden"
+        data-slider
+        data-slider-config='
+          {
+            "loop": {{ should_loop }},
+            "slidesPerView": 1,
+            "effect": "fade",
+            "fadeEffect": { "crossFade": true },
+            "autoplay": {
+              "delay": {{ section.settings.autoplay_speed | times: 1000 }},
+              "disableOnInteraction": false
+            }
+          }
+        '
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Announcements"
+      >
+        <div class="swiper-wrapper">
+          {%- for block in section.blocks -%}
+            <div
+              class="announcement__slide swiper-slide flex items-center justify-center"
+              data-slide
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}" class="announcement__item text-body--small">
+                  {{ block.settings.text }}
+                </a>
+              {%- else -%}
+                <p class="announcement__item text-body--small">{{ block.settings.text }}</p>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Announcement",
+  "tag": "section",
+  "class": "shopify-section--announcement",
+  "settings": [
+    {
+      "type": "select",
+      "id": "display_mode",
+      "label": "Display mode",
+      "options": [
+        { "value": "slider", "label": "Slider" },
+        { "value": "marquee", "label": "Marquee" }
+      ],
+      "default": "slider"
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Change message every",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "visible_if": "{{ section.settings.display_mode == 'slider' }}"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "label": "Scroll speed",
+      "min": 5,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "default": 20,
+      "info": "Lower is faster.",
+      "visible_if": "{{ section.settings.display_mode == 'marquee' }}"
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Space between messages",
+      "min": 16,
+      "max": 96,
+      "step": 8,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ section.settings.display_mode == 'marquee' }}"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Spacing Desktop"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Top spacing (px)",
+      "default": 12
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Bottom spacing (px)",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Spacing Mobile"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_m",
+      "label": "Top spacing (px)",
+      "default": 10
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_m",
+      "label": "Bottom spacing (px)",
+      "default": 10
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Message",
+          "default": "Free shipping on orders over $100"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement",
+      "blocks": [{ "type": "announcement" }]
+    }
+  ]
+}
+{% endschema %}

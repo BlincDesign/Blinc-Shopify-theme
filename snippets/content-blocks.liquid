@@ -19,6 +19,50 @@
       <p class="content-block__caption text-subheading column" {{ block.shopify_attributes }}>{{ block.settings.caption }}</p>
     {%- endif -%}
 
+  {%- when 'subheading' -%}
+    {%- if block.settings.subheading != blank -%}
+      <p class="content-block__subheading heading heading--small column" {{ block.shopify_attributes }}>
+        {{ block.settings.subheading }}
+      </p>
+    {%- endif -%}
+
+  {%- when 'image' -%}
+    {%- if block.settings.image != blank -%}
+      <div class="content-block__image column" {{ block.shopify_attributes }}>
+        {%- render 'image',
+          image: block.settings.image,
+          width: 800,
+          sizes: '(min-width: 750px) 50vw, 100vw',
+          fill: false
+        -%}
+      </div>
+    {%- endif -%}
+
+  {%- when 'video' -%}
+    {%- if block.settings.video != blank -%}
+      <div class="content-block__video column" {{ block.shopify_attributes }}>
+        {%- render 'video', video: block.settings.video, aspect_ratio: '16/9' -%}
+      </div>
+    {%- endif -%}
+
+  {%- when 'divider' -%}
+    <div class="content-block__divider column" {{ block.shopify_attributes }}>
+      {%- if block.settings.divider_style == 'icon' and block.settings.divider_icon != blank -%}
+        <span aria-hidden="true">
+          {%- render 'icon',
+            name: block.settings.divider_icon,
+            size: block.settings.divider_icon_size,
+            class: 'content-block__divider-icon'
+          -%}
+        </span>
+      {%- else -%}
+        <hr
+          class="content-block__divider-line"
+          style="--divider-width: {{ block.settings.divider_width | default: 100 }}%;"
+        >
+      {%- endif -%}
+    </div>
+
   {%- when 'text' -%}
     {%- if block.settings.text != blank -%}
       <div

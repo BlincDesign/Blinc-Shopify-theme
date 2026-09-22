@@ -21,7 +21,8 @@
         {%- endif -%}
 
         {%- if section.settings.collection != blank -%}
-          {%- render 'button', label: 'View all', url: section.settings.collection.url, button_style: 'link' -%}
+          {%- assign view_all_label = 'general.view_all' | t -%}
+          {%- render 'button', label: view_all_label, url: section.settings.collection.url, button_style: 'link' -%}
         {%- endif -%}
       </div>
     {%- endif -%}

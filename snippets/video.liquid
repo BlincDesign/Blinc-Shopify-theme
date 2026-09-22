@@ -1,0 +1,70 @@
+{%- comment -%}
+  Accepts:
+  video (object, required) - a Shopify `video` setting value. Supports both Shopify-hosted
+    uploads (media_type 'video') and external YouTube/Vimeo links (media_type 'external_video').
+  aspect_ratio (string, optional) - wraps the video in a ratio-boxed container using this CSS
+    aspect-ratio (e.g. '16/9'). Omit for callers that size/position the video themselves
+    (e.g. absolutely positioned backgrounds), and apply the 'fit-cover' utility via `class` instead.
+  autoplay (boolean, optional) - default false.
+  loop (boolean, optional) - default false.
+  muted (boolean, optional) - default true when autoplay is true, otherwise false.
+  controls (boolean, optional) - default true unless autoplay is true.
+  class (string, optional) - additional classes on the rendered <video>/<iframe> tag.
+
+  Usage:
+  {% render 'video', video: section.settings.video, aspect_ratio: '16/9' %}
+  {% render 'video',
+    video: block.settings.video,
+    autoplay: true,
+    loop: true,
+    muted: true,
+    controls: false,
+    class: 'hero__media-asset fit-cover'
+  %}
+{%- endcomment -%}
+
+{%- liquid
+  assign autoplay = autoplay | default: false
+  if muted == null
+    assign muted = autoplay
+  endif
+  if controls == null
+    assign controls = true
+    if autoplay
+      assign controls = false
+    endif
+  endif
+  assign video_class = class | default: ''
+-%}
+
+{%- capture video_markup -%}
+  {%- case video.media_type -%}
+    {%- when 'video' -%}
+      {{
+        video
+        | video_tag:
+          image_size: '1100x',
+          autoplay: autoplay,
+          loop: loop,
+          muted: muted,
+          controls: controls,
+          class: video_class
+      }}
+    {%- when 'external_video' -%}
+      {{
+        video
+        | external_video_tag:
+          class: video_class,
+          autoplay: autoplay,
+          loop: loop
+      }}
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- if aspect_ratio != blank -%}
+  <div class="video-wrapper" style="aspect-ratio: {{ aspect_ratio }};">
+    {{ video_markup }}
+  </div>
+{%- else -%}
+  {{ video_markup }}
+{%- endif -%}

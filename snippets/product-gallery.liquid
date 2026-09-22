@@ -1,0 +1,116 @@
+{%- comment -%}
+  The product media gallery (carousel or stacked layout, with optional thumbnails)
+  plus badges. Shared by the PDP (sections/main-product.liquid) and any other
+  section that needs the full product buy box (e.g. sections/featured-product.liquid).
+
+  Accepts:
+  product (object, required) - the product to render media for.
+  media_layout (string, optional) - 'carousel' or 'stacked'. Default: 'carousel'.
+  show_thumbnails (boolean, optional) - only applies to the carousel layout. Default: true.
+
+  Usage:
+  {% render 'product-gallery', product: product, media_layout: section.settings.media_layout, show_thumbnails: section.settings.show_thumbnails %}
+{%- endcomment -%}
+
+{%- liquid
+  assign gallery_media = product.media
+  assign media_layout = media_layout | default: 'carousel'
+  if show_thumbnails == null
+    assign show_thumbnails = true
+  endif
+-%}
+
+<div class="product__media">
+  {%- render 'product-badges', product: product -%}
+
+  {%- if gallery_media.size > 0 -%}
+    {%- if media_layout == 'carousel' -%}
+      <div
+        class="product__gallery-main"
+        data-slider
+        data-slider-config='{"loop": false, "slidesPerView": 1, "spaceBetween": 0}'
+      >
+        <div class="swiper-wrapper">
+          {%- for media in gallery_media -%}
+            {%- liquid
+              assign media_loading = 'lazy'
+              assign media_fetchpriority = 'auto'
+              if forloop.first
+                assign media_loading = 'eager'
+                assign media_fetchpriority = 'high'
+              endif
+            -%}
+            <div class="product__gallery-slide swiper-slide" data-media-id="{{ media.id }}">
+              {%- render 'product-media-item',
+                media: media,
+                width: 1200,
+                sizes: '(min-width: 750px) 50vw, 100vw',
+                loading: media_loading,
+                fetchpriority: media_fetchpriority
+              -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if gallery_media.size > 1 -%}
+          <button
+            type="button"
+            class="product__gallery-btn product__gallery-btn--prev items-center justify-center"
+            slider-prev
+            aria-label="{{ 'products.product.previous_image' | t }}"
+          >
+            {%- render 'icon', name: 'chevron-left' -%}
+          </button>
+          <button
+            type="button"
+            class="product__gallery-btn product__gallery-btn--next items-center justify-center"
+            slider-next
+            aria-label="{{ 'products.product.next_image' | t }}"
+          >
+            {%- render 'icon', name: 'chevron-right' -%}
+          </button>
+        {%- endif -%}
+      </div>
+
+      {%- if show_thumbnails and gallery_media.size > 1 -%}
+        <div class="product__thumbnails flex flex-wrap">
+          {%- for media in gallery_media -%}
+            <button
+              type="button"
+              class="product__thumbnail{% if forloop.first %} is-active{% endif %}"
+              data-thumbnail
+              data-target-media-id="{{ media.id }}"
+              aria-label="{{ 'products.product.go_to_image' | t: number: forloop.index }}"
+            >
+              {%- render 'image', image: media.preview_image, width: 160, sizes: '80px' -%}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="product__gallery-stacked flex flex-column">
+        {%- for media in gallery_media -%}
+          {%- liquid
+            assign media_loading = 'lazy'
+            assign media_fetchpriority = 'auto'
+            if forloop.first
+              assign media_loading = 'eager'
+              assign media_fetchpriority = 'high'
+            endif
+          -%}
+          <div class="product__gallery-item" data-media-id="{{ media.id }}">
+            {%- render 'product-media-item',
+              media: media,
+              width: 1200,
+              sizes: '(min-width: 750px) 50vw, 100vw',
+              loading: media_loading,
+              fetchpriority: media_fetchpriority
+            -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    {%- render 'image', width: 1200, sizes: '(min-width: 750px) 50vw, 100vw' -%}
+  {%- endif -%}
+</div>

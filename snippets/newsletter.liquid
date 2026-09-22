@@ -3,7 +3,7 @@
 
   Usage:
 
-  {% render 'newsletter-form',
+  {% render 'newsletter',
     show_name: true,
     show_email: true,
     show_consent: false
@@ -25,7 +25,7 @@
 
   {% if form.posted_successfully? %}
     <div class="newsletter-form__success" role="status">
-      Thanks for subscribing!
+      {{ 'newsletter.post_success' | t }}
     </div>
   {% endif %}
 
@@ -34,7 +34,7 @@
   {% if show_name %}
     <div class="newsletter-form__field">
       <label for="NewsletterForm-name">
-        Name
+        {{ 'newsletter.name' | t }}
       </label>
 
       <input
@@ -43,7 +43,7 @@
         name="contact[first_name]"
         value="{{ form.first_name }}"
         autocomplete="given-name"
-        placeholder="Name"
+        placeholder="{{ 'newsletter.name' | t }}"
       >
     </div>
   {% endif %}
@@ -51,7 +51,7 @@
   {% if show_email %}
     <div class="newsletter-form__field">
       <label for="NewsletterForm-email">
-        Email
+        {{ 'newsletter.email' | t }}
       </label>
 
       <input
@@ -63,7 +63,7 @@
         autocorrect="off"
         autocapitalize="off"
         required
-        placeholder="Email"
+        placeholder="{{ 'newsletter.email' | t }}"
       >
     </div>
   {% endif %}
@@ -79,7 +79,7 @@
       >
 
       <label for="NewsletterForm-consent">
-        I agree to receive marketing emails.
+        {{ 'newsletter.consent' | t }}
       </label>
     </div>
   {% endif %}
@@ -88,7 +88,7 @@
     type="submit"
     class="button newsletter-form__submit"
   >
-    Subscribe
+    {{ 'newsletter.subscribe' | t }}
   </button>
 
 {% endform %}

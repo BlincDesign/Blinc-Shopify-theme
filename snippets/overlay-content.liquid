@@ -1,0 +1,55 @@
+{%- comment -%}
+  A position-aware content wrapper absolutely positioned over a media background.
+  Shared by any section that overlays text/buttons on top of an image or video
+  (e.g. Hero, Image Banner).
+
+  Accepts:
+  content (string, required) - captured HTML rendered inside the wrapper.
+  position (string, optional) - one of the 9 'top|center|bottom-left|center|right'
+    values (e.g. 'center-left'). Default: 'center-center'.
+  text_alignment (string, optional) - 'left', 'center', or 'right'. Default: 'center'.
+  class (string, optional) - additional classes on the outer wrapper.
+
+  Usage:
+  {% capture banner_content %}
+    <h2>{{ section.settings.heading }}</h2>
+  {% endcapture %}
+  {% render 'overlay-content',
+    content: banner_content,
+    position: section.settings.content_position,
+    text_alignment: section.settings.text_alignment
+  %}
+{%- endcomment -%}
+
+{%- if content != blank -%}
+  {%- liquid
+    assign position = position | default: 'center-center'
+    assign text_alignment = text_alignment | default: 'center'
+    assign position_parts = position | split: '-'
+    assign vertical_part = position_parts[0]
+    assign horizontal_part = position_parts[1]
+
+    case vertical_part
+      when 'center'
+        assign vertical_class = 'justify-center'
+      when 'bottom'
+        assign vertical_class = 'justify-end'
+      else
+        assign vertical_class = ''
+    endcase
+
+    case horizontal_part
+      when 'center'
+        assign horizontal_class = 'items-center'
+      when 'right'
+        assign horizontal_class = 'items-end'
+      else
+        assign horizontal_class = 'items-start'
+    endcase
+  -%}
+  <div class="overlay-content absolute-fill flex flex-column {{ vertical_class }} {{ horizontal_class }} text-{{ text_alignment }}{% if class != blank %} {{ class }}{% endif %}">
+    <div class="overlay-content__inner flex flex-column gap-1">
+      {{ content }}
+    </div>
+  </div>
+{%- endif -%}

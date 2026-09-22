@@ -23,6 +23,8 @@
     assign atc_label = 'products.product.add_to_cart' | t
   endif
 
+  assign choose_options_label = 'products.product.choose_options' | t
+
   if settings.enable_video
     assign gallery_media = product.media
   else
@@ -174,7 +176,7 @@
           {%- endform -%}
         {%- else -%}
           {%- render 'button',
-            label: 'products.product.choose_options' | t,
+            label: choose_options_label,
             type: 'button',
             button_style: 'primary',
             class: 'product-card__atc-button',

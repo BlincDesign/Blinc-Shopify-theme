@@ -1133,6 +1133,21 @@ a.main-collection__pagination-link:focus-visible {
     gap: var(--layout-gap);
 }
 
+@media screen and (max-width: 749px) {
+    .grid-columns-mobile {
+        grid-template-columns: repeat(var(--grid-columns-mobile, var(--grid-columns)), 1fr);
+    }
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute-fill {
+    position: absolute;
+    inset: 0;
+}
+
 :focus-visible {
     outline: 2px solid rgb(var(--color-accent, 18, 18, 18));
     outline-offset: 2px;
@@ -1654,6 +1669,475 @@ product-info.is-loading {
 
 /* Swiper */
 
+
+/* Video - the reusable video-wrapper used by snippets/video.liquid whenever
+   an aspect_ratio is passed. Callers that size/position the video themselves
+   (e.g. hero backgrounds) skip this wrapper and apply .fit-cover directly. */
+
+.video-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.video-wrapper video,
+.video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+    object-fit: cover;
+}
+
+/* End Video */
+
+
+/* Content blocks - additions for snippets/content-blocks.liquid beyond the
+   original heading/caption/text/buttons/custom_liquid cases. */
+
+.content-block__divider {
+    display: flex;
+    justify-content: center;
+}
+
+.content-block__divider-line {
+    width: var(--divider-width, 100%);
+    max-width: 100%;
+    margin: 0 auto;
+    border: 0;
+    border-top: 1px solid rgb(var(--color-border, 230, 230, 230));
+}
+
+/* End Content blocks */
+
+
+/* Marquee - a generic infinite-scroll track. Callers duplicate their content
+   twice inside .marquee__track (second copy marked aria-hidden) for a
+   seamless loop. Reused by the Announcement section's marquee mode. */
+
+.marquee {
+    overflow: hidden;
+}
+
+.marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll var(--marquee-duration, 20s) linear infinite;
+}
+
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track {
+    animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+        animation: none;
+    }
+}
+
+/* End Marquee */
+
+
+/* Announcement */
+
+.announcement__slide {
+    min-height: 2.5rem;
+    text-align: center;
+}
+
+.announcement__item {
+    display: inline-block;
+}
+
+/* End Announcement */
+
+
+/* Hero (sections/slideshow.liquid) */
+
+.hero__slide {
+    width: 100%;
+}
+
+.hero__media-asset {
+    width: 100%;
+    height: 100%;
+}
+
+/* End Hero */
+
+
+/* Overlay content (snippets/overlay-content.liquid) - a position-aware content
+   wrapper shared by any section that overlays text/buttons on a media
+   background (Hero, Image Banner). */
+
+.overlay-content {
+    padding: var(--layout-padding);
+    pointer-events: none;
+}
+
+.overlay-content__inner {
+    max-width: 40rem;
+    pointer-events: auto;
+}
+
+/* End Overlay content */
+
+
+/* Media overlay - a darkening scrim over a background image/video, shared by
+   any section with adjustable overlay opacity (Hero, Image Banner). */
+
+.media-overlay {
+    background-color: #000;
+    opacity: var(--overlay-opacity, 0);
+    pointer-events: none;
+}
+
+/* End Media overlay */
+
+
+/* Image Banner (sections/image-banner.liquid) */
+
+.image-banner__media-item {
+    min-width: 0;
+}
+
+.image-banner__asset {
+    width: 100%;
+    height: 100%;
+}
+
+/* End Image Banner */
+
+
+/* Media with Content - the content-area slider used when multiple 'content'
+   blocks are present (sections/media-with-text.liquid). */
+
+.media-with-text__content-inner {
+    width: 100%;
+}
+
+/* End Media with Content */
+
+
+/* Logo List (sections/logo-list.liquid) */
+
+.logo-list__item {
+    min-width: 0;
+}
+
+.logo-list__link {
+    display: block;
+}
+
+.logo-list__logo {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+}
+
+/* End Logo List */
+
+
+/* Testimonials (sections/testimonials.liquid) */
+
+.testimonial-card {
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.testimonial-card__rating {
+    gap: 0.25rem;
+}
+
+.testimonial-card__star--empty {
+    opacity: 0.25;
+}
+
+.testimonial-card__quote {
+    margin: 0;
+    font-style: normal;
+}
+
+.testimonial-card__footer {
+    margin-top: auto;
+}
+
+.testimonial-card__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* End Testimonials */
+
+
+/* Collection List (sections/collection-list.liquid) */
+
+.collection-list__item {
+    gap: 0.75rem;
+}
+
+.collection-list__title {
+    margin: 0;
+}
+
+/* End Collection List */
+
+
+/* Breadcrumbs (sections/breadcrumbs.liquid) */
+
+.breadcrumbs__list {
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+}
+
+.breadcrumbs__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.breadcrumbs__link {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.breadcrumbs__item--current {
+    color: rgb(var(--color-text, 18, 18, 18) / 0.7);
+}
+
+/* End Breadcrumbs */
+
+
+/* Accordions (sections/accordions.liquid) */
+
+.accordions__list {
+    min-width: 0;
+}
+
+.accordions__toc {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 16rem;
+}
+
+@media screen and (max-width: 749px) {
+    .accordions__toc {
+        max-width: none;
+    }
+}
+
+.accordions__toc-heading {
+    margin-bottom: 0.75rem;
+}
+
+.accordions__toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.accordions__toc-link {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* End Accordions */
+
+
+/* Countdown Timer (sections/countdown-timer.liquid) */
+
+.countdown-timer__wrapper {
+    gap: 1rem;
+}
+
+.countdown-timer__units {
+    gap: 1.5rem;
+}
+
+.countdown-timer__unit {
+    min-width: 3.5rem;
+}
+
+.countdown-timer__value {
+    font-size: var(--heading-size-large-desktop, 2rem);
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+@media screen and (max-width: 749px) {
+    .countdown-timer__value {
+        font-size: var(--heading-size-medium-mobile, 1.5rem);
+    }
+
+    .countdown-timer__units {
+        gap: 1rem;
+    }
+}
+
+.countdown-timer__label {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.25rem;
+}
+
+/* End Countdown Timer */
+
+
+/* Before / After (sections/before-after.liquid) */
+
+.before-after__frame {
+    touch-action: pan-y;
+    cursor: ew-resize;
+    user-select: none;
+}
+
+.before-after__image--after {
+    clip-path: inset(0 50% 0 0);
+}
+
+.before-after__image img,
+.before-after__image .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.before-after__badge {
+    position: absolute;
+    top: 1rem;
+    z-index: 1;
+    padding: 0.375rem 0.75rem;
+    background: rgb(var(--color-background, 255, 255, 255) / 0.85);
+    color: rgb(var(--color-text, 18, 18, 18));
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 999px;
+    pointer-events: none;
+}
+
+.before-after__badge--before {
+    left: 1rem;
+}
+
+.before-after__badge--after {
+    right: 1rem;
+}
+
+.before-after__handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 3px;
+    background: rgb(var(--color-background, 255, 255, 255));
+    transform: translateX(-50%);
+    cursor: ew-resize;
+    touch-action: none;
+    z-index: 2;
+}
+
+.before-after__handle-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: rgb(var(--color-background, 255, 255, 255));
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.3);
+    justify-content: center;
+}
+
+.before-after__handle:focus-visible {
+    outline: none;
+}
+
+.before-after__handle:focus-visible .before-after__handle-icon {
+    outline: 2px solid rgb(var(--color-accent, 18, 18, 18));
+    outline-offset: 2px;
+}
+
+/* End Before / After */
+
+
+/* Accordion (snippets/accordion-item.liquid + assets/accordion.js) */
+
+.accordion-item {
+    border-bottom: 1px solid rgb(var(--color-border, 230, 230, 230));
+}
+
+.accordion-item__header {
+    font: inherit;
+    margin: 0;
+}
+
+.accordion-item__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 0;
+    background: none;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+}
+
+.accordion-item__icon {
+    flex-shrink: 0;
+    display: flex;
+}
+
+.accordion-item__icon svg {
+    transition: transform 0.2s ease;
+}
+
+.accordion-item__trigger[aria-expanded="true"] .accordion-item__icon svg {
+    transform: rotate(45deg);
+}
+
+.accordion-item__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+}
+
+.accordion-item__panel--open {
+    grid-template-rows: 1fr;
+}
+
+.accordion-item__panel-inner {
+    overflow: hidden;
+    min-height: 0;
+}
+
+.accordion-item__panel--open .accordion-item__panel-inner {
+    padding-bottom: 1rem;
+}
+
+/* End Accordion */
+
+
 /* footer */
 
 .footer {
@@ -1698,6 +2182,48 @@ product-info.is-loading {
 .newsletter-form__field input {
     padding: 10px 5px;
     outline: none;
+}
+
+.newsletter-form__field--checkbox {
+    flex-direction: row;
+    align-items: center;
+}
+
+.contact-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+
+.contact-form__field input,
+.contact-form__field textarea {
+    padding: 10px 5px;
+    outline: none;
+    border: 1px solid rgb(var(--color-border, 230, 230, 230));
+    font: inherit;
+    color: inherit;
+    background: transparent;
+}
+
+.contact-form__field textarea {
+    resize: vertical;
+}
+
+.contact-form__success,
+.newsletter-form__success {
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.errors {
+    color: #b42318;
+    margin-bottom: 1rem;
+}
+
+.newsletter-section__text,
+.contact-form-section__text {
+    max-width: 40rem;
 }
 
 .footer__logo {

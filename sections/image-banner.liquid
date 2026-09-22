@@ -1,83 +1,150 @@
-{% liquid
-  if section.settings.image != blank
-    assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio | round
+{%- liquid
+  assign has_media_1 = false
+  if section.settings.video_1 != blank or section.settings.image_1 != blank
+    assign has_media_1 = true
   endif
-%}
 
-{{ image_height }}
+  assign has_media_2 = false
+  if section.settings.video_2 != blank or section.settings.image_2 != blank
+    assign has_media_2 = true
+  endif
 
-{% style %}
+  assign media_sizes = '100vw'
+  if has_media_1 and has_media_2
+    assign media_sizes = '(min-width: 750px) 50vw, 100vw'
+  endif
+
+  assign ratio_1 = section.settings.video_1.aspect_ratio | default: section.settings.image_1.aspect_ratio | default: 1.78
+  assign ratio_2 = section.settings.video_2.aspect_ratio | default: section.settings.image_2.aspect_ratio | default: 1.78
+
+  case section.settings.banner_height
+    when 'small'
+      assign height_value = '420px'
+      assign height_value_mobile = '360px'
+    when 'large'
+      assign height_value = '720px'
+      assign height_value_mobile = '480px'
+    when 'adapt'
+      assign height_value = null
+      assign height_value_mobile = null
+    else
+      assign height_value = '560px'
+      assign height_value_mobile = '420px'
+  endcase
+
+  assign img_loading = 'lazy'
+  assign img_fetchpriority = 'auto'
+  if section.index <= 2
+    assign img_loading = 'eager'
+    assign img_fetchpriority = 'high'
+  endif
+-%}
+
+{%- style -%}
   #Banner-{{ section.id }} {
-    position: relative;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
-  #Banner-{{ section.id }} img {
-    display: block;
-    width: 100%;
-    object-fit: cover;
+  {% if height_value %}
+    #Banner-{{ section.id }} .image-banner__media-item {
+      height: {{ height_value }};
+    }
+  {% else %}
+    #Banner-{{ section.id }} .image-banner__media-item--1 {
+      aspect-ratio: {{ ratio_1 }};
+    }
+    #Banner-{{ section.id }} .image-banner__media-item--2 {
+      aspect-ratio: {{ ratio_2 }};
+    }
+  {% endif %}
+
+  @media screen and (max-width: 749px) {
+    #Banner-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_m }}px;
+      padding-bottom: {{ section.settings.padding_bottom_m }}px;
+    }
+
+    {% if height_value_mobile %}
+      #Banner-{{ section.id }} .image-banner__media-item {
+        height: {{ height_value_mobile }};
+      }
+    {% endif %}
   }
+{%- endstyle -%}
 
-  #Banner-{{ section.id }}::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: #000;
-    pointer-events: none;
-    opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
-  }
+<div id="Banner-{{ section.id }}" class="image-banner color-{{ section.settings.color_scheme }}">
+  <div class="image-banner__wrapper relative overflow-hidden {{ section.settings.container_width }}">
+    {%- if has_media_1 or has_media_2 -%}
+      <div class="image-banner__media flex mobile-flex-column">
+        {%- if has_media_1 -%}
+          <div class="image-banner__media-item image-banner__media-item--1 flex-grow relative">
+            {%- if section.settings.video_1 != blank -%}
+              {%- render 'video',
+                video: section.settings.video_1,
+                autoplay: true,
+                loop: true,
+                muted: true,
+                controls: false,
+                class: 'image-banner__asset fit-cover'
+              -%}
+            {%- else -%}
+              {%- render 'image',
+                image: section.settings.image_1,
+                class: 'image-banner__asset',
+                width: 1600,
+                sizes: media_sizes,
+                loading: img_loading,
+                fetchpriority: img_fetchpriority
+              -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
 
-  {% if section.settings.image_height == 'adapt' %}
-    #Banner-{{ section.id }} img {
-      height: auto;
-    }
+        {%- if has_media_2 -%}
+          <div class="image-banner__media-item image-banner__media-item--2 flex-grow relative">
+            {%- if section.settings.video_2 != blank -%}
+              {%- render 'video',
+                video: section.settings.video_2,
+                autoplay: true,
+                loop: true,
+                muted: true,
+                controls: false,
+                class: 'image-banner__asset fit-cover'
+              -%}
+            {%- else -%}
+              {%- render 'image',
+                image: section.settings.image_2,
+                class: 'image-banner__asset',
+                width: 1600,
+                sizes: media_sizes,
+                loading: 'lazy'
+              -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
 
-  {% elsif section.settings.image_height == 'small' %}
-    #Banner-{{ section.id }} img {
-      height: 420px;
-      object-fit: cover;
-    }
+    {%- if section.settings.overlay_opacity > 0 -%}
+      <div
+        class="media-overlay absolute-fill"
+        style="--overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
+      ></div>
+    {%- endif -%}
 
-  {% elsif section.settings.image_height == 'medium' %}
-    #Banner-{{ section.id }} img {
-      height: 560px;
-      object-fit: cover;
-    }
+    {%- capture banner_content -%}
+      {%- for block in section.blocks -%}
+        {%- render 'content-blocks', block: block -%}
+      {%- endfor -%}
+    {%- endcapture -%}
 
-  {% elsif section.settings.image_height == 'large' %}
-    #Banner-{{ section.id }} img {
-      height: 720px;
-      object-fit: cover;
-    }
-  {% endif %}
-{% endstyle %}
-
-<div
-  id="Banner-{{ section.id }}"
-  class="{% if section.settings.image != blank and section.settings.image_2 != blank %}flex{% endif %}"
->
-  {% if section.settings.image != blank %}
-    <div class="flex-grow">
-      {{
-        section.settings.image
-        | image_url: width: 3840
-        | image_tag:
-          loading: 'lazy',
-          height: image_height
-      }}
-    </div>
-  {% endif %}
-
-  {% if section.settings.image_2 != blank %}
-    <div class="flex-grow">
-      {{
-        section.settings.image_2
-        | image_url: width: 3840
-        | image_tag:
-          loading: 'lazy',
-          height: image_height
-      }}
-    </div>
-  {% endif %}
+    {%- render 'overlay-content',
+      content: banner_content,
+      position: section.settings.content_position,
+      text_alignment: section.settings.text_alignment
+    -%}
+  </div>
 </div>
 
 {% schema %}
@@ -87,54 +154,281 @@
   "class": "shopify-section--image-banner",
   "settings": [
     {
+      "type": "header",
+      "content": "Media 1"
+    },
+    {
       "type": "image_picker",
-      "id": "image",
-      "label": "Image 1"
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video_1",
+      "label": "Video",
+      "info": "Overrides the image when set. Plays muted, looped, without controls."
+    },
+    {
+      "type": "header",
+      "content": "Media 2"
     },
     {
       "type": "image_picker",
       "id": "image_2",
-      "label": "Image 2"
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video_2",
+      "label": "Video",
+      "info": "Overrides the image when set. Plays muted, looped, without controls."
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
     },
     {
       "type": "range",
-      "id": "image_overlay_opacity",
+      "id": "overlay_opacity",
       "min": 0,
-      "max": 100,
-      "step": 10,
+      "max": 90,
+      "step": 5,
       "unit": "%",
-      "label": "Overlay Opacity",
+      "label": "Overlay opacity",
       "default": 0
     },
     {
       "type": "select",
-      "id": "image_height",
+      "id": "banner_height",
       "options": [
-        {
-          "value": "adapt",
-          "label": "Adapt for first image"
-        },
-        {
-          "value": "small",
-          "label": "Small"
-        },
-        {
-          "value": "medium",
-          "label": "Medium"
-        },
-        {
-          "value": "large",
-          "label": "Large"
-        }
+        { "value": "adapt", "label": "Adapt to image" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
       ],
       "default": "medium",
-      "label": "Image Height"
+      "label": "Banner height"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content position",
+      "options": [
+        { "value": "top-left", "label": "Top left" },
+        { "value": "top-center", "label": "Top center" },
+        { "value": "top-right", "label": "Top right" },
+        { "value": "center-left", "label": "Middle left" },
+        { "value": "center-center", "label": "Middle center" },
+        { "value": "center-right", "label": "Middle right" },
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-center", "label": "Bottom center" },
+        { "value": "bottom-right", "label": "Bottom right" }
+      ],
+      "default": "center-center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "container_width",
+      "label": "Container Width",
+      "default": "full-width",
+      "options": [
+        { "value": "full-width", "label": "Full Width" },
+        { "value": "container-padded", "label": "Full Width (Padded)" },
+        { "value": "container-standard", "label": "Standard" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Spacing Desktop"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Top spacing (px)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Bottom spacing (px)",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Spacing Mobile"
+    },
+    {
+      "type": "number",
+      "id": "padding_top_m",
+      "label": "Top spacing (px)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_m",
+      "label": "Bottom spacing (px)",
+      "default": 0
     }
   ],
-  "blocks": [],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Image banner"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "xl", "label": "XL" },
+            { "value": "xxl", "label": "XXL" }
+          ],
+          "default": "large"
+        }
+      ]
+    },
+    {
+      "type": "caption",
+      "name": "Preheading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Preheading",
+          "default": "Preheading"
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Subheading"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Pair large text with an image to tell a story, showcase a sale, or highlight a product feature.</p>"
+        },
+        {
+          "type": "select",
+          "id": "text_size",
+          "label": "Text size",
+          "options": [
+            { "value": "regular", "label": "Regular" },
+            { "value": "small", "label": "Small" }
+          ],
+          "default": "regular"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Button 1"
+        },
+        {
+          "type": "text",
+          "id": "button_1_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_1_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_1_style",
+          "label": "Button style",
+          "default": "primary",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "link", "label": "Link" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Button 2"
+        },
+        {
+          "type": "text",
+          "id": "button_2_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_2_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_2_style",
+          "label": "Button style",
+          "default": "link",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "secondary", "label": "Secondary" },
+            { "value": "link", "label": "Link" }
+          ]
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Image banner"
+      "name": "Image banner",
+      "blocks": [{ "type": "heading" }, { "type": "buttons" }]
     }
   ]
 }
