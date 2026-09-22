@@ -3,10 +3,14 @@
   if section.settings.enable_full_width
     assign width_class = 'footer__wrapper--full-width'
   endif
+
+  assign has_social_icons = true
+  if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
+    assign has_social_icons = false
+  endif
 -%}
 
 {% style %}
-  
 {% endstyle %}
 
 <div id="Footer-{{ section.id }}" class="footer color-{{ section.settings.color_scheme }} ">
@@ -87,10 +91,14 @@
     </div>
 
     {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
-            <div class="footer__follow-on-shop">
-              {{ shop | login_button: action: 'follow' }}
-            </div>
-          {%- endif -%}
+      <div class="footer__follow-on-shop">
+        {{ shop | login_button: action: 'follow' }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_social and has_social_icons -%}
+      {%- render 'social-icons', class: 'footer__list-social' -%}
+    {%- endif -%}
     <p class="footer__copyright">
       <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
     </p>
@@ -216,6 +224,12 @@
       "id": "enable_shop",
       "label": "Follow on Shop",
       "info": "Shop Pay must be enabled. [Learn more](https://help.shopify.com/manual/online-store/themes/customizing-themes/follow-on-shop)",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_social_media_icons",
+      "label": "Social media icons",
       "default": false
     }
   ]
