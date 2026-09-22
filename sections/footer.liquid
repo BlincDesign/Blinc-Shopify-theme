@@ -5,7 +5,7 @@
   endif
 
   assign has_social_icons = true
-  if settings.social_facebook_link == blank or settings.social_instagram_link == blank or settings.social_youtube_link == blank or settings.social_tiktok_link == blank or settings.social_twitter_link == blank or settings.social_pinterest_link == blank or settings.social_snapchat_link == blank or settings.social_tumblr_link == blank or settings.social_vimeo_link == blank
+  if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
     assign has_social_icons = false
   endif
 -%}
@@ -96,10 +96,9 @@
       </div>
     {%- endif -%}
 
-    jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
     {%- if section.settings.show_social and has_social_icons -%}
-      {%- render 'social-icons', class: 'footer__list-social' -%}
-    {%- endif -%}
+            {%- render 'social-icons', class: 'footer__list-social' -%}
+          {%- endif -%}
     <p class="footer__copyright">
       <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
     </p>
