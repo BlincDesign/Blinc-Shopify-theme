@@ -100,6 +100,30 @@
       {%- render 'social-icons', class: 'footer__list-social' -%}
     {%- endif -%}
 
+    {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+      <localization-form>
+        {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+          <div>
+            <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
+            {%- render 'country-localization', localPosition: 'FooterCountry' -%}
+          </div>
+        {%- endform -%}
+      </localization-form>
+    {%- endif -%}
+
+    {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+      <localization-form>
+        {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+          <div>
+            <h2 class="caption-large text-body" id="FooterLanguageLabel">
+              {{ 'localization.language_label' | t }}
+            </h2>
+            {%- render 'language-localization', localPosition: 'FooterLanguage' -%}
+          </div>
+        {%- endform -%}
+      </localization-form>
+    {%- endif -%}
+
     <div class="flex flex-wrap justify-between">
       <p class="footer__copyright">
         <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
@@ -246,6 +270,18 @@
       "type": "checkbox",
       "id": "enable_social_media_icons",
       "label": "Social media icons",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "language_selector",
+      "label": "Language selector",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "country_selector",
+      "label": "Country selector",
       "default": false
     },
     {
