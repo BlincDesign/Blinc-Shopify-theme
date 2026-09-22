@@ -1702,7 +1702,7 @@ product-info.is-loading {
 
 .footer__logo {
   display: block;
-    width: var(--logo-width);
+    max-width: var(--logo-width);
     margin-bottom: 1rem;
   }
 
