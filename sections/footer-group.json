@@ -59,10 +59,6 @@
           "type": "newsletter",
           "settings": {}
         },
-        "contact_Fx6tVX": {
-          "type": "contact",
-          "settings": {}
-        },
         "large_logo_NUTM9R": {
           "type": "large-logo",
           "settings": {
@@ -77,12 +73,14 @@
         "menu_ymBmCT",
         "menu_f6dgAc",
         "newsletter_VbtLDi",
-        "contact_Fx6tVX",
         "large_logo_NUTM9R"
       ],
       "settings": {
         "color_scheme": "scheme-3dcac99b-ad93-46a8-9d94-fd1199ca3cac",
-        "enable_full_width": true
+        "enable_full_width": true,
+        "enable_shop": true,
+        "enable_social_media_icons": true,
+        "enable_payment": true
       }
     }
   },
