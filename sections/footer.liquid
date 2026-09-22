@@ -6,85 +6,95 @@
 -%}
 
 {% style %}
-  
 {% endstyle %}
 
 <div id="Footer-{{ section.id }}" class="footer color-{{ section.settings.color_scheme }} ">
   <div class="flex flex-column gap-1 {{ width_class }}">
-    <div class="footer__wrapper flex flex-wrap items-start mobile-flex-column">
-      {% for block in section.blocks -%}
-        {% liquid
-          assign menu = block.settings.menu
-          assign heading_size = block.settings.heading_size
-          assign menu_heading = block.settings.menu_heading
-          assign logo = block.settings.logo_image
-          assign logo_size = block.settings.logo_size
-          assign logo_heading = block.settings.logo_heading
-          assign logo_description = block.settings.logo_description
+    {%- if section.blocks.size > 0 -%}
+      {%- liquid
+            if section.blocks.size == 9
+              assign footer_grid_class = 'grid--3-col-tablet'
+            elsif section.blocks.size > 6
+              assign footer_grid_class = 'grid--4-col-desktop'
+            elsif section.blocks.size > 4
+              assign footer_grid_class = 'grid--3-col-tablet'
+            endif
+          -%}
+      <div class="footer__wrapper flex flex-wrap items-start mobile-flex-column {{ footer_grid_class }}">
+        {% for block in section.blocks -%}
+          {% liquid
+            assign menu = block.settings.menu
+            assign heading_size = block.settings.heading_size
+            assign menu_heading = block.settings.menu_heading
+            assign logo = block.settings.logo_image
+            assign logo_size = block.settings.logo_size
+            assign logo_heading = block.settings.logo_heading
+            assign logo_description = block.settings.logo_description
 
-          assign large_logo = block.settings.large_logo
-        %}
-        <div class="footer__blocks footer__blocks--{{ block.type }} {% unless block.type == 'large-logo' %} flex-grow {% endunless %}">
-          {% case block.type %}
-            {% when '@app' %}
-              {% render block %}
-            {% when 'logo' %}
-              <a
-                href="{{ routes.root_url }}"
-                class="footer__logo"
-                style="--logo-width: {{ logo_size }}px"
-                aria-label="{{ shop.name | escape }}"
-                {{ block.shopify_attributes }}
-              >
-                {% render 'image', image: logo, alt: shop.name %}
-              </a>
-
-              {% if logo_heading != blank or logo_description != blank %}
-                <div class="footer__logo-content gap-1 flex flex-column">
-                  {% if logo_heading != blank %}
-                    <p class="footer__logo-content-heading">
-                      {{ logo_heading }}
-                    </p>
-                  {% endif %}
-
-                  {% if logo_description != blank %}
-                    <div class="footer__logo-content-description">
-                      {{ logo_description }}
-                    </div>
-                  {% endif %}
-                </div>
-              {% endif %}
-
-            {% when 'menu' %}
-              {% if menu.links.size > 0 %}
-                <div class="flex flex-column gap-half" {{ block.shopify_attributes }}>
-                  <nav class="flex flex-column footer__nav gap-1" aria-label="{{ menu_heading | escape }}">
-                    <h3 class="footer__menu-heading heading heading--{{ heading_size }}">
-                      {{ menu_heading }}
-                    </h3>
-                    <ul class="footer__nav-list flex flex-column gap-half">
-                      {%- for link in menu.links -%}
-                        <li>
-                          <a href="{{ link.url }}">{{ link.title }}</a>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  </nav>
-                </div>
-              {% endif %}
-            {% when 'newsletter' %}
-              {% render 'newsletter', show_name: true, show_email: true, show_consent: false %}
-
-            {% when 'large-logo' %}
-              <div {{ block.shopify_attributes }}>
-                <a href="{{ routes.root_url }}">
-                  {% render 'image', image: large_logo, alt: large_logo.alt %}
+            assign large_logo = block.settings.large_logo
+          %}
+          <div class="footer__blocks footer__blocks--{{ block.type }} {% unless block.type == 'large-logo' %} grid__item {% endunless %}">
+            {% case block.type %}
+              {% when '@app' %}
+                {% render block %}
+              {% when 'logo' %}
+                <a
+                  href="{{ routes.root_url }}"
+                  class="footer__logo"
+                  style="--logo-width: {{ logo_size }}px"
+                  aria-label="{{ shop.name | escape }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {% render 'image', image: logo, alt: shop.name %}
                 </a>
-              </div>
-          {% endcase %}
-        </div>
-      {%- endfor %}
-    </div>
+
+                {% if logo_heading != blank or logo_description != blank %}
+                  <div class="footer__logo-content gap-1 flex flex-column">
+                    {% if logo_heading != blank %}
+                      <p class="footer__logo-content-heading">
+                        {{ logo_heading }}
+                      </p>
+                    {% endif %}
+
+                    {% if logo_description != blank %}
+                      <div class="footer__logo-content-description">
+                        {{ logo_description }}
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endif %}
+
+              {% when 'menu' %}
+                {% if menu.links.size > 0 %}
+                  <div class="flex flex-column gap-half" {{ block.shopify_attributes }}>
+                    <nav class="flex flex-column footer__nav gap-1" aria-label="{{ menu_heading | escape }}">
+                      <h3 class="footer__menu-heading heading heading--{{ heading_size }}">
+                        {{ menu_heading }}
+                      </h3>
+                      <ul class="footer__nav-list flex flex-column gap-half">
+                        {%- for link in menu.links -%}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </nav>
+                  </div>
+                {% endif %}
+              {% when 'newsletter' %}
+                {% render 'newsletter', show_name: true, show_email: true, show_consent: false %}
+
+              {% when 'large-logo' %}
+                <div {{ block.shopify_attributes }}>
+                  <a href="{{ routes.root_url }}">
+                    {% render 'image', image: large_logo, alt: large_logo.alt %}
+                  </a>
+                </div>
+            {% endcase %}
+          </div>
+        {%- endfor %}
+      </div>
+    {% endif %}
     <p class="footer__copyright">
       <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
     </p>
