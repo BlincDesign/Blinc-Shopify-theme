@@ -100,22 +100,24 @@
       {%- render 'social-icons', class: 'footer__list-social' -%}
     {%- endif -%}
 
-    <p class="footer__copyright">
-      <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
-    </p>
+    <div class="flex flex-wrap justify-between">
+      <p class="footer__copyright">
+        <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
+      </p>
 
-    {%- if section.settings.enable_payment -%}
-      <div class="footer__payment">
-        <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-        <ul class="list list-payment" role="list">
-          {%- for type in shop.enabled_payment_types -%}
-            <li class="list-payment__item">
-              {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-            </li>
-          {%- endfor -%}
-        </ul>
-      </div>
-    {%- endif -%}
+      {%- if section.settings.enable_payment -%}
+        <div class="footer__payment">
+          <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+          <ul class="list list-payment flex gap-1" role="list">
+            {%- for type in shop.enabled_payment_types -%}
+              <li class="list-payment__item">
+                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
   </div>
 </div>
 
