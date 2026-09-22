@@ -105,7 +105,7 @@
         <b> {{ shop.name }} &copy; {{ 'now' | date: '%Y' }} </b>
       </p>
 
-      <div>
+      <div class="flex flex-wrap gap-1">
         {% comment %} {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%} {% endcomment %}
         <localization-form>
           {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
