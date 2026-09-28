@@ -90,6 +90,10 @@ html.cart-drawer-open {
     gap: 1.5rem;
 }
 
+.cart-drawer__blocks-after {
+    margin-top: 1.5rem;
+}
+
 .cart-drawer__footer {
     gap: 0.5rem;
     margin-top: 2rem;

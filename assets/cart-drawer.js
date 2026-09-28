@@ -164,7 +164,8 @@ class CartDrawer extends HTMLElement {
         }
 
         wrapper.dataset.itemCount = newContent.dataset.itemCount;
-        this.swapRegion(wrapper, newContent, '.cart-drawer__blocks');
+        this.swapRegion(wrapper, newContent, '.cart-drawer__blocks:not(.cart-drawer__blocks-after)');
+        this.swapRegion(wrapper, newContent, '.cart-drawer__blocks-after');
         this.swapRegion(wrapper, newContent, '.cart-drawer__items');
         this.swapRegion(wrapper, newContent, '.cart-drawer__footer');
     }

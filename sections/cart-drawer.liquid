@@ -24,6 +24,20 @@
       assign has_popup_block = true
     endif
   endfor
+
+  assign line_items_index = -1
+  for block in section.blocks
+    if block.type == 'line_items'
+      assign line_items_index = forloop.index0
+    endif
+  endfor
+
+  assign has_after_blocks = false
+  for block in section.blocks
+    if line_items_index > -1 and forloop.index0 > line_items_index
+      assign has_after_blocks = true
+    endif
+  endfor
 -%}
 
 {%- if settings.cart_type == 'drawer' or settings.cart_type == blank -%}
@@ -64,24 +78,11 @@
         {%- if section.blocks.size > 0 -%}
           <div class="cart-drawer__blocks flex flex-column">
             {%- for block in section.blocks -%}
-              {%- case block.type -%}
-                {%- when 'free_shipping_progress' -%}
-                  {%- render 'free-shipping-progress', block: block -%}
-                {%- when 'minimum_order_message' -%}
-                  {%- render 'minimum-order-message', block: block -%}
-                {%- when 'upsell_products' -%}
-                  {%- render 'upsell-products', block: block -%}
-                {%- when 'discount_code' -%}
-                  {%- render 'discount-code', block: block -%}
-                {%- when 'cart_note' -%}
-                  {%- render 'cart-note', block: block -%}
-                {%- when 'po_reference' -%}
-                  {%- render 'po-reference', block: block -%}
-                {%- when 'checkout_info' -%}
-                  {%- render 'checkout-info', block: block -%}
-                {%- else -%}
-                  {%- render 'content-blocks', block: block -%}
-              {%- endcase -%}
+              {%- if line_items_index == -1 or forloop.index0 < line_items_index -%}
+                {%- unless block.type == 'line_items' -%}
+                  {%- render 'cart-block', block: block -%}
+                {%- endunless -%}
+              {%- endif -%}
             {%- endfor -%}
           </div>
         {%- endif -%}
@@ -102,7 +103,19 @@
               {% render 'cart-item', item: item %}
             {%- endfor -%}
           </div>
+        {%- endif -%}
 
+        {%- if has_after_blocks -%}
+          <div class="cart-drawer__blocks cart-drawer__blocks-after flex flex-column">
+            {%- for block in section.blocks -%}
+              {%- if forloop.index0 > line_items_index -%}
+                {%- render 'cart-block', block: block -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- if cart.item_count > 0 -%}
           <div class="cart-drawer__footer flex flex-column">
             {%- if cart.total_discount > 0 -%}
               <p class="cart-drawer__discount text-body text-body--small">
@@ -162,6 +175,17 @@
     }
   ],
   "blocks": [
+    {
+      "type": "line_items",
+      "name": "Cart items",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Marks where the cart's line items appear. Drag other blocks above or below it to position them relative to the items."
+        }
+      ]
+    },
     {
       "type": "heading",
       "name": "Heading",
@@ -437,7 +461,8 @@
         { "type": "cart_note" },
         { "type": "po_reference" },
         { "type": "discount_code" },
-        { "type": "checkout_info" }
+        { "type": "checkout_info" },
+        { "type": "line_items" }
       ]
     }
   ]
