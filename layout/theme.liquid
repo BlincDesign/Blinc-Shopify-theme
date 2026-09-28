@@ -21,8 +21,6 @@
       <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
 
-    {{ content_for_header }}
-
     {{ 'base.css' | asset_url | stylesheet_tag }}
 
     <link
@@ -32,6 +30,8 @@
 
     {% render 'color-schemes' %}
     {% render 'head' %}
+
+    {{ content_for_header }}
   </head>
 
   <body class="template-{{ request.page_type }} flex flex-column">
@@ -51,11 +51,17 @@
       where in the page the section that needs them ends up (header-group,
       footer-group, or main content).
     {%- endcomment -%}
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer="defer"></script>
+
     <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
 
-    <a class="skip-to-content-link visually-hidden" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+    <a class="skip-to-content-link visually-hidden" href="#MainContent">
+      {{- 'general.accessibility.skip_to_content' | t -}}
+    </a>
 
     {% sections 'header-group' %}
+    {% sections 'overlay-group' %}
 
     <main id="MainContent" class="content-for-layout">
       {{ content_for_layout }}
@@ -79,7 +85,5 @@
         lineErrorGeneric: {{ 'cart.line_error_generic' | t | json }}
       };
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js" defer="defer"></script>
   </body>
 </html>
