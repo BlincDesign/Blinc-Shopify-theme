@@ -131,7 +131,7 @@ class Slider {
                 throw new Error('Swiper is not available');
             }
 
-            slider.swiper = new window.Swiper(slider, this.getConfig(slider));
+            slider.swiper = new Swiper(slider, this.getConfig(slider));
 
             delete slider.dataset.sliderError;
         } catch (error) {
