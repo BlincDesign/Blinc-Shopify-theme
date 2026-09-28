@@ -10,6 +10,77 @@
 {
   "name": "Overlay",
   "type": "aside",
-  "sections": {},
-  "order": []
+  "sections": {
+    "cart_drawer_yUNHLw": {
+      "type": "cart-drawer",
+      "blocks": {
+        "free_shipping_progress_Tgxz4y": {
+          "type": "free_shipping_progress",
+          "settings": {
+            "progress_text": "You're [amount] away from free shipping",
+            "success_text": "You've unlocked free shipping!",
+            "show_bar": true
+          }
+        },
+        "minimum_order_message_aLQ4DA": {
+          "type": "minimum_order_message",
+          "settings": {
+            "message_text": "Add [amount] more to reach the [threshold] minimum order",
+            "success_text": "Minimum order met"
+          }
+        },
+        "checkout_info_pdNRi7": {
+          "type": "checkout_info",
+          "settings": {
+            "text": "<p>Taxes and shipping calculated at checkout.</p>"
+          }
+        },
+        "upsell_products_wjRGyD": {
+          "type": "upsell_products",
+          "settings": {
+            "heading": "You may also like",
+            "products": [],
+            "products_to_show": 3
+          }
+        },
+        "cart_note_LDUzN9": {
+          "type": "cart_note",
+          "settings": {
+            "heading": "Order notes",
+            "placeholder": "Add a note to your order"
+          }
+        },
+        "po_reference_JxMhwh": {
+          "type": "po_reference",
+          "settings": {
+            "heading": "PO / Job Reference",
+            "placeholder": "Enter your PO or job number",
+            "required": false
+          }
+        },
+        "discount_code_qPjb9w": {
+          "type": "discount_code",
+          "settings": {
+            "heading": "Discount code"
+          }
+        }
+      },
+      "block_order": [
+        "free_shipping_progress_Tgxz4y",
+        "minimum_order_message_aLQ4DA",
+        "checkout_info_pdNRi7",
+        "upsell_products_wjRGyD",
+        "cart_note_LDUzN9",
+        "po_reference_JxMhwh",
+        "discount_code_qPjb9w"
+      ],
+      "name": "Cart drawer",
+      "settings": {
+        "color_scheme": ""
+      }
+    }
+  },
+  "order": [
+    "cart_drawer_yUNHLw"
+  ]
 }
