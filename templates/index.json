@@ -13,10 +13,17 @@
       "type": "image-banner",
       "name": "Image banner",
       "settings": {
-        "image": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_c8d56011-43b5-47aa-b9fb-686b4440aed8.png",
         "image_2": "shopify://shop_images/v-belts-rubber-raw-edge-varisect-overview_c8d56011-43b5-47aa-b9fb-686b4440aed8.png",
-        "image_overlay_opacity": 0,
-        "image_height": "medium"
+        "overlay_opacity": 0,
+        "banner_height": "medium",
+        "content_position": "center-center",
+        "text_alignment": "center",
+        "color_scheme": "",
+        "container_width": "full-width",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_m": 0,
+        "padding_bottom_m": 0
       }
     },
     "multicolumn_caXf8n": {
@@ -210,53 +217,31 @@
     "media_with_text_ML7CFL": {
       "type": "media-with-text",
       "blocks": {
-        "heading_R8caAp": {
-          "type": "heading",
+        "content_33YtPd": {
+          "type": "content",
           "settings": {
-            "heading": "BESPOKE TILE DESIGN SERVICE",
-            "heading_size": "medium"
+            "preheading": "Our story",
+            "heading": "Talk about your brand",
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
           }
         },
-        "text_bbwBzJ": {
-          "type": "text",
+        "content_7FM3Pz": {
+          "type": "content",
           "settings": {
-            "text": "<p>Whether you’re after a bold mural, a rework of an existing design, a brand new geometric, or a delicate floral repeat, no idea is too big or too small.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_rJAJj7": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Not sure where to begin? Petra will personally guide and inspire you with her creative eye and expertise.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_Yhr9UF": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Bespoke Tile Design starts from £100 per design. Additional copies are priced as standard.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_jMV8w9": {
-          "type": "text",
-          "settings": {
-            "text": "<p>To start your project, drop us a line at <a href=\"mailto:creative@petrapalumbo.com\" target=\"_blank\">creative@petrapalumbo.com</a>, we’d love to hear from you.</p>",
-            "text_size": "regular"
+            "preheading": "Our story",
+            "heading": "Talk about your brand",
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
           }
         }
       },
       "block_order": [
-        "heading_R8caAp",
-        "text_bbwBzJ",
-        "text_rJAJj7",
-        "text_Yhr9UF",
-        "text_jMV8w9"
+        "content_33YtPd",
+        "content_7FM3Pz"
       ],
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/Copy_of_BLOG_POST_DESIGN_1-3.webp",
-        "image_ratio": "portrait",
+        "image_ratio": "square",
         "media_position": "left",
         "text_alignment": "center",
         "vertical_position": "center",
@@ -270,50 +255,6 @@
     },
     "media_with_text_ptN7Ah": {
       "type": "media-with-text",
-      "blocks": {
-        "heading_AKpqcT": {
-          "type": "heading",
-          "settings": {
-            "heading": "BESPOKE TILE DESIGN SERVICE",
-            "heading_size": "medium"
-          }
-        },
-        "text_PMAdeH": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Whether you’re after a bold mural, a rework of an existing design, a brand new geometric, or a delicate floral repeat, no idea is too big or too small.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_HVyNUf": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Not sure where to begin? Petra will personally guide and inspire you with her creative eye and expertise.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_jGQjUa": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Bespoke Tile Design starts from £100 per design. Additional copies are priced as standard.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_3cHLfQ": {
-          "type": "text",
-          "settings": {
-            "text": "<p>To start your project, drop us a line at <a href=\"mailto:creative@petrapalumbo.com\" target=\"_blank\">creative@petrapalumbo.com</a>, we’d love to hear from you.</p>",
-            "text_size": "regular"
-          }
-        }
-      },
-      "block_order": [
-        "heading_AKpqcT",
-        "text_PMAdeH",
-        "text_HVyNUf",
-        "text_jGQjUa",
-        "text_3cHLfQ"
-      ],
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/7_5a7a0c66-127e-41a1-8aa7-4965c7590b5d.webp",
@@ -331,50 +272,6 @@
     },
     "media_with_text_RDtETM": {
       "type": "media-with-text",
-      "blocks": {
-        "heading_eBKYzf": {
-          "type": "heading",
-          "settings": {
-            "heading": "BESPOKE TILE DESIGN SERVICE",
-            "heading_size": "medium"
-          }
-        },
-        "text_Repbme": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Whether you’re after a bold mural, a rework of an existing design, a brand new geometric, or a delicate floral repeat, no idea is too big or too small.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_7b7Pzp": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Not sure where to begin? Petra will personally guide and inspire you with her creative eye and expertise.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_a7CdUk": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Bespoke Tile Design starts from £100 per design. Additional copies are priced as standard.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_pTmxi9": {
-          "type": "text",
-          "settings": {
-            "text": "<p>To start your project, drop us a line at <a href=\"mailto:creative@petrapalumbo.com\" target=\"_blank\">creative@petrapalumbo.com</a>, we’d love to hear from you.</p>",
-            "text_size": "regular"
-          }
-        }
-      },
-      "block_order": [
-        "heading_eBKYzf",
-        "text_Repbme",
-        "text_7b7Pzp",
-        "text_a7CdUk",
-        "text_pTmxi9"
-      ],
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/3_4fa319a4-c993-456a-9c92-c6b9d4e3fe5d.webp",
@@ -392,50 +289,6 @@
     },
     "media_with_text_qn6Bim": {
       "type": "media-with-text",
-      "blocks": {
-        "heading_G4Jrhr": {
-          "type": "heading",
-          "settings": {
-            "heading": "BESPOKE TILE DESIGN SERVICE",
-            "heading_size": "medium"
-          }
-        },
-        "text_pfJ4Yq": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Whether you’re after a bold mural, a rework of an existing design, a brand new geometric, or a delicate floral repeat, no idea is too big or too small.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_XNtcGF": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Not sure where to begin? Petra will personally guide and inspire you with her creative eye and expertise.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_MaPxnT": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Bespoke Tile Design starts from £100 per design. Additional copies are priced as standard.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_8q8nze": {
-          "type": "text",
-          "settings": {
-            "text": "<p>To start your project, drop us a line at <a href=\"mailto:creative@petrapalumbo.com\" target=\"_blank\">creative@petrapalumbo.com</a>, we’d love to hear from you.</p>",
-            "text_size": "regular"
-          }
-        }
-      },
-      "block_order": [
-        "heading_G4Jrhr",
-        "text_pfJ4Yq",
-        "text_XNtcGF",
-        "text_MaPxnT",
-        "text_8q8nze"
-      ],
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/Murals.webp",
@@ -453,50 +306,6 @@
     },
     "media_with_text_KNnafK": {
       "type": "media-with-text",
-      "blocks": {
-        "heading_eLhtnz": {
-          "type": "heading",
-          "settings": {
-            "heading": "BESPOKE TILE DESIGN SERVICE",
-            "heading_size": "medium"
-          }
-        },
-        "text_Wa3GGR": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Whether you’re after a bold mural, a rework of an existing design, a brand new geometric, or a delicate floral repeat, no idea is too big or too small.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_6gcWpd": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Not sure where to begin? Petra will personally guide and inspire you with her creative eye and expertise.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_zwcAfT": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Bespoke Tile Design starts from £100 per design. Additional copies are priced as standard.</p>",
-            "text_size": "regular"
-          }
-        },
-        "text_mp9mhV": {
-          "type": "text",
-          "settings": {
-            "text": "<p>To start your project, drop us a line at <a href=\"mailto:creative@petrapalumbo.com\" target=\"_blank\">creative@petrapalumbo.com</a>, we’d love to hear from you.</p>",
-            "text_size": "regular"
-          }
-        }
-      },
-      "block_order": [
-        "heading_eLhtnz",
-        "text_Wa3GGR",
-        "text_6gcWpd",
-        "text_zwcAfT",
-        "text_mp9mhV"
-      ],
       "name": "Media with text",
       "settings": {
         "image": "shopify://shop_images/4_cbdf2a1f-40fc-4cd0-b5bc-6131b5eb79bd.webp",
