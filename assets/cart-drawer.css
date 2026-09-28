@@ -68,11 +68,6 @@ html.cart-drawer-open {
     transition: background-color 0.15s ease;
 }
 
-.cart-drawer__close:hover,
-.cart-drawer__close:focus-visible {
-    background: rgb(var(--color-border, 230, 230, 230));
-}
-
 .cart-drawer__body {
     padding: 1.5rem;
 }
