@@ -1,4 +1,3 @@
-// variables.js.liquid
 window.theme = window.theme || {};
 window.theme.settings = window.theme.settings || {};
 window.theme.settings.slider = {
@@ -6,3 +5,5 @@ window.theme.settings.slider = {
   spaceBetween: 16,
   grabCursor: true
 };
+window.theme.settings.cartType = {{ settings.cart_type | json }};
+window.theme.settings.moneyFormat = {{ shop.money_format | json }};

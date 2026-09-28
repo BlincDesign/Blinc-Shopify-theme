@@ -1,16 +1,4 @@
-{%- comment -%}
-  The product media gallery (carousel or stacked layout, with optional thumbnails)
-  plus badges. Shared by the PDP (sections/main-product.liquid) and any other
-  section that needs the full product buy box (e.g. sections/featured-product.liquid).
-
-  Accepts:
-  product (object, required) - the product to render media for.
-  media_layout (string, optional) - 'carousel' or 'stacked'. Default: 'carousel'.
-  show_thumbnails (boolean, optional) - only applies to the carousel layout. Default: true.
-
-  Usage:
-  {% render 'product-gallery', product: product, media_layout: section.settings.media_layout, show_thumbnails: section.settings.show_thumbnails %}
-{%- endcomment -%}
+{%- comment -%} The shared product media gallery. Usage: render 'product-gallery', product:, media_layout:, show_thumbnails: {%- endcomment -%}
 
 {%- liquid
   assign gallery_media = product.media

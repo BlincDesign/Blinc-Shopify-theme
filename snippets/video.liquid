@@ -1,27 +1,4 @@
-{%- comment -%}
-  Accepts:
-  video (object, required) - a Shopify `video` setting value. Supports both Shopify-hosted
-    uploads (media_type 'video') and external YouTube/Vimeo links (media_type 'external_video').
-  aspect_ratio (string, optional) - wraps the video in a ratio-boxed container using this CSS
-    aspect-ratio (e.g. '16/9'). Omit for callers that size/position the video themselves
-    (e.g. absolutely positioned backgrounds), and apply the 'fit-cover' utility via `class` instead.
-  autoplay (boolean, optional) - default false.
-  loop (boolean, optional) - default false.
-  muted (boolean, optional) - default true when autoplay is true, otherwise false.
-  controls (boolean, optional) - default true unless autoplay is true.
-  class (string, optional) - additional classes on the rendered <video>/<iframe> tag.
-
-  Usage:
-  {% render 'video', video: section.settings.video, aspect_ratio: '16/9' %}
-  {% render 'video',
-    video: block.settings.video,
-    autoplay: true,
-    loop: true,
-    muted: true,
-    controls: false,
-    class: 'hero__media-asset fit-cover'
-  %}
-{%- endcomment -%}
+{%- comment -%} Renders a Shopify-hosted or external video. Usage: render 'video', video:, aspect_ratio:, autoplay:, loop:, muted:, controls:, class: {%- endcomment -%}
 
 {%- liquid
   assign autoplay = autoplay | default: false

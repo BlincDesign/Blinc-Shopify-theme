@@ -26,6 +26,7 @@
   endfor
 -%}
 
+{%- if settings.cart_type == 'drawer' or settings.cart_type == blank -%}
 {{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
 {%- if section.blocks.size > 0 -%}
@@ -145,6 +146,7 @@
     </p>
   </dialog>
 </cart-drawer>
+{%- endif -%}
 {% schema %}
 {
   "name": "Cart drawer",

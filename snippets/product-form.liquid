@@ -1,21 +1,4 @@
-{%- comment -%}
-  The product buy box: a <product-info> custom element wrapping the add-to-cart
-  form, driven by a flat list of blocks (vendor/title/price/variant_picker/
-  volume_pricing/quantity_selector/buy_buttons/sku/inventory_status/description/
-  custom_liquid). Shared by the PDP (sections/main-product.liquid) and any other
-  section that needs the full purchasing UI (e.g. sections/featured-product.liquid).
-
-  Accepts:
-  product (object, required) - the product to render.
-  blocks (array, required) - typically `section.blocks`, restricted to the block
-    types above (see sections/main-product.liquid's schema for their settings).
-  section_id (string, required) - the owning section's id, used to build unique
-    form/quantity-input ids and passed to <product-info> for section reloads.
-  low_stock_threshold (number, optional) - default: 10.
-
-  Usage:
-  {% render 'product-form', product: product, blocks: section.blocks, section_id: section.id, low_stock_threshold: section.settings.low_stock_threshold %}
-{%- endcomment -%}
+{%- comment -%} The shared product buy box. Usage: render 'product-form', product:, blocks:, section_id:, low_stock_threshold: {%- endcomment -%}
 
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
@@ -109,6 +92,7 @@
           <p
             class="product__inventory text-body text-body--small"
             data-product-inventory
+            data-low-stock-threshold="{{ low_stock_threshold }}"
             data-state="{% if has_variant == false or current_variant.available == false or quantity_rule_unavailable %}out-of-stock{% elsif current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= low_stock_threshold and current_variant.inventory_quantity > 0 %}low-stock{% else %}in-stock{% endif %}"
             {% if has_variant == false %}
               hidden
@@ -187,7 +171,8 @@
               name: 'add',
               button_style: 'primary',
               class: 'product__atc-button',
-              disabled: button_disabled
+              disabled: button_disabled,
+              attributes: 'data-product-atc-button'
             -%}
 
             {%- if block.settings.show_dynamic_checkout and can_add_to_cart -%}

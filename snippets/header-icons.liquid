@@ -26,7 +26,7 @@
   <a
     href="{{ routes.cart_url }}"
     class="header__cart items-center"
-    data-cart-drawer-trigger
+    {% if settings.cart_type == 'drawer' or settings.cart_type == blank %}data-cart-drawer-trigger{% endif %}
     aria-label="{{ 'general.header.cart' | t }}"
   >
     {{ 'general.header.cart' | t }}

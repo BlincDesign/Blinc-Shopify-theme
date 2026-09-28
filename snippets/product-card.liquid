@@ -163,6 +163,12 @@
     {%- elsif settings.grid_button_action == 'add_to_cart' -%}
       <div class="product-card__atc-hover">
         {%- if product.has_only_default_variant -%}
+          {%- liquid
+            assign atc_button_disabled = true
+            if is_available
+              assign atc_button_disabled = false
+            endif
+          -%}
           {%- form 'product', product, class: 'product-card__atc-form' -%}
             <input type="hidden" name="id" value="{{ current_variant.id }}">
             {%- render 'button',
@@ -171,7 +177,7 @@
               name: 'add',
               button_style: 'primary',
               class: 'product-card__atc-button',
-              disabled: is_available == false
+              disabled: atc_button_disabled
             -%}
           {%- endform -%}
         {%- else -%}

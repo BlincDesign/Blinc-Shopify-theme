@@ -436,6 +436,27 @@
     ]
   },
   {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "default": "drawer",
+        "options": [
+          { "value": "drawer", "label": "Cart drawer" },
+          { "value": "page", "label": "Cart page" }
+        ]
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold",
+        "info": "Used by the Free Shipping Progress cart block. Leave blank to disable."
+      }
+    ]
+  },
+  {
     "name": "Favicon",
     "settings": [
       {

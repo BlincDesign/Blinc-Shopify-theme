@@ -1670,9 +1670,7 @@ product-info.is-loading {
 /* Swiper */
 
 
-/* Video - the reusable video-wrapper used by snippets/video.liquid whenever
-   an aspect_ratio is passed. Callers that size/position the video themselves
-   (e.g. hero backgrounds) skip this wrapper and apply .fit-cover directly. */
+/* Video (snippets/video.liquid) */
 
 .video-wrapper {
     position: relative;
@@ -1691,8 +1689,7 @@ product-info.is-loading {
 /* End Video */
 
 
-/* Content blocks - additions for snippets/content-blocks.liquid beyond the
-   original heading/caption/text/buttons/custom_liquid cases. */
+/* Content blocks */
 
 .content-block__divider {
     display: flex;
@@ -1710,9 +1707,7 @@ product-info.is-loading {
 /* End Content blocks */
 
 
-/* Marquee - a generic infinite-scroll track. Callers duplicate their content
-   twice inside .marquee__track (second copy marked aria-hidden) for a
-   seamless loop. Reused by the Announcement section's marquee mode. */
+/* Marquee - infinite-scroll track (used by Announcement, Logo List) */
 
 .marquee {
     overflow: hidden;
@@ -1775,9 +1770,7 @@ product-info.is-loading {
 /* End Hero */
 
 
-/* Overlay content (snippets/overlay-content.liquid) - a position-aware content
-   wrapper shared by any section that overlays text/buttons on a media
-   background (Hero, Image Banner). */
+/* Overlay content (snippets/overlay-content.liquid) */
 
 .overlay-content {
     padding: var(--layout-padding);
@@ -1792,8 +1785,7 @@ product-info.is-loading {
 /* End Overlay content */
 
 
-/* Media overlay - a darkening scrim over a background image/video, shared by
-   any section with adjustable overlay opacity (Hero, Image Banner). */
+/* Media overlay (Hero, Image Banner) */
 
 .media-overlay {
     background-color: #000;
@@ -1818,8 +1810,7 @@ product-info.is-loading {
 /* End Image Banner */
 
 
-/* Media with Content - the content-area slider used when multiple 'content'
-   blocks are present (sections/media-with-text.liquid). */
+/* Media with Content (sections/media-with-text.liquid) */
 
 .media-with-text__content-inner {
     width: 100%;

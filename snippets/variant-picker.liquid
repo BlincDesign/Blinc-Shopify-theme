@@ -1,12 +1,4 @@
-{%- comment -%} 
-  Accepts:
-  product (object, required)
-  picker_style (string, optional) - 'pills' or 'dropdown'. Default: settings.variant_picker_style.
-  swatch_shape (string, optional) - 'circle' or 'square'. Default: settings.swatch_shape.
-
-  Usage:
-  {% render 'variant-picker', product: product %}
-{%- endcomment -%}
+{%- comment -%} Usage: render 'variant-picker', product:, picker_style:, swatch_shape: {%- endcomment -%}
 
 {%- liquid
   assign picker_style = picker_style | default: settings.variant_picker_style | default: 'pills'
@@ -20,6 +12,8 @@
     data-product-id="{{ product.id }}"
     data-featured-media-id="{{ resolved_variant.featured_media.id }}"
   >
+    <script type="application/json" data-variant-json>{{ product.variants | json }}</script>
+
     {%- for option in product.options_with_values -%}
       {%- liquid
         assign picker_type = 'pills'

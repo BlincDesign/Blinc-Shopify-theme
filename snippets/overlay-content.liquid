@@ -1,25 +1,4 @@
-{%- comment -%}
-  A position-aware content wrapper absolutely positioned over a media background.
-  Shared by any section that overlays text/buttons on top of an image or video
-  (e.g. Hero, Image Banner).
-
-  Accepts:
-  content (string, required) - captured HTML rendered inside the wrapper.
-  position (string, optional) - one of the 9 'top|center|bottom-left|center|right'
-    values (e.g. 'center-left'). Default: 'center-center'.
-  text_alignment (string, optional) - 'left', 'center', or 'right'. Default: 'center'.
-  class (string, optional) - additional classes on the outer wrapper.
-
-  Usage:
-  {% capture banner_content %}
-    <h2>{{ section.settings.heading }}</h2>
-  {% endcapture %}
-  {% render 'overlay-content',
-    content: banner_content,
-    position: section.settings.content_position,
-    text_alignment: section.settings.text_alignment
-  %}
-{%- endcomment -%}
+{%- comment -%} Position-aware content overlay on a media background. Usage: render 'overlay-content', content:, position:, text_alignment:, class: {%- endcomment -%}
 
 {%- if content != blank -%}
   {%- liquid

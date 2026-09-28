@@ -77,12 +77,19 @@
         cartAdd: '{{ routes.cart_add_url }}.js',
         cartChange: '{{ routes.cart_change_url }}.js',
         cartUpdate: '{{ routes.cart_update_url }}.js',
-        cart: '{{ routes.cart_url }}.js'
+        cart: '{{ routes.cart_url }}.js',
+        cartUrl: '{{ routes.cart_url }}'
       };
       window.theme.strings = {
         addedToCart: {{ 'products.product.added_to_cart' | t | json }},
         addToCartError: {{ 'products.product.add_to_cart_error' | t | json }},
-        lineErrorGeneric: {{ 'cart.line_error_generic' | t | json }}
+        lineErrorGeneric: {{ 'cart.line_error_generic' | t | json }},
+        outOfStock: {{ 'products.product.out_of_stock' | t | json }},
+        lowStock: {{ 'products.product.low_stock' | t | json }},
+        inStock: {{ 'products.product.in_stock' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }}
       };
     </script>
   </body>

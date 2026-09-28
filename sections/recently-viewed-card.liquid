@@ -1,9 +1,4 @@
-{%- comment -%}
-  Utility section fetched via the Section Rendering API by
-  assets/recently-viewed.js (e.g. `/products/{handle}?section_id=recently-viewed-card`).
-  Not intended to be added directly in the Theme Editor - it has no presets so
-  it won't appear in the "Add section" picker.
-{%- endcomment -%}
+{%- comment -%} Fetched via Section Rendering API by recently-viewed.js; not merchant-facing (no presets). {%- endcomment -%}
 
 {%- if product != blank -%}
   {%- render 'product-card', product: product -%}

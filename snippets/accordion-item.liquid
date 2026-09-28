@@ -1,20 +1,4 @@
-{%- comment -%}
-  A single accessible disclosure item. Must be rendered inside an `<accordion-group>`
-  element (see assets/accordion.js) for the expand/collapse behavior to work.
-
-  Accepts:
-  id (string, required) - a unique id for this item, used to build the trigger/panel ids.
-  title (string, required) - the trigger label.
-  content (string, required) - the panel's HTML content.
-  open (boolean, optional) - renders expanded by default. Default: false.
-  attributes (string, optional) - raw additional HTML attributes on the wrapping element
-    (e.g. `{{ block.shopify_attributes }}`).
-
-  Usage:
-  <accordion-group class="accordion">
-    {% render 'accordion-item', id: block.id, title: block.settings.heading, content: block.settings.content, attributes: block.shopify_attributes %}
-  </accordion-group>
-{%- endcomment -%}
+{%- comment -%} A disclosure item; render inside <accordion-group>. Usage: render 'accordion-item', id:, title:, content:, open:, attributes: {%- endcomment -%}
 
 {%- liquid
   assign trigger_id = 'AccordionTrigger-' | append: id

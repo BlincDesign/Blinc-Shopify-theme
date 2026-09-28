@@ -33,9 +33,7 @@ if (!customElements.get('accordion-group')) {
     customElements.define('accordion-group', AccordionGroup);
 }
 
-// Table of contents links (data-toc-link) point at an accordion trigger's id.
-// Expand the target panel before the browser's native fragment scroll runs,
-// so keyboard/screen reader users land on visible content, not a collapsed header.
+// Table of contents links: expand the target panel before the native fragment scroll runs.
 document.addEventListener('click', (event) => {
     const link = event.target.closest('[data-toc-link]');
     if (!link) return;

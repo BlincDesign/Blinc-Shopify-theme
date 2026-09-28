@@ -45,7 +45,7 @@ class FreeShippingProgress extends HTMLElement {
             if (this.checkIcon) this.messageEl.appendChild(this.checkIcon.cloneNode(true));
             this.messageEl.append(this.dataset.successText || '');
         } else {
-            const amount = window.theme.formatMoney(remaining, this.dataset.currency);
+            const amount = window.theme.formatMoney(remaining);
             this.messageEl.append((this.dataset.progressText || '').replace('[amount]', amount));
         }
 
