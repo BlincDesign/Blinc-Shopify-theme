@@ -29,6 +29,10 @@
             "success_text": "Minimum order met"
           }
         },
+        "line_item_wcYqgT": {
+          "type": "line-item",
+          "settings": {}
+        },
         "checkout_info_pdNRi7": {
           "type": "checkout_info",
           "settings": {
@@ -68,6 +72,7 @@
       "block_order": [
         "free_shipping_progress_Tgxz4y",
         "minimum_order_message_aLQ4DA",
+        "line_item_wcYqgT",
         "checkout_info_pdNRi7",
         "upsell_products_wjRGyD",
         "cart_note_LDUzN9",
