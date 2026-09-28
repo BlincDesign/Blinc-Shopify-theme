@@ -996,6 +996,10 @@ a.main-collection__pagination-link:focus-visible {
     flex-direction: row-reverse;
 }
 
+.flex-half {
+    flex: 1 1 calc(50% - var(--layout-gap));
+}
+
 .flex-grow {
     flex: 1;
 }

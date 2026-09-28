@@ -31,7 +31,7 @@
 
 <div class="media-with-text color-{{ section.settings.color_scheme }}">
   <div class="media-with-text__wrapper {{ section.settings.container_width }} flex mobile-flex-column {% if section.settings.media_position == "right" %} flex-reverse{% endif %}">
-    <div class="media-with-text__media flex-grow">
+    <div class="media-with-text__media flex-half">
       {%- if section.settings.video != blank -%}
         {%- render 'video', video: section.settings.video, aspect_ratio: aspect_ratio -%}
       {%- else -%}
@@ -44,7 +44,7 @@
       {%- endif -%}
     </div>
 
-    <div class="media-with-text__content flex flex-column flex-grow text-{{ section.settings.text_alignment }} justify-{{ section.settings.vertical_position }} rte-column">
+    <div class="media-with-text__content flex flex-column flex-half overflow-hidden text-{{ section.settings.text_alignment }} justify-{{ section.settings.vertical_position }} rte-column">
       {%- if section.blocks.size > 0 -%}
         {%- liquid
           assign should_loop = false
