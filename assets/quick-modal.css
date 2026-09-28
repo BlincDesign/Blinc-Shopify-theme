@@ -1,8 +1,8 @@
 /* Quick modal (Quick Add / Quick View) - loaded only by sections/quick-modal.liquid */
 
 dialog.quick-modal {
-    width: min(90vw, 30rem);
-    max-width: 90vw;
+    width: 90vw;
+    max-width: max(90vw, 30rem);
     max-height: 85vh;
     margin: auto;
     padding: 0;

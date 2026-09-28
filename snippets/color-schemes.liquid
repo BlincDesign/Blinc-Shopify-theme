@@ -1,5 +1,9 @@
 {%- style -%}
   {%- for scheme in settings.color_schemes -%}
+    {%- if forloop.first -%}
+      :root,
+    {%- endif -%}
+
     .color-{{ scheme.id }} {
       --color-background: {{ scheme.settings.background | color_extract: 'red' }}, {{ scheme.settings.background | color_extract: 'green' }}, {{ scheme.settings.background | color_extract: 'blue' }};
       --color-text: {{ scheme.settings.text | color_extract: 'red' }}, {{ scheme.settings.text | color_extract: 'green' }}, {{ scheme.settings.text | color_extract: 'blue' }};
@@ -11,11 +15,13 @@
       --color-button-border-hover: {{ scheme.settings.button_border_hover | color_extract: 'red' }}, {{ scheme.settings.button_border_hover | color_extract: 'green' }}, {{ scheme.settings.button_border_hover | color_extract: 'blue' }};
       --color-accent: {{ scheme.settings.accent | color_extract: 'red' }}, {{ scheme.settings.accent | color_extract: 'green' }}, {{ scheme.settings.accent | color_extract: 'blue' }};
       --color-border: {{ scheme.settings.border | color_extract: 'red' }}, {{ scheme.settings.border | color_extract: 'green' }}, {{ scheme.settings.border | color_extract: 'blue' }};
+
       {%- if scheme.settings.background_gradient != blank -%}
         background: {{ scheme.settings.background_gradient }};
       {%- else -%}
         background: rgb(var(--color-background));
       {%- endif %}
+
       color: rgb(var(--color-text));
     }
   {%- endfor -%}
